@@ -1,97 +1,112 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FF - Dashboard</title>
-    <link href="{{ asset('css/css_Admin/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/css_Admin/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/css_Admin/datepicker3.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/css_Admin/styles.css') }}" rel="stylesheet">
 
-    {{-- <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <title>@yield('title')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- jsvectormap css -->
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
-    <title>@yield('title', config('app.name'))</title>
-    <!--Custom Font-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+    @yield('style-libs');
+
+    <!-- Layout config Js -->
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
-    <div class="container">
-        <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#sidebar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"><span>FF</span>Admin</a>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <em class="fa fa-envelope"></em><span class="label label-danger">15</span>
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <em class="fa fa-bell"></em><span class="label label-info">5</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
-        <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-            <div class="profile-sidebar">
-                <div class="profile-userpic">
-                    <img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="">
-                </div>
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">Username</div>
-                    <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="divider"></div>
-            <form role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" style="border-radius: 20px">
-                </div>
-            </form>
-            <ul class="nav menu">
-                <li class=""><a href="{{{route('admin.categories.index')}}}"><em class="fa fa-dashboard">&nbsp;</em>
-                        Category</a></li>
-                <li  class=""><a href="{{{route('admin.brands.index')}}}"><em class="fa fa-calendar">&nbsp;</em> Brand</a></li>
-                <li  class=""><a href="{{{route('admin.products.index')}}}"><em class="fa fa-bar-chart">&nbsp;</em> Product</a>
-                </li>
-                <li  class=""><a href="elements.html"><em class="fa fa-toggle-off">&nbsp;</em> Warehouse</a></li>
-                <li  class=""><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
-                <li  class=""><a href="login.html"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
-            </ul>
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        {{-- giao dien header --}}
+@include('admin.layout.header');
+         {{-- end header --}}
+
+
+
+@include('admin.layout.sidebar');
+
+        <div class="sidebar-background"></div>
         </div>
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
 
-        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-            <h1>@yield('title')</h1>
-            <div class="row">
-                @yield('content')
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    @yield('content')
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+@include('admin.layout.footer');
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+    <!--preloader-->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
     </div>
-    <!-- Include JS files -->
-    <script src="{{ asset('js/jsAdmin/app.js') }}"></script>
-    <script src="{{ asset('js/jsAdmin/bootstrap.js') }}"></script>
+
+    <div class="customizer-setting d-none d-md-block">
+        <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
+            <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
+        </div>
+    </div>
+
+    <!-- Theme Settings -->
+    @include('admin.layout.Light&Dark')
+
+    <!-- JAVASCRIPT -->
+    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins.js') }}"></script>
+
+    @yield('script-libs');
+
+    <!-- App js -->
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script>
+            new DataTable('#example');
+    </script>
 </body>
 
 </html>

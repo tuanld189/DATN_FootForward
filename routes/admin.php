@@ -10,6 +10,10 @@ Route::prefix('admin')
     // ->middleware(['wed', 'is_admin'])
     ->group(function () {
 
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+
         //BRAND
         Route::prefix('brands')
             ->as('brands.')
