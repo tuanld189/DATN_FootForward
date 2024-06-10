@@ -1,531 +1,878 @@
-<!DOCTYPE html>
-<html>
+@extends('admin.layout.master')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FF - Dashboard</title>
-    <link href="../css/css_Admin/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/css_Admin/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/css_Admin/datepicker3.css" rel="stylesheet">
-    <link href="../css/css_Admin/styles.css" rel="stylesheet">
+@section('title')
+     Danh sách Danh mục sản phẩm
+@endsection
 
-    <!--Custom Font-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    <!--[if lt IE 9]>
-	<script src="js/html5shiv.js"></script>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
-</head>
-
-<body>
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span></button>
-                <a class="navbar-brand" href="#"><span>FF</span>Admin</a>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <em class="fa fa-envelope"></em><span class="label label-danger">15</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                            <li>
-                                <div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
-                                        <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-                                    </a>
-                                    <div class="message-body"><small class="pull-right">3 mins ago</small>
-                                        <a href="#"><strong>John Doe</strong> commented on <strong>your photo</strong>.</a>
-                                        <br /><small class="text-muted">1:24 pm - 25/03/2015</small>
-                                    </div>
+@section('content')
+<div class="row">
+<div class="col">
+<div class="h-100">
+<div class="row mb-3 pb-1">
+    <div class="col-12">
+        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+            <div class="flex-grow-1">
+                <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
+                <p class="text-muted mb-0">Here's what's happening with your store today.</p>
+            </div>
+            <div class="mt-3 mt-lg-0">
+                <form action="javascript:void(0);">
+                    <div class="row g-3 mb-0 align-items-center">
+                        <div class="col-sm-auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control border-0 dash-filter-picker shadow" data-provider="flatpickr" data-range-date="true" data-date-format="d M, Y" data-deafult-date="01 Jan 2022 to 31 Jan 2022">
+                                <div class="input-group-text bg-primary border-primary text-white">
+                                    <i class="ri-calendar-2-line"></i>
                                 </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
-                                        <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-                                    </a>
-                                    <div class="message-body"><small class="pull-right">1 hour ago</small>
-                                        <a href="#">New message from <strong>Jane Doe</strong>.</a>
-                                        <br /><small class="text-muted">12:27 pm - 25/03/2015</small>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <div class="all-button"><a href="#">
-                                        <em class="fa fa-inbox"></em> <strong>All Messages</strong>
-                                    </a></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <em class="fa fa-bell"></em><span class="label label-info">5</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-alerts">
-                            <li><a href="#">
-                                    <div><em class="fa fa-envelope"></em> 1 New Message
-                                        <span class="pull-right text-muted small">3 mins ago</span>
-                                    </div>
-                                </a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">
-                                    <div><em class="fa fa-heart"></em> 12 New Likes
-                                        <span class="pull-right text-muted small">4 mins ago</span>
-                                    </div>
-                                </a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">
-                                    <div><em class="fa fa-user"></em> 5 New Followers
-                                        <span class="pull-right text-muted small">4 mins ago</span>
-                                    </div>
-                                </a></li>
-                        </ul>
-                    </li>
-                </ul>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-soft-success"><i class="ri-add-circle-line align-middle me-1"></i> Add Product</button>
+                        </div>
+                        <!--end col-->
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-soft-info btn-icon waves-effect waves-light layout-rightside-btn"><i class="ri-pulse-line"></i></button>
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
             </div>
-        </div><!-- /.container-fluid -->
-    </nav>
-    <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        <div class="profile-sidebar">
-            <div class="profile-userpic">
-                <img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="">
+        </div><!-- end card header -->
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->
+
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total Earnings</p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="text-success fs-14 mb-0">
+                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k </h4>
+                        <a href="" class="text-decoration-underline">View net earnings</a>
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-success-subtle rounded fs-3">
+                            <i class="bx bx-dollar-circle text-success"></i>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 overflow-hidden">
+                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Orders</p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="text-danger fs-14 mb-0">
+                            <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
+                        <a href="" class="text-decoration-underline">View all orders</a>
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-info-subtle rounded fs-3">
+                            <i class="bx bx-shopping-bag text-info"></i>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Customers</p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="text-success fs-14 mb-0">
+                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M </h4>
+                        <a href="" class="text-decoration-underline">See details</a>
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-warning-subtle rounded fs-3">
+                            <i class="bx bx-user-circle text-warning"></i>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Balance</p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="text-muted fs-14 mb-0">
+                            +0.00 %
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k </h4>
+                        <a href="" class="text-decoration-underline">Withdraw money</a>
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-primary-subtle rounded fs-3">
+                            <i class="bx bx-wallet text-primary"></i>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div> <!-- end row-->
+
+<div class="row">
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-header border-0 align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
+                <div>
+                    <button type="button" class="btn btn-soft-secondary btn-sm">
+                        ALL
+                    </button>
+                    <button type="button" class="btn btn-soft-secondary btn-sm">
+                        1M
+                    </button>
+                    <button type="button" class="btn btn-soft-secondary btn-sm">
+                        6M
+                    </button>
+                    <button type="button" class="btn btn-soft-primary btn-sm">
+                        1Y
+                    </button>
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-header p-0 border-0 bg-light-subtle">
+                <div class="row g-0 text-center">
+                    <div class="col-6 col-sm-3">
+                        <div class="p-3 border border-dashed border-start-0">
+                            <h5 class="mb-1"><span class="counter-value" data-target="7585">0</span></h5>
+                            <p class="text-muted mb-0">Orders</p>
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-6 col-sm-3">
+                        <div class="p-3 border border-dashed border-start-0">
+                            <h5 class="mb-1">$<span class="counter-value" data-target="22.89">0</span>k</h5>
+                            <p class="text-muted mb-0">Earnings</p>
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-6 col-sm-3">
+                        <div class="p-3 border border-dashed border-start-0">
+                            <h5 class="mb-1"><span class="counter-value" data-target="367">0</span></h5>
+                            <p class="text-muted mb-0">Refunds</p>
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-6 col-sm-3">
+                        <div class="p-3 border border-dashed border-start-0 border-end-0">
+                            <h5 class="mb-1 text-success"><span class="counter-value" data-target="18.92">0</span>%</h5>
+                            <p class="text-muted mb-0">Conversation Ratio</p>
+                        </div>
+                    </div>
+                    <!--end col-->
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-body p-0 pb-2">
+                <div class="w-100">
+                    <div id="customer_impression_charts" data-colors='["--vz-primary", "--vz-success", "--vz-danger"]' class="apex-charts" dir="ltr"></div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-4">
+        <!-- card -->
+        <div class="card card-height-100">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Sales by Locations</h4>
+                <div class="flex-shrink-0">
+                    <button type="button" class="btn btn-soft-primary btn-sm">
+                        Export Report
+                    </button>
+                </div>
+            </div><!-- end card header -->
+
+            <!-- card body -->
+            <div class="card-body">
+
+                <div id="sales-by-locations" data-colors='["--vz-light", "--vz-success", "--vz-primary"]' style="height: 269px" dir="ltr"></div>
+
+                <div class="px-2 py-2 mt-1">
+                    <p class="mb-1">Canada <span class="float-end">75%</span></p>
+                    <div class="progress mt-2" style="height: 6px;">
+                        <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="75"></div>
+                    </div>
+
+                    <p class="mt-3 mb-1">Greenland <span class="float-end">47%</span>
+                    </p>
+                    <div class="progress mt-2" style="height: 6px;">
+                        <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="47"></div>
+                    </div>
+
+                    <p class="mt-3 mb-1">Russia <span class="float-end">82%</span></p>
+                    <div class="progress mt-2" style="height: 6px;">
+                        <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="82"></div>
+                    </div>
+                </div>
             </div>
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">Username</div>
-                <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
-            </div>
-            <div class="clear"></div>
+            <!-- end card body -->
         </div>
-        <div class="divider"></div>
-        <form role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Best Selling Products</h4>
+                <div class="flex-shrink-0">
+                    <div class="dropdown card-header-dropdown">
+                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fw-semibold text-uppercase fs-12">Sort by:
+                            </span><span class="text-muted">Today<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Today</a>
+                            <a class="dropdown-item" href="#">Yesterday</a>
+                            <a class="dropdown-item" href="#">Last 7 Days</a>
+                            <a class="dropdown-item" href="#">Last 30 Days</a>
+                            <a class="dropdown-item" href="#">This Month</a>
+                            <a class="dropdown-item" href="#">Last Month</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div class="table-responsive table-card">
+                    <table class="table table-hover table-centered align-middle table-nowrap mb-0">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-light rounded p-1 me-2">
+                                            <img src="assets/images/products/img-1.png" alt="" class="img-fluid d-block" />
+                                        </div>
+                                        <div>
+                                            <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="text-reset">Branded T-Shirts</a></h5>
+                                            <span class="text-muted">24 Apr 2021</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$29.00</h5>
+                                    <span class="text-muted">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">62</h5>
+                                    <span class="text-muted">Orders</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">510</h5>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$1,798</h5>
+                                    <span class="text-muted">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-light rounded p-1 me-2">
+                                            <img src="assets/images/products/img-2.png" alt="" class="img-fluid d-block" />
+                                        </div>
+                                        <div>
+                                            <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="text-reset">Bentwood Chair</a></h5>
+                                            <span class="text-muted">19 Mar 2021</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$85.20</h5>
+                                    <span class="text-muted">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">35</h5>
+                                    <span class="text-muted">Orders</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal"><span class="badge bg-danger-subtle text-danger">Out of stock</span> </h5>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$2982</h5>
+                                    <span class="text-muted">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-light rounded p-1 me-2">
+                                            <img src="assets/images/products/img-3.png" alt="" class="img-fluid d-block" />
+                                        </div>
+                                        <div>
+                                            <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="text-reset">Borosil Paper Cup</a></h5>
+                                            <span class="text-muted">01 Mar 2021</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$14.00</h5>
+                                    <span class="text-muted">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">80</h5>
+                                    <span class="text-muted">Orders</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">749</h5>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$1120</h5>
+                                    <span class="text-muted">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-light rounded p-1 me-2">
+                                            <img src="assets/images/products/img-4.png" alt="" class="img-fluid d-block" />
+                                        </div>
+                                        <div>
+                                            <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="text-reset">One Seater Sofa</a></h5>
+                                            <span class="text-muted">11 Feb 2021</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$127.50</h5>
+                                    <span class="text-muted">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">56</h5>
+                                    <span class="text-muted">Orders</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal"><span class="badge bg-danger-subtle text-danger">Out of stock</span></h5>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$7140</h5>
+                                    <span class="text-muted">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-light rounded p-1 me-2">
+                                            <img src="assets/images/products/img-5.png" alt="" class="img-fluid d-block" />
+                                        </div>
+                                        <div>
+                                            <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="text-reset">Stillbird Helmet</a></h5>
+                                            <span class="text-muted">17 Jan 2021</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$54</h5>
+                                    <span class="text-muted">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">74</h5>
+                                    <span class="text-muted">Orders</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">805</h5>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 my-1 fw-normal">$3996</h5>
+                                    <span class="text-muted">Amount</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
+                    <div class="col-sm">
+                        <div class="text-muted">
+                            Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">25</span> Results
+                        </div>
+                    </div>
+                    <div class="col-sm-auto  mt-3 mt-sm-0">
+                        <ul class="pagination pagination-separated pagination-sm mb-0 justify-content-center">
+                            <li class="page-item disabled">
+                                <a href="#" class="page-link">←</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">1</a>
+                            </li>
+                            <li class="page-item active">
+                                <a href="#" class="page-link">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">→</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
-        </form>
-        <ul class="nav menu">
-            <li class="active"><a href="../views/Admin_Dashboard.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="../views/Admin_Products.php"><em class="fa fa-calendar">&nbsp;</em> Products</a></li>
-            <li><a href="../views/Admin_ProductAdd.php"><em class="fa fa-bar-chart">&nbsp;</em> Products Add</a></li>
-            <li><a href="elements.html"><em class="fa fa-toggle-off">&nbsp;</em> UI Elements</a></li>
-            <li><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
-            <li class="parent "><a data-toggle="collapse" href="#sub-item-1">
-                    <em class="fa fa-navicon">&nbsp;</em> Multilevel <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
-                </a>
-                <ul class="children collapse" id="sub-item-1">
-                    <li><a class="" href="#">
-                            <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 1
-                        </a></li>
-                    <li><a class="" href="#">
-                            <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 2
-                        </a></li>
-                    <li><a class="" href="#">
-                            <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 3
-                        </a></li>
-                </ul>
-            </li>
-            <li><a href="login.html"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
-        </ul>
-    </div><!--/.sidebar-->
-
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <div class="row">
-            <ol class="breadcrumb">
-                <li><a href="#">
-                        <em class="fa fa-home"></em>
-                    </a></li>
-                <li class="active">Dashboard</li>
-            </ol>
-        </div><!--/.row-->
-
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Dashboard</h1>
-            </div>
-        </div><!--/.row-->
-
-        <div class="panel panel-container">
-            <div class="row">
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                    <div class="panel panel-teal panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-shopping-cart color-blue"></em>
-                            <div class="large">120</div>
-                            <div class="text-muted">New Orders</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                    <div class="panel panel-blue panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-comments color-orange"></em>
-                            <div class="large">52</div>
-                            <div class="text-muted">Comments</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                    <div class="panel panel-orange panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-users color-teal"></em>
-                            <div class="large">24</div>
-                            <div class="text-muted">New Users</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                    <div class="panel panel-red panel-widget ">
-                        <div class="row no-padding"><em class="fa fa-xl fa-search color-red"></em>
-                            <div class="large">25.2k</div>
-                            <div class="text-muted">Page Views</div>
-                        </div>
-                    </div>
-                </div>
-            </div><!--/.row-->
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Site Traffic Overview
-                        <ul class="pull-right panel-settings panel-button-tab-right">
-                            <li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <em class="fa fa-cogs"></em>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <ul class="dropdown-settings">
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 1
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 2
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 3
-                                                </a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
-                    </div>
-                    <div class="panel-body">
-                        <div class="canvas-wrapper">
-                            <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card card-height-100">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Top Sellers</h4>
+                <div class="flex-shrink-0">
+                    <div class="dropdown card-header-dropdown">
+                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted">Report<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Download Report</a>
+                            <a class="dropdown-item" href="#">Export</a>
+                            <a class="dropdown-item" href="#">Import</a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div><!--/.row-->
+            </div><!-- end card header -->
 
-        <div class="row">
-            <div class="col-xs-6 col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body easypiechart-panel">
-                        <h4>New Orders</h4>
-                        <div class="easypiechart" id="easypiechart-blue" data-percent="92"><span class="percent">92%</span></div>
-                    </div>
+            <div class="card-body">
+                <div class="table-responsive table-card">
+                    <table class="table table-centered table-hover align-middle table-nowrap mb-0">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/companies/img-1.png" alt="" class="avatar-sm p-2" />
+                                        </div>
+                                        <div>
+                                            <h5 class="fs-14 my-1 fw-medium">
+                                                <a href="apps-ecommerce-seller-details.html" class="text-reset">iTest Factory</a>
+                                            </h5>
+                                            <span class="text-muted">Oliver Tyler</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-muted">Bags and Wallets</span>
+                                </td>
+                                <td>
+                                    <p class="mb-0">8547</p>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">$541200</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 mb-0">32%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i></h5>
+                                </td>
+                            </tr><!-- end -->
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/companies/img-2.png" alt="" class="avatar-sm p-2" />
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details.html" class="text-reset">Digitech Galaxy</a></h5>
+                                            <span class="text-muted">John Roberts</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-muted">Watches</span>
+                                </td>
+                                <td>
+                                    <p class="mb-0">895</p>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">$75030</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 mb-0">79%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i></h5>
+                                </td>
+                            </tr><!-- end -->
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/companies/img-3.png" alt="" class="avatar-sm p-2" />
+                                        </div>
+                                        <div class="flex-gow-1">
+                                            <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details.html" class="text-reset">Nesta Technologies</a></h5>
+                                            <span class="text-muted">Harley Fuller</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-muted">Bike Accessories</span>
+                                </td>
+                                <td>
+                                    <p class="mb-0">3470</p>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">$45600</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 mb-0">90%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i></h5>
+                                </td>
+                            </tr><!-- end -->
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/companies/img-8.png" alt="" class="avatar-sm p-2" />
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details.html" class="text-reset">Zoetic Fashion</a></h5>
+                                            <span class="text-muted">James Bowen</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-muted">Clothes</span>
+                                </td>
+                                <td>
+                                    <p class="mb-0">5488</p>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">$29456</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 mb-0">40%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i></h5>
+                                </td>
+                            </tr><!-- end -->
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/companies/img-5.png" alt="" class="avatar-sm p-2" />
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="fs-14 my-1 fw-medium">
+                                                <a href="apps-ecommerce-seller-details.html" class="text-reset">Meta4Systems</a>
+                                            </h5>
+                                            <span class="text-muted">Zoe Dennis</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-muted">Furniture</span>
+                                </td>
+                                <td>
+                                    <p class="mb-0">4100</p>
+                                    <span class="text-muted">Stock</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">$11260</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 mb-0">57%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i></h5>
+                                </td>
+                            </tr><!-- end -->
+                        </tbody>
+                    </table><!-- end table -->
                 </div>
-            </div>
-            <div class="col-xs-6 col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body easypiechart-panel">
-                        <h4>Comments</h4>
-                        <div class="easypiechart" id="easypiechart-orange" data-percent="65"><span class="percent">65%</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body easypiechart-panel">
-                        <h4>New Users</h4>
-                        <div class="easypiechart" id="easypiechart-teal" data-percent="56"><span class="percent">56%</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body easypiechart-panel">
-                        <h4>Visitors</h4>
-                        <div class="easypiechart" id="easypiechart-red" data-percent="27"><span class="percent">27%</span></div>
-                    </div>
-                </div>
-            </div>
-        </div><!--/.row-->
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default chat">
-                    <div class="panel-heading">
-                        Chat
-                        <ul class="pull-right panel-settings panel-button-tab-right">
-                            <li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <em class="fa fa-cogs"></em>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <ul class="dropdown-settings">
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 1
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 2
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 3
-                                                </a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
+                    <div class="col-sm">
+                        <div class="text-muted">
+                            Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">25</span> Results
+                        </div>
+                    </div>
+                    <div class="col-sm-auto  mt-3 mt-sm-0">
+                        <ul class="pagination pagination-separated pagination-sm mb-0 justify-content-center">
+                            <li class="page-item disabled">
+                                <a href="#" class="page-link">←</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">1</a>
+                            </li>
+                            <li class="page-item active">
+                                <a href="#" class="page-link">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">→</a>
                             </li>
                         </ul>
-                        <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
                     </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li class="left clearfix"><span class="chat-img pull-left">
-                                    <img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header"><strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small></div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc.</p>
-                                </div>
-                            </li>
-                            <li class="right clearfix"><span class="chat-img pull-right">
-                                    <img src="http://placehold.it/60/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header"><strong class="pull-left primary-font">Jane Doe</strong> <small class="text-muted">6 mins ago</small></div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc.</p>
-                                </div>
-                            </li>
-                            <li class="left clearfix"><span class="chat-img pull-left">
-                                    <img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header"><strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small></div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="input-group">
-                            <input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." /><span class="input-group-btn">
-                                <button class="btn btn-primary btn-md" id="btn-chat">Send</button>
-                            </span>
+                </div>
+
+            </div> <!-- .card-body-->
+        </div> <!-- .card-->
+    </div> <!-- .col-->
+</div> <!-- end row-->
+
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card card-height-100">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Store Visits by Source</h4>
+                <div class="flex-shrink-0">
+                    <div class="dropdown card-header-dropdown">
+                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted">Report<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Download Report</a>
+                            <a class="dropdown-item" href="#">Export</a>
+                            <a class="dropdown-item" href="#">Import</a>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        To-do List
-                        <ul class="pull-right panel-settings panel-button-tab-right">
-                            <li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <em class="fa fa-cogs"></em>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <ul class="dropdown-settings">
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 1
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 2
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 3
-                                                </a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="todo-list">
-                            <li class="todo-list-item">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="checkbox-1" />
-                                    <label for="checkbox-1">Make coffee</label>
-                                </div>
-                                <div class="pull-right action-buttons"><a href="#" class="trash">
-                                        <em class="fa fa-trash"></em>
-                                    </a></div>
-                            </li>
-                            <li class="todo-list-item">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="checkbox-2" />
-                                    <label for="checkbox-2">Check emails</label>
-                                </div>
-                                <div class="pull-right action-buttons"><a href="#" class="trash">
-                                        <em class="fa fa-trash"></em>
-                                    </a></div>
-                            </li>
-                            <li class="todo-list-item">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="checkbox-3" />
-                                    <label for="checkbox-3">Reply to Jane</label>
-                                </div>
-                                <div class="pull-right action-buttons"><a href="#" class="trash">
-                                        <em class="fa fa-trash"></em>
-                                    </a></div>
-                            </li>
-                            <li class="todo-list-item">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="checkbox-4" />
-                                    <label for="checkbox-4">Make more coffee</label>
-                                </div>
-                                <div class="pull-right action-buttons"><a href="#" class="trash">
-                                        <em class="fa fa-trash"></em>
-                                    </a></div>
-                            </li>
-                            <li class="todo-list-item">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="checkbox-5" />
-                                    <label for="checkbox-5">Work on the new design</label>
-                                </div>
-                                <div class="pull-right action-buttons"><a href="#" class="trash">
-                                        <em class="fa fa-trash"></em>
-                                    </a></div>
-                            </li>
-                            <li class="todo-list-item">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="checkbox-6" />
-                                    <label for="checkbox-6">Get feedback on design</label>
-                                </div>
-                                <div class="pull-right action-buttons"><a href="#" class="trash">
-                                        <em class="fa fa-trash"></em>
-                                    </a></div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="input-group">
-                            <input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" /><span class="input-group-btn">
-                                <button class="btn btn-primary btn-md" id="btn-todo">Add</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div><!--/.col-->
+            </div><!-- end card header -->
 
-
-            <div class="col-md-6">
-                <div class="panel panel-default ">
-                    <div class="panel-heading">
-                        Timeline
-                        <ul class="pull-right panel-settings panel-button-tab-right">
-                            <li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <em class="fa fa-cogs"></em>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <ul class="dropdown-settings">
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 1
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 2
-                                                </a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 3
-                                                </a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
-                    </div>
-                    <div class="panel-body timeline-container">
-                        <ul class="timeline">
-                            <li>
-                                <div class="timeline-badge"><em class="glyphicon glyphicon-pushpin"></em></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="timeline-badge primary"><em class="glyphicon glyphicon-link"></em></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="timeline-badge"><em class="glyphicon glyphicon-camera"></em></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sodales nisl. Donec malesuada orci ornare risus finibus feugiat.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title">Lorem ipsum dolor sit amet</h4>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div><!--/.col-->
-            <div class="col-sm-12">
-                <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
+            <div class="card-body">
+                <div id="store-visits-source" data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]' class="apex-charts" dir="ltr"></div>
             </div>
-        </div><!--/.row-->
-    </div> <!--/.main-->
+        </div> <!-- .card-->
+    </div> <!-- .col-->
 
-    <script src="../js/jsAdmin/jquery-1.11.1.min.js"></script>
-    <script src="../js/jsAdmin/bootstrap.min.js"></script>
-    <script src="../js/jsAdmin/bootstrap.min.js"></script>
-    <script src="../js/jsAdmin/chart-data.js"></script>
-    <script src="../js/jsAdmin/easypiechart-data.js"></script>
-    <script src="../js/jsAdmin/easypiechart.js"></script>
-    <script src="../js/jsAdmin/bootstrap-datepicker.js"></script>
-    <script src="../js/jsAdmin/custom.js"></script>
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
+                <div class="flex-shrink-0">
+                    <button type="button" class="btn btn-soft-info btn-sm">
+                        <i class="ri-file-list-3-line align-middle"></i> Generate Report
+                    </button>
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div class="table-responsive table-card">
+                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                        <thead class="text-muted table-light">
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Vendor</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2112</a>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-xs rounded-circle" />
+                                        </div>
+                                        <div class="flex-grow-1">Alex Smith</div>
+                                    </div>
+                                </td>
+                                <td>Clothes</td>
+                                <td>
+                                    <span class="text-success">$109.00</span>
+                                </td>
+                                <td>Zoetic Fashion</td>
+                                <td>
+                                    <span class="badge bg-success-subtle text-success">Paid</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 fw-medium mb-0">5.0<span class="text-muted fs-11 ms-1">(61 votes)</span></h5>
+                                </td>
+                            </tr><!-- end tr -->
+                            <tr>
+                                <td>
+                                    <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2111</a>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/users/avatar-2.jpg" alt="" class="avatar-xs rounded-circle" />
+                                        </div>
+                                        <div class="flex-grow-1">Jansh Brown</div>
+                                    </div>
+                                </td>
+                                <td>Kitchen Storage</td>
+                                <td>
+                                    <span class="text-success">$149.00</span>
+                                </td>
+                                <td>Micro Design</td>
+                                <td>
+                                    <span class="badge bg-warning-subtle text-warning">Pending</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 fw-medium mb-0">4.5<span class="text-muted fs-11 ms-1">(61 votes)</span></h5>
+                                </td>
+                            </tr><!-- end tr -->
+                            <tr>
+                                <td>
+                                    <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2109</a>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/users/avatar-3.jpg" alt="" class="avatar-xs rounded-circle" />
+                                        </div>
+                                        <div class="flex-grow-1">Ayaan Bowen</div>
+                                    </div>
+                                </td>
+                                <td>Bike Accessories</td>
+                                <td>
+                                    <span class="text-success">$215.00</span>
+                                </td>
+                                <td>Nesta Technologies</td>
+                                <td>
+                                    <span class="badge bg-success-subtle text-success">Paid</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 fw-medium mb-0">4.9<span class="text-muted fs-11 ms-1">(89 votes)</span></h5>
+                                </td>
+                            </tr><!-- end tr -->
+                            <tr>
+                                <td>
+                                    <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2108</a>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/users/avatar-4.jpg" alt="" class="avatar-xs rounded-circle" />
+                                        </div>
+                                        <div class="flex-grow-1">Prezy Mark</div>
+                                    </div>
+                                </td>
+                                <td>Furniture</td>
+                                <td>
+                                    <span class="text-success">$199.00</span>
+                                </td>
+                                <td>Syntyce Solutions</td>
+                                <td>
+                                    <span class="badge bg-danger-subtle text-danger">Unpaid</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 fw-medium mb-0">4.3<span class="text-muted fs-11 ms-1">(47 votes)</span></h5>
+                                </td>
+                            </tr><!-- end tr -->
+                            <tr>
+                                <td>
+                                    <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2107</a>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <img src="assets/images/users/avatar-6.jpg" alt="" class="avatar-xs rounded-circle" />
+                                        </div>
+                                        <div class="flex-grow-1">Vihan Hudda</div>
+                                    </div>
+                                </td>
+                                <td>Bags and Wallets</td>
+                                <td>
+                                    <span class="text-success">$330.00</span>
+                                </td>
+                                <td>iTest Factory</td>
+                                <td>
+                                    <span class="badge bg-success-subtle text-success">Paid</span>
+                                </td>
+                                <td>
+                                    <h5 class="fs-14 fw-medium mb-0">4.7<span class="text-muted fs-11 ms-1">(161 votes)</span></h5>
+                                </td>
+                            </tr><!-- end tr -->
+                        </tbody><!-- end tbody -->
+                    </table><!-- end table -->
+                </div>
+            </div>
+        </div> <!-- .card-->
+    </div> <!-- .col-->
+</div> <!-- end row-->
+</div> <!-- end .h-100-->
+</div> <!-- end col -->
+</div>
+
+@endsection
 
 
-    <script>
-        window.onload = function() {
-            var chart1 = document.getElementById("line-chart").getContext("2d");
-            window.myLine = new Chart(chart1).Line(lineChartData, {
-                responsive: true,
-                scaleLineColor: "rgba(0,0,0,.2)",
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                scaleFontColor: "#c5c7cc"
-            });
-        };
-    </script>
+@section('script-libs')
 
-</body>
+<!-- apexcharts -->
+<script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-</html>
+<!-- Vector map-->
+<script src="{{ asset('assets/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
+<script src="{{ asset('assets/libs/jsvectormap/maps/world-merc.js') }}"></script>
+
+<!--Swiper slider js-->
+<script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
+
+<!-- Dashboard init -->
+<script src="{{ asset('assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
+
+@endsection
+
+@section('style-libs')
+
+<link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+<!--Swiper slider css-->
+<link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+@endsection
