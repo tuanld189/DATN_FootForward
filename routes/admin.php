@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -49,5 +50,17 @@ Route::prefix('admin')
             Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
             Route::put('{id}/update', [ProductController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [ProductController::class, 'destroy'])->name('destroy');
+        });
+        //BANNERS
+        Route::prefix('banners')
+            ->as('banners.')
+            ->group(function () {
+            Route::get('/', [BannerController::class, 'index'])->name('index');
+            Route::get('create', [BannerController::class, 'create'])->name('create');
+            Route::post('store', [BannerController::class, 'store'])->name('store');
+            Route::get('show/{id}', [BannerController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [BannerController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
         });
     });
