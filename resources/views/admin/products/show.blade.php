@@ -3,6 +3,8 @@
     Detail Product: {{ $model->name }}
 @endsection
 @section('content')
+<h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;"> <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')</h3>
+
     <table class="table">
         <tr>
             <th>Trường</th>
@@ -12,7 +14,7 @@
             <tr>
                 <td>{{ $key }}</td>
                 <td>
-                    @if ($key == 'image')
+                    @if ($key == 'img_thumbnail')
                         <img src="{{ \Storage::url($value) }}" alt="" width="100px">
                     @elseif ($key == 'category_id')
                         {{ $model->category->name }}
@@ -28,6 +30,6 @@
         @endforeach
 
     </table>
-     <a href="{{ route('admin.brands.index') }}" class="btn btn-warning mt-3">BACK TO LIST</a>
+     <a href="{{ route('admin.products.index') }}" class="btn btn-warning mt-3">BACK TO LIST</a>
 
 @endsection

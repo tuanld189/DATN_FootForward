@@ -2,6 +2,8 @@
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\ProductColor;
+use App\Models\ProductSize;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,15 +20,14 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Brand::class)->constrained();
-            // $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            // $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
             $table->string('name');
+            $table->string('sku')->unique();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('image')->nullable();
+            $table->string('img_thumbnail')->nullable();
             $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('view_count')->default(0);
-            $table->integer('quantity');
             $table->text('content')->nullable();
             $table->boolean('is_hot_deal')->default(false);
             $table->boolean('is_new')->default(true);
