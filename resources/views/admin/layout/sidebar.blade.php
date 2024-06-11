@@ -64,7 +64,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                      <a href="{{ route('admin.product_tag.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Product_Tag</a>
+                                    <a href="{{ route('admin.banners.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Banners</a>
                                 </li>
                             </ul>
                         </div>
