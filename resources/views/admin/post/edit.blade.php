@@ -31,6 +31,21 @@
                     </select>
                 </div>
                 <div class="mb-3 mt-3">
+                    <label for="description" class="form-label">Content:</label>
+                    <textarea class="form-control" id="content" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3 mt-3">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="1"
+                            @if ($model->is_active)
+                                checked
+                            @endif
+                            checked name="is_active">Is Active
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3 mt-3">
                     <label for="created_by" class="form-label">Created By:</label>
                     <input type="number" class="form-control" id="created_by" name="created_by" value="{{ $model->created_by }}" required>
                 </div>

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(true);
+            $table->longText('content')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

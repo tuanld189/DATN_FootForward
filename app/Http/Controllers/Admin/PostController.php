@@ -17,7 +17,6 @@ class PostController extends Controller
     public function index()
     {
         $post=Post::query()->latest('id')->paginate(5);
-        // $post=Post::all();
         return view(self::PATH_VIEW . 'index', compact('post'));
     }
 
@@ -90,6 +89,8 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+
     public function destroy(string $id)
     {
         $model=Post::query()->findOrFail($id);

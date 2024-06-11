@@ -69,6 +69,18 @@ Route::prefix('admin')
             Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
         });
 
+        Route::prefix('post')
+        ->as('posts.')
+        ->group(function () {
+        Route::get('/', [PostController::class, 'index'])->name('index');
+        Route::get('create', [PostController::class, 'create'])->name('create');
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PostController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [PostController::class, 'update'])->name('update');
+        Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
+    });
+
         //BANNERS
         Route::prefix('banners')
             ->as('banners.')
