@@ -42,7 +42,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-                            <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Danh sách Danh mục</span> 
+                            <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Danh sách Danh mục</span>
                             {{-- <span class="badge badge-pill bg-danger" data-key="t-hot">Hot</span> --}}
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarCategories">
@@ -57,6 +57,14 @@
 
                                 <li class="nav-item">
                                     <a href="{{ route('admin.products.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Products</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.tags.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Tags</a>
+                                </li>
+
+                                <li class="nav-item">
+                                      <a href="{{ route('admin.product_tag.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Product_Tag</a>
                                 </li>
                             </ul>
                         </div>

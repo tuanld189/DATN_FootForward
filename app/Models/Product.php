@@ -38,4 +38,10 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
+    // public function tags()
+    // {
+    //     return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id');
+    // }
+
 }
