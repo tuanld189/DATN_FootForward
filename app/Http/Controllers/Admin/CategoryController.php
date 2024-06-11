@@ -87,22 +87,6 @@ class CategoryController extends Controller
                          ->with('success', 'Cập nhật thành công');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy($id)
-    // {
-    //     $model = Category::findOrFail($id);
-
-    //     if ($model->image && Storage::exists($model->image)) {
-    //         Storage::delete($model->image);
-    //     }
-
-    //     $model->delete();
-
-    //     return redirect()->route('admin.categories.index')
-    //                      ->with('success', 'Xóa thành công');
-    // }
 
 
     public function destroy(string $id)

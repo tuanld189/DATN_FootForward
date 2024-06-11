@@ -58,6 +58,11 @@
                                 <li class="nav-item">
                                     <a href="{{ route('admin.products.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Products</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.tags.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Tags</a>
+                                </li>
+
                                 <li class="nav-item">
                                     <a href="{{ route('admin.banners.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Banners</a>
                                 </li>

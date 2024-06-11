@@ -17,13 +17,14 @@ class TagController extends Controller
      */
     public function index()
     {
-        $data=Tag::query()->latest('id')->paginate(5);
-        return view(self::PATH_VIEW . 'index', compact('data'));
+        $tags=Tag::query()->latest('id')->paginate(5);
+        return view(self::PATH_VIEW . 'index', compact('tags'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
+
     public function create()
     {
         return view(self::PATH_VIEW . 'create');
@@ -34,17 +35,14 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('image');
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
-        }
-
-        Tag::create($data);
+        Tag::create($request->all());
 
         return redirect()->route('admin.tags.index')
-                         ->with('success', 'Thêm thành công');
+                         ->with('success', 'Tag created successfully.');
     }
 
     /**
@@ -68,16 +66,39 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    // public function update(Request $request, string $id)
+    // {
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //     ]);
+
+    //     $tag->update($request->all());
+
+    //     return redirect()->route('tags.index')
+    //                      ->with('success', 'Tag updated successfully.');
+    // }
+
+    public function update(Request $request, Tag $tag)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $tag->update($request->all());
+
+        return redirect()->route('admin.tags.index')
+                         ->with('success', 'Tag updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+
+
+     public function destroy(string $id)
+     {
+        $tag = Tag::find($id);
+        $tag->delete();
+        return back();
+     }
 }
