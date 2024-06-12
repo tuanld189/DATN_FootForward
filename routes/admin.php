@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
@@ -63,4 +65,19 @@ Route::prefix('admin')
             Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
         });
+        //USERS
+        Route::prefix('users')
+            ->as('users.')
+            ->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('create', [UserController::class, 'create'])->name('create');
+            Route::post('store', [UserController::class, 'store'])->name('store');
+            Route::get('show/{id}', [UserController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [UserController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
+        });
+        Route::get('/provinces', [LocationController::class, 'getProvinces']);
+        Route::get('/districts/{province_id}', [LocationController::class, 'getDistricts']);
+        Route::get('/wards/{district_id}', [LocationController::class, 'getWards']);
     });
