@@ -17,7 +17,9 @@
                 <div class="mb-3 mt-3">
                     <label for="image" class="form-label">Image:</label>
                     <input type="file" class="form-control" id="image" name="image">
-                    <img src="{{\Storage::url($model->image)}}" alt="" width="100px">
+                    @if($model->image)
+                        <img src="{{ asset('storage/' . $model->image) }}" alt="Current Image" style="max-height: 100px;">
+                    @endif
                 </div>
             </div>
             <div class="col-md-6">
