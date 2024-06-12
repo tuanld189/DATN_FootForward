@@ -39,18 +39,20 @@
                             <th>ID</th>
                             <th>CATEGORY</th>
                             <th>BRAND</th>
+                            <th>SKU</th>
+                            <th>SLUG</th>
                             <th>NAME</th>
-                            <th>DESCRIPTION</th>
-                            <th>IMAGE</th>
+                            <th>SHORT CONTENT</th>
+                            <th>THUMBNAIL</th>
                             <th>PRICE</th>
-                            <th>QUANTITY</th>
-                            <th>CONTENT</th>
+                            <th>DESCRIPTION</th>
                             <th>STATUS</th>
                             <th>HOT_DEAL</th>
                             <th>NEW</th>
                             <th>SHOW_HOME</th>
-                            <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th>
+                            <th>CREATE AT</th>
+                            <th>UPDATE AT</th>
+                            <th>ATTRIBUTES</th>
                             <th>ACTION</th>
                         </tr>
                         @foreach ($data as $item)
@@ -61,34 +63,39 @@
                                             value="option1">
                                     </div>
                                 </td>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->category->name }}</td>
-                                <td>{{ $item->brand->name }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->description }}</td>
-
+                                <td>{{$item->id}}</td>
+                                <td>{{$item->category->name}}</td>
+                                <td>{{$item->brand->name}}</td>
+                                <td>{{$item->sku}}</td>
+                                <td>{{$item->slug}}</td>
+                                <td>{{$item->name}}</td>
+                                <td>{{$item->content}}</td>
                                 <td>
-                                    <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
+                                    <img src="{{ Storage::url($item->img_thumbnail)}}" alt="" width="100px">
                                 </td>
-                                <td>{{ $item->price }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->content }}</td>
-                                <td>{!! $item->status ? '<span class="badge bg-warning">ON</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{!! $item->is_hot_deal ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{!! $item->is_new ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{!! $item->is_show_home
-                                    ? '<span class="badge bg-success">Yes</span>'
-                                    : '<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{{$item->price}}</td>
+                                <td>{{$item->description}}</td>
+                                <td >{!!$item->status? '<span class="badge bg-warning">ON</span>'
+                                :'<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{!!$item->is_hot_deal ? '<span class="badge bg-success">Yes</span>'
+                                :'<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{!!$item->is_new ? '<span class="badge bg-success">Yes</span>'
+                                :'<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{!!$item->is_show_home ? '<span class="badge bg-success">Yes</span>'
+                                :'<span class="badge bg-danger">No</span>' !!}</td>
 
-                                <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td>
+                                <td>{{$item->created_at}}</td>
+                                <td>{{$item->updated_at}}</td>
+                                <td><a href="{{ route('admin.products.variants.index', ['productId' => $item->id]) }}" class="btn btn-success">Variants</a>
+                                    <a href="{{ route('admin.products.galleries.index', ['productId' => $item->id]) }}" class="btn btn-primary mb-2 mt-2">Gallery</a>
+                                </td>
                                 <td>
-                                    <a href="{{ route('admin.products.show', $item->id) }}" class="btn btn-info mb-2">Chi
-                                        tiết</a>
-                                    <a href="{{ route('admin.products.edit', $item->id) }}"
-                                        class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.products.destroy', $item->id) }}" class="btn btn-danger mb-2"
-                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
+                                    <a href="{{ route('admin.products.show',$item->id) }}" class="btn btn-info mb-2 mt-2">Detail</a> <br>
+                                    <a href="{{ route('admin.products.edit',$item->id) }}" class="btn btn-warning mb-2 mt-2">Edit</a> <br>
+                                    <a href="{{ route('admin.products.destroy',$item->id) }}" class="btn btn-danger mb-2 mt-2"
+                                        onclick="return confirm('Chắc chắn chưa')"
+                                        >Delete</a> <br>
+
                                 </td>
                             </tr>
                         @endforeach
