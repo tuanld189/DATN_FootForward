@@ -1,0 +1,29 @@
+@extends('admin.layout.master')
+
+@section('content')
+<h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;"> <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image">    Detail Size Product: {{$model->name}}
+</h3>
+    <table class="table">
+        <tr>
+            <th>Trường</th>
+            <th>Giá trị</th>
+        </tr>
+        @foreach ($model->toArray() as $key=>$value)
+        <tr>
+            <td>{{$key}}</td>
+            <td>
+                @php
+                    if($key == 'image'){
+                        $url=\Storage::url($value);
+                        echo "<img src=\" $url\" alt=\"\" width=\"100px\">";
+
+                    }
+                    else {
+                        echo $value;
+                    }
+                @endphp
+            </td>
+        </tr>
+        @endforeach
+    </table>
+@endsection

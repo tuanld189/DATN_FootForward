@@ -12,9 +12,11 @@ class Product extends Model
         'category_id',
         'brand_id',
         'name',
+        'sku',
+        'slug',
         'description',
         'status',
-        'image',
+        'img_thumbnail',
         'price',
         'view_count',
         'quantity',
@@ -29,6 +31,11 @@ class Product extends Model
 
 
     ];
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -38,4 +45,9 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+    public function galleries()
+    {
+        return $this->hasMany(ProductGallery::class);
+    }
+
 }

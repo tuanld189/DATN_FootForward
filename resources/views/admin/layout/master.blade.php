@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable">
 
 <head>
 
@@ -23,7 +24,11 @@
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
-
+    <style>
+        th, td{
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,36 +37,36 @@
     <div id="layout-wrapper">
 
         {{-- giao dien header --}}
-@include('admin.layout.header');
-         {{-- end header --}}
+        @include('admin.layout.header');
+        {{-- end header --}}
 
 
 
-@include('admin.layout.sidebar');
+        @include('admin.layout.sidebar');
 
         <div class="sidebar-background"></div>
-        </div>
-        <!-- Left Sidebar End -->
-        <!-- Vertical Overlay-->
-        <div class="vertical-overlay"></div>
+    </div>
+    <!-- Left Sidebar End -->
+    <!-- Vertical Overlay-->
+    <div class="vertical-overlay"></div>
 
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
 
-            <div class="page-content">
-                <div class="container-fluid">
+        <div class="page-content">
+            <div class="container-fluid">
 
-                    @yield('content')
-                </div>
-                <!-- container-fluid -->
+                @yield('content')
             </div>
-            <!-- End Page-content -->
-
-@include('admin.layout.footer');
+            <!-- container-fluid -->
         </div>
-        <!-- end main content-->
+        <!-- End Page-content -->
+
+        @include('admin.layout.footer');
+    </div>
+    <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
@@ -84,7 +89,8 @@
     </div>
 
     <div class="customizer-setting d-none d-md-block">
-        <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
+        <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas"
+            data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
             <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
         </div>
     </div>
@@ -101,12 +107,14 @@
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
 
     @yield('script-libs');
-
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script>
-            new DataTable('#example');
-    </script>
+
+    @yield('scripts');
+
+    {{-- <script>
+        new DataTable('#example');
+    </script> --}}
 </body>
 
 </html>

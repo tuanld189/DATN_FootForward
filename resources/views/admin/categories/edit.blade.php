@@ -3,6 +3,7 @@
     Update Category: {{$model->name}}
 @endsection
 @section('content')
+<h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;"> <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')</h3>
     <form action="{{route('admin.categories.update',$model->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -17,7 +18,9 @@
                 <div class="mb-3 mt-3">
                     <label for="image" class="form-label">Image:</label>
                     <input type="file" class="form-control" id="image" name="image">
-                    <img src="{{\Storage::url($model->image)}}" alt="" width="100px">
+                    @if($model->image)
+                        <img src="{{ asset('storage/' . $model->image) }}" alt="Current Image" style="max-height: 100px;">
+                    @endif
                 </div>
             </div>
             <div class="col-md-6">

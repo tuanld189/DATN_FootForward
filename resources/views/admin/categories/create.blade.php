@@ -3,6 +3,8 @@
     Create New Category
 @endsection
 @section('content')
+<h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;"> <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')</h3>
+
     <form action="{{route('admin.categories.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
