@@ -61,6 +61,10 @@
                                
 
                                 <li class="nav-item">
+                                    <a href="{{ route('admin.posts.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Posts</a>
+                                </li>
+
+                                <li class="nav-item">
                                     <a href="{{ route('admin.banners.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Banners</a>
                                 </li>
                             </ul>
