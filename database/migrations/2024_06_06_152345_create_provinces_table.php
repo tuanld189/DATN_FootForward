@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
-            // $table->foreignIdFor(Category::class)->constrained();
             $table->string('name');
+            $table->string('code')->unique();
             $table->timestamps();
         });
     }
