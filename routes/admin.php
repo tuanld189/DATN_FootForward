@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\ProductTagController;
 use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductSizeController;
@@ -46,80 +47,96 @@ Route::prefix('admin')
             Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
         });
+
+        Route::resource('products', ProductController::class);
+
+
         // PRODUCT_COLOR
-        Route::prefix('colors')
-            ->as('colors.')
-            ->group(function () {
-                Route::get('/', [ProductColorController::class, 'index'])->name('index');
-                Route::get('create', [ProductColorController::class, 'create'])->name('create');
-                Route::post('store', [ProductColorController::class, 'store'])->name('store');
-                Route::get('show/{id}', [ProductColorController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [ProductColorController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [ProductColorController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [ProductColorController::class, 'destroy'])->name('destroy');
-            });
+    //     Route::prefix('colors')
+    //         ->as('colors.')
+    //         ->group(function () {
+    //             Route::get('/', [ProductColorController::class, 'index'])->name('index');
+    //             Route::get('create', [ProductColorController::class, 'create'])->name('create');
+    //             Route::post('store', [ProductColorController::class, 'store'])->name('store');
+    //             Route::get('show/{id}', [ProductColorController::class, 'show'])->name('show');
+    //             Route::get('{id}/edit', [ProductColorController::class, 'edit'])->name('edit');
+    //             Route::put('{id}/update', [ProductColorController::class, 'update'])->name('update');
+    //             Route::get('{id}/destroy', [ProductColorController::class, 'destroy'])->name('destroy');
+    //         });
 
-        //PRODUCT_SIZE
-        Route::prefix('sizes')
-            ->as('sizes.')
-            ->group(function () {
-                Route::get('/', [ProductSizeController::class, 'index'])->name('index');
-                Route::get('create', [ProductSizeController::class, 'create'])->name('create');
-                Route::post('store', [ProductSizeController::class, 'store'])->name('store');
-                Route::get('show/{id}', [ProductSizeController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [ProductSizeController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [ProductSizeController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [ProductSizeController::class, 'destroy'])->name('destroy');
-            });
-        //PRODUCT
-        Route::prefix('products')
-            ->as('products.')
-            ->group(function () {
-            Route::get('/', [ProductController::class, 'index'])->name('index');
-            Route::get('create', [ProductController::class, 'create'])->name('create');
-            Route::post('store', [ProductController::class, 'store'])->name('store');
-            Route::get('show/{id}', [ProductController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [ProductController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [ProductController::class, 'destroy'])->name('destroy');
-            //VARIANTS
-            Route::prefix('{productId}/variants')
-                ->as('variants.')
-                ->group(function () {
-                    Route::get('/', [ProductVariantController::class, 'index'])->name('index');
-                    Route::get('create', [ProductVariantController::class, 'create'])->name('create');
-                    Route::post('store', [ProductVariantController::class, 'store'])->name('store');
-                    Route::get('{id}/show', [ProductVariantController::class, 'show'])->name('show');
-                    Route::get('{id}/edit', [ProductVariantController::class, 'edit'])->name('edit');
-                    Route::put('{id}/update', [ProductVariantController::class, 'update'])->name('update');
-                    Route::delete('{id}/destroy', [ProductVariantController::class, 'destroy'])->name('destroy');
-            });
-            // GALLERIES
-            Route::prefix('{productId}/galleries')
-            ->as('galleries.')
-            ->group(function () {
-                Route::get('/', [ProductGalleryController::class, 'index'])->name('index');
-                Route::get('create', [ProductGalleryController::class, 'create'])->name('create');
-                Route::post('store', [ProductGalleryController::class, 'store'])->name('store');
-                Route::get('{id}/show', [ProductGalleryController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [ProductGalleryController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [ProductGalleryController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [ProductGalleryController::class, 'destroy'])->name('destroy');
-            });
-        });
+    //     //PRODUCT_SIZE
+    //     Route::prefix('sizes')
+    //         ->as('sizes.')
+    //         ->group(function () {
+    //             Route::get('/', [ProductSizeController::class, 'index'])->name('index');
+    //             Route::get('create', [ProductSizeController::class, 'create'])->name('create');
+    //             Route::post('store', [ProductSizeController::class, 'store'])->name('store');
+    //             Route::get('show/{id}', [ProductSizeController::class, 'show'])->name('show');
+    //             Route::get('{id}/edit', [ProductSizeController::class, 'edit'])->name('edit');
+    //             Route::put('{id}/update', [ProductSizeController::class, 'update'])->name('update');
+    //             Route::get('{id}/destroy', [ProductSizeController::class, 'destroy'])->name('destroy');
+    //         });
+    //     //PRODUCT
+    //     Route::prefix('products')
+    //         ->as('products.')
+    //         ->group(function () {
+    //         Route::get('/', [ProductController::class, 'index'])->name('index');
+    //         Route::get('create', [ProductController::class, 'create'])->name('create');
+    //         Route::post('store', [ProductController::class, 'store'])->name('store');
+    //         Route::get('show/{id}', [ProductController::class, 'show'])->name('show');
+    //         Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
+    //         Route::put('{id}/update', [ProductController::class, 'update'])->name('update');
+    //         Route::get('{id}/destroy', [ProductController::class, 'destroy'])->name('destroy');
+    //         //VARIANTS
+    //         Route::prefix('{productId}/variants')
+    //             ->as('variants.')
+    //             ->group(function () {
+    //                 Route::get('/', [ProductVariantController::class, 'index'])->name('index');
+    //                 Route::get('create', [ProductVariantController::class, 'create'])->name('create');
+    //                 Route::post('store', [ProductVariantController::class, 'store'])->name('store');
+    //                 Route::get('{id}/show', [ProductVariantController::class, 'show'])->name('show');
+    //                 Route::get('{id}/edit', [ProductVariantController::class, 'edit'])->name('edit');
+    //                 Route::put('{id}/update', [ProductVariantController::class, 'update'])->name('update');
+    //                 Route::delete('{id}/destroy', [ProductVariantController::class, 'destroy'])->name('destroy');
+    //         });
+    //         // GALLERIES
+    //         Route::prefix('{productId}/galleries')
+    //         ->as('galleries.')
+    //         ->group(function () {
+    //             Route::get('/', [ProductGalleryController::class, 'index'])->name('index');
+    //             Route::get('create', [ProductGalleryController::class, 'create'])->name('create');
+    //             Route::post('store', [ProductGalleryController::class, 'store'])->name('store');
+    //             Route::get('{id}/show', [ProductGalleryController::class, 'show'])->name('show');
+    //             Route::get('{id}/edit', [ProductGalleryController::class, 'edit'])->name('edit');
+    //             Route::put('{id}/update', [ProductGalleryController::class, 'update'])->name('update');
+    //             Route::get('{id}/destroy', [ProductGalleryController::class, 'destroy'])->name('destroy');
+    //         });
+    //         // SALES
+    //         Route::prefix('{productId}/sales')
+    //         ->as('sales.')
+    //         ->group(function () {
+    //             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+    //             Route::get('create', [ProductSaleController::class, 'create'])->name('create');
+    //             Route::post('store', [ProductSaleController::class, 'store'])->name('store');
+    //             Route::get('{id}/show', [ProductSaleController::class, 'show'])->name('show');
+    //             Route::get('{id}/edit', [ProductSaleController::class, 'edit'])->name('edit');
+    //             Route::put('{id}/update', [ProductSaleController::class, 'update'])->name('update');
+    //             Route::delete('{id}/destroy', [ProductSaleController::class, 'destroy'])->name('destroy');
+    //         });
+    //     });
 
-       //Tag
-        Route::prefix('tags')
-            ->as('tags.')
-            ->group(function () {
-            Route::get('/', [TagController::class, 'index'])->name('index');
-            Route::get('create', [TagController::class, 'create'])->name('create');
-            Route::post('store', [TagController::class, 'store'])->name('store');
-            Route::get('show/{id}', [TagController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [TagController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [TagController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
-        });
+    //    //Tag
+    //     Route::prefix('tags')
+    //         ->as('tags.')
+    //         ->group(function () {
+    //         Route::get('/', [TagController::class, 'index'])->name('index');
+    //         Route::get('create', [TagController::class, 'create'])->name('create');
+    //         Route::post('store', [TagController::class, 'store'])->name('store');
+    //         Route::get('show/{id}', [TagController::class, 'show'])->name('show');
+    //         Route::get('{id}/edit', [TagController::class, 'edit'])->name('edit');
+    //         Route::put('{id}/update', [TagController::class, 'update'])->name('update');
+    //         Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
+    //     });
 
         //BANNERS
         Route::prefix('banners')

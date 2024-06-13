@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->constrained();
             $table->foreignIdFor(ProductSize::class)->constrained()->nullable(false);;
             $table->foreignIdFor(ProductColor::class)->constrained()->nullable(false);;
-            $table->integer('quantity')->nullable();
+            $table->unsignedInteger('quantity')->defautlt(0);
             $table->string('image')->nullable();
             $table->timestamps();
             $table->unique(['product_id', 'product_size_id', 'product_color_id'], 'product_variants_unique');        });
