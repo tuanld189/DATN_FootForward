@@ -50,4 +50,10 @@ class Product extends Model
         return $this->hasMany(ProductGallery::class);
     }
 
+    // để lấy nhiều tag
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
 }

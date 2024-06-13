@@ -4,8 +4,13 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\ProductColorController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductGalleryController;
+use App\Http\Controllers\Admin\ProductSizeController;
+use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\VourcherController;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
@@ -117,6 +122,7 @@ Route::prefix('admin')
             Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
         });
 
+        // POST
         Route::prefix('post')
         ->as('posts.')
         ->group(function () {
@@ -141,4 +147,19 @@ Route::prefix('admin')
             Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
         });
+
+       // VOURCHER
+        Route::prefix('vourcher')
+        ->as('vourchers.')
+        ->group(function () {
+        Route::get('/', [VourcherController::class, 'index'])->name('index');
+        Route::get('create', [VourcherController::class, 'create'])->name('create');
+        Route::post('store', [VourcherController::class, 'store'])->name('store');
+        Route::get('show/{id}', [VourcherController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [VourcherController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [VourcherController::class, 'update'])->name('update');
+        Route::get('{id}/destroy', [VourcherController::class, 'destroy'])->name('destroy');
+    });
+
+
     });

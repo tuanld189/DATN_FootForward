@@ -15,9 +15,14 @@ class Tag extends Model
         'updated_at',
     ];
 
-    public function products()
+    public function product()
     {
         return $this->belongsToMany(ProductTag::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
 
 }
