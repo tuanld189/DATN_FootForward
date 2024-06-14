@@ -107,20 +107,16 @@
     @yield('script-libs');
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
-<<<<<<< HEAD
     <script>
             new DataTable('#example');
     </script>
     @yield('scripts');
-
-=======
 
     @yield('scripts');
 
     {{-- <script>
         new DataTable('#example');
     </script> --}}
->>>>>>> 5e34796577184dacb3911fcd636d2737874a14ec
 </body>
 
 </html>
