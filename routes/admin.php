@@ -3,17 +3,33 @@
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
-<<<<<<< HEAD
-use App\Http\Controllers\Admin\LocationController;
+
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ProductColorController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductGalleryController;
+use App\Http\Controllers\Admin\ProductSizeController;
+use App\Http\Controllers\Admin\ProductVariantController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-=======
+
 use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use App\Models\Tag;
->>>>>>> fa04ff2190fe86f6ed1abd785770d8d151da44e1
+
 use Illuminate\Support\Facades\Route;
+
+//PERMISSIONS
+Route::resource('permissions', PermissionController::class);
+Route::get('permissions/{permissionId}/delete', [PermissionController::class,'destroy']);
+
+//ROLES
+Route::resource('roles',RoleController::class);
+Route::get('roles/{roleId}/delete', [RoleController::class,'destroy']);
+
+Route::get('roles/{roleId}/give-permissions',[RoleController::class,'addPermissionToRole']);
+
+Route::put('roles/{roleId}/give-permissions',[RoleController::class,'givePermissionToRole']);
 
 Route::prefix('admin')
     ->as('admin.')
@@ -24,6 +40,18 @@ Route::prefix('admin')
             return view('admin.dashboard');
         })->name('dashboard');
 
+
+        // Route::prefix('permissions')
+        //     ->as('permissions.')
+        //     ->group(function () {
+        //     Route::get('/', [PermissionController::class, 'index'])->name('index');
+        //     Route::get('create', [PermissionController::class, 'create'])->name('create');
+        //     Route::post('store', [PermissionController::class, 'store'])->name('store');
+        //     Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+        //     Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+        //     Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+        //     Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+        // });
         //BRAND
         Route::prefix('brands')
             ->as('brands.')
@@ -159,7 +187,4 @@ Route::prefix('admin')
             Route::put('{id}/update', [UserController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
         });
-        Route::get('/provinces', [LocationController::class, 'getProvinces']);
-        Route::get('/districts/{province_id}', [LocationController::class, 'getDistricts']);
-        Route::get('/wards/{district_id}', [LocationController::class, 'getWards']);
     });
