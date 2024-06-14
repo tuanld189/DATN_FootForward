@@ -23,12 +23,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('sku')->unique();
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->boolean('status')->default(true);
+            $table->text('content')->nullable();
             $table->string('img_thumbnail')->nullable();
             $table->decimal('price', 10, 2);
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('view_count')->default(0);
-            $table->text('content')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->boolean('is_hot_deal')->default(false);
             $table->boolean('is_new')->default(true);
             $table->boolean('is_show_home')->default(false);
