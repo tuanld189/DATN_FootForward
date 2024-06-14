@@ -3,105 +3,109 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AddressDetail;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
-    const PATH_VIEW = 'admin.users.';
     const PATH_UPLOAD = 'users';
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $data=User::query()->latest('id')->paginate(5);
-        return view(self::PATH_VIEW . __FUNCTION__,compact('data'));
+        $users = User::latest('id')->get();
+        return view('admin.users.index', compact('users'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.show', compact('user'));
+    }
     public function create()
     {
-        $address_details = AddressDetail::query()->pluck('address','id')->all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact(['address_details']));
+        $roles = Role::all();
+        return view('admin.users.index', compact('roles'));
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|max:20',
+            'phone' => 'required|string|max:10',
+            'photo_thumbs' => 'required|image',
+            'status' => 'required|string|max:255',
+            'roles' => 'required|array', // Validate roles as an array
+        ]);
+
         $data = $request->except('photo_thumbs');
         $data['is_active'] ??= 0;
-        if($request->except('photo_thumbs')){
-            $data['photo_thumbs']=Storage::put(self::PATH_UPLOAD,$request->file('photo_thumbs'));
-        }
-        User::query()->create($data);
 
-        return redirect()->route('admin.users.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $model=User::query()->findOrFail($id);
-
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-
-        $model=User::query()->findOrFail($id);
-
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $model=User::query()->findOrFail($id);
-        $data=$request->except('photo_thumbs');
-        if($request->except('photo_thumbs')){
-            $data['photo_thumbs']=Storage::put(self::PATH_UPLOAD,$request->file('photo_thumbs'));
+        if ($request->hasFile('photo_thumbs')) {
+            $data['photo_thumbs'] = Storage::put(self::PATH_UPLOAD, $request->file('photo_thumbs'));
         }
 
-        $current_image=$model->photo_thumbs;
+        $data['password'] = Hash::make($request->password);
 
-        $model->update($data);
+        $user = User::create($data);
 
-        if($current_image&& Storage::exists($current_image)){
-            Storage::delete($current_image);
-        }
+        // Assign roles to the user
+        $user->roles()->sync($request->roles);
 
-        return back();
+        return redirect()->route('admin.users.index')->with('status', 'User Created Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function edit($id)
     {
-        $model=User::query()->findOrFail($id);
+        $roles = Role::all();
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user', 'roles'));
+    }
 
-        $model->delete();
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
-        if($model->photo_thumbs && Storage::exists($model->photo_thumbs)){
-            Storage::delete($model->photo_thumbs);
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'phone' => 'required|string|max:10',
+            'photo_thumbs' => 'nullable|image',
+            'status' => 'required|string|max:255',
+            'roles' => 'required|array', // Validate roles as an array
+        ]);
+
+        $data = $request->except('photo_thumbs');
+
+        if ($request->hasFile('photo_thumbs')) {
+            $data['photo_thumbs'] = Storage::put(self::PATH_UPLOAD, $request->file('photo_thumbs'));
+            if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
+                Storage::delete($user->photo_thumbs);
+            }
         }
 
-        return back();
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        // Update roles
+        $user->roles()->sync($request->roles);
+
+        return redirect()->route('admin.users.index')->with('status', 'User Updated Successfully');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
+            Storage::delete($user->photo_thumbs);
+        }
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
     }
 }

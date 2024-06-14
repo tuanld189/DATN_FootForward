@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    List Permissions
+    List Role
 @endsection
 @section('content')
     <div class="row">
@@ -23,16 +23,11 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{session('status')}}
-                    </div>
-                @endif
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">List Permissions</h5>
-                    <a href="{{ url('permissions/create') }}" class="btn btn-primary mb-2">Thêm mới</a>
+                    <h5 class="card-title mb-0">Role</h5>
+                    <a href="{{ route('admin.roles.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
-                <div class="card-body mt-5">
+                <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
                         <tr>
                             <th scope="col" style="width: 10px;">
@@ -41,32 +36,49 @@
                                 </div>
                             </th>
                             <th>ID</th>
+                            <th>ROLE</th>
                             <th>NAME</th>
+                            <th>DESCRIPTION</th>
+                            <th>Is Active</th>
                             <th>CREATE_AT</th>
                             <th>UPDATE_AT</th>
                             <th>ACTION</th>
                         </tr>
-                        @foreach ($permissions as $permission)
+                        @foreach ($roles as $role)
                             <tr>
                                 <td scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </td>
-                                <td>{{ $permission->id }}</td>
-                                <td>{{ $permission->name }}</td>
-                                <td>{{ $permission->created_at }}</td>
-                                <td>{{ $permission->updated_at }}</td>
+                                <td>{{ $role->id }}</td>
                                 <td>
-                                    <a href="{{ url('permissions/'.$permission->id.'/edit') }}"
+                                    @foreach ($role->permissions as $permission)
+                                        {{ $permission->name }},
+                                    @endforeach
+                                </td>
+                                <td>{{ $role->name }}</td>
+                                <td>
+                                    {{ $role->description }}
+                                </td>
+                                <td>{!! $role->is_active
+                                    ? '<span class="badge bg-success">Yes</span>'
+                                    : '<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{{ $role->created_at }}</td>
+                                <td>{{ $role->updated_at }}</td>
+                                <td>
+                                    {{-- <a href="{{ route('admin.roles.show', $permission->id) }}"
+                                        class="btn btn-info mb-2">Chi
+                                        tiết</a> --}}
+                                    <a href="{{ route('admin.roles.edit', $role->id) }}"
                                         class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ url('permissions/'.$permission->id.'/delete') }}" class="btn btn-danger mb-2"
-                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
+                                    <a href="{{ route('admin.roles.destroy', $role->id) }}"
+                                        class="btn btn-danger mb-2" onclick="return confirm('Chắc chắn chưa')">Xóa</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-
+                    {{-- {{ $permission->links() }} --}}
                 </div>
             </div>
         </div><!--end col-->
@@ -100,8 +112,10 @@
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        DataTable('#example', {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection

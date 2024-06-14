@@ -18,17 +18,6 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
 
-//PERMISSIONS
-Route::resource('permissions', PermissionController::class);
-Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'destroy']);
-
-//ROLES
-Route::resource('roles', RoleController::class);
-Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy']);
-
-Route::get('roles/{roleId}/give-permissions', [RoleController::class, 'addPermissionToRole']);
-
-Route::put('roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole']);
 
 Route::prefix('admin')
     ->as('admin.')
@@ -40,17 +29,6 @@ Route::prefix('admin')
         })->name('dashboard');
 
 
-        Route::prefix('permissions')
-            ->as('permissions.')
-            ->group(function () {
-            Route::get('/', [PermissionController::class, 'index'])->name('index');
-            Route::get('create', [PermissionController::class, 'create'])->name('create');
-            Route::post('store', [PermissionController::class, 'store'])->name('store');
-            Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
-        });
 
         //BRAND
         Route::prefix('brands')
@@ -127,9 +105,6 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
             });
 
-        // POST
-
-        // Route::resource('products', ProductController::class);
 
         //POST
 
@@ -148,29 +123,39 @@ Route::prefix('admin')
         Route::prefix('banners')
             ->as('banners.')
             ->group(function () {
-                Route::get('/', [BannerController::class, 'index'])->name('index');
-                Route::get('create', [BannerController::class, 'create'])->name('create');
-                Route::post('store', [BannerController::class, 'store'])->name('store');
-                Route::get('show/{id}', [BannerController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [BannerController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
-            });
+            Route::get('/', [BannerController::class, 'index'])->name('index');
+            Route::get('create', [BannerController::class, 'create'])->name('create');
+            Route::post('store', [BannerController::class, 'store'])->name('store');
+            Route::get('show/{id}', [BannerController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [BannerController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
+        });
 
-        // VOURCHER
-        Route::prefix('vourcher')
-            ->as('vourchers.')
-            ->group(function () {
-                Route::get('/', [VourcherController::class, 'index'])->name('index');
-                Route::get('create', [VourcherController::class, 'create'])->name('create');
-                Route::post('store', [VourcherController::class, 'store'])->name('store');
-                Route::get('show/{id}', [VourcherController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [VourcherController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [VourcherController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [VourcherController::class, 'destroy'])->name('destroy');
-            });
-
-
+        //PERMISSION
+        Route::prefix('permissions')
+        ->as('permissions.')
+        ->group(function () {
+        Route::get('/', [PermissionController::class, 'index'])->name('index');
+        Route::get('create', [PermissionController::class, 'create'])->name('create');
+        Route::post('store', [PermissionController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+        Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+    });
+        //PERMISSION
+        Route::prefix('roles')
+        ->as('roles.')
+        ->group(function () {
+        Route::get('/', [RoleController::class, 'index'])->name('index');
+        Route::get('create', [RoleController::class, 'create'])->name('create');
+        Route::post('store', [RoleController::class, 'store'])->name('store');
+        Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
+        Route::get('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+    });
         //USERS
         Route::prefix('users')
             ->as('users.')

@@ -3,30 +3,30 @@
     List User
 @endsection
 @section('content')
-   <!-- start page title -->
-   <div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Datatables</h4>
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Datatables</h4>
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                    <li class="breadcrumb-item active">Datatables</li>
-                </ol>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item active">Datatables</li>
+                    </ol>
+                </div>
+
             </div>
-
         </div>
     </div>
-</div>
-<!-- end page title -->
+    <!-- end page title -->
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">User</h5>
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
+                    <h5 class="card-title mb-0">List User</h5>
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-2">Add User</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
@@ -37,43 +37,32 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Photo_thumbs</th>
-                            <th>User_code</th>
                             <th>Username</th>
-                            <th>Password</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>ACTION</th>
+                            <th>Actions</th>
                         </tr>
-                        @foreach ($data as $item)
+                        @foreach ($users as $user)
                             <tr>
-                                <td scope="row">
+                                <td scope="col" style="width: 10px;">
                                     <div class="form-check">
-                                        <input class="form-check-input fs-15" type="checkbox" name="checkAll"
-                                            value="option1">
+                                        <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </td>
-                                <td>{{ $item->id }}</td>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->username }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
-                                    <img src="{{ Storage::url($item->photo_thumbs) }}" alt="" width="100px">
-                                </td>
-                                <td>{{ $item->user_code }}</td>
-                                <td>{{ $item->username }}</td>
-                                <td>{{ $item->password }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>{{ $item->phone }}</td>
-                                <td>
-                                    <a href="{{ route('admin.users.show', $item->id) }}" class="btn btn-info mb-2">Chi
+                                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info mb-2">Chi
                                         tiết</a>
-                                    <a href="{{ route('admin.users.edit', $item->id) }}"
+                                    <a href="{{ route('admin.users.edit', $user->id) }}"
                                         class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.users.destroy', $item->id) }}" class="btn btn-danger mb-2"
+                                    <a href="{{ route('admin.users.destroy', $user->id) }}" class="btn btn-danger mb-2"
                                         onclick="return confirm('Chắc chắn chưa')">Xóa</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-                    {{ $data->links() }}
+                    {{-- {{ $data->links() }} --}}
                 </div>
             </div>
         </div><!--end col-->
@@ -106,9 +95,10 @@
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        DataTable('#example', {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection
-
