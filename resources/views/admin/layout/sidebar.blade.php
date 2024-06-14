@@ -70,6 +70,12 @@
                                 <li class="nav-item">
                                     <a href="{{ route('admin.users.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Users</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('permissions') }}" target="_blank" class="nav-link" data-key="t-horizontal">Permissions</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('roles') }}" target="_blank" class="nav-link" data-key="t-horizontal">Roles</a>
+                                </li>
                             </ul>
                         </div>
                     </li> <!-- end Dashboard Menu -->
