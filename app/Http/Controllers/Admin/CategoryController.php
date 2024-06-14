@@ -34,8 +34,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $data['is_active'] ??= 0;
         $data = $request->except('image');
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
         if ($request->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
@@ -71,8 +71,8 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $model = Category::findOrFail($id);
+        $data['is_active'] ??= 0;
         $data = $request->except('image');
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
         if ($request->hasFile('image')) {
             if ($model->image && Storage::exists($model->image)) {

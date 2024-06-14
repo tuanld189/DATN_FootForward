@@ -20,7 +20,8 @@
                     <img src="assets/images/logo-light.png" alt="" height="17">
                 </span>
             </a>
-            <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+            <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                id="vertical-hover">
                 <i class="ri-record-circle-line"></i>
             </button>
         </div>
@@ -41,40 +42,53 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                        <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarLayouts">
                             <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí danh mục</span>
                             {{-- <span class="badge badge-pill bg-danger" data-key="t-hot">Hot</span> --}}
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarCategories">
                             <ul class="nav nav-sm flex-column">
+                                {{-- Brands --}}
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.brands.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Brands</a>
+                                    <a href="{{ route('admin.brands.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Brands</a>
+                                </li>
+                                {{-- Categories --}}
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.categories.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Categories</a>
+                                </li>
+                                {{-- Products --}}
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.products.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Products</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.categories.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Categories</a>
+                                    <a href="{{ route('admin.posts.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Posts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.tags.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Tags</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.products.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Products</a>
-                                </li>
-                               
-
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.posts.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Posts</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.banners.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Banners</a>
+                                    <a href="{{ route('admin.banners.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Banners</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.users.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Users</a>
+                                    <a href="{{ route('admin.users.index') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Users</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('permissions') }}" target="_blank" class="nav-link" data-key="t-horizontal">Permissions</a>
+                                    <a href="{{ url('permissions') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Permissions</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('roles') }}" target="_blank" class="nav-link" data-key="t-horizontal">Roles</a>
+                                    <a href="{{ url('roles') }}" target="_blank" class="nav-link"
+                                        data-key="t-horizontal">Roles</a>
                                 </li>
                             </ul>
                         </div>
