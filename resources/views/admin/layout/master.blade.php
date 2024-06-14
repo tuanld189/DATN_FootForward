@@ -25,9 +25,7 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        th, td{
-            text-align: center;
-        }
+          @yield('style-index');
     </style>
 </head>
 
@@ -109,6 +107,10 @@
     @yield('script-libs');
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script>
+            new DataTable('#example');
+    </script>
+    @yield('scripts');
 
     @yield('scripts');
 

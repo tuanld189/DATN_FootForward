@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    List Tag
+    List Roles
 @endsection
 @section('content')
     <div class="row">
@@ -23,11 +23,16 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{session('status')}}
+                    </div>
+                @endif
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Tags</h5>
-                    <a href="{{ route('admin.tags.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
+                    <h5 class="card-title mb-0">List Roles</h5>
+                    <a href="{{ url('roles/create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-5">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
                         <tr>
                             <th scope="col" style="width: 10px;">
@@ -41,29 +46,30 @@
                             <th>UPDATE_AT</th>
                             <th>ACTION</th>
                         </tr>
-                        @foreach ($tags as $item)
+                        @foreach ($roles as $role)
                             <tr>
                                 <td scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </td>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td>
+                                <td>{{ $role->id }}</td>
+                                <td>{{ $role->name }}</td>
+                                <td>{{ $role->created_at }}</td>
+                                <td>{{ $role->updated_at }}</td>
                                 <td>
-                                    <a href="{{ route('admin.tags.show', $item->id) }}" class="btn btn-info mb-2">Chi
-                                        tiết</a>
-                                    <a href="{{ route('admin.tags.edit', $item->id) }}"
-                                        class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.tags.destroy', $item->id) }}" class="btn btn-danger mb-2"
-                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
+                                    <a href="{{ url('roles/'.$role->id.'/give-permissions') }}"
+                                        class="btn btn-warning mb-2">Add / Edit Role Permission</a>
+
+                                    <a href="{{ url('roles/'.$role->id.'/edit') }}"
+                                        class="btn btn-warning mb-2">Edit</a>
+                                    <a href="{{ url('roles/'.$role->id.'/delete') }}" class="btn btn-danger mb-2"
+                                        onclick="return confirm('Chắc chắn chưa')">Delete</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-                    {{ $tags->links() }}
+
                 </div>
             </div>
         </div><!--end col-->
