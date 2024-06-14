@@ -359,11 +359,10 @@
 }
 .lnr-magnifier:before {
 	content: "\e86f";
-	display:none;
+	display: none;
 }
 .lnr-cross:before {
 	content: "\e870";
-	display: none;
 }
 .lnr-menu:before {
 	content: "\e871";

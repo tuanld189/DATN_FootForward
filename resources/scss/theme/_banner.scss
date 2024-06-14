@@ -1,7 +1,8 @@
 /* banner area css
 ============================================================================================ */
 .banner-area {
-	background: url(../img/banner/banner-bg.jpg) center no-repeat;
+	// background: url(../img/banner/banner-bg.jpg) center no-repeat;
+	background-color: aqua;
 	background-size: cover;
 	position: relative;
 	.fullscreen {
@@ -101,7 +102,7 @@
 }
 #category {
 	.organic-breadcrumb {
-		margin-bottom: 100px;
+		margin-bottom: 50px;
 	}
 }
 .breadcrumb-banner {

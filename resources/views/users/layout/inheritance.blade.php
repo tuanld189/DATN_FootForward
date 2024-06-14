@@ -5,7 +5,7 @@
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="img/fav.png">
+    <link rel="shortcut icon" href="{{ asset('img/fav.png') }}">
     <!-- Author Meta -->
     <meta name="author" content="CodePixar">
     <!-- Meta Description -->
@@ -30,8 +30,67 @@
     <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-
 </head>
+<style>
+    .banner-area {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        /* Or desired height */
+        background-color: white;
+        /* White background color */
+        overflow: hidden;
+    }
+
+    .banner-area::before,
+    .banner-area::after {
+        content: '';
+        position: absolute;
+        background: linear-gradient(to bottom right, #ff4500, #ffd700);
+        transform: skewX(-45deg);
+    }
+
+    .banner-area::before {
+        top: -10%;
+        left: 20%;
+        width: 100%;
+        height: 120%;
+    }
+
+    .banner-area::after {
+        top: 20%;
+        left: 60%;
+        width: 80%;
+        height: 80%;
+    }
+
+    .line {
+        position: absolute;
+        background: linear-gradient(to bottom right, #ff4500, #ffd700);
+        transform: skewX(-45deg);
+    }
+
+    .line:nth-child(1) {
+        top: 60%;
+        left: 25%;
+        width: 10%;
+        height: 15%;
+    }
+
+    .line:nth-child(2) {
+        top: 65%;
+        left: 35%;
+        width: 8%;
+        height: 15%;
+    }
+
+    .line:nth-child(3) {
+        top: 70%;
+        left: 45%;
+        width: 6%;
+        height: 15%;
+    }
+</style>
 
 <body>
 
@@ -41,10 +100,8 @@
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="index.html"><img src="{{asset('images/logo_ff.png  ')}}" alt=""></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="navbar-brand logo_h" href="{{ url('/users/home') }}"><img src="{{ asset('images/logo_ff.png') }}" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -52,47 +109,42 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{{ url('/users/home') }}">Home</a></li>
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Shop</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="single-product.html">Product
-                                            Details</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/users/categories') }}">Shop Category</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/single-product') }}">Product Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/checkout') }}">Product Checkout</a>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/cart') }}">Shopping Cart</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/confirmation') }}">Confirmation</a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Blog</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/blog') }}">Blog</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/single-blog') }}">Blog Details</a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
-                                    role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/tracking') }}">Tracking</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/elements') }}">Elements</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item"><a href="#" class="cart"><span class="fal fa-shopping-bag"></span></a>
+                            <li class="nav-item"><a href="#" class="cart"><span class="fal fa-shopping-bag"><img src="{{ asset('images/Imagecut/Giohang.png') }}" alt=""></span></a>
                             </li>
                             <li class="nav-item">
-                                <button class="search"><span class="lnr lnr-magnifier"
-                                        id="search"></span></button>
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"><img src="{{ asset('images/Imagecut/Timkiem.png') }}" alt=""></span></button>
                             </li>
                         </ul>
                     </div>
@@ -104,21 +156,18 @@
                 <form class="d-flex justify-content-between">
                     <input type="text" class="form-control" id="search_input" placeholder="Search Here">
                     <button type="submit" class="btn"></button>
-                    <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+                    <span class="lnr lnr-cross" id="close_search" title="Close Search"><img src="{{ asset('images/Imagecut/dauxx.png') }}" alt=""></span>
                 </form>
             </div>
         </div>
     </header>
     <!-- End Header Area -->
+
     <div class="content">
         @yield('content')
     </div>
 
-
-
-
-
-    <!-- start footer Area -->
+    <!-- Start Footer Area -->
     <footer class="footer-area section_gap">
         <div class="container">
             <div class="row">
@@ -137,28 +186,13 @@
                         <h6>Newsletter</h6>
                         <p>Stay update with our latest</p>
                         <div class="" id="mc_embed_signup">
-
-                            <form target="_blank" novalidate="true"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="form-inline">
-
+                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="form-inline">
                                 <div class="d-flex flex-row">
-
-                                    <input class="form-control" name="EMAIL" placeholder="Enter Email"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-                                        required="" type="email">
-
-
-                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
-                                            aria-hidden="true"></i></button>
+                                    <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
+                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
                                     <div style="position: absolute; left: -5000px;">
-                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1"
-                                            value="" type="text">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
                                     </div>
-
-                                    <!-- <div class="col-lg-4 col-md-4">
-            <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-           </div>  -->
                                 </div>
                                 <div class="info"></div>
                             </form>
@@ -193,26 +227,13 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-                <p class="footer-text m-0">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
-                        aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-            </div>
         </div>
     </footer>
-    <!-- End footer Area -->
+    <!-- End Footer Area -->
 
-    <<script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous">
-    </script>
-    <script src="{{ asset('js/jsAdmin/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/popper.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery.ajaxchimp.min.js') }}"></script>
     <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('js/jquery.sticky.js') }}"></script>
@@ -220,11 +241,11 @@
     <script src="{{ asset('js/countdown.js') }}"></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+
     <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY"></script>
     <script src="{{ asset('js/gmaps.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-
 </body>
 
 </html>
