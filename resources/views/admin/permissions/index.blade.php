@@ -1,9 +1,8 @@
 @extends('admin.layout.master')
 @section('title')
-    List User
+    List Permission
 @endsection
 @section('content')
-    <!-- start page title -->
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -25,11 +24,11 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">List User</h5>
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-2">Add User</a>
+                    <h5 class="card-title mb-0">Permission</h5>
+                    <a href="{{ route('admin.permissions.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
                         <tr>
                             <th scope="col" style="width: 10px;">
                                 <div class="form-check">
@@ -37,37 +36,46 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Actions</th>
+                            <th>NAME</th>
+                            <th>DESCRIPTION</th>
+                            <th>Is Active</th>
+                            <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th>
+                            <th>ACTION</th>
                         </tr>
-                        @foreach ($users as $user)
+                        @foreach ($permissions as $permission)
                             <tr>
                                 <td scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </td>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $permission->id }}</td>
+                                <td>{{ $permission->name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info mb-2">Chi
+                                    {{ $permission->description }}
+                                </td>
+                                <td>{!! $permission->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{{ $permission->created_at }}</td>
+                                <td>{{ $permission->updated_at }}</td>
+                                <td>
+                                    <a href="{{ route('admin.permissions.show', $permission->id) }}" class="btn btn-info mb-2">Chi
                                         tiết</a>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                    <a href="{{ route('admin.permissions.edit', $permission->id) }}"
                                         class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.users.destroy', $user->id) }}" class="btn btn-danger mb-2"
+                                    <a href="{{ route('admin.permissions.destroy', $permission->id) }}" class="btn btn-danger mb-2"
                                         onclick="return confirm('Chắc chắn chưa')">Xóa</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-                    {{-- {{ $data->links() }} --}}
+                    {{-- {{ $permission->links() }} --}}
                 </div>
             </div>
         </div><!--end col-->
     </div><!--end row-->
 @endsection
+
 
 
 @section('style-libs')

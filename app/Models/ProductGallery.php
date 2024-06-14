@@ -17,4 +17,5 @@ class ProductGallery extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    
 }
