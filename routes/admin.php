@@ -1,6 +1,7 @@
 
 <?php
 
+
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -15,8 +16,6 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
-
-
 
 Route::prefix('admin')
     ->as('admin.')
