@@ -1,8 +1,7 @@
 @extends('admin.layout.master')
 @section('title')
-    List Product
+    List User
 @endsection
-
 @section('content')
    <!-- start page title -->
    <div class="row">
@@ -26,8 +25,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Products</h5>
-                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
+                    <h5 class="card-title mb-0">User</h5>
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
@@ -37,24 +36,13 @@
                                     <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                 </div>
                             </th>
-                            </th>
                             <th>ID</th>
-                            <th>THUMBNAIL</th>
-                            <th>NAME</th>
-                            <th>SKU</th>
-                            <th>SLUG</th>
-                            <th>CATEGORY</th>
-                            <th>BRAND</th>
-                            <th>PRICE</th>
-                            <th>SHORT CONTENT</th>
-                            <th>DESCRIPTION</th>
-                            <th>TAGS</th>
-                            <th>ACTIVE</th>
-                            <th>HOT_DEAL</th>
-                            <th>NEW</th>
-                            <th>SHOW_HOME</th>
-                            <th>CREATE AT</th>
-                            <th>UPDATE AT</th>
+                            <th>Photo_thumbs</th>
+                            <th>User_code</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                             <th>ACTION</th>
                         </tr>
                         @foreach ($data as $item)
@@ -65,65 +53,27 @@
                                             value="option1">
                                     </div>
                                 </td>
-                                <td>{{$item->id}}</td>
+                                <td>{{ $item->id }}</td>
                                 <td>
-                                    @php
-                                        $url = $item->img_thumbnail;
-                                        if(!Str::contains($url,'http')){
-                                            $url = Storage::url($url);
-                                        }
-                                    @endphp
-
-                                    <img src="{{$url}}" alt="" width="100px">
+                                    <img src="{{ Storage::url($item->photo_thumbs) }}" alt="" width="100px">
                                 </td>
-
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->sku}}</td>
-                                <td>{{$item->slug}}</td>
-                                <td>{{$item->category->name}}</td>
-                                <td>{{$item->brand->name}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->content}}</td>
-                                <td>{{$item->description}}</td>
+                                <td>{{ $item->user_code }}</td>
+                                <td>{{ $item->username }}</td>
+                                <td>{{ $item->password }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>{{ $item->phone }}</td>
                                 <td>
-                                    @foreach ($item->tags as $tag )
-                                        <span class="badge bg-info">{{$tag->name}}</span>
-                                    @endforeach
-
-
-                                </td>
-
-                                <td >{!!$item->is_active? '<span class="badge bg-warning">ON</span>'
-                                :'<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{!!$item->is_hot_deal ? '<span class="badge bg-success">Yes</span>'
-                                :'<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{!!$item->is_new ? '<span class="badge bg-success">Yes</span>'
-                                :'<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{!!$item->is_show_home ? '<span class="badge bg-success">Yes</span>'
-                                :'<span class="badge bg-danger">No</span>' !!}</td>
-
-                                <td>{{$item->created_at}}</td>
-                                <td>{{$item->updated_at}}</td>
-
-                                <td>
-                                    <a href="{{ route('admin.products.show',$item->id) }}" class="btn btn-info mb-2 mt-2">Detail</a> <br>
-                                    <a href="{{ route('admin.products.edit',$item->id) }}" class="btn btn-warning mb-2 mt-2">Edit</a> <br>
-                                    <form action="{{route('admin.products.destroy',$item)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button
-                                            onclick="return confirm('Chắc chắn xóa !')"
-                                            type="submit" class="btn btn-danger"
-                                        >
-                                            DELETE
-                                        </button>
-                                    </form>
-
-
+                                    <a href="{{ route('admin.users.show', $item->id) }}" class="btn btn-info mb-2">Chi
+                                        tiết</a>
+                                    <a href="{{ route('admin.users.edit', $item->id) }}"
+                                        class="btn btn-warning mb-2">Sửa</a>
+                                    <a href="{{ route('admin.users.destroy', $item->id) }}" class="btn btn-danger mb-2"
+                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
+                    {{ $data->links() }}
                 </div>
             </div>
         </div><!--end col-->

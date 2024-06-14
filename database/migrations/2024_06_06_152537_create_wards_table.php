@@ -12,10 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wands', function (Blueprint $table) {
+        Schema::create('wards', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(District::class)->constrained();
+            $table->foreignIdFor(District::class)->on('provinces')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->string('code')->unique();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wands');
+        Schema::dropIfExists('wards');
     }
 };

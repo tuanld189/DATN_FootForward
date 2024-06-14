@@ -1,10 +1,8 @@
 @extends('admin.layout.master')
 @section('title')
-    List Category Product
+    List Permissions
 @endsection
 @section('content')
-    <!-- start page title -->
-
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -25,63 +23,56 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{session('status')}}
+                    </div>
+                @endif
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Variants</h5>
-                    <a href="{{ route('admin.colors.create') }}" class="btn btn-primary mb-2 w-10">Thêm mới</a>
+                    <h5 class="card-title mb-0">List Permissions</h5>
+                    <a href="{{ url('permissions/create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
-                <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                        style="width:100%">
-                        <thead>
+                <div class="card-body mt-5">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
+                        <tr>
+                            <th scope="col" style="width: 10px;">
+                                <div class="form-check">
+                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                </div>
+                            </th>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th>
+                            <th>ACTION</th>
+                        </tr>
+                        @foreach ($permissions as $permission)
                             <tr>
-                                <th scope="col" style="width: 10px;">
+                                <td scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
-                                </th>
-                                {{-- <th data-ordering="false">SR No.</th> --}}
-                                <th data-ordering="false">ID</th>
-                                <th>NAME</th>
-                                <th>IMAGE</th>
-                                <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th>
-                                <th>ACTION</th>
+                                </td>
+                                <td>{{ $permission->id }}</td>
+                                <td>{{ $permission->name }}</td>
+                                <td>{{ $permission->created_at }}</td>
+                                <td>{{ $permission->updated_at }}</td>
+                                <td>
+                                    <a href="{{ url('permissions/'.$permission->id.'/edit') }}"
+                                        class="btn btn-warning mb-2">Sửa</a>
+                                    <a href="{{ url('permissions/'.$permission->id.'/delete') }}" class="btn btn-danger mb-2"
+                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
-                                <tr>
-                                    <td scope="row">
-                                        <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" name="checkAll"
-                                                value="option1">
-                                        </div>
-                                    </td>
-                                    <td>{{$item->id}}</td>
-                                    <td>{{$item->name}}</td>
-                                    <td>
-                                        <img src="{{ Storage::url($item->image)}}" alt="" width="100px">
-                                    </td>
-                                    <td>{{$item->created_at}}</td>
-                                    <td>{{$item->updated_at}}</td>
-                                    <td>
-                                        <a href="{{ route('admin.colors.show',$item->id) }}" class="btn btn-info mb-2 mt-2">Chi tiết</a>
-                                        <a href="{{ route('admin.colors.edit',$item->id) }}" class="btn btn-warning mb-2 mt-2">Sửa</a>
-                                        <a href="{{ route('admin.colors.destroy',$item->id) }}" class="btn btn-danger mb-2 mt-2"
-                                            onclick="return confirm('Chắc chắn chưa')"
-                                            >Xóa</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                        @endforeach
                     </table>
-                    {{ $data->links() }}
 
                 </div>
             </div>
         </div><!--end col-->
     </div><!--end row-->
 @endsection
+
 
 
 @section('style-libs')

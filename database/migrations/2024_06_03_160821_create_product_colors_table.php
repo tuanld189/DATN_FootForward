@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('product_colors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);;
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+     use HasFactory;
     protected $fillable=[
         'category_id',
         'brand_id',
@@ -15,26 +15,29 @@ class Product extends Model
         'sku',
         'slug',
         'description',
-        'status',
         'img_thumbnail',
         'price',
         'view_count',
-        'quantity',
         'content',
-        'created_at',
-        'updated_at',
+
     ];
     protected $casts=[
+        'is_active' => 'boolean',
         'is_hot_deal' => 'boolean',
         'is_new' => 'boolean',
         'is_show_home' => 'boolean',
 
 
     ];
-    public function variants()
+    public function sales()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductSale::class);
     }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
 
     public function category()
     {
@@ -48,6 +51,10 @@ class Product extends Model
     public function galleries()
     {
         return $this->hasMany(ProductGallery::class);
+    }
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 
 }
