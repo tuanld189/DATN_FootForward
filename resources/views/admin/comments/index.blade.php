@@ -1,7 +1,7 @@
 {{-- @extends('admin.layout.master') --}}
 @extends('admin.layout.master')
 @section('title')
-    List Post
+    List Comment
 @endsection
 @section('content')
     <!-- start page title -->
@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Post</h5>
-                    <a href="{{ route('admin.posts.create') }}" class="btn btn-primary mb-2 w-10">Thêm mới</a>
+                    <h5 class="card-title mb-0">List Comment</h5>
+                    <a href="{{ route('admin.comments.create') }}" class="btn btn-primary mb-2 w-10">Thêm mới</a>
                 </div>
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
@@ -41,40 +41,37 @@
                                 </th>
                                 {{-- <th data-ordering="false">SR No.</th> --}}
                                 <th data-ordering="false">ID</th>
-                                <th>NAME</th>
-                                <th>DESCRIPTION</th>
-                                <th>IMAGE</th>
-
-                                <th>CONTENT</th>
-                                <th>IS ACTIVE</th>
+                                <th>User</th>
+                                <th>Post</th>
+                                {{-- <th>Product</th> --}}
+                                <th>Content</th>
+                                {{-- <th>CREATE_BY</th>
+                                <th>UPDATE_BY</th>
+                                <th>CREATE_AT</th> --}}
+                                {{-- <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($post as $item)
+                            @foreach ($comments as $comment)
                                 <tr>
-                                    <td scope="row">
+                                    <td scope="col" style="width: 10px;">
                                         <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" name="checkAll"
-                                                value="option1">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
+                                                value="option">
                                         </div>
                                     </td>
-                                    {{-- <td>{{ $item->id }}</td> --}}
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $comment->id }}</td>
+                                    <td>{{ $comment->user->name }}</td>
+                                    <td>{{ $comment->post->name }}</td>
+                                    {{-- <td>{{ $comment->product_id }}</td> --}}
+                                    <td>{{ $comment->content }}</td>
                                     <td>
-                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
-                                            height="">
-                                    </td>
-                                    <td>{{ $item->content }}</td>
-                                    <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    <td>
-                                        <a href="{{ route('admin.posts.show', $item->id) }}"
+                                        <a href="{{ route('admin.comments.show', $comment->id) }}"
                                             class="btn btn-info mb-2">Chi tiết</a>
-                                        <a href="{{ route('admin.posts.edit', $item->id) }}"
+                                        <a href="{{ route('admin.comments.edit', $comment->id) }}"
                                             class="btn btn-warning mb-2">Sửa</a>
-                                        <a href="{{ route('admin.posts.destroy', $item->id) }}"
+                                        <a href="{{ route('admin.comments.destroy', $comment->id) }}"
                                             class="btn btn-danger mb-2"
                                             onclick="return confirm('Bạn có muốn xóa không')">Xóa</a>
                                     </td>
@@ -82,7 +79,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $post->links() }}
+                    {{-- {{ $comments->links() }} --}}
 
                 </div>
             </div>
@@ -116,8 +113,10 @@
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        DataTable('#example', {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection
