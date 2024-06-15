@@ -1,9 +1,8 @@
 @extends('admin.layout.master')
 @section('title')
-    List User
+    List Tag
 @endsection
 @section('content')
-    <!-- start page title -->
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -25,11 +24,11 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">List User</h5>
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-2">Add User</a>
+                    <h5 class="card-title mb-0">Product_Tag</h5>
+                    <a href="{{ route('admin.product_tag.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
                         <tr>
                             <th scope="col" style="width: 10px;">
                                 <div class="form-check">
@@ -37,37 +36,44 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Actions</th>
+                            <th>Tag</th>
+                            <th>Product</th>
+                            {{-- <th>NAME</th> --}}
+                            <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th>
+                            <th>ACTION</th>
                         </tr>
-                        @foreach ($users as $user)
+                        @foreach ($prd_tag as $item)
                             <tr>
                                 <td scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </td>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->email }}</td>
+                                {{-- <td>{{ $item->id }}</td> --}}
+                                <td>{{ $item->tag->name }}</td>
+                                <td>{{ $item->product->name }}</td>
+                                {{-- <td>{{ $item->name }}</td> --}}
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td>
                                 <td>
-                                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info mb-2">Chi
+                                    <a href="{{ route('admin.product_tag.show', $item->id) }}" class="btn btn-info mb-2">Chi
                                         tiết</a>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                    <a href="{{ route('admin.product_tag.edit', $item->id) }}"
                                         class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.users.destroy', $user->id) }}" class="btn btn-danger mb-2"
+                                    <a href="{{ route('admin.product_tag.destroy', $item->id) }}" class="btn btn-danger mb-2"
                                         onclick="return confirm('Chắc chắn chưa')">Xóa</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-                    {{-- {{ $data->links() }} --}}
+                    {{ $prd_tag->links() }}
                 </div>
             </div>
         </div><!--end col-->
     </div><!--end row-->
 @endsection
+
 
 
 @section('style-libs')
@@ -95,10 +101,8 @@
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example', {
-            order: [
-                [0, 'desc']
-            ]
+        DataTable('#example',{
+           order: [ [0, 'desc'] ]
         });
     </script>
 @endsection

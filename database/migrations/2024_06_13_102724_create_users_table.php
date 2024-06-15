@@ -4,9 +4,9 @@ use App\Models\AddressDetail;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Spatie\Permission\Models\Role;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(AddressDetail::class)->constrained();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
@@ -23,10 +22,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('photo_thumbs')->nullable();
             $table->longText('status');
-            $table->boolean('at_active')->default(true);
-            $table->boolean('is_admin')->default(false);//0=user, 1=admin,2 =manager;
+            $table->boolean('is_active')->default(true);
+            // $table->boolean('is_admin')->default(false);//0=user, 1=admin,2 =manager;
             $table->rememberToken();
             $table->timestamps();
+            // Định nghĩa khóa ngoại cho cột role_id
         });
     }
 

@@ -1,9 +1,8 @@
 @extends('admin.layout.master')
 @section('title')
-    List User
+    Vourcher
 @endsection
 @section('content')
-    <!-- start page title -->
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -25,11 +24,11 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">List User</h5>
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-2">Add User</a>
+                    <h5 class="card-title mb-0">Vourchers</h5>
+                    <a href="{{ route('admin.vourchers.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
                         <tr>
                             <th scope="col" style="width: 10px;">
                                 <div class="form-check">
@@ -37,37 +36,50 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Actions</th>
+                            <th>Code</th>
+                            <th>Discount</th>
+                            <th>Description</th>
+                            <th>Start_date</th>
+                            <th>End_date</th>
+                            <th>IS_ACTIVE</th>
+                            <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th>
+                            <th>ACTION</th>
                         </tr>
-                        @foreach ($users as $user)
+                        @foreach ($vourchers as $item)
                             <tr>
                                 <td scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </td>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->code }}</td>
+                                <td>{{ $item->discount }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
+                                <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td>
                                 <td>
-                                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info mb-2">Chi
+                                    <a href="{{ route('admin.vourchers.show', $item->id) }}" class="btn btn-info mb-2">Chi
                                         tiết</a>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                    <a href="{{ route('admin.vourchers.edit', $item->id) }}"
                                         class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.users.destroy', $user->id) }}" class="btn btn-danger mb-2"
+                                    <a href="{{ route('admin.vourchers.destroy', $item->id) }}" class="btn btn-danger mb-2"
                                         onclick="return confirm('Chắc chắn chưa')">Xóa</a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-                    {{-- {{ $data->links() }} --}}
+                    {{ $vourchers->links() }}
                 </div>
             </div>
         </div><!--end col-->
     </div><!--end row-->
 @endsection
+
 
 
 @section('style-libs')
@@ -95,10 +107,8 @@
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example', {
-            order: [
-                [0, 'desc']
-            ]
+        DataTable('#example',{
+           order: [ [0, 'desc'] ]
         });
     </script>
 @endsection
