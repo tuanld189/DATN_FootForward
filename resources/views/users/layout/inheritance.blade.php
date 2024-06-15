@@ -30,7 +30,53 @@
     <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+<style>
 
+#variantForm {
+    margin-bottom: 20px;
+}
+
+.custom-control {
+    margin-right: 15px;
+}
+
+.custom-control-label {
+    cursor: pointer;
+}
+
+.custom-radio input:checked + .custom-control-label {
+    border: 2px solid #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.custom-control-label:hover {
+    color: #007bff;
+}
+
+#quantity {
+    text-align: center;
+    font-size: 18px;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .custom-control-label {
+        font-size: 14px;
+    }
+}
+    </style>
 </head>
 
 <body>
@@ -225,6 +271,8 @@
     <script src="{{ asset('js/gmaps.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
 
+
+    @yield('script')
 </body>
 
 </html>
