@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($post as $item)
+                            @foreach ($posts as $item)
                                 <tr>
                                     <td scope="row">
                                         <div class="form-check">
@@ -82,7 +82,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $post->links() }}
+                    {{ $posts->links() }}
 
                 </div>
             </div>
