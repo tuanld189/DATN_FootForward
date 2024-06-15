@@ -46,8 +46,8 @@
                             <th>CATEGORY</th>
                             <th>BRAND</th>
                             <th>PRICE</th>
-                            <th>SHORT CONTENT</th>
-                            <th>DESCRIPTION</th>
+                            {{-- <th>SHORT CONTENT</th>
+                            <th>DESCRIPTION</th> --}}
                             <th>TAGS</th>
                             <th>ACTIVE</th>
                             <th>HOT_DEAL</th>
@@ -83,8 +83,8 @@
                                 <td>{{$item->category->name}}</td>
                                 <td>{{$item->brand->name}}</td>
                                 <td>{{$item->price}}</td>
-                                <td>{{$item->content}}</td>
-                                <td>{{$item->description}}</td>
+                                {{-- <td>{{$item->content}}</td>
+                                <td>{{$item->description}}</td> --}}
                                 <td>
                                     @foreach ($item->tags as $tag )
                                         <span class="badge bg-info">{{$tag->name}}</span>

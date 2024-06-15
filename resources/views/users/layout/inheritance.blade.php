@@ -76,6 +76,123 @@
         font-size: 14px;
     }
 }
+
+/* New styles added */
+.product_image_area {
+    margin-top:20px;
+}
+
+.s_Product_carousel {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.single-prd-item {
+    flex: 0 0 20%; /* Adjust width as needed */
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.single-prd-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.s_product_text {
+    margin-top: 20px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.list li {
+    margin-bottom: 10px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.primary-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+    width:200px;
+    vertical-align: middle;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.icon_btn {
+    margin-left: 10px;
+    color: #333;
+}
+
+.icon_btn i {
+    font-size: 20px;
+}
+
+.card_area {
+    margin-top: 20px;
+}
+
+.product_detail_row {
+    display: flex;
+    height:70px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Khoảng cách dưới cùng */
+    background-color: orange;
+    transition: background-color 0.3s ease;
+    opacity: 85%;
+}
+
+.product_detail_title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
+
     </style>
 </head>
 

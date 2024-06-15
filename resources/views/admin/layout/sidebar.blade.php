@@ -59,10 +59,6 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.posts.index') }}" class="nav-link" data-key="t-horizontal">Posts</a>
                             </li>
-                            {{-- Tags --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.tags.index') }}" class="nav-link" data-key="t-horizontal">Tags</a>
-                            </li>
                             {{-- Banners --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.banners.index') }}" class="nav-link" data-key="t-horizontal">Banners</a>
@@ -78,6 +74,9 @@
                             {{-- Roles --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.roles.index') }}" class="nav-link" data-key="t-horizontal">Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Sales</a>
                             </li>
                         </ul>
                     </div>

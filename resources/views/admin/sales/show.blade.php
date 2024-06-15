@@ -1,42 +1,72 @@
 @extends('admin.layout.master')
-@section('title')
-    Detail Sale Product: {{ $model->id }}
-@endsection
+
+@section('title', 'Sale Detail')
+
 @section('content')
 
-<h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;"> <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')</h3>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">SALE DETAIL</h4>
 
-<table class="table">
-    <tr>
-        <th>Field</th>
-        <th>Value</th>
-    </tr>
-    <tr>
-        <td>ID</td>
-        <td>{{ $model->id }}</td>
-    </tr>
-    <tr>
-        <td>Product</td>
-        <td>{{ $model->product->name }}</td>
-    </tr>
-    <tr>
-        <td>Sale Price</td>
-        <td>{{ $model->sale_price}}</td>
-    </tr>
-    <tr>
-        <td>Start Date</td>
-        <td>{{ $model->start_date }}</td>
-    </tr>
-    <tr>
-        <td>End Date</td>
-        <td>{{ $model->end_date }}</td>
-    </tr>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.products.index') }}">Products</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.sales.index', $sale->product_id) }}">Sales</a></li>
+                    <li class="breadcrumb-item active">Detail</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <tr>
-        <td>Status</td>
-        <td>{!! $model->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
-    </tr>
-</table>
-<a href="{{ route('admin.products.sales.index', $model->id) }}" class="btn btn-warning mt-3">BACK TO LIST</a>
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0"><b>SALE DETAIL PRODUCT : {{ $sale->product->name }}</b></h5>
+                <a href="{{ route('admin.sales.index', $sale->product_id) }}" class="btn btn-primary mb-2">Back to List</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ $sale->id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Product</th>
+                        <td>{{ $sale->product->name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sale Price</th>
+                        <td>{{ $sale->sale_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Start Date</th>
+                        <td>{{ $sale->start_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>End Date</th>
+                        <td>{{ $sale->end_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+
+                        <td>{!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
+                    </tr>
+                    <tr>
+                        <th>Created At</th>
+                        <td>{{ $sale->created_at }}</td>
+                    </tr>
+                    <tr>
+                        <th>Updated At</th>
+                        <td>{{ $sale->updated_at }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div><!-- end col -->
+</div><!-- end row -->
 @endsection

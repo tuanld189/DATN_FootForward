@@ -1,80 +1,85 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductSale;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 class ProductSaleController extends Controller
 {
-    protected function isValidDate($date)
+    public function index()
     {
-        return strtotime($date) !== false;
+        $sales = ProductSale::all();
+        return view('admin.sales.index', compact('sales'));
     }
-    public function index($productId)
+
+    public function create()
     {
-        $product = Product::findOrFail($productId);
-        $sales = $product->sales;
-        return view('admin.sales.index', compact('product', 'sales'));
+        $products = Product::all();
+        return view('admin.sales.create', compact('products'));
     }
 
-    public function create($productId)
-    {
-        $product = Product::findOrFail($productId);
-        return view('admin.sales.create', compact('product'));
-    }
-
-    public function store(Request $request, $productId)
-{
-    $request->validate([
-        'sale_price' => 'required|numeric',
-        'start_date' => 'nullable|date',
-        'end_date' => 'nullable|date|after:start_date',
-        'status' => 'boolean'
-    ]);
-
-   
-    $product = Product::findOrFail($productId);
-    $product->sales()->create($request->all());
-
-    return redirect()->route('admin.products.sales.index', $productId)
-                     ->with('success', 'Sale price added successfully.');
-    }
-
-    public function show($id)
-    {
-        $model = ProductSale::findOrFail($id);
-        return view('admin.sales.show', compact('model'));
-    }
-    public function edit($productId, $id)
-{
-    $sale = ProductSale::findOrFail($id);
-    return view('admin.products.sales.edit', compact('sale', 'productId')); // Sửa đổi tên view ở đây
-}
-
-    public function update(Request $request, $productId, $id)
+    public function store(Request $request)
     {
         $request->validate([
+            'product_id' => 'required|exists:products,id',
             'sale_price' => 'required|numeric',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after:start_date',
-            'status' => 'boolean'
+            'status' => 'required|boolean',
+        ], [
+            'end_date.after' => 'End Date must be a date after Start Date.',
         ]);
 
-        $sale = ProductSale::findOrFail($id);
-        $sale->update($request->all());
+        ProductSale::create([
+            'product_id' => $request->product_id,
+            'sale_price' => $request->sale_price,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+        ]);
 
-        return redirect()->route('admin.products.sales.index', $productId)
-                         ->with('success', 'Sale price updated successfully.');
+        return redirect()->route('admin.sales.index');
     }
 
-    public function destroy($productId, $id)
+    public function show(ProductSale $sale)
     {
-        $sale = ProductSale::findOrFail($id);
-        $sale->delete();
+        return view('admin.sales.show', compact('sale'));
+    }
+    public function edit(ProductSale $sale)
+    {
+        $products = Product::all();
+        return view('admin.sales.edit', compact('sale', 'products'));
+    }
 
-        return redirect()->route('admin.products.sales.index', $productId)
-                         ->with('success', 'Sale price deleted successfully.');
+    public function update(Request $request, ProductSale $sale)
+{
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'sale_price' => 'required|numeric',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date|after:start_date',
+        'status' => 'nullable|boolean',
+    ]);
+
+    $sale->update([
+        'product_id' => $request->product_id,
+        'sale_price' => $request->sale_price,
+        'start_date' => $request->start_date,
+        'end_date' => $request->end_date,
+        'status' => $request->has('status') ? true : false,
+    ]);
+
+    return redirect()->route('admin.sales.index');
+}
+    public function destroy(ProductSale $sale)
+    {
+        $sale->delete();
+        return redirect()->route('admin.sales.index');
     }
 }
