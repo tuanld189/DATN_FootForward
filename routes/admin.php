@@ -5,9 +5,9 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
@@ -70,7 +70,7 @@ Route::prefix('admin')
 
         //POST
 
-        Route::prefix('post')
+        Route::prefix('posts')
             ->as('posts.')
             ->group(function () {
                 Route::get('/', [PostController::class, 'index'])->name('index');
@@ -110,13 +110,14 @@ Route::prefix('admin')
         Route::prefix('roles')
             ->as('roles.')
             ->group(function () {
-            Route::get('/', [RoleController::class, 'index'])->name('index');
-            Route::get('create', [RoleController::class, 'create'])->name('create');
-            Route::post('store', [RoleController::class, 'store'])->name('store');
-            Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+            Route::get('/', [PermissionController::class, 'index'])->name('index');
+            Route::get('create', [PermissionController::class, 'create'])->name('create');
+            Route::post('store', [PermissionController::class, 'store'])->name('store');
+            Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+
         });
         //USERS
         Route::prefix('users')
