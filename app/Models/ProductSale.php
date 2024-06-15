@@ -19,7 +19,9 @@ class ProductSale extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
     protected $casts=[
         'status' => 'boolean',
     ];
+
 }
