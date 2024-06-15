@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -40,6 +41,8 @@ class PostController extends Controller
             $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
         }
 
+        // $data['created_by'] = Auth::id();
+        // $data['updated_by'] = Auth::id();
         Post::create($data);
 
         return redirect()->route('admin.posts.index')
@@ -79,7 +82,7 @@ class PostController extends Controller
             }
             $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
         }
-
+        // $data['updated_by'] = Auth::id();
         $model->update($data);
 
         return redirect()->route('admin.posts.index')
