@@ -51,10 +51,13 @@ Route::prefix('admin')
             Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
         });
-  
+
 
         //PRODUCT
         Route::resource('products', ProductController::class);
+<<<<<<<<< Temporary merge branch 1
+
+=========
 
 
         // PRODUCT-SALE
@@ -67,6 +70,7 @@ Route::prefix('admin')
             Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
             Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
         });
+>>>>>>>>> Temporary merge branch 2
 
         //POST
 
@@ -96,6 +100,18 @@ Route::prefix('admin')
 
         //PERMISSION
         Route::prefix('permissions')
+<<<<<<<<< Temporary merge branch 1
+            ->as('permissions.')
+            ->group(function () {
+            Route::get('/', [PermissionController::class, 'index'])->name('index');
+            Route::get('create', [PermissionController::class, 'create'])->name('create');
+            Route::post('store', [PermissionController::class, 'store'])->name('store');
+            Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+        });
+=========
         ->as('permissions.')
         ->group(function () {
         Route::get('/', [PermissionController::class, 'index'])->name('index');
@@ -106,6 +122,7 @@ Route::prefix('admin')
         Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
         Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
          });
+>>>>>>>>> Temporary merge branch 2
         //PERMISSION
         Route::prefix('roles')
             ->as('roles.')
