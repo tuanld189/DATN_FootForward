@@ -18,7 +18,6 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::prefix('admin')
     ->as('admin.')
     // ->middleware(['wed', 'is_admin'])
@@ -56,9 +55,6 @@ Route::prefix('admin')
             Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
         });
-
-
-
         //Tag
         Route::prefix('tags')
             ->as('tags.')
@@ -72,6 +68,11 @@ Route::prefix('admin')
             Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
         });
 
+
+
+        //PRODUCT
+        Route::resource('products', ProductController::class);
+       
 
         //POST
 
