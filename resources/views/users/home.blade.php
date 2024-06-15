@@ -192,11 +192,11 @@
                         <div class="col-lg-3 col-md-6">
 
                             <div class="single-product">
-                                <a href="{{ route('users.show', $product->id) }}"><img class="img-fluid" src="{{ Storage::url($product->image) }}" alt=""></a>
+                                <a href="{{ route('users.show', $product->id) }}"><img class="img-fluid" src="{{ Storage::url($product->img_thumbnail) }}" alt=""></a>
                                 <div class="product-details">
                                     <h6>{{ $product->name }}</h6>
                                     <div class="price">
-                                        <h6>{{ $product->price }}</h6>
+                                        <h6>{{ $product->price }}$</h6>
                                         {{-- <h6 class="l-through">$210.00</h6> --}}
                                     </div>
                                     <div class="prd-bottom">
@@ -393,19 +393,19 @@
         <div class="container">
             <div class="row">
                 <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('img/brand/1.png') }}" alt="">
+                    <img class="img-fluid d-block mx-auto" src="{{ asset('images/brand/1.png') }}" alt="">
                 </a>
                 <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('img/brand/2.png') }}" alt="">
+                    <img class="img-fluid d-block mx-auto" src="{{ asset('images/brand/2.png') }}" alt="">
                 </a>
                 <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('img/brand/3.png') }}" alt="">
+                    <img class="img-fluid d-block mx-auto" src="{{ asset('images/brand/3.png') }}" alt="">
                 </a>
                 <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('img/brand/4.png') }}" alt="">
+                    <img class="img-fluid d-block mx-auto" src="{{ asset('images/brand/4.png') }}" alt="">
                 </a>
                 <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('img/brand/5.png') }}" alt="">
+                    <img class="img-fluid d-block mx-auto" src="{{ asset('images/brand/5.png') }}" alt="">
                 </a>
             </div>
         </div>
@@ -430,9 +430,37 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                             <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('images/r1.jpg') }}" alt=""></a>
+                                <a href="#"><img src="{{ asset('images/product/p1.jpg') }}" width="50px" alt=""></a>
                                 <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
+                                    <a href="#" class="title">Gray Sneaker Hot 2024</a>
+                                    <div class="price">
+                                        <h6>$189.00</h6>
+                                        <h6 class="l-through">$210.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                            <div class="single-related-product d-flex">
+                                <a href="#"><img src="{{ asset('images/product/p1.jpg') }}" width="50px" alt=""></a>
+                                <div class="desc">
+                                    <a href="#" class="title">Gray Sneaker Hot 2024</a>
+                                    <div class="price">
+                                        <h6>$189.00</h6>
+                                        <h6 class="l-through">$210.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                            <div class="single-related-product d-flex">
+                                <a href="#"><img src="{{ asset('images/product/p1.jpg') }}" width="50px" alt=""></a>
+                                <div class="desc">
+                                    <a href="#" class="title">Gray Sneaker Hot 2024</a>
                                     <div class="price">
                                         <h6>$189.00</h6>
                                         <h6 class="l-through">$210.00</h6>
