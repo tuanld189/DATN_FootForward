@@ -24,7 +24,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Role</h5>
+                    <h5 class="card-title mb-0">List Role</h5>
                     <a href="{{ route('admin.roles.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
@@ -36,12 +36,12 @@
                                 </div>
                             </th>
                             <th>ID</th>
-                            <th>ROLE</th>
+                            <th>PERMISSION</th>
                             <th>NAME</th>
                             <th>DESCRIPTION</th>
                             <th>Is Active</th>
-                            <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th>
+                            {{-- <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th> --}}
                             <th>ACTION</th>
                         </tr>
                         @foreach ($roles as $role)
@@ -64,8 +64,8 @@
                                 <td>{!! $role->is_active
                                     ? '<span class="badge bg-success">Yes</span>'
                                     : '<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{{ $role->created_at }}</td>
-                                <td>{{ $role->updated_at }}</td>
+                                {{-- <td>{{ $role->created_at }}</td>
+                                <td>{{ $role->updated_at }}</td> --}}
                                 <td>
                                     {{-- <a href="{{ route('admin.roles.show', $permission->id) }}"
                                         class="btn btn-info mb-2">Chi

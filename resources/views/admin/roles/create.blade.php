@@ -28,6 +28,7 @@
                     <label for="description" class="form-label">Description:</label><br>
                     <textarea id="description" class="form-control" name="description"></textarea>
                 </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
             <div class="col-md-6">
                 <div class="mb-3 mt-3">
@@ -35,7 +36,9 @@
                         <input class="form-check-input" type="checkbox" value="1" checked name="is_active">Is Active
                     </label>
                 </div>
+
             </div>
+
 
         </div>
 

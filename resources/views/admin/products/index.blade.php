@@ -53,8 +53,8 @@
                             <th>HOT_DEAL</th>
                             <th>NEW</th>
                             <th>SHOW_HOME</th>
-                            <th>CREATE AT</th>
-                            <th>UPDATE AT</th>
+                            {{-- <th>CREATE AT</th>
+                            <th>UPDATE AT</th> --}}
                             <th>ACTION</th>
                         </tr>
                         @foreach ($data as $item)
@@ -102,8 +102,8 @@
                                 <td>{!!$item->is_show_home ? '<span class="badge bg-success">Yes</span>'
                                 :'<span class="badge bg-danger">No</span>' !!}</td>
 
-                                <td>{{$item->created_at}}</td>
-                                <td>{{$item->updated_at}}</td>
+                                {{-- <td>{{$item->created_at}}</td>
+                                <td>{{$item->updated_at}}</td> --}}
 
                                 <td>
                                     <a href="{{ route('admin.products.show',$item->id) }}" class="btn btn-info mb-2 mt-2">Detail</a> <br>
