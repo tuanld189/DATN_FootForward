@@ -125,7 +125,6 @@ class ProductController extends Controller
         $tags = Tag::query()->pluck('name', 'id')->all();
         return view(self::PATH_VIEW . __FUNCTION__, compact(['product', 'categories', 'brands', 'colors', 'sizes', 'tags']));
     }
-
     public function update(Request $request, $id)
     {
         $dataProduct = $request->except(['product_variants', 'tags', 'product_galleries']);
@@ -190,7 +189,7 @@ class ProductController extends Controller
 
             // Update Product Variants
             foreach ($dataProductVariants as $dataProductVariant) {
-                $variant = $product->variants()->updateOrCreate(
+                $product->variants()->updateOrCreate(
                     ['product_size_id' => $dataProductVariant['product_size_id'], 'product_color_id' => $dataProductVariant['product_color_id']],
                     $dataProductVariant
                 );
@@ -199,20 +198,38 @@ class ProductController extends Controller
             // Sync Tags
             $product->tags()->sync($dataProductTags);
 
-            // Add new galleries without deleting existing ones
-            foreach ($dataProductGalleries as $image) {
-                ProductGallery::create([
-                    'product_id' => $product->id,
-                    'image' => Storage::put('products', $image)
-                ]);
+            // Handle Galleries
+            $existingGalleries = $product->galleries()->get();
+
+            // Process each gallery input
+            foreach ($dataProductGalleries as $index => $image) {
+                // Check if a new image is uploaded for this index
+                if ($image) {
+                    // If existing gallery exists for this index, update it
+                    if (isset($existingGalleries[$index])) {
+                        // Delete old image if updating
+                        if ($existingGalleries[$index]->image) {
+                            Storage::delete($existingGalleries[$index]->image);
+                        }
+                        // Update image for existing gallery
+                        $existingGalleries[$index]->image = Storage::put('products', $image);
+                        $existingGalleries[$index]->save();
+                    } else {
+                        // If no existing gallery, create a new one
+                        ProductGallery::create([
+                            'product_id' => $product->id,
+                            'image' => Storage::put('products', $image)
+                        ]);
+                    }
+                }
             }
 
             DB::commit();
-            return redirect()->route('admin.products.index');
+            return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
             dd($exception->getMessage());
-            return back();
+            return back()->withErrors(['error' => 'Something went wrong!']);
         }
     }
     public function destroy(Product $product)

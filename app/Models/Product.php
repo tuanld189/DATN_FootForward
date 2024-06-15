@@ -31,7 +31,7 @@ class Product extends Model
     ];
     public function sales()
     {
-        return $this->hasMany(ProductSale::class);
+        return $this->hasOne(ProductSale::class);
     }
     public function tags()
     {

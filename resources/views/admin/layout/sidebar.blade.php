@@ -75,9 +75,14 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.roles.index') }}" class="nav-link" data-key="t-horizontal">Roles</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Sales</a>
+
                              {{-- Comments --}}
                              <li class="nav-item">
                                 <a href="{{ route('admin.comments.index') }}" class="nav-link" data-key="t-horizontal">Comment</a>
+
                             </li>
                         </ul>
                     </div>

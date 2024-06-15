@@ -1,19 +1,16 @@
 <?php
-
-
+namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PostController;
-
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\VourcherController;
-use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
 
@@ -72,6 +69,18 @@ Route::prefix('admin')
         //PRODUCT
         Route::resource('products', ProductController::class);
 
+
+        // PRODUCT-SALE
+        Route::prefix('sales')->as('sales.')->group(function () {
+            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
+            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit'); // Fixed this line
+            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
+            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
+        });
+
         //POST
 
         Route::prefix('posts')
@@ -109,6 +118,7 @@ Route::prefix('admin')
             Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
             Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+
         });
         //USERS
         Route::prefix('users')

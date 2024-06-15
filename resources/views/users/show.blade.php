@@ -4,6 +4,9 @@
 
 <div class="product_image_area">
     <div class="container">
+        <div class="product_detail_row">
+            <h3 class="product_detail_title">Product Detail</h3>
+        </div>
         <div class="row s_product_inner">
             <div class="col-lg-6">
                 <div class="s_Product_carousel">
@@ -14,19 +17,26 @@
                     @endforeach
                 </div>
                 <hr>
-                <div> <span style="color:black;">Mô tả:</span> {{ $product->description }}</div>
+                <div> <span style="color:black;">Mô tả: <br></span> {{ $product->description }}</div>
             </div>
 
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3>{{ $product->name }}</h3>
-                    <h2>{{ $product->price }} $</h2>
-                    <ul class="list">
-                        <li><a class="active" href="#"><span>Category </span> :{{ $product->category->name }}</a></li>
-                        <li><a class="active" href="#"><span>Availability</span> : In Stock</a></li>
-                        <li>{{ $product->content }}</li>
-                    </ul>
 
+                    <h3>{{ $product->name }}</h3>
+                    <div>
+                    @if (!is_null($salePrice))
+                        <del>{{ $product->price }} $</del>  <br> <h2>{{ $salePrice }} $<h2>
+                    @else
+                        <h2>{{ $product->price }} $</h2>
+                    @endif
+                        </div>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Sku </span> :{{ $product->sku }}</a></li>
+                        <li><a class="active" href="#"><span>Category </span> :{{ $product->category->name }}</a></li>
+                        <li><a class="active" href="#"><span>Brand</span> : {{ $product->brand->name }}</a></li>
+                    </ul>
+                    <div>{{ $product->content }}</div>
                     <hr>
 
                     <!-- Product Details Section -->
@@ -34,33 +44,45 @@
                         <form id="variantForm">
                             @csrf
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="color">Color:</label>
-                                    <div class="d-flex flex-wrap">
-                                        @foreach ($product->variants as $variant)
-                                            @if ($variant->image)
-                                                <div class="custom-control custom-radio mr-3 mb-2">
-                                                    <input type="radio" id="color{{ $variant->color->id }}"
-                                                           name="color" value="{{ $variant->color->id }}"
-                                                           class="custom-control-input"
-                                                           data-gallery="{{ $variant->gallery_id }}"
-                                                           onchange="updateGalleryImage()">
-                                                    <label class="custom-control-label"
-                                                           for="color{{ $variant->color->id }}"> {{ $variant->color->name }}
-                                                        <img src="{{ Storage::url($variant->image) }}" alt="{{ $variant->color->name }}"
-                                                             style="width: 40px; height: 40px; object-fit: cover;">
-                                                    </label>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
+                            <div class="form-group">
+                                <label for="color">Color:</label>
+                                <div class="d-flex flex-wrap">
+                                    @php
+                                        $displayedColors = [];
+                                    @endphp
+                                    @foreach ($product->variants as $variant)
+                                        @if ($variant->image && !in_array($variant->color->id, $displayedColors))
+                                            @php
+                                                $displayedColors[] = $variant->color->id;
+                                            @endphp
+                                            <div class="custom-control custom-radio mr-3 mb-2">
+                                                <input type="radio" id="color{{ $variant->color->id }}"
+                                                       name="color" value="{{ $variant->color->id }}"
+                                                       class="custom-control-input"
+                                                       data-gallery="{{ $variant->gallery_id }}"
+                                                       onchange="updateQuantity()">
+                                                <label class="custom-control-label"
+                                                       for="color{{ $variant->color->id }}"> {{ $variant->color->name }}
+                                                    <img src="{{ Storage::url($variant->image) }}" alt="{{ $variant->color->name }}"
+                                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
+                            </div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="size">Size:</label>
-                                    <div class="d-flex flex-wrap">
-                                        @foreach ($product->variants->unique('product_size_id') as $variant)
+                            <div class="form-group ">
+                                <label for="size">Size:</label>
+                                <div class="d-flex flex-wrap">
+                                    @php
+                                        $displayedSizes = [];
+                                    @endphp
+                                    @foreach ($product->variants as $variant)
+                                        @if (!in_array($variant->size->id, $displayedSizes))
+                                            @php
+                                                $displayedSizes[] = $variant->size->id;
+                                            @endphp
                                             <div class="custom-control custom-radio mr-3 mb-2">
                                                 <input type="radio" id="size{{ $variant->size->id }}"
                                                        name="size" value="{{ $variant->size->id }}"
@@ -69,8 +91,8 @@
                                                 <label class="custom-control-label"
                                                        for="size{{ $variant->size->id }}">{{ $variant->size->name }}</label>
                                             </div>
-                                        @endforeach
-                                    </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -95,6 +117,8 @@
         </div>
     </div>
 </div>
+
+
 <!--================End Single Product Area =================-->
 
 <!--================Product Description Area =================-->
@@ -563,7 +587,7 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    function updateQuantity() {
+     function updateQuantity() {
         var colorId = $('input[name="color"]:checked').val();
         var sizeId = $('input[name="size"]:checked').val();
 
@@ -588,10 +612,14 @@
         } else {
             $('#quantity').val('');
         }
-
-
-
     }
+
+    // Bổ sung hàm để cập nhật số lượng khi thay đổi màu sắc
+    $('input[name="color"]').change(function() {
+        updateQuantity();
+    });
+
+    // Hàm cập nhật ảnh gallery khi thay đổi màu sắc
     function updateGalleryImage() {
         var colorId = $('input[name="color"]:checked').val();
         var galleryId = $('input[name="color"]:checked').data('gallery');
