@@ -17,7 +17,6 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::prefix('admin')
     ->as('admin.')
     // ->middleware(['wed', 'is_admin'])
@@ -55,9 +54,6 @@ Route::prefix('admin')
             Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
         });
-
-
-
         //Tag
         Route::prefix('tags')
             ->as('tags.')
@@ -75,7 +71,6 @@ Route::prefix('admin')
 
         //PRODUCT
         Route::resource('products', ProductController::class);
-
 
         //POST
 
@@ -114,18 +109,6 @@ Route::prefix('admin')
             Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
             Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
-        });
-        //PERMISSION
-        Route::prefix('roles')
-            ->as('roles.')
-            ->group(function () {
-            Route::get('/', [RoleController::class, 'index'])->name('index');
-            Route::get('create', [RoleController::class, 'create'])->name('create');
-            Route::post('store', [RoleController::class, 'store'])->name('store');
-            Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
         });
         //USERS
         Route::prefix('users')
