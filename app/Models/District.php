@@ -11,8 +11,18 @@ class District extends Model
     protected $fillable=[
 
         'name',
-
+        'code',
+        'province_id',
         'created_at',
         'updated_at',
     ];
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function wards()
+    {
+        return $this->hasMany(Ward::class);
+    }
 }

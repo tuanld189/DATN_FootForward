@@ -67,6 +67,9 @@
                                 <li class="nav-item">
                                     <a href="{{ route('admin.banners.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Banners</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.users.index') }}" target="_blank" class="nav-link" data-key="t-horizontal">Users</a>
+                                </li>
                             </ul>
                         </div>
                     </li> <!-- end Dashboard Menu -->
