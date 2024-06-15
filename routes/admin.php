@@ -6,8 +6,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\ProductGalleryController;
-use App\Http\Controllers\Admin\ProductVariantController;
+
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
@@ -73,9 +72,14 @@ Route::prefix('admin')
         });
 
 
+
+        //PRODUCT
+        Route::resource('products', ProductController::class);
+
+
         //POST
 
-        Route::prefix('post')
+        Route::prefix('posts')
             ->as('posts.')
             ->group(function () {
                 Route::get('/', [PostController::class, 'index'])->name('index');

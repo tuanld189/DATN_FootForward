@@ -16,9 +16,8 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $post=Post::query()->latest('id')->paginate(5);
-        return view(self::PATH_VIEW . 'index', compact('post'));
+    { $posts = Post::query()->latest('id')->paginate(5);
+        return view(self::PATH_VIEW . 'index', compact('posts'));
     }
 
     /**

@@ -30,7 +30,68 @@
     <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <style>
+        .banner-area {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            /* Or desired height */
+            background-color: white;
+            /* White background color */
+            overflow: hidden;
+        }
 
+        .banner-area::before,
+        .banner-area::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(to bottom right, #ff4500, #ffd700);
+            transform: skewX(-45deg);
+        }
+
+        .banner-area::before {
+            top: -10%;
+            left: 20%;
+            width: 100%;
+            height: 120%;
+        }
+
+        .banner-area::after {
+            top: 20%;
+            left: 60%;
+            width: 80%;
+            height: 80%;
+        }
+
+        .line {
+            position: absolute;
+            background: linear-gradient(to bottom right, #ff4500, #ffd700);
+            transform: skewX(-45deg);
+        }
+
+        .line:nth-child(1) {
+            top: 60%;
+            left: 25%;
+            width: 10%;
+            height: 15%;
+        }
+
+        .line:nth-child(2) {
+            top: 65%;
+            left: 35%;
+            width: 8%;
+            height: 15%;
+        }
+
+        .line:nth-child(3) {
+            top: 70%;
+            left: 45%;
+            width: 6%;
+            height: 15%;
+        }
+    </style>
+
+    <body>
 </head>
 
 <body>
@@ -41,7 +102,7 @@
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="index.html"><img src="{{asset('images/logo_ff.png  ')}}" alt=""></a>
+                    <a class="navbar-brand logo_h" href="{{route('users.home')}}"><img src="{{asset('images/logo_ff.png  ')}}" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -52,12 +113,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{{route('users.home')}}">Home</a></li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false">Shop</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="">Shop Category</a></li>
                                     <li class="nav-item"><a class="nav-link" href="single-product.html">Product
                                             Details</a></li>
                                     <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a>
@@ -77,22 +138,20 @@
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
-                                    role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/tracking') }}">Tracking</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('/elements') }}">Elements</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item"><a href="#" class="cart"><span class="fal fa-shopping-bag"></span></a>
+                            <li class="nav-item"><a href="#" class="cart"><span class="fal fa-shopping-bag"><img src="{{ asset('images/Imagecut/Giohang.png') }}" alt=""></span></a>
                             </li>
                             <li class="nav-item">
-                                <button class="search"><span class="lnr lnr-magnifier"
-                                        id="search"></span></button>
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"><img src="{{ asset('images/Imagecut/Timkiem.png') }}" alt=""></span></button>
                             </li>
                         </ul>
                     </div>
@@ -225,6 +284,8 @@
     <script src="{{ asset('js/gmaps.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
 
+
+    @yield('script')
 </body>
 
 </html>
