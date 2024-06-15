@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -15,18 +14,20 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::latest('id')->get();
+        $users = User::all(); // Lấy danh sách tất cả người dùng
         return view('admin.users.index', compact('users'));
     }
+
     public function show($id)
     {
         $user = User::findOrFail($id);
         return view('admin.users.show', compact('user'));
     }
+
     public function create()
     {
         $roles = Role::all();
-        return view('admin.users.index', compact('roles'));
+        return view('admin.users.create', compact('roles'));
     }
 
     public function store(Request $request)

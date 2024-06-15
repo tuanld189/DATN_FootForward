@@ -39,8 +39,8 @@
                             <th>NAME</th>
                             <th>DESCRIPTION</th>
                             <th>Is Active</th>
-                            <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th>
+                            {{-- <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th> --}}
                             <th>ACTION</th>
                         </tr>
                         @foreach ($permissions as $permission)
@@ -56,8 +56,8 @@
                                     {{ $permission->description }}
                                 </td>
                                 <td>{!! $permission->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{{ $permission->created_at }}</td>
-                                <td>{{ $permission->updated_at }}</td>
+                                {{-- <td>{{ $permission->created_at }}</td>
+                                <td>{{ $permission->updated_at }}</td> --}}
                                 <td>
                                     <a href="{{ route('admin.permissions.show', $permission->id) }}" class="btn btn-info mb-2">Chi
                                         tiết</a>
