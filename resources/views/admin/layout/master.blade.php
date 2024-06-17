@@ -25,7 +25,9 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
-          @yield('style-index');
+         th,td{
+            text-align: center ;
+         }
     </style>
 </head>
 

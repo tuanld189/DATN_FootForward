@@ -6,16 +6,58 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductSale;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $products = Product::all(); // Lấy tất cả sản phẩm
-        $categories = Category::all(); // Lấy tất cả danh mục
-        $brands = Brand::all(); // Lấy tất cả thương hiệu
-        return view('users.show', compact('product', 'categories', 'brands'));
+        $product = Product::with([
+            'galleries',
+            'variants' => function ($query) {
+                $query->whereNotNull('image');
+            },
+            'variants.color',
+            'variants.size'
+        ])->findOrFail($id);
+
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        // Logic để lấy giá sale nếu có
+        $salePrice = null;
+
+        $today = now()->format('Y-m-d');
+        $sale = ProductSale::where('product_id', $product->id)
+                           ->where('status', true)
+                           ->where('start_date', '<=', $today)
+                           ->where('end_date', '>=', $today)
+                           ->latest()
+                           ->first();
+
+        if ($sale) {
+            $salePrice = $sale->sale_price;
+        }
+
+        return view('users.show', compact('product', 'categories', 'brands', 'salePrice'));
+    }
+    public function getProductQuantity(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $colorId = $request->input('product_color_id');
+        $sizeId = $request->input('product_size_id');
+
+        $variant = ProductVariant::where('product_id', $productId)
+            ->where('product_color_id', $colorId)
+            ->where('product_size_id', $sizeId)
+            ->first();
+
+        if ($variant) {
+            return response()->json(['quantity' => $variant->quantity]);
+        }
+
+        return response()->json(['quantity' => 0]);
     }
 }

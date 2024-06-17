@@ -16,11 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->boolean('status')->default(true);
             $table->longText('content')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();
+            // $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            // $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
 
             // Nếu bạn có bảng users và muốn thiết lập khóa ngoại

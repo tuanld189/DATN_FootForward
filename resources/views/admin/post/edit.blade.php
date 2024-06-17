@@ -25,13 +25,6 @@
                     @endif
                 </div>
                 <div class="mb-3 mt-3">
-                    <label for="status" class="form-label">Status:</label>
-                    <select class="form-control" id="" name="status" required>
-                        <option value="1" {{ $model->status == 1 ? 'selected' : '' }}>Active</option>
-                        <option value="0" {{ $model->status == 0 ? 'selected' : '' }}>Inactive</option>
-                    </select>
-                </div>
-                <div class="mb-3 mt-3">
                     <label for="description" class="form-label">Content:</label>
                     <textarea class="form-control" id="content" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
                 </div>

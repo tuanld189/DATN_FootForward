@@ -1,19 +1,8 @@
 @extends('admin.layout.master')
-@section('title')
-    UPDATE PRODUCT: {{ $model->name }}
-@endsection
+
+
+
 @section('content')
-    <h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;"> <img
-            src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')</h3>
-
-    <form action="{{ route('admin.products.update', $model->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-
-        Edit Product
-    @endsection
-
-    @section('content')
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -33,150 +22,60 @@
             @csrf
             @method('PUT')
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">INFORMATION</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="live-preview">
-                                <div class="row gy-4">
-                                    <div class="col-md-5">
-                                        <div>
-                                            <label for="name" class="form-label">Product Name:</label>
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ $product->name }}" placeholder="Enter name...">
-                                        </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">INFORMATION</h4>
+                </div>
+                <div class="card-body">
+                    <div class="live-preview">
+                        <div class="row gy-4">
 
+        <div class="col-md-5">
+            <div class="mt-3">
+                <label for="name" class="form-label">Product Name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
+                    placeholder="Enter name...">
+            </div>
+            <div class="mt-3">
+                <label for="category_id" class="form-label">Categories:</label>
+                <select name="category_id" id="category_id" class="form-select">
+                    @foreach ($categories as $id => $value)
+                        <option value="{{ $id }}" {{ $product->category_id == $id ? 'selected' : '' }}>
+                            {{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-                                        @foreach ($categories as $id => $value)
-                                            <option @if ($model->category_id == $id) selected @endif
-                                                value="{{ $id }}">
-                                                {{ $value }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="brand_id" class="form-label">Brand:</label>
-                                        <select name="brand_id" id="brand_id">
+            <div class="mt-3">
+                <label for="brand_id" class="form-label">Brand:</label>
+                <select name="brand_id" id="brand_id" class="form-select">
+                    @foreach ($brands as $id => $value)
+                        <option value="{{ $id }}" {{ $product->brand_id == $id ? 'selected' : '' }}>
+                            {{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-                                            @foreach ($brands as $id => $value)
-                                                <option @if ($model->brand_id == $id) selected @endif
-                                                    value="{{ $id }}">
-                                                    {{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="sku" class="form-label">Code Sku:</label>
-                                        <input type="text" class="form-control" id="sku"
-                                            value="{{ $model->sku }}" placeholder="Enter sku" name="sku">
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="slug" class="form-label">Slug:</label>
-                                        <input type="text" class="form-control" id="slug"
-                                            value="{{ $model->slug }}"placeholder="Enter slug" name="slug">
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="name" class="form-label">Name:</label>
-                                        <input type="text" class="form-control" id="name"
-                                            value="{{ $model->name }}" name="name">
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="content" class="form-label">Content:</label>
-                                        <input type="text" class="form-control" id="content"
-                                            value="{{ $model->content }}" placeholder="Enter content" name="content">
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
-                                        <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
-                                        <img src="{{ Storage::url($model->img_thumbnail) }}" alt="" width="100px">
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="price" class="form-label">Price:</label>
-                                        <input type="number" class="form-control" id="price"
-                                            value="{{ $model->price }}" placeholder="Enter price" name="price">
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label for="description" class="form-label">Description:</label> <br>
-                                        <textarea name="description" id="description" cols="58" rows="4" ">{{ $model->description }}</textarea>
+            <div class="mt-3">
+                <label for="sku" class="form-label">Sku:</label>
+                <input type="text" class="form-control" id="sku" name="sku" value="{{ $product->sku }}"
+                    placeholder="Enter sku...">
+            </div>
 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3 mt-3">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="1"
-                                                @if ($model->status) checked @endif checked name="status">
-                                            Status
-                                        </label>
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="1"
-                                                @if ($model->is_hot_deal) checked @endif checked
-                                                name="is_hot_deal"> Hot_Deal
-                                        </label>
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="1"
-                                                @if ($model->is_new) checked @endif checked name="is_new">
-                                            New
-                                        </label>
-                                    </div>
-                                    <div class="mb-3 mt-3">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="1"
-                                                @if ($model->is_show_home) checked @endif checked
-                                                name="is_show_home"> Show_Home
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <button type="submit" class="mt-3 btn btn-primary">Update</button>
-        </form>
-        <a href="{{ route('admin.products.index') }}" class="btn btn-warning mt-3">BACK TO LIST</a>
-        <div class="mt-3">
-            <label for="category_id" class="form-label">Categories:</label>
-            <select name="category_id" id="category_id" class="form-select">
-                @foreach ($categories as $id => $value)
-                    <option value="{{ $id }}" {{ $product->category_id == $id ? 'selected' : '' }}>
-                        {{ $value }}</option>
-                @endforeach
-            </select>
-        </div>
+            <div class="mt-3">
+                <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
+                <img src="{{ Storage::url($product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
+            </div>
 
-        <div class="mt-3">
-            <label for="brand_id" class="form-label">Brand:</label>
-            <select name="brand_id" id="brand_id" class="form-select">
-                @foreach ($brands as $id => $value)
-                    <option value="{{ $id }}" {{ $product->brand_id == $id ? 'selected' : '' }}>
-                        {{ $value }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mt-3">
-            <label for="sku" class="form-label">Sku:</label>
-            <input type="text" class="form-control" id="sku" name="sku" value="{{ $product->sku }}"
-                placeholder="Enter sku...">
-        </div>
-
-        <div class="mt-3">
-            <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
-            <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
-            <img src="{{ Storage::url($product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
-        </div>
-
-        <div class="mt-3">
-            <label for="price" class="form-label">Price:</label>
-            <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}"
-                placeholder="Enter price...">
-        </div>
-        </div>
+            <div class="mt-3">
+                <label for="price" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}"
+                    placeholder="Enter price...">
+            </div>
+    </div>
 
         {{-- RIGHT --}}
         <div class="col-md-7">
@@ -218,17 +117,18 @@
 
             <div class="mt-3">
                 <label for="description" class="form-label">Description:</label>
-                <textarea class="form-control" id="description" name="description" rows="3">{{ $product->description }}</textarea>
+                <textarea class="form-control" id="description" name="description" rows="7">{{ $product->description }}</textarea>
             </div>
         </div>
         </div>
         </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
+    </div>
+</div>
+</div>
+</div>
 
+        <div class="row mt-3 mt-3" >
+            <div class="col-lg-12">
         <div class="row" style="height: 400px; overflow: scroll;">
             <div class="col-lg-12">
                 <div class="card">
@@ -270,16 +170,76 @@
                 </div>
             </div>
         </div>
+        </div>
+        </div>
+   {{-- GALLERIES --}}
+   <div class="row mt-3">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">GALLERIES</h4>
+            </div>
 
+            <div class="card-body">
+                <div class="live-preview">
+                    <div class="row gy-4">
+                        @php
+                            $gallery_images = $product->galleries->pluck('image')->toArray();
+                        @endphp
+
+                        {{-- Gallery 1 --}}
+                        <div class="col-md-4">
+                            <div>
+                                <label for="gallery_1" class="form-label">Gallery 1:</label>
+                                <input type="file" class="form-control" name="product_galleries[]" id="gallery_1">
+                                @if(isset($gallery_images[0]))
+                                    <img src="{{ Storage::url($gallery_images[0]) }}" alt="" width="100px" class="mt-2">
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Gallery 2 --}}
+                        <div class="col-md-4">
+                            <div>
+                                <label for="gallery_2" class="form-label">Gallery 2:</label>
+                                <input type="file" class="form-control" name="product_galleries[]" id="gallery_2">
+                                @if(isset($gallery_images[1]))
+                                    <img src="{{ Storage::url($gallery_images[1]) }}" alt="" width="100px" class="mt-2">
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Gallery 3 --}}
+                        <div class="col-md-4">
+                            <div>
+                                <label for="gallery_3" class="form-label">Gallery 3:</label>
+                                <input type="file" class="form-control" name="product_galleries[]" id="gallery_3">
+                                @if(isset($gallery_images[2]))
+                                    <img src="{{ Storage::url($gallery_images[2]) }}" alt="" width="100px" class="mt-2">
+                                @endif
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{--
         <div class="row mt-3">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">GALLERIES</h4>
                     </div>
+
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
+
 
                                 <label for="product_galleries" class="form-label">Product Galleries:</label>
                                 <input type="file" class="form-control" id="product_galleries"
@@ -298,7 +258,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
         <div class="row mt-3">

@@ -1,48 +1,124 @@
 @extends('users.layout.inheritance')
 @section('content')
+
+
 <div class="product_image_area">
     <div class="container">
+        <div class="product_detail_row">
+            <h3 class="product_detail_title">Product Detail</h3>
+        </div>
         <div class="row s_product_inner">
             <div class="col-lg-6">
                 <div class="s_Product_carousel">
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{ Storage::url($product->image) }}" alt="">
+                    @foreach($product->galleries as $gallery)
+                    <div class="single-prd-item" id="galleryImage{{ $gallery->id }}">
+                        <img class="img-fluid" src="{{ Storage::url($gallery->image) }}" alt="">
                     </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{ Storage::url($product->image) }}" alt="">
-                    </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{ Storage::url($product->image) }}" alt="">
-                    </div>
+                    @endforeach
                 </div>
+                <hr>
+                <div> <span style="color:black;">Mô tả: <br></span> {{ $product->description }}</div>
             </div>
+
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3>{{$product->name}}</h3>
-                    <h2>{{$product->price}}</h2>
+
+                    <h3>{{ $product->name }}</h3>
+                    <div>
+                    @if (!is_null($salePrice))
+                        <del>{{ $product->price }} $</del>  <br> <h2>{{ $salePrice }} $<h2>
+                    @else
+                        <h2>{{ $product->price }} $</h2>
+                    @endif
+                        </div>
                     <ul class="list">
-                        <li><a class="active" href="#"><span>Category</span> {{$product->category->name}}</a></li>
-                        <li><a href="#"><span>Availibility</span> : In Stock</a></li>
+                        <li><a class="active" href="#"><span>Sku </span> :{{ $product->sku }}</a></li>
+                        <li><a class="active" href="#"><span>Category </span> :{{ $product->category->name }}</a></li>
+                        <li><a class="active" href="#"><span>Brand</span> : {{ $product->brand->name }}</a></li>
                     </ul>
-                    <p>{{$product->description}}</p>
-                    <div class="product_count">
-                        <label for="qty">Quantity: {{$product->quantity}}</label>
-                        {{-- <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty"> --}}
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                         class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                        <!-- <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;" -->
-                         {{-- class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> --}}
+                    <div>{{ $product->content }}</div>
+                    <hr>
+
+                    <!-- Product Details Section -->
+                    <div class="col-md-12">
+                        <form id="variantForm">
+                            @csrf
+
+                            <div class="form-group">
+                                <label for="color">Color:</label>
+                                <div class="d-flex flex-wrap">
+                                    @php
+                                        $displayedColors = [];
+                                    @endphp
+                                    @foreach ($product->variants as $variant)
+                                        @if ($variant->image && !in_array($variant->color->id, $displayedColors))
+                                            @php
+                                                $displayedColors[] = $variant->color->id;
+                                            @endphp
+                                            <div class="custom-control custom-radio mr-3 mb-2">
+                                                <input type="radio" id="color{{ $variant->color->id }}"
+                                                       name="color" value="{{ $variant->color->id }}"
+                                                       class="custom-control-input"
+                                                       data-gallery="{{ $variant->gallery_id }}"
+                                                       onchange="updateQuantity()">
+                                                <label class="custom-control-label"
+                                                       for="color{{ $variant->color->id }}"> {{ $variant->color->name }}
+                                                    <img src="{{ Storage::url($variant->image) }}" alt="{{ $variant->color->name }}"
+                                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="size">Size:</label>
+                                <div class="d-flex flex-wrap">
+                                    @php
+                                        $displayedSizes = [];
+                                    @endphp
+                                    @foreach ($product->variants as $variant)
+                                        @if (!in_array($variant->size->id, $displayedSizes))
+                                            @php
+                                                $displayedSizes[] = $variant->size->id;
+                                            @endphp
+                                            <div class="custom-control custom-radio mr-3 mb-2">
+                                                <input type="radio" id="size{{ $variant->size->id }}"
+                                                       name="size" value="{{ $variant->size->id }}"
+                                                       class="custom-control-input"
+                                                       onchange="updateQuantity()">
+                                                <label class="custom-control-label"
+                                                       for="size{{ $variant->size->id }}">{{ $variant->size->name }}</label>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Available Quantity:</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity" readonly>
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
+                            </div>
+                        </form>
                     </div>
-                    <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn" href="#">Add to Cart</a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-                    </div>
+                </div>
+
+                {{-- Cart --}}
+                <hr>
+                <div class="card_area d-flex align-items-center">
+                    <a class="primary-btn" href="#">Add to Cart</a>
+                    <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+                    <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <!--================End Single Product Area =================-->
 
 <!--================Product Description Area =================-->
@@ -162,7 +238,7 @@
                             <div class="review_item">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-1.png" alt="">
+                                        <img src="{{asset('images/product/review-1.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
@@ -177,7 +253,7 @@
                             <div class="review_item reply">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-2.png" alt="">
+                                        <img src=" {{asset('images/product/review-2.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
@@ -192,7 +268,7 @@
                             <div class="review_item">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-3.png" alt="">
+                                        <img src="{{asset('images/product/review-3.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
@@ -271,7 +347,7 @@
                             <div class="review_item">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-1.png" alt="">
+                                        <img src="{{asset('images/product/review-1.png')}}"" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
@@ -289,7 +365,7 @@
                             <div class="review_item">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-2.png" alt="">
+                                        <img src="{{asset('images/product/review-2.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
@@ -307,7 +383,7 @@
                             <div class="review_item">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-3.png" alt="">
+                                        <img src="{{asset('images/product/review-3.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>
@@ -387,7 +463,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r1.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r1.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -399,7 +475,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r2.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r2.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -411,7 +487,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r3.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r3.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -423,7 +499,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r5.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r5.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -435,7 +511,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r6.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r6.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -447,7 +523,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r7.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r7.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -459,7 +535,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r9.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r9.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -471,7 +547,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r10.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r10.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -483,7 +559,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="single-related-product d-flex">
-                            <a href="#"><img src="img/r11.jpg" alt=""></a>
+                            <a href="#"><img src="{{asset('images/r11.jpg')}}" alt=""></a>
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
@@ -498,7 +574,7 @@
             <div class="col-lg-3">
                 <div class="ctg-right">
                     <a href="#" target="_blank">
-                        <img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
+                        <img class="img-fluid d-block mx-auto" src="{{asset('images/category/c5.jpg')}}" alt="">
                     </a>
                 </div>
             </div>
@@ -506,4 +582,57 @@
     </div>
 </section>
 <!-- End related-product Area -->
+@endsection
+
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+     function updateQuantity() {
+        var colorId = $('input[name="color"]:checked').val();
+        var sizeId = $('input[name="size"]:checked').val();
+
+        if (colorId && sizeId) {
+            // Gửi AJAX request để lấy số lượng sản phẩm có sẵn
+            $.ajax({
+                url: '{{ route("user.product.getQuantity") }}',
+                type: 'POST',
+                data: {
+                    product_color_id: colorId,
+                    product_size_id: sizeId,
+                    product_id: {{ $product->id }},
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $('#quantity').val(response.quantity);
+                },
+                error: function(xhr) {
+                    console.log('Error:', xhr);
+                }
+            });
+        } else {
+            $('#quantity').val('');
+        }
+    }
+
+    // Bổ sung hàm để cập nhật số lượng khi thay đổi màu sắc
+    $('input[name="color"]').change(function() {
+        updateQuantity();
+    });
+
+    // Hàm cập nhật ảnh gallery khi thay đổi màu sắc
+    function updateGalleryImage() {
+        var colorId = $('input[name="color"]:checked').val();
+        var galleryId = $('input[name="color"]:checked').data('gallery');
+
+        if (galleryId) {
+            var imageUrl = '{{ Storage::url("galleries/") }}' + '/' + galleryId + '.jpg';
+            // Đặt lại src của ảnh trong s_Product_carousel
+            $('.single-prd-item').removeClass('active'); // Xóa lớp 'active' khỏi tất cả các item
+            $('#galleryImage' + galleryId).addClass('active'); // Thêm lớp 'active' vào item được chọn
+            $('#galleryImage' + galleryId + ' img').attr('src', imageUrl); // Cập nhật src của ảnh
+        }
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
 @endsection
