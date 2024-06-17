@@ -5,6 +5,7 @@
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductVariantController;
@@ -78,41 +79,8 @@ Route::prefix('admin')
             });
         //PRODUCT
 
-        Route::prefix('products')
-            ->as('products.')
-            ->group(function () {
-                Route::get('/', [ProductController::class, 'index'])->name('index');
-                Route::get('create', [ProductController::class, 'create'])->name('create');
-                Route::post('store', [ProductController::class, 'store'])->name('store');
-                Route::get('show/{id}', [ProductController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [ProductController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [ProductController::class, 'destroy'])->name('destroy');
-                //VARIANTS
-                Route::prefix('{productId}/variants')
-                    ->as('variants.')
-                    ->group(function () {
-                        Route::get('/', [ProductVariantController::class, 'index'])->name('index');
-                        Route::get('create', [ProductVariantController::class, 'create'])->name('create');
-                        Route::post('store', [ProductVariantController::class, 'store'])->name('store');
-                        Route::get('{id}/show', [ProductVariantController::class, 'show'])->name('show');
-                        Route::get('{id}/edit', [ProductVariantController::class, 'edit'])->name('edit');
-                        Route::put('{id}/update', [ProductVariantController::class, 'update'])->name('update');
-                        Route::delete('{id}/destroy', [ProductVariantController::class, 'destroy'])->name('destroy');
-                    });
-                // GALLERIES
-                Route::prefix('{productId}/galleries')
-                    ->as('galleries.')
-                    ->group(function () {
-                        Route::get('/', [ProductGalleryController::class, 'index'])->name('index');
-                        Route::get('create', [ProductGalleryController::class, 'create'])->name('create');
-                        Route::post('store', [ProductGalleryController::class, 'store'])->name('store');
-                        Route::get('{id}/show', [ProductGalleryController::class, 'show'])->name('show');
-                        Route::get('{id}/edit', [ProductGalleryController::class, 'edit'])->name('edit');
-                        Route::put('{id}/update', [ProductGalleryController::class, 'update'])->name('update');
-                        Route::get('{id}/destroy', [ProductGalleryController::class, 'destroy'])->name('destroy');
-                    });
-            });
+        Route::resource('products', ProductController::class);
+
 
         //Tag
         Route::prefix('tags')
@@ -129,7 +97,6 @@ Route::prefix('admin')
 
         // POST
 
-        // Route::resource('products', ProductController::class);
 
         //POST
 
@@ -183,4 +150,16 @@ Route::prefix('admin')
                 Route::put('{id}/update', [UserController::class, 'update'])->name('update');
                 Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
             });
+
+        // Route::prefix('comment')
+        //     ->as('comments.')
+        //     ->group(function () {
+        //         Route::get('/', [CommentController::class, 'index'])->name('index');
+        //         Route::get('create', [CommentController::class, 'create'])->name('create');
+        //         Route::post('store', [CommentController::class, 'store'])->name('store');
+        //         Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
+        //         Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
+        //         Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
+        //         Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+        //     });
     });

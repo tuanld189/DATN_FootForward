@@ -35,7 +35,7 @@ class VourcherController extends Controller
     {
         $request->validate  ([
             'code' => 'required|unique:vourchers|max:255',
-            'discount' => 'required|numeric',
+            'discount' => 'required|numeric|min:0|max:100',
             'description' => 'nullable',
             'start_date' => 'required|date|before:end_date',
             'end_date' => 'required|date|after:start_date',

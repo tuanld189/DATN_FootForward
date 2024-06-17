@@ -41,21 +41,19 @@
                                 </th>
                                 {{-- <th data-ordering="false">SR No.</th> --}}
                                 <th data-ordering="false">ID</th>
+                                <th>IMAGE</th>
                                 <th>NAME</th>
                                 <th>DESCRIPTION</th>
-                                <th>IMAGE</th>
                                 <th>IS ACTIVE</th>
                                 <th>STATUS</th>
                                 <th>CONTENT</th>
-                                <th>CREATE_BY</th>
-                                <th>UPDATE_BY</th>
                                 <th>CREATE_AT</th>
                                 <th>UPDATE_AT</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($post as $item)
+                            @foreach ($posts as $item)
                                 <tr>
                                     <td scope="row">
                                         <div class="form-check">
@@ -65,33 +63,30 @@
                                     </td>
                                     {{-- <td>{{ $item->id }}</td> --}}
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->description }}</td>
                                     <td>
                                         <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
                                             height="">
                                     </td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->description }}</td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>{{ $item->content }}</td>
-                                    <td>{{ $item->created_by }}</td>
-                                    <td>{{ $item->updated_by }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                     <td>
-                                        <a href="{{ route('admin.posts.show', $item->id) }}"
-                                            class="btn btn-info mb-2">Chi tiết</a>
+                                        <a href="{{ route('admin.posts.show', $item->id) }}" class="btn btn-info mb-2">Chi
+                                            tiết</a>
                                         <a href="{{ route('admin.posts.edit', $item->id) }}"
                                             class="btn btn-warning mb-2">Sửa</a>
-                                        <a href="{{ route('admin.posts.destroy', $item->id) }}"
-                                            class="btn btn-danger mb-2"
+                                        <a href="{{ route('admin.posts.destroy', $item->id) }}" class="btn btn-danger mb-2"
                                             onclick="return confirm('Bạn có muốn xóa không')">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $post->links() }}
+                    {{ $posts->links() }}
 
                 </div>
             </div>
@@ -99,12 +94,12 @@
     </div><!--end row-->
 @endsection
 
-
 @section('style-libs')
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
@@ -123,10 +118,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-    <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        new DataTable("#example", {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection
