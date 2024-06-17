@@ -40,7 +40,6 @@
                     <label class="form-check-label">
                         <input class="form-check-input" type="checkbox" value="1" checked name="is_active">Is Active
                     </label>
-
                 </div>
             </div>
         </div>

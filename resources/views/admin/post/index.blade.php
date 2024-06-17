@@ -45,13 +45,9 @@
                                 <th>NAME</th>
                                 <th>DESCRIPTION</th>
                                 <th>IMAGE</th>
-                                <th>IS ACTIVE</th>
-                                <th>STATUS</th>
+
                                 <th>CONTENT</th>
-                                <th>CREATE_BY</th>
-                                <th>UPDATE_BY</th>
-                                <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th>
+                                <th>IS ACTIVE</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -70,13 +66,8 @@
                                         <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
                                             height="">
                                     </td>
-                                    <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    <td>{{ $item->status }}</td>
                                     <td>{{ $item->content }}</td>
-                                    <td>{{ $item->created_by }}</td>
-                                    <td>{{ $item->updated_by }}</td>
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
+                                    <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     <td>
                                         <a href="{{ route('admin.posts.show', $item->id) }}" class="btn btn-info mb-2">Chi
                                             tiết</a>

@@ -34,14 +34,14 @@ Route::prefix('admin')
         Route::prefix('brands')
             ->as('brands.')
             ->group(function () {
-                Route::get('/', [BrandController::class, 'index'])->name('index');
-                Route::get('create', [BrandController::class, 'create'])->name('create');
-                Route::post('store', [BrandController::class, 'store'])->name('store');
-                Route::get('show/{id}', [BrandController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [BrandController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [BrandController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [BrandController::class, 'destroy'])->name('destroy');
-            });
+            Route::get('/', [BrandController::class, 'index'])->name('index');
+            Route::get('create', [BrandController::class, 'create'])->name('create');
+            Route::post('store', [BrandController::class, 'store'])->name('store');
+            Route::get('show/{id}', [BrandController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [BrandController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [BrandController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [BrandController::class, 'destroy'])->name('destroy');
+        });
         //CATEGORY
         Route::prefix('categories')
             ->as('categories.')
@@ -54,20 +54,6 @@ Route::prefix('admin')
                 Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
                 Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
             });
-
-        //Tag
-        // Route::prefix('tags')
-        //     ->as('tags.')
-        //     ->group(function () {
-        //     Route::get('/', [TagController::class, 'index'])->name('index');
-        //     Route::get('create', [TagController::class, 'create'])->name('create');
-        //     Route::post('store', [TagController::class, 'store'])->name('store');
-        //     Route::get('show/{id}', [TagController::class, 'show'])->name('show');
-        //     Route::get('{id}/edit', [TagController::class, 'edit'])->name('edit');
-        //     Route::put('{id}/update', [TagController::class, 'update'])->name('update');
-        //     Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
-        // });
-
 
 
         //PRODUCT
@@ -116,14 +102,14 @@ Route::prefix('admin')
         Route::prefix('banners')
             ->as('banners.')
             ->group(function () {
-                Route::get('/', [BannerController::class, 'index'])->name('index');
-                Route::get('create', [BannerController::class, 'create'])->name('create');
-                Route::post('store', [BannerController::class, 'store'])->name('store');
-                Route::get('show/{id}', [BannerController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [BannerController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
-            });
+            Route::get('/', [BannerController::class, 'index'])->name('index');
+            Route::get('create', [BannerController::class, 'create'])->name('create');
+            Route::post('store', [BannerController::class, 'store'])->name('store');
+            Route::get('show/{id}', [BannerController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [BannerController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
+        });
 
         //PERMISSION
         Route::prefix('permissions')
@@ -138,6 +124,7 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
             });
         //USERS
+
         Route::prefix('users')
             ->as('users.')
             ->group(function () {

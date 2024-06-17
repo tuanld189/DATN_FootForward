@@ -22,6 +22,7 @@
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -113,22 +114,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <!-- Tags -->
-                            {{-- <li class="nav-item">
-                                <a class="nav-link menu-link" href="#sidebarTag" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTag">
-                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Tags</span>
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarTag">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.tags.index') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.tags.create') }}" class="nav-link" data-key="t-horizontal">Thêm mới</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li> --}}
+
                             <!-- Banners -->
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#sidebarBanner" data-bs-toggle="collapse"
@@ -168,8 +154,6 @@
                                 </div>
                             </li>
 
-
-
                         </ul>
                     </div>
                 </li>
@@ -177,3 +161,6 @@
         </div>
     </div>
 </div>
+
+
+
