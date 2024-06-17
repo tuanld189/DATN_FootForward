@@ -26,6 +26,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Vourchers</h5>
                     <a href="{{ route('admin.vourchers.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
+                    {{-- <a href="{{ route('admin.vouchers.create') }}" class="nav-link" data-key="t-horizontal">Thêm mới</a> --}}
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">

@@ -14,8 +14,6 @@ class Post extends Model
         "image",
         "status",
         "content",
-        "created_by",
-        "updated_by",
         "created_at",
         "updated_at",
     ];
