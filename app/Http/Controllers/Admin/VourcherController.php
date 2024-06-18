@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vourcher;
+use Carbon\Carbon;
 // use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -43,9 +44,9 @@ class VourcherController extends Controller
         ]);
 
         // Kiểm tra nếu end_date đã qua, đặt is_active thành false
-        // if (Carbon::now()->isAfter($request->end_date)) {
-        //     $request->merge(['is_active' => false]);
-        // }
+        if (Carbon::now()->isAfter($request->end_date)) {
+            $request->merge(['is_active' => false]);
+        }
 
         Vourcher::create($request->all());
 
@@ -87,9 +88,9 @@ class VourcherController extends Controller
         ]);
 
         // Kiểm tra nếu end_date đã qua, thì tự đặt is_active thành false
-        // if (Carbon::now()->isAfter($request->end_date)) {
-        //     $request->merge(['is_active' => false]);
-        // }
+        if (Carbon::now()->isAfter($request->end_date)) {
+            $request->merge(['is_active' => false]);
+        }
 
         $model->update($request->all());
 
