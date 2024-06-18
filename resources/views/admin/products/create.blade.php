@@ -207,8 +207,6 @@
                                 <input type="file" class="form-control" name="product_galleries[]" id="gallery_3">
 
                             </div>
-
-
                         </div>
                     </div>
                 </div>

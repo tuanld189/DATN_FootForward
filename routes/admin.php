@@ -1,19 +1,16 @@
 <?php
-
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PostController;
-
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\VourcherController;
-use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
 
@@ -54,19 +51,6 @@ Route::prefix('admin')
             Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
         });
-        //Tag
-        Route::prefix('tags')
-            ->as('tags.')
-            ->group(function () {
-            Route::get('/', [TagController::class, 'index'])->name('index');
-            Route::get('create', [TagController::class, 'create'])->name('create');
-            Route::post('store', [TagController::class, 'store'])->name('store');
-            Route::get('show/{id}', [TagController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [TagController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [TagController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [TagController::class, 'destroy'])->name('destroy');
-        });
-
 
 
         //PRODUCT
@@ -84,6 +68,29 @@ Route::prefix('admin')
                 Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
                 Route::put('{id}/update', [PostController::class, 'update'])->name('update');
                 Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
+            });
+        // PRODUCT-SALE
+        Route::prefix('sales')->as('sales.')->group(function () {
+            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
+            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit'); // Fixed this line
+            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
+            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
+        });
+        //ROLE
+
+        Route::prefix('roles')
+            ->as('roles.')
+            ->group(function () {
+                Route::get('/', [RoleController::class, 'index'])->name('index');
+                Route::get('create', [RoleController::class, 'create'])->name('create');
+                Route::post('store', [RoleController::class, 'store'])->name('store');
+                Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
+                Route::get('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
             });
         //BANNERS
         Route::prefix('banners')
