@@ -84,7 +84,6 @@
             height: 15%;
         }
 
-
         .line:nth-child(3) {
             top: 70%;
             left: 45%;
