@@ -31,7 +31,7 @@ class Product extends Model
     ];
     public function sales()
     {
-        return $this->hasOne(ProductSale::class);
+        return $this->belongsToMany(ProductSale::class, 'product_sale_product');
     }
     public function tags()
     {
@@ -56,5 +56,4 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class);
     }
-
 }

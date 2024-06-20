@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\VourcherController;
 use Illuminate\Support\Facades\Route;
 
 
+
+
 Route::prefix('admin')
     ->as('admin.')
     // ->middleware(['wed', 'is_admin'])
@@ -63,7 +65,7 @@ Route::prefix('admin')
             Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
             Route::post('/', [ProductSaleController::class, 'store'])->name('store');
             Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
-            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit'); // Fixed this line
+            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
             Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
             Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
         });
@@ -145,3 +147,6 @@ Route::prefix('admin')
             Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
         });
     });
+
+
+
