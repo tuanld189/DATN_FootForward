@@ -1,4 +1,70 @@
 @extends('users.layout.inheritance')
+
+@section('s')
+<style>
+
+   
+    .custom-control {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid transparent;
+        padding: 5px;
+        transition: border-color 0.3s ease;
+    }
+
+    .custom-control:hover {
+        border: 1px solid #007bff;
+    }
+
+    .custom-control-label {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px;
+        transition: border-color 0.3s ease;
+    }
+
+    .custom-control-label::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        margin-right: 5px;
+        transition: border-color 0.3s ease;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .custom-control-label:hover::before {
+        border-color: #007bff;
+    }
+
+    .custom-control-label img {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        margin-left: 10px;
+        transition: border-color 0.3s ease;
+    }
+
+    .custom-control-input {
+        position: absolute;
+        left: -9999px;
+    }
+
+
+</style>
+@endsection
+
 @section('content')
 
 
@@ -41,30 +107,37 @@
 
                     <!-- Product Details Section -->
                     <div class="col-md-12">
-                        <form id="variantForm">
+                        <div class="mb-3">
+                            <label for="available_quantity">Available Quantity:</label>
+                            <input type="text" class="form-control" id="available_quantity" name="available_quantity" readonly>
+                        </div>
+
+                        <form id="variantForm" action="{{ route('users.cart.add') }}" method="POST">
                             @csrf
+
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                             <div class="form-group">
                                 <label for="color">Color:</label>
                                 <div class="d-flex flex-wrap">
                                     @php
-                                        $displayedColors = [];
+                                        $displayedColors = []; // Mảng để lưu các màu sắc đã hiển thị
                                     @endphp
                                     @foreach ($product->variants as $variant)
                                         @if ($variant->image && !in_array($variant->color->id, $displayedColors))
                                             @php
-                                                $displayedColors[] = $variant->color->id;
+                                                $displayedColors[] = $variant->color->id; // Đánh dấu màu sắc đã hiển thị
+                                                $variantsWithSameColor = $product->variants->where('color_id', $variant->color_id); // Lấy tất cả biến thể có cùng màu sắc
                                             @endphp
                                             <div class="custom-control custom-radio mr-3 mb-2">
                                                 <input type="radio" id="color{{ $variant->color->id }}"
-                                                       name="color" value="{{ $variant->color->id }}"
-                                                       class="custom-control-input"
-                                                       data-gallery="{{ $variant->gallery_id }}"
-                                                       onchange="updateQuantity()">
+                                                    name="product_color_id" value="{{ $variant->color->id }}"
+                                                    class="custom-control-input"
+                                                    onchange="updateQuantity()">
                                                 <label class="custom-control-label"
-                                                       for="color{{ $variant->color->id }}"> {{ $variant->color->name }}
+                                                    for="color{{ $variant->color->id }}"> {{ $variant->color->name }}
                                                     <img src="{{ Storage::url($variant->image) }}" alt="{{ $variant->color->name }}"
-                                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                                        style="width: 40px; height: 40px; object-fit: cover;">
                                                 </label>
                                             </div>
                                         @endif
@@ -72,7 +145,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label for="size">Size:</label>
                                 <div class="d-flex flex-wrap">
                                     @php
@@ -85,11 +158,11 @@
                                             @endphp
                                             <div class="custom-control custom-radio mr-3 mb-2">
                                                 <input type="radio" id="size{{ $variant->size->id }}"
-                                                       name="size" value="{{ $variant->size->id }}"
-                                                       class="custom-control-input"
-                                                       onchange="updateQuantity()">
+                                                    name="product_size_id" value="{{ $variant->size->id }}"
+                                                    class="custom-control-input"
+                                                    onchange="updateQuantity()">
                                                 <label class="custom-control-label"
-                                                       for="size{{ $variant->size->id }}">{{ $variant->size->name }}</label>
+                                                    for="size{{ $variant->size->id }}">{{ $variant->size->name }}</label>
                                             </div>
                                         @endif
                                     @endforeach
@@ -97,21 +170,15 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="quantity">Available Quantity:</label>
-                                <input type="text" class="form-control" id="quantity" name="quantity" readonly>
                                 <label for="quantity">Quantity:</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
+                                <input type="number" class="form-control" id="quantity_add" name="quantity_add" min="1" value="1">
+                            </div>
+<hr>
+                            <div class="card_area d-flex align-items-center">
+                                <button type="submit" class="primary-btn">Add to Cart</button>
                             </div>
                         </form>
                     </div>
-                </div>
-
-                {{-- Cart --}}
-                <hr>
-                <div class="card_area d-flex align-items-center">
-                    <a class="primary-btn" href="#">Add to Cart</a>
-                    <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                    <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
                 </div>
             </div>
         </div>
@@ -587,38 +654,29 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-     function updateQuantity() {
-        var colorId = $('input[name="color"]:checked').val();
-        var sizeId = $('input[name="size"]:checked').val();
+  function updateQuantity() {
+    var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
+    var sizeId = document.querySelector('input[name="product_size_id"]:checked').value;
 
-        if (colorId && sizeId) {
-            // Gửi AJAX request để lấy số lượng sản phẩm có sẵn
-            $.ajax({
-                url: '{{ route("user.product.getQuantity") }}',
-                type: 'POST',
-                data: {
-                    product_color_id: colorId,
-                    product_size_id: sizeId,
-                    product_id: {{ $product->id }},
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    $('#quantity').val(response.quantity);
-                },
-                error: function(xhr) {
-                    console.log('Error:', xhr);
-                }
-            });
-        } else {
-            $('#quantity').val('');
-        }
-    }
+    // Gọi AJAX để lấy số lượng có sẵn dựa trên colorId và sizeId
+    fetch(`/api/product/quantity?product_id={{ $product->id }}&product_color_id=${colorId}&product_size_id=${sizeId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('available_quantity').value = data.quantity;
+        })
+        .catch(error => console.error('Error fetching available quantity:', error));
+}
 
-    // Bổ sung hàm để cập nhật số lượng khi thay đổi màu sắc
-    $('input[name="color"]').change(function() {
-        updateQuantity();
+// Gọi hàm updateQuantity khi trang được tải và khi người dùng thay đổi lựa chọn màu sắc hoặc kích cỡ
+document.addEventListener('DOMContentLoaded', function() {
+    var radios = document.querySelectorAll('input[name="product_color_id"], input[name="product_size_id"]');
+    radios.forEach(radio => {
+        radio.addEventListener('change', updateQuantity);
     });
 
+    // Khởi động để lấy số lượng có sẵn ban đầu khi trang được tải
+    updateQuantity();
+});
     // Hàm cập nhật ảnh gallery khi thay đổi màu sắc
     function updateGalleryImage() {
         var colorId = $('input[name="color"]:checked').val();

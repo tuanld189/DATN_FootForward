@@ -43,21 +43,25 @@ class ProductController extends Controller
 
         return view('users.show', compact('product', 'categories', 'brands', 'salePrice'));
     }
-    public function getProductQuantity(Request $request)
+    public function getQuantity(Request $request)
     {
         $productId = $request->input('product_id');
         $colorId = $request->input('product_color_id');
         $sizeId = $request->input('product_size_id');
 
-        $variant = ProductVariant::where('product_id', $productId)
+        // Query để lấy số lượng có sẵn của biến thể sản phẩm
+        $productVariant = ProductVariant::where('product_id', $productId)
             ->where('product_color_id', $colorId)
             ->where('product_size_id', $sizeId)
             ->first();
 
-        if ($variant) {
-            return response()->json(['quantity' => $variant->quantity]);
+        if ($productVariant) {
+            $quantity = $productVariant->quantity;
+        } else {
+            $quantity = 0; // Nếu không tìm thấy thì số lượng là 0
         }
 
-        return response()->json(['quantity' => 0]);
+        return response()->json(['quantity' => $quantity]);
     }
+
 }
