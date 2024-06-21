@@ -15,9 +15,13 @@ use App\Http\Controllers\Admin\VourcherController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::prefix('admin')
     ->as('admin.')
-    // ->middleware(['wed', 'is_admin'])
+    ->middleware('auth')
     ->group(function () {
 
         Route::get('/', function () {
@@ -130,7 +134,6 @@ Route::prefix('admin')
             Route::put('{id}/update', [UserController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
         });
-
         //COMMENT
         Route::prefix('comments')
             ->as('comments.')
