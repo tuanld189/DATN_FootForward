@@ -22,7 +22,9 @@
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
+
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -40,68 +42,35 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarCategories">
-                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí chức năng</span>
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí sản phẩm</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
                             <!-- Categories -->
                             <li class="nav-item">
-                                <a class="nav-link menu-link" href="#sidebarCategory" data-bs-toggle="collapse"
-                                    role="button" aria-expanded="false" aria-controls="sidebarCategory">
-                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Danh mục</span>
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarCategory">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.categories.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Categories</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.brands.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Brands</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.products.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Prouduct</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a href="{{ route('admin.brands.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Brands</a>
                             </li>
-                            {{-- Sale --}}
+                            {{-- Categories --}}
                             <li class="nav-item">
-                                <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Sales</a>
-                             {{-- Comments --}}
-                             <li class="nav-item">
-                                <a href="{{ route('admin.comments.index') }}" class="nav-link" data-key="t-horizontal">Comment</a>
-
-                            <!-- Người dùng -->
+                                <a href="{{ route('admin.categories.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Categories</a>
+                            </li>
+                            {{-- Products --}}
+<li class="nav-item">
+                                <a href="{{ route('admin.products.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Products</a>
+                            </li>
+                            {{-- Up sells --}}
                             <li class="nav-item">
-                                <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse"
-                                    role="button" aria-expanded="false" aria-controls="sidebarUser">
-                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">phân quyền</span>
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarUser">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.users.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Users</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.permissions.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Permissions</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ url('admin.roles.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Roles</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Up
+                                    Sell</a>
                             </li>
 
                           {{-- end người dùng --}}
 
 
-                            <!-- Posts -->
+                            {{-- <!-- Posts -->
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#sidebarPost" data-bs-toggle="collapse"
                                     role="button" aria-expanded="false" aria-controls="sidebarPost">
@@ -135,7 +104,7 @@
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('admin.banners.create') }}" class="nav-link"
-                                                data-key="t-horizontal">Thêm mới</a>
+data-key="t-horizontal">Thêm mới</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -158,15 +127,59 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </li> --}}
+
+                        </ul>
+                    </div>
+                </li> <!-- end Products Menu -->
+
+
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarCategories">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí người dùng</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarCategories">
+                        <ul class="nav nav-sm flex-column">
+                            {{-- Permissions --}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.permissions.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Permissions</a>
+                            </li>
+
+                            {{-- Roles --}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.roles.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Roles</a>
+                            </li>
+                            {{-- Users --}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.index') }}" class="nav-link"
+data-key="t-horizontal">Users</a>
                             </li>
 
                         </ul>
                     </div>
+                </li> <!-- end users Menu -->
+
+                {{-- Posts --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.posts.index') }}" class="nav-link" data-key="t-horizontal">Posts</a>
                 </li>
+                {{-- Banners --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.banners.index') }}" class="nav-link" data-key="t-horizontal">Banners</a>
+                </li>
+
+                {{-- Comments --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.comments.index') }}" class="nav-link"
+                        data-key="t-horizontal">Comment</a>
+
+                </li>
+
             </ul>
         </div>
     </div>
 </div>
-
-
-

@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 
 
+// Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+// Route::post('login', [AuthController::class, 'login']);
+// Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 
 Route::prefix('admin')
     ->as('admin.')
-    // ->middleware(['wed', 'is_admin'])
+    ->middleware('auth')
     ->group(function () {
 
         Route::get('/', function () {
@@ -64,16 +68,16 @@ Route::prefix('admin')
         Route::resource('products', ProductController::class);
 
 
-        // PRODUCT-SALE
-        Route::prefix('sales')->as('sales.')->group(function () {
-            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
-            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
-            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
-            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
-            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
-            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
-            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
-        });
+        // // PRODUCT-SALE
+        // Route::prefix('sales')->as('sales.')->group(function () {
+        //     Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+        //     Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
+        //     Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+        //     Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
+        //     Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
+        //     Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
+        //     Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
+        // });
 
 
         //POST
@@ -158,14 +162,15 @@ Route::prefix('admin')
         Route::prefix('users')
             ->as('users.')
             ->group(function () {
-                Route::get('/', [UserController::class, 'index'])->name('index');
-                Route::get('create', [UserController::class, 'create'])->name('create');
-                Route::post('store', [UserController::class, 'store'])->name('store');
-                Route::get('show/{id}', [UserController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [UserController::class, 'update'])->name('update');
-                Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
-            });
+
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('create', [UserController::class, 'create'])->name('create');
+            Route::post('store', [UserController::class, 'store'])->name('store');
+            Route::get('show/{id}', [UserController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [UserController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
+        });
 
         //COMMENT
         Route::prefix('comments')
@@ -180,6 +185,5 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
             });
     });
-
 
 
