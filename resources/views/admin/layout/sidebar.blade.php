@@ -22,10 +22,9 @@
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
-<<<<<<< HEAD
-=======
+
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
->>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
+
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -43,17 +42,12 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarCategories">
-<<<<<<< HEAD
                         <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí sản phẩm</span>
-=======
-                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí chức năng</span>
->>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
                             <!-- Categories -->
                             <li class="nav-item">
-<<<<<<< HEAD
                                 <a href="{{ route('admin.brands.index') }}" class="nav-link"
                                     data-key="t-horizontal">Brands</a>
                             </li>
@@ -71,64 +65,12 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Up
                                     Sell</a>
-=======
-                                <a class="nav-link menu-link" href="#sidebarCategory" data-bs-toggle="collapse"
-                                    role="button" aria-expanded="false" aria-controls="sidebarCategory">
-                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Danh mục</span>
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarCategory">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.categories.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Categories</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.brands.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Brands</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.products.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Prouduct</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            {{-- Sale --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Sales</a>
-                             {{-- Comments --}}
-                             <li class="nav-item">
-                                <a href="{{ route('admin.comments.index') }}" class="nav-link" data-key="t-horizontal">Comment</a>
-
-                            <!-- Người dùng -->
-                            <li class="nav-item">
-                                <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse"
-                                    role="button" aria-expanded="false" aria-controls="sidebarUser">
-                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">phân quyền</span>
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarUser">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.users.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Users</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('admin.permissions.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Permissions</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ url('admin.roles.index') }}" class="nav-link"
-                                                data-key="t-horizontal">Roles</a>
-                                        </li>
-                                    </ul>
-                                </div>
->>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
                             </li>
 
                           {{-- end người dùng --}}
 
 
-                            <!-- Posts -->
+                            {{-- <!-- Posts -->
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#sidebarPost" data-bs-toggle="collapse"
                                     role="button" aria-expanded="false" aria-controls="sidebarPost">
@@ -185,11 +127,10 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> --}}
 
                         </ul>
                     </div>
-<<<<<<< HEAD
                 </li> <!-- end Products Menu -->
 
 
@@ -231,6 +172,11 @@
                     <a href="{{ route('admin.banners.index') }}" class="nav-link" data-key="t-horizontal">Banners</a>
                 </li>
 
+                  {{-- Vourchers --}}
+                  <li class="nav-item">
+                    <a href="{{ route('admin.vourchers.index') }}" class="nav-link" data-key="t-horizontal">Vourchers</a>
+                </li>
+
                 {{-- Comments --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.comments.index') }}" class="nav-link"
@@ -238,13 +184,7 @@
 
                 </li>
 
-=======
-                </li>
->>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
             </ul>
         </div>
     </div>
 </div>
-
-
-

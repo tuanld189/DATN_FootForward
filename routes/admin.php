@@ -94,17 +94,8 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
             });
         // Vourchers
-        Route::prefix('vourchers')
-        ->as('vourchers.')
-        ->group(function () {
-            Route::get('/', [VourcherController::class, 'index'])->name('index');
-            Route::get('create', [VourcherController::class, 'create'])->name('create');
-            Route::post('store', [VourcherController::class, 'store'])->name('store');
-            Route::get('show/{id}', [VourcherController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [VourcherController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [VourcherController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [VourcherController::class, 'destroy'])->name('destroy');
-        });
+
+        Route::resource('vourchers', VourcherController::class);
 
         //ROLE
 
@@ -185,5 +176,5 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
             });
     });
-});
+
 
