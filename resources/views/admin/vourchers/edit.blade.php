@@ -1,10 +1,11 @@
 @extends('admin.layout.master')
-@section('title')
-    VOURCHER: {{ $model->namne }}
-@endsection
+@section('title', 'Chỉnh sửa Voucher')
+
 @section('content')
     <div class="container">
-        <h1>Edit Vourcher {{ $model->namne }}</h1>
+        <h1>Chỉnh sửa Voucher</h1>
+
+        <!-- Hiển thị thông báo lỗi -->
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -14,57 +15,92 @@
                 </ul>
             </div>
         @endif
+
+        {{-- <form action="{{ route('admin.vourchers.update', $voucher->id) }}" method="POST"> --}}
         <form action="{{ route('admin.vourchers.update', $model->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
-                <label for="code">Code</label>
-                <input type="text" name="code" class="form-control" value="{{ $model->code }}" required>
-                @if ($errors->has('code'))
-                    <span class="text-danger">{{ $errors->first('code') }}</span>
-                @endif
+                <label for="code">Mã Voucher:</label>
+                <input type="text" id="code" name="code" class="form-control"
+                    value="{{ old('code', $model->code) }}">
+                @error('code')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
-                <label for="discount">Discount</label>
-                <input type="text" name="discount" class="form-control" value="{{ $model->discount }}" required>
-                @if ($errors->has('discount'))
-                    <span class="text-danger">{{ $errors->first('discount') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" class="form-control">{{ $model->description }}</textarea>
-                @if ($errors->has('description'))
-                    <span class="text-danger">{{ $errors->first('description') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="start_date">Start Date</label>
-                <input type="date" name="start_date" class="form-control" value="{{ $model->start_date }}" required>
-                @if ($errors->has('start_date'))
-                    <span class="text-danger">{{ $errors->first('start_date') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="end_date">End Date</label>
-                <input type="date" name="end_date" class="form-control" value="{{ $model->end_date }}" required>
-                @if ($errors->has('end_date'))
-                    <span class="text-danger">{{ $errors->first('end_date') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="is_active">Is Active</label>
-                <select name="is_active" class="form-control" required>
-                    <option value="1" {{ $model->is_active ? 'selected' : '' }}>Yes</option>
-                    <option value="0" {{ !$model->is_active ? 'selected' : '' }}>No</option>
+                <label for="discount_type">Loại Giảm Giá:</label>
+                <select name="discount_type" id="discount_type" class="form-control">
+                    <option value="percentage"
+                        {{ old('discount_type', $model->discount_type) == 'percentage' ? 'selected' : '' }}>Phần trăm
+                        (%)
+                    </option>
+                    <option value="amount" {{ old('discount_type', $model->discount_type) == 'amount' ? 'selected' : '' }}>
+                        Giá tiền
+                    </option>
                 </select>
-                @if ($errors->has('is_active'))
-                    <span class="text-danger">{{ $errors->first('is_active') }}</span>
-                @endif
+                @error('discount_type')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="description">Mô tả:</label>
+                <input type="text" id="description" name="description" class="form-control"
+                    value="{{ old('description', $model->description) }}">
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="discount_value">Giá trị Giảm Giá:</label>
+                <input type="number" id="discount_value" name="discount_value" class="form-control"
+                    value="{{ old('discount_value', $model->discount_value) }}">
+                @error('discount_value')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="start_date">Ngày Bắt Đầu:</label>
+                {{-- <input type="date" id="start_date" name="start_date" class="form-control"
+                    value="{{ old('start_date', $model->start_date->format('Y-m-d')) }}"> --}}
+                <input type="date" name="start_date" class="form-control" value="{{ $model->start_date }}" >
+                @error('start_date')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="end_date">Ngày Kết Thúc:</label>
+                {{-- <input type="date" id="end_date" name="end_date" class="form-control"
+                    value="{{ old('end_date', $model->end_date->format('Y-m-d')) }}"> --}}
+                <input type="date" name="end_date" class="form-control" value="{{ $model->end_date }}" >
+                @error('end_date')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="is_active">Trạng Thái:</label>
+                <select name="is_active" id="is_active" class="form-control">
+                    <option value="1" {{ old('is_active', $model->is_active) == '1' ? 'selected' : '' }}>Hoạt
+                        động
+                    </option>
+                    <option value="0" {{ old('is_active', $model->is_active) == '0' ? 'selected' : '' }}>Không
+                        hoạt
+                        động</option>
+                </select>
+                @error('is_active')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="quantity">Số Lượng:</label>
+                <input type="number" id="quantity" name="quantity" class="form-control"
+                    value="{{ old('quantity', $model->quantity) }}" min="1">
+                @error('quantity')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Cập nhật Voucher</button>
         </form>
     </div>
-
 @endsection

@@ -172,6 +172,11 @@
                     <a href="{{ route('admin.banners.index') }}" class="nav-link" data-key="t-horizontal">Banners</a>
                 </li>
 
+                  {{-- Vourchers --}}
+                  <li class="nav-item">
+                    <a href="{{ route('admin.vourchers.index') }}" class="nav-link" data-key="t-horizontal">Vourchers</a>
+                </li>
+
                 {{-- Comments --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.comments.index') }}" class="nav-link"
@@ -183,6 +188,3 @@
         </div>
     </div>
 </div>
-
-
-

@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('vourchers', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->decimal('discount', 8, 2);
+            $table->enum('discount_type', ['percentage', 'amount'])->default('amount'); // nếu k chọn j mặc định là giá tiền
+            // $table->decimal('discount_value', 8, 2);
+            $table->double('discount_value');
             $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('is_active')->default(true);
+            $table->integer('quantity')->default(0);
             $table->timestamps();
         });
     }
