@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
-
+    @yield('style-list')
     <style>
         .login {
             border: none !important;

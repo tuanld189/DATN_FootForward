@@ -29,7 +29,6 @@ Route::post('/user/product/getQuantity', [ProductController::class, 'getProductQ
     //     // \UniSharp\LaravelFilemanager\Lfm::routes();
     // });
 
-
 Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->name('api.product.quantity');
     // Mua bán hàng
 Route::get('users/cart/list', [CartController::class, 'list'])->name('users.cart.list');
@@ -43,4 +42,5 @@ Route::get('users/cart/checkout', [CartController::class, 'checkout'])->name('us
 
 Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('users.cart.update');
 Route::post('/users/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('users.cart.update-multiple');
+
 

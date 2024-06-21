@@ -1,111 +1,116 @@
 @extends('users.layout.inheritance')
+
+@section('style-list')
+<style>
+    .single-product {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        position: relative;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .single-product:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+        position: relative;
+    }
+
+    .product-details {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .product-details h6 {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .price {
+        margin: 10px 0;
+    }
+
+    .price h6 {
+        font-size: 20px;
+        color: #ff5722;
+        margin: 0;
+    }
+
+    .price .l-through {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 16px;
+    }
+
+    .prd-bottom {
+        display: flex;
+        justify-content: space-around;
+        padding: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+        /* Semi-transparent background */
+    }
+
+    .product-image:hover .prd-bottom {
+        opacity: 1;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        color: white;
+        font-size: 14px;
+        background-color: transparent;
+        /* Make buttons transparent */
+        flex: 1;
+        margin: 0 5px;
+        font-weight: bold;
+        white-space: nowrap;
+        /* Ensure buttons do not wrap text */
+    }
+
+    .btn img {
+        display: block;
+        filter: brightness(0) invert(1);
+        /* Make the icon white */
+    }
+
+    .btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        /* Lighten the background on hover */
+        color: white;
+        /* Ensure text color remains white on hover */
+    }
+
+    .btn-action {
+        background-color: transparent;
+    }
+
+    .btn-action:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        /* Ensure text color remains white on hover */
+    }
+</style>
+@endsection
+
 @section('content')
-    <style>
-        .single-product {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            position: relative;
-            transition: box-shadow 0.3s ease;
-        }
 
-        .single-product:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-image {
-            position: relative;
-        }
-
-        .product-details {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .product-details h6 {
-            font-size: 18px;
-            margin: 10px 0;
-        }
-
-        .price {
-            margin: 10px 0;
-        }
-
-        .price h6 {
-            font-size: 20px;
-            color: #ff5722;
-            margin: 0;
-        }
-
-        .price .l-through {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 16px;
-        }
-
-        .prd-bottom {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            position: absolute;
-            bottom: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            /* Semi-transparent background */
-        }
-
-        .product-image:hover .prd-bottom {
-            opacity: 1;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            color: white;
-            font-size: 14px;
-            background-color: transparent;
-            /* Make buttons transparent */
-            flex: 1;
-            margin: 0 5px;
-            font-weight: bold;
-            white-space: nowrap;
-            /* Ensure buttons do not wrap text */
-        }
-
-        .btn img {
-            display: block;
-            filter: brightness(0) invert(1);
-            /* Make the icon white */
-        }
-
-        .btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            /* Lighten the background on hover */
-            color: white;
-            /* Ensure text color remains white on hover */
-        }
-
-        .btn-action {
-            background-color: transparent;
-        }
-
-        .btn-action:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            /* Ensure text color remains white on hover */
-        }
-    </style>
     <!-- start banner Area -->
     <section class="banner-area ">
         <div class="container">

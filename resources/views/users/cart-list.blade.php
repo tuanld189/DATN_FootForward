@@ -233,7 +233,7 @@
                 <p><i>Shipping & taxes calculated at checkout</i></p>
             </div>
             <div class="checkout-buttons">
-                <a href="{{ route('users.home') }}" class="primary-btn">Continue Shopping</a>
+                <a href="{{ route('index') }}"" class="primary-btn">Continue Shopping</a>
                 <a href="{{ route('users.cart.checkout') }}" class="primary-btn">Proceed to Checkout</a>
             </div>
         </div>

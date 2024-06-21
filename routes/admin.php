@@ -68,16 +68,16 @@ Route::prefix('admin')
         Route::resource('products', ProductController::class);
 
 
-        // // PRODUCT-SALE
-        // Route::prefix('sales')->as('sales.')->group(function () {
-        //     Route::get('/', [ProductSaleController::class, 'index'])->name('index');
-        //     Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
-        //     Route::post('/', [ProductSaleController::class, 'store'])->name('store');
-        //     Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
-        //     Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
-        //     Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
-        //     Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
-        // });
+        // PRODUCT-SALE
+        Route::prefix('sales')->as('sales.')->group(function () {
+            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
+            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
+            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
+            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
+        });
 
 
         //POST
