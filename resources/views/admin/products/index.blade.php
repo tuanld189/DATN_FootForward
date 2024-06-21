@@ -46,15 +46,15 @@
                             <th>CATEGORY</th>
                             <th>BRAND</th>
                             <th>PRICE</th>
-                            <th>SHORT CONTENT</th>
-                            <th>DESCRIPTION</th>
+                            {{-- <th>SHORT CONTENT</th>
+                            <th>DESCRIPTION</th> --}}
                             <th>TAGS</th>
                             <th>ACTIVE</th>
                             <th>HOT_DEAL</th>
                             <th>NEW</th>
                             <th>SHOW_HOME</th>
-                            <th>CREATE AT</th>
-                            <th>UPDATE AT</th>
+                            {{-- <th>CREATE AT</th>
+                            <th>UPDATE AT</th> --}}
                             <th>ACTION</th>
                         </tr>
                         @foreach ($data as $item)
@@ -83,8 +83,8 @@
                                 <td>{{$item->category->name}}</td>
                                 <td>{{$item->brand->name}}</td>
                                 <td>{{$item->price}}</td>
-                                <td>{{$item->content}}</td>
-                                <td>{{$item->description}}</td>
+                                {{-- <td>{{$item->content}}</td>
+                                <td>{{$item->description}}</td> --}}
                                 <td>
                                     @foreach ($item->tags as $tag )
                                         <span class="badge bg-info">{{$tag->name}}</span>
@@ -102,8 +102,8 @@
                                 <td>{!!$item->is_show_home ? '<span class="badge bg-success">Yes</span>'
                                 :'<span class="badge bg-danger">No</span>' !!}</td>
 
-                                <td>{{$item->created_at}}</td>
-                                <td>{{$item->updated_at}}</td>
+                                {{-- <td>{{$item->created_at}}</td>
+                                <td>{{$item->updated_at}}</td> --}}
 
                                 <td>
                                     <a href="{{ route('admin.products.show',$item->id) }}" class="btn btn-info mb-2 mt-2">Detail</a> <br>

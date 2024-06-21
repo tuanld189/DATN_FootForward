@@ -43,7 +43,7 @@
                                 <th data-ordering="false">ID</th>
                                 <th>NAME</th>
                                 <th>IMAGE</th>
-                                {{-- <th>Is Active</th>  --}}
+                                <th>Is Active</th>
                                 <th>CREATE_AT</th>
                                 <th>UPDATE_AT</th>
                                 <th>ACTION</th>
@@ -58,7 +58,6 @@
                                                 value="option1">
                                         </div>
                                     </td>
-                                    {{-- <td>{{ $item->id }}</td> --}}
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
@@ -66,8 +65,7 @@
                                             height="">
 
                                     </td>
-                                    {{-- <td>{!!$item->is_active ? '<span class="badge bg-primary">Yes</span>' --}}
-                                    {{-- :'<span class="badge bg-danger">No</span>' !!}</td> --}}
+                                    <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                     <td>
@@ -117,8 +115,10 @@
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        DataTable('#example', {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection

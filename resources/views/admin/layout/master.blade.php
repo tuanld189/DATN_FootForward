@@ -24,9 +24,14 @@
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="{{asset('vendor/laravel-filemanager/css/lfm.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-          @yield('style-index');
-    </style>
+        th,td{
+           text-align: center ;
+        }
+   </style>
 </head>
 
 <body>
@@ -103,24 +108,20 @@
     <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
     @yield('script-libs');
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
-<<<<<<< HEAD
     <script>
             new DataTable('#example');
     </script>
     @yield('scripts');
 
-=======
-
     @yield('scripts');
 
-    {{-- <script>
-        new DataTable('#example');
-    </script> --}}
->>>>>>> 5e34796577184dacb3911fcd636d2737874a14ec
+    <script src="{{ asset('https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 </body>
 
 </html>

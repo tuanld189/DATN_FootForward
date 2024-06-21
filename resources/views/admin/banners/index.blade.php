@@ -39,8 +39,8 @@
                             <th>NAME</th>
                             <th>IMAGE</th>
                             <th>Is Active</th>
-                            <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th>
+                            {{-- <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th> --}}
                             <th>ACTION</th>
                         </tr>
                         @foreach ($data as $item)
@@ -58,8 +58,8 @@
                                     {{-- <img src="{{ $item->image }}" alt="" width="100px"> --}}
                                 </td>
                                 <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td>
+                                {{-- <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td> --}}
                                 <td>
                                     <a href="{{ route('admin.banners.show', $item->id) }}" class="btn btn-info mb-2">Chi
                                         tiết</a>

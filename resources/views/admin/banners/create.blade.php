@@ -5,6 +5,7 @@
 @section('content')
     <form action="{{route('admin.banners.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
+        <h5 class="card-title mb-0">Create New Banner</h5>
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3 mt-3">

@@ -2,79 +2,91 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Models\ProductSale;
 use Illuminate\Http\Request;
+use App\Models\ProductSale;
+use App\Models\Product;
 
 class ProductSaleController extends Controller
 {
-    protected function isValidDate($date)
+    public function index()
     {
-        return strtotime($date) !== false;
+        $sales = ProductSale::all();
+        return view('admin.sales.index', compact('sales'));
     }
-    public function index($productId)
+
+    public function create()
     {
-        $product = Product::findOrFail($productId);
-        $sales = $product->sales;
-        return view('admin.sales.index', compact('product', 'sales'));
+        $products = Product::all();
+        return view('admin.sales.create', compact('products'));
     }
 
-    public function create($productId)
-    {
-        $product = Product::findOrFail($productId);
-        return view('admin.sales.create', compact('product'));
-    }
-
-    public function store(Request $request, $productId)
-{
-    $request->validate([
-        'sale_price' => 'required|numeric',
-        'start_date' => 'nullable|date',
-        'end_date' => 'nullable|date|after:start_date',
-        'status' => 'boolean'
-    ]);
-
-   
-    $product = Product::findOrFail($productId);
-    $product->sales()->create($request->all());
-
-    return redirect()->route('admin.products.sales.index', $productId)
-                     ->with('success', 'Sale price added successfully.');
-    }
-
-    public function show($id)
-    {
-        $model = ProductSale::findOrFail($id);
-        return view('admin.sales.show', compact('model'));
-    }
-    public function edit($productId, $id)
-{
-    $sale = ProductSale::findOrFail($id);
-    return view('admin.products.sales.edit', compact('sale', 'productId')); // Sửa đổi tên view ở đây
-}
-
-    public function update(Request $request, $productId, $id)
+    public function store(Request $request)
     {
         $request->validate([
-            'sale_price' => 'required|numeric',
+            'product_id' => 'required|array',
+            'product_id.*' => 'exists:products,id',
+            'sale_price' => 'required|numeric|min:0',
             'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after:start_date',
-            'status' => 'boolean'
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'boolean',
         ]);
 
-        $sale = ProductSale::findOrFail($id);
-        $sale->update($request->all());
+        // Kiểm tra checkbox 'status' đã được chọn hay chưa
+        $status = $request->has('status');
 
-        return redirect()->route('admin.products.sales.index', $productId)
-                         ->with('success', 'Sale price updated successfully.');
+        // Tạo bản ghi ProductSale mới
+        $sale = ProductSale::create([
+            'sale_price' => $request->sale_price,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $status,
+        ]);
+
+        // Lưu danh sách các sản phẩm liên quan
+        $sale->products()->attach($request->product_id); // Sử dụng attach để gán nhiều sản phẩm
+
+        return redirect()->route('admin.sales.index')->with('success', 'Tạo bán hàng sản phẩm thành công.');
     }
 
-    public function destroy($productId, $id)
+    public function show(ProductSale $sale)
     {
-        $sale = ProductSale::findOrFail($id);
-        $sale->delete();
+        return view('admin.sales.show', compact('sale'));
+    }
 
-        return redirect()->route('admin.products.sales.index', $productId)
-                         ->with('success', 'Sale price deleted successfully.');
+    public function edit(ProductSale $sale)
+    {
+        $products = Product::all();
+        return view('admin.sales.edit', compact('sale', 'products'));
+    }
+
+    public function update(Request $request, ProductSale $sale)
+    {
+        $request->validate([
+            'product_id' => 'required|array',
+            'product_id.*' => 'exists:products,id',
+            'sale_price' => 'required|numeric|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'boolean',
+        ]);
+
+        $sale->update([
+            'product_id' => $request->product_id, // Thêm product_id vào đây
+            'sale_price' => $request->sale_price,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+        ]);
+
+        // Sync the product association
+        $sale->products()->sync($request->product_id);
+
+        return redirect()->route('admin.sales.index')->with('success', 'Product sale updated successfully.');
+    }
+
+    public function destroy(ProductSale $sale)
+    {
+        $sale->delete();
+        return redirect()->route('admin.sales.index')->with('success', 'Product sale deleted successfully.');
     }
 }

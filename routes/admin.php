@@ -1,38 +1,31 @@
-
 <?php
 
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
-
-
+use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\TagController;
-use App\Models\Tag;
+use App\Http\Controllers\Admin\VourcherController;
+use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
 
-//PERMISSIONS
-Route::resource('permissions', PermissionController::class);
-Route::get('permissions/{permissionId}/delete', [PermissionController::class,'destroy']);
 
-//ROLES
-Route::resource('roles',RoleController::class);
-Route::get('roles/{roleId}/delete', [RoleController::class,'destroy']);
+// Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+// Route::post('login', [AuthController::class, 'login']);
+// Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('roles/{roleId}/give-permissions',[RoleController::class,'addPermissionToRole']);
-
-Route::put('roles/{roleId}/give-permissions',[RoleController::class,'givePermissionToRole']);
 
 Route::prefix('admin')
     ->as('admin.')
-    // ->middleware(['wed', 'is_admin'])
+    ->middleware('auth')
     ->group(function () {
 
         Route::get('/', function () {
@@ -40,17 +33,9 @@ Route::prefix('admin')
         })->name('dashboard');
 
 
-        // Route::prefix('permissions')
-        //     ->as('permissions.')
-        //     ->group(function () {
-        //     Route::get('/', [PermissionController::class, 'index'])->name('index');
-        //     Route::get('create', [PermissionController::class, 'create'])->name('create');
-        //     Route::post('store', [PermissionController::class, 'store'])->name('store');
-        //     Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
-        //     Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
-        //     Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
-        //     Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
-        // });
+        //PRODUCT
+        Route::resource('products', ProductController::class);
+
         //BRAND
         Route::prefix('brands')
             ->as('brands.')
@@ -67,6 +52,7 @@ Route::prefix('admin')
         Route::prefix('categories')
             ->as('categories.')
             ->group(function () {
+
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::get('create', [CategoryController::class, 'create'])->name('create');
             Route::post('store', [CategoryController::class, 'store'])->name('store');
@@ -75,20 +61,64 @@ Route::prefix('admin')
             Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
         });
+
+
+
         //PRODUCT
         Route::resource('products', ProductController::class);
+
+
+        // PRODUCT-SALE
+        Route::prefix('sales')->as('sales.')->group(function () {
+            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
+            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
+            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
+            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
+        });
+
+
         //POST
-        Route::prefix('post')
-        ->as('posts.')
+
+        Route::prefix('posts')
+            ->as('posts.')
+            ->group(function () {
+                Route::get('/', [PostController::class, 'index'])->name('index');
+                Route::get('create', [PostController::class, 'create'])->name('create');
+                Route::post('store', [PostController::class, 'store'])->name('store');
+                Route::get('show/{id}', [PostController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [PostController::class, 'update'])->name('update');
+                Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
+            });
+        // Vourchers
+        Route::prefix('vourchers')
+        ->as('vourchers.')
         ->group(function () {
-        Route::get('/', [PostController::class, 'index'])->name('index');
-        Route::get('create', [PostController::class, 'create'])->name('create');
-        Route::post('store', [PostController::class, 'store'])->name('store');
-        Route::get('show/{id}', [PostController::class, 'show'])->name('show');
-        Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
-        Route::put('{id}/update', [PostController::class, 'update'])->name('update');
-        Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
-    });
+            Route::get('/', [VourcherController::class, 'index'])->name('index');
+            Route::get('create', [VourcherController::class, 'create'])->name('create');
+            Route::post('store', [VourcherController::class, 'store'])->name('store');
+            Route::get('show/{id}', [VourcherController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [VourcherController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [VourcherController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [VourcherController::class, 'destroy'])->name('destroy');
+        });
+
+        //ROLE
+
+        Route::prefix('roles')
+            ->as('roles.')
+            ->group(function () {
+                Route::get('/', [RoleController::class, 'index'])->name('index');
+                Route::get('create', [RoleController::class, 'create'])->name('create');
+                Route::post('store', [RoleController::class, 'store'])->name('store');
+                Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
+                Route::get('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+            });
         //BANNERS
         Route::prefix('banners')
             ->as('banners.')
@@ -101,10 +131,38 @@ Route::prefix('admin')
             Route::put('{id}/update', [BannerController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
         });
+
+        //PERMISSION
+        Route::prefix('permissions')
+        ->as('permissions.')
+        ->group(function () {
+        Route::get('/', [PermissionController::class, 'index'])->name('index');
+        Route::get('create', [PermissionController::class, 'create'])->name('create');
+        Route::post('store', [PermissionController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+        Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+         });
+        //PERMISSION
+        Route::prefix('roles')
+            ->as('roles.')
+            ->group(function () {
+
+            Route::get('/', [PermissionController::class, 'index'])->name('index');
+            Route::get('create', [PermissionController::class, 'create'])->name('create');
+            Route::post('store', [PermissionController::class, 'store'])->name('store');
+            Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+        });
         //USERS
+
         Route::prefix('users')
             ->as('users.')
             ->group(function () {
+
             Route::get('/', [UserController::class, 'index'])->name('index');
             Route::get('create', [UserController::class, 'create'])->name('create');
             Route::post('store', [UserController::class, 'store'])->name('store');
@@ -113,4 +171,19 @@ Route::prefix('admin')
             Route::put('{id}/update', [UserController::class, 'update'])->name('update');
             Route::get('{id}/destroy', [UserController::class, 'destroy'])->name('destroy');
         });
+
+        //COMMENT
+        Route::prefix('comments')
+            ->as('comments.')
+            ->group(function () {
+                Route::get('/', [CommentController::class, 'index'])->name('index');
+                Route::get('create', [CommentController::class, 'create'])->name('create');
+                Route::post('store', [CommentController::class, 'store'])->name('store');
+                Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
+                Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+            });
     });
+});
+

@@ -2,7 +2,65 @@
 @section('title')
     Add New Product
 @endsection
+@section('style-libs')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+<style>
 
+
+    /* Style form inputs */
+    .form-control {
+        border: 1px solid #ced4da;
+    }
+
+    /* Style form labels */
+
+
+    /* Style checkboxes */
+    .form-check-input[type="checkbox"] {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    /* Style table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    /* Style variant table */
+    .variant-table {
+        margin-top: 20px;
+    }
+
+    .variant-table th, .variant-table td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .variant-table th {
+        vertical-align: middle;
+    }
+
+    .variant-table td {
+        vertical-align: middle;
+    }
+
+    .tags-select2 {
+        width: 100%;
+    }
+</style>
+@endsection
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -122,6 +180,9 @@
     <!--end col-->
 </div>
 {{-- VARIANT --}}
+
+
+
 <div class="row" style="height:400px; overflow: scroll;">
     <div class="col-lg-12">
         <div class="card">
@@ -132,83 +193,58 @@
             <div class="card-body">
                 <div class="live-preview">
                     <div class="row gy-4">
-                        <table >
-
-                            <tr >
-                                <th>Size</th>
-                                <th style="width: 50px; height:50px;" class="mr-3">Color</th>
-                                <th>Quantity</th>
-                                <th>Image</th>
-                            </tr>
-
-                            @foreach ($sizes as $sizeID => $sizeName)
-                                @foreach ($colors as $colorID => $colorName)
-                                <tr >
-                                    <td>{{$sizeName}}</td>
-                                    <td>
-                                        <div style="width: 50px; height:50px; background:{{$colorName}}; border:1px solid gray;  text-align: center;"></div>
-
-                                    </td>
-                                    <td >
-                                        <input type="text" class="form-control" value="30" placeholder="Enter quantity............" name="product_variants[{{ $sizeID. '-'. $colorID}}][quantity]">
-
-                                    </td>
-                                    <td>
-                                        <input type="file"  class="form-control" name="product_variants[{{ $sizeID. '-'. $colorID}}][image]">
-                                    </td>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th style="width: 50px; height: 50px;">Color</th>
+                                    <th>Quantity</th>
+                                    <th>Image</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sizes as $sizeID => $sizeName)
+                                    @foreach ($colors as $colorID => $colorName)
+                                        <tr>
+                                            <td>{{ $sizeName }}</td>
+                                            <td>
+                                                <div style="width: 50px; height: 50px; background: {{ $colorName }}; border: 1px solid gray; text-align: center;"></div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="30" placeholder="Enter quantity............" name="product_variants[{{ $sizeID . '-' . $colorID }}][quantity]">
+                                            </td>
+                                            <td>
+                                                <input type="file" class="form-control" name="product_variants[{{ $sizeID . '-' . $colorID }}][image]">
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
+                            </tbody>
                         </table>
-
-
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
     <!--end col-->
 </div>
 {{-- GALLERY --}}
-<div class="row" >
+<div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">GALLERIES</h4>
-
+                <h4 class="card-title mb-0 flex-grow-1">Gallery</h4>
+                <button type="button" class="btn btn-primary" onclick="addImageGallery()">Add Photo</button>
             </div><!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
-                    <div class="row gy-4">
-                        <div class="col-md-4">
-                            <div>
-                                <label for="gallery_1" class="form-label">Gallery 1:</label>
-                                <input type="file" class="form-control" name="product_galleries[]" id="gallery_1">
-
+                    <div class="row gy-4" id="gallery_list">
+                        <div class="col-md-4" id="gallery_default_item">
+                            <label for="gallery_default" class="form-label">Image:</label>
+                            <div class="d-flex">
+                                <input type="file" class="form-control" name="product_galleries[]"
+                                       id="gallery_default">
                             </div>
-
-
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-                                <label for="gallery_2" class="form-label">Gallery 2:</label>
-                                <input type="file" class="form-control" name="product_galleries[]" id="gallery_2">
-
-                            </div>
-
-
-                        </div>
-                        <div class="col-md-4">
-                            <div>
-                                <label for="gallery_3" class="form-label">Gallery 3:</label>
-                                <input type="file" class="form-control" name="product_galleries[]" id="gallery_3">
-
-                            </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -216,36 +252,30 @@
             </div>
         </div>
     </div>
-    <!--end col-->
 </div>
+
+
 {{-- TAGS --}}
-<div class="row" >
+
+<div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">TAGS</h4>
-
             </div><!-- end card header -->
             <div class="card-body">
                 <div class="live-preview">
                     <div class="row gy-4">
                         <div class="col-md-12">
                             <div>
-                                <label for="tags" class="form-label">Tags:</label>
-                                <select type="password" class="form-control" id="tags" name="tags[]" multiple>
-                                    @foreach ($tags as $id => $name )
-                                    <option value="{{$id}}">{{$name}}</option>
-                                     @endforeach
+                                <label for="tags" class="form-label">Add Information:</label>
+                                <select class="form-control tags-select2" id="tags" name="tags[]" multiple>
+                                    <!-- Options will be dynamically loaded via AJAX -->
                                 </select>
                             </div>
-
-
                         </div>
-
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -253,8 +283,7 @@
 </div>
 
 
-{{--
-BUTTOn --}}
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -272,11 +301,66 @@ BUTTOn --}}
 @endsection
 @section('script-libs')
     <script src="//cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
 @endsection
 
 @section('scripts')
 <script>
-    CKEDITOR.replace('description')
+    CKEDITOR.replace('description');
+
+</script>
+<script>
+     $(document).ready(function() {
+        $('.tags-select2').select2({
+            placeholder: '',
+            tags: true,
+            tokenSeparators: [',', ' '],
+            ajax: {
+                url: '/api/tags', // Đường dẫn đến endpoint lấy dữ liệu tags
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+
+    function addImageGallery() {
+            let id = 'gen' + '_' + Math.random().toString(36).substring(2, 15).toLowerCase();
+            let html = `
+                <div class="col-md-4" id="${id}_item">
+                    <label for="${id}" class="form-label">Image</label>
+                    <div class="d-flex">
+                        <input type="file" class="form-control" name="product_galleries[]" id="${id}">
+                        <button type="button" class="btn btn-danger" onclick="removeImageGallery('${id}_item')">
+                            <span class="bx bx-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            $('#gallery_list').append(html);
+        }
+
+        function removeImageGallery(id) {
+            if (confirm('Chắc chắn xóa không?')) {
+                $('#' + id).remove();
+            }
+        }
+    </script>
 </script>
 @endsection
 
