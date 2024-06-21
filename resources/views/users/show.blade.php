@@ -1,15 +1,14 @@
 @extends('users.layout.inheritance')
 
-@section('s')
+@section('style-list')
 <style>
 
-   
+
     .custom-control {
         position: relative;
         display: inline-block;
         cursor: pointer;
         border: 1px solid transparent;
-        padding: 5px;
         transition: border-color 0.3s ease;
     }
 
@@ -50,7 +49,6 @@
         width: 30px;
         height: 30px;
         object-fit: cover;
-        border: 1px solid #ddd;
         border-radius: 50%;
         margin-left: 10px;
         transition: border-color 0.3s ease;
@@ -91,16 +89,16 @@
 
                     <h3>{{ $product->name }}</h3>
                     <div>
-                    @if (!is_null($salePrice))
+                    {{-- @if (!is_null($salePrice))
                         <del>{{ $product->price }} $</del>  <br> <h2>{{ $salePrice }} $<h2>
-                    @else
+                    @else --}}
                         <h2>{{ $product->price }} $</h2>
-                    @endif
+                    {{-- @endif --}}
                         </div>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Sku </span> :{{ $product->sku }}</a></li>
                         <li><a class="active" href="#"><span>Category </span> :{{ $product->category->name }}</a></li>
-                        <li><a class="active" href="#"><span>Brand</span> : {{ $product->brand->name }}</a></li>
+<li><a class="active" href="#"><span>Brand</span> : {{ $product->brand->name }}</a></li>
                     </ul>
                     <div>{{ $product->content }}</div>
                     <hr>
@@ -112,7 +110,7 @@
                             <input type="text" class="form-control" id="available_quantity" name="available_quantity" readonly>
                         </div>
 
-                        <form id="variantForm" action="{{ route('users.cart.add') }}" method="POST">
+                        <form id="variantForm" action="{{ route('cart.add') }}" method="POST">
                             @csrf
 
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -144,8 +142,7 @@
                                     @endforeach
                                 </div>
                             </div>
-
-                            <div class="form-group">
+<div class="form-group">
                                 <label for="size">Size:</label>
                                 <div class="d-flex flex-wrap">
                                     @php
@@ -200,7 +197,7 @@
                  aria-selected="false">Specification</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
                  aria-selected="false">Comments</a>
             </li>
             <li class="nav-item">
@@ -238,8 +235,8 @@
                                     <h5>128mm</h5>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
+<tr>
+<td>
                                     <h5>Height</h5>
                                 </td>
                                 <td>
@@ -308,8 +305,8 @@
                                         <img src="{{asset('images/product/review-1.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
+<h4>Blake Ruiz</h4>
+<h5>12th Feb, 2018 at 05:56 pm</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
@@ -352,8 +349,8 @@
                     <div class="col-lg-6">
                         <div class="review_box">
                             <h4>Post a comment</h4>
-                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                                <div class="col-md-12">
+<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+<div class="col-md-12">
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
                                     </div>
@@ -398,9 +395,9 @@
                                     <ul class="list">
                                         <li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
                                         <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
@@ -438,12 +435,12 @@
                                         <h4>Blake Ruiz</h4>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+<i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                                     commodo</p>
                             </div>
@@ -482,11 +479,11 @@
                             <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="form-group">
+<div class="form-group">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
                                     </div>
                                 </div>
@@ -540,7 +537,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
                             <a href="#"><img src="{{asset('images/r2.jpg')}}" alt=""></a>
                             <div class="desc">
@@ -592,7 +589,7 @@
                         <div class="single-related-product d-flex">
                             <a href="#"><img src="{{asset('images/r7.jpg')}}" alt=""></a>
                             <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
+<a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
                                     <h6>$189.00</h6>
                                     <h6 class="l-through">$210.00</h6>
@@ -644,18 +641,18 @@
                         <img class="img-fluid d-block mx-auto" src="{{asset('images/category/c5.jpg')}}" alt="">
                     </a>
                 </div>
-            </div>
+</div>
         </div>
     </div>
 </section>
 <!-- End related-product Area -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   function updateQuantity() {
-    var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
+var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
     var sizeId = document.querySelector('input[name="product_size_id"]:checked').value;
 
     // Gọi AJAX để lấy số lượng có sẵn dựa trên colorId và sizeId
