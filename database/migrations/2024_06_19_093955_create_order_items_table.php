@@ -24,7 +24,7 @@ return new class extends Migration
             // Sao lưu thông tin sản phẩm
             $table->string('product_name');
             $table->string('product_sku');
-            $table->string('product_img_thumbnail')->nullable();
+            $table->string('product_image')->nullable();
             $table->double('product_price');
             $table->double('product_sale_price')->nullable();
 

@@ -59,6 +59,7 @@ Route::prefix('admin')
         });
 
 
+
         //PRODUCT
         Route::resource('products', ProductController::class);
 
@@ -75,7 +76,6 @@ Route::prefix('admin')
         });
 
 
-
         //POST
 
         Route::prefix('posts')
@@ -88,7 +88,7 @@ Route::prefix('admin')
                 Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
                 Route::put('{id}/update', [PostController::class, 'update'])->name('update');
                 Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
-
+            });
         // Vourchers
         Route::prefix('vourchers')
         ->as('vourchers.')
@@ -102,16 +102,6 @@ Route::prefix('admin')
             Route::get('{id}/destroy', [VourcherController::class, 'destroy'])->name('destroy');
         });
 
-        // PRODUCT-SALE
-        Route::prefix('sales')->as('sales.')->group(function () {
-            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
-            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
-            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
-            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
-            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit'); // Fixed this line
-            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
-            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
-        });
         //ROLE
 
         Route::prefix('roles')

@@ -65,46 +65,37 @@ class CartController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Lấy giỏ hàng từ session
+        $request->validate([
+            'quantity_add' => 'required|integer|min:1',
+        ]);
+
         $cart = session('cart', []);
 
-        // Kiểm tra sản phẩm có trong giỏ hàng hay không
         if (isset($cart[$id])) {
-            // Cập nhật số lượng sản phẩm
             $cart[$id]['quantity_add'] = $request->input('quantity_add');
-
-            // Lưu lại giỏ hàng vào session
             session(['cart' => $cart]);
-
-            return response()->json(['success' => true]);
+            return redirect()->route('users.cart.list')->with('success', 'Cart updated successfully');
         }
 
-        return response()->json(['success' => false]);
+        return redirect()->route('users.cart.list')->with('error', 'Product not found in cart');
     }
-
 
     public function updateMultiple(Request $request)
     {
         $updatedCart = $request->input('updated_cart');
 
-        // Validate and process $updatedCart as needed
-        // Example: save updated cart to session or database
-
-        // For demonstration, we update the session cart
-        session()->put('cart', $updatedCart);
-
-        return response()->json(['success' => true]);
-    }
-    public function remove($id)
-    {
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
+        foreach ($updatedCart as $item) {
+            $id = $item['id'];
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity_add'] = $item['quantity_add'];
+            }
         }
 
-        return redirect()->route('users.cart.list');
+        session()->put('cart', $cart);
+
+        return response()->json(['success' => true]);
     }
 
     public function checkout()
@@ -118,4 +109,18 @@ class CartController extends Controller
 
         return view('users.cart-checkout', compact('cart', 'totalAmount'));
     }
+
+    public function remove($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+            return redirect()->route('users.cart.list')->with('success', 'Product removed successfully');
+        }
+
+        return redirect()->route('users.cart.list')->with('error', 'Product not found in cart');
+    }
+
 }

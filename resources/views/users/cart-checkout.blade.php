@@ -2,6 +2,35 @@
 
 @section('style-list')
     <style>
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .order-column {
+            width: 33.33%;
+            text-align: center;
+        }
+
+        .order-column.product-name {
+            text-align: left;
+        }
+
+        .order-column.product-quantity {
+            text-align: center;
+            margin-left:20px;
+        }
+
+        .order-column.product-price {
+            text-align: right;
+        }
+
+        .order-header {
+            font-weight: bold;
+            border-bottom: 1px solid #e6e6e6;
+            padding-bottom: 10px;
+        }
         .coupon_area {
             margin-top: 20px;
             display: flex;
@@ -62,6 +91,7 @@
         .text-center.pl-4 {
             margin-top: 20px; /* Add margin to bottom button */
         }
+
     </style>
 @endsection
 
@@ -79,20 +109,27 @@
                         <h3>Billing Details</h3>
                         <form class="contact_form" action="{{ route('users.order.save') }}" method="post" novalidate="novalidate">
                             @csrf
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Name">
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" name="user_name" id="user_name" >
+                                <span class="placeholder" data-placeholder="Username"></span>
+
                             </div>
 
-                            <div class="form-group">
-                                <input type="text" name="user_phone" id="user_phone" class="form-control" placeholder="Phone number">
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" name="user_phone" id="user_phone" class="form-control">
+                                <span class="placeholder" data-placeholder="Phone number"></span>
+
                             </div>
 
-                            <div class="form-group">
-                                <input type="text" name="user_email" id="user_email" class="form-control"  placeholder="Email">
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" name="user_email" id="user_email" class="form-control"  >
+                                <span class="placeholder" data-placeholder="Email"></span>
                             </div>
 
-                            <div class="form-group">
-                                <input type="text" name="user_address" id="user_address" class="form-control" placeholder="Address">
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" name="user_address" id="user_address" class="form-control">
+                                <span class="placeholder" data-placeholder="Address"></span>
+
                             </div>
 
                             <div class="form-group">
@@ -120,12 +157,16 @@
                     <div class="order_box">
                         <h2>Your Order</h2>
                         <ul class="list">
+                            <li class="order-item order-header">
+                                <div class="order-column product-name">Product Name</div>
+                                <div class="order-column product-quantity">Quantity</div>
+                                <div class="order-column product-price">Price</div>
+                            </li>
                             @foreach($cart as $item)
-                                <li>
-                                    <a href="#">{{ $item['name'] }}
-                                        <span class="middle">x {{ $item['quantity_add'] }}</span>
-                                        <span class="last">${{ number_format($item['quantity_add'] * ($item['price'] ?: $item['price_sale']), 2) }}</span>
-                                    </a>
+                                <li class="order-item">
+                                    <div class="order-column product-name">{{ $item['name'] }}</div>
+                                    <div class="order-column product-quantity">x {{ $item['quantity_add'] }}</div>
+                                    <div class="order-column product-price">${{ number_format($item['quantity_add'] * ($item['price'] ?: $item['price_sale']), 2) }}</div>
                                 </li>
                             @endforeach
                         </ul>
@@ -171,3 +212,4 @@
         </div>
     </section>
 @endsection
+
