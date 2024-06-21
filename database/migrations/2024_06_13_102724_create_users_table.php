@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('username')->unique();
             $table->string('password');
             $table->string('photo_thumbs')->nullable();
-            $table->longText('status');
+            $table->longText('status')->nullable();
             $table->boolean('is_active')->default(true);
             // $table->boolean('is_admin')->default(false);//0=user, 1=admin,2 =manager;
             $table->rememberToken();
