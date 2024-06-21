@@ -93,6 +93,12 @@
                                     </ul>
                                 </div>
                             </li>
+                            {{-- Sale --}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Sales</a>
+                             {{-- Comments --}}
+                             <li class="nav-item">
+                                <a href="{{ route('admin.comments.index') }}" class="nav-link" data-key="t-horizontal">Comment</a>
 
                             <!-- Người dùng -->
                             <li class="nav-item">
