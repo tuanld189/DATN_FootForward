@@ -22,6 +22,10 @@
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
+<<<<<<< HEAD
+=======
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+>>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -35,17 +39,21 @@
                     <a class="nav-link menu-link" href="{{ route('admin.dashboard') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
-                </li> <!-- end Dashboard Menu -->
-
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarCategories">
+<<<<<<< HEAD
                         <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí sản phẩm</span>
+=======
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí chức năng</span>
+>>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
-                            {{-- Brands --}}
+                            <!-- Categories -->
                             <li class="nav-item">
+<<<<<<< HEAD
                                 <a href="{{ route('admin.brands.index') }}" class="nav-link"
                                     data-key="t-horizontal">Brands</a>
                             </li>
@@ -63,9 +71,119 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Up
                                     Sell</a>
+=======
+                                <a class="nav-link menu-link" href="#sidebarCategory" data-bs-toggle="collapse"
+                                    role="button" aria-expanded="false" aria-controls="sidebarCategory">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Danh mục</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarCategory">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.categories.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Categories</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.brands.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Brands</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.products.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Prouduct</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
+
+                            <!-- Người dùng -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse"
+                                    role="button" aria-expanded="false" aria-controls="sidebarUser">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">phân quyền</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarUser">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.users.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Users</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.permissions.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Permissions</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('admin.roles.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Roles</a>
+                                        </li>
+                                    </ul>
+                                </div>
+>>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
+                            </li>
+
+                          {{-- end người dùng --}}
+
+
+                            <!-- Posts -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#sidebarPost" data-bs-toggle="collapse"
+                                    role="button" aria-expanded="false" aria-controls="sidebarPost">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Posts</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarPost">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.posts.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Danh sách</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.posts.create') }}" class="nav-link"
+                                                data-key="t-horizontal">Thêm mới</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <!-- Banners -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#sidebarBanner" data-bs-toggle="collapse"
+                                    role="button" aria-expanded="false" aria-controls="sidebarBanner">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Banners</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarBanner">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.banners.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Danh sách</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.banners.create') }}" class="nav-link"
+                                                data-key="t-horizontal">Thêm mới</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- Vouchers -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#sidebarVoucher" data-bs-toggle="collapse"
+                                    role="button" aria-expanded="false" aria-controls="sidebarVoucher">
+                                    <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Vouchers</span>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarVoucher">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.vourchers.index') }}" class="nav-link"
+                                                data-key="t-horizontal">Danh sách</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.vourchers.create') }}" class="nav-link"
+                                                data-key="t-horizontal">Thêm mới</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
+<<<<<<< HEAD
                 </li> <!-- end Products Menu -->
 
 
@@ -114,9 +232,13 @@
 
                 </li>
 
+=======
+                </li>
+>>>>>>> 4cff7bfc0c52161852224c9126770b6dd64f0672
             </ul>
         </div>
-        <!-- Sidebar -->
     </div>
 </div>
-<!-- End App Menu -->
+
+
+

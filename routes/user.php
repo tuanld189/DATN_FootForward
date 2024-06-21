@@ -16,6 +16,7 @@ Route::post('/signup',[UserController::class, 'postSignup']);
 Route::get('/logout',[UserController::class, 'logout'])->name('logout');
 
 
+
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('users.show');
 // Route::get('/categories',[HomeController::class,'index'])->name('users.categories');
 Route::get('/get-quantity', [ProductController::class, 'getQuantity'])->name('users.getQuantity');
