@@ -107,7 +107,7 @@
                 <div class="col-lg-8">
                     <div class="billing_details">
                         <h3>Billing Details</h3>
-                        <form class="contact_form" action="{{ route('users.order.save') }}" method="post" novalidate="novalidate">
+                        <form class="contact_form" action="{{ route('order.save') }}" method="post" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control" name="user_name" id="user_name" >
