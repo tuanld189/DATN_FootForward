@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    @yield('style-list')
     <style>
         .banner-area {
             position: relative;
@@ -89,6 +90,133 @@
             width: 6%;
             height: 15%;
         }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .custom-control-label {
+                font-size: 14px;
+            }
+        }
+
+        .product_image_area {
+            margin-top:20px;
+        }
+        .s_Product_carousel {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .single-prd-item {
+            flex: 0 0 20%; /* Adjust width as needed */
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding:3px;
+        }
+        .single-prd-item:hover {
+            background: green;
+        }
+        .single-prd-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .s_product_text {
+            margin-top: 20px;
+        }
+        .list {
+            list-style: none;
+            padding: 0;
+        }
+        .list li {
+            margin-bottom: 10px;
+        }
+        .d-flex {
+            display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: .5rem;
+        }
+        .form-control {
+            text-align: center;
+            display: block;
+            line-height: 1.5;
+            font-weight: bold;
+            color: #07b52d;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .card_area .primary-btn{
+                height:50px;
+                border:none;
+
+        }
+        .card_area{
+            padding-left: 120px;
+        }
+        .primary-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            width:200px;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+        .primary-btn:hover {
+          background-color: #0056b3;
+        }
+        .icon_btn {
+            margin-left: 10px;
+            color: #333;
+        }
+        .icon_btn i {
+            font-size: 20px;
+        }
+        .card_area {
+            margin-top: 20px;
+        }
+        .product_detail_row {
+            display: flex;
+            height:70px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px; /* Khoảng cách dưới cùng */
+            background-color: orange;
+            transition: background-color 0.3s ease;
+            opacity: 85%;
+        }
+        .product_detail_title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
     </style>
 
     <body>
@@ -148,7 +276,7 @@
                             <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item"><a href="#" class="cart"><span class="fal fa-shopping-bag"><img src="{{ asset('images/Imagecut/Giohang.png') }}" alt=""></span></a>
+                            <li class="nav-item"><a href=" {{route('users.cart.list')}}" class="cart"><span class="fal fa-shopping-bag"><img src="{{ asset('images/Imagecut/Giohang.png') }}" alt=""></span></a>
                             </li>
                             <li class="nav-item">
                                 <button class="search"><span class="lnr lnr-magnifier" id="search"><img src="{{ asset('images/Imagecut/Timkiem.png') }}" alt=""></span></button>

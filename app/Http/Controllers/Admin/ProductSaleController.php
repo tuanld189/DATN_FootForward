@@ -1,15 +1,11 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Models\ProductSale;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
+use App\Models\ProductSale;
+use App\Models\Product;
+
 class ProductSaleController extends Controller
 {
     public function index()
@@ -27,30 +23,36 @@ class ProductSaleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'sale_price' => 'required|numeric',
+            'product_id' => 'required|array',
+            'product_id.*' => 'exists:products,id',
+            'sale_price' => 'required|numeric|min:0',
             'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after:start_date',
-            'status' => 'required|boolean',
-        ], [
-            'end_date.after' => 'End Date must be a date after Start Date.',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'boolean',
         ]);
 
-        ProductSale::create([
-            'product_id' => $request->product_id,
+        // Kiểm tra checkbox 'status' đã được chọn hay chưa
+        $status = $request->has('status');
+
+        // Tạo bản ghi ProductSale mới
+        $sale = ProductSale::create([
             'sale_price' => $request->sale_price,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'status' => $request->status,
+            'status' => $status,
         ]);
 
-        return redirect()->route('admin.sales.index');
+        // Lưu danh sách các sản phẩm liên quan
+        $sale->products()->attach($request->product_id); // Sử dụng attach để gán nhiều sản phẩm
+
+        return redirect()->route('admin.sales.index')->with('success', 'Tạo bán hàng sản phẩm thành công.');
     }
 
     public function show(ProductSale $sale)
     {
         return view('admin.sales.show', compact('sale'));
     }
+
     public function edit(ProductSale $sale)
     {
         $products = Product::all();
@@ -58,28 +60,33 @@ class ProductSaleController extends Controller
     }
 
     public function update(Request $request, ProductSale $sale)
-{
-    $request->validate([
-        'product_id' => 'required|exists:products,id',
-        'sale_price' => 'required|numeric',
-        'start_date' => 'nullable|date',
-        'end_date' => 'nullable|date|after:start_date',
-        'status' => 'nullable|boolean',
-    ]);
+    {
+        $request->validate([
+            'product_id' => 'required|array',
+            'product_id.*' => 'exists:products,id',
+            'sale_price' => 'required|numeric|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'boolean',
+        ]);
 
-    $sale->update([
-        'product_id' => $request->product_id,
-        'sale_price' => $request->sale_price,
-        'start_date' => $request->start_date,
-        'end_date' => $request->end_date,
-        'status' => $request->has('status') ? true : false,
-    ]);
+        $sale->update([
+            'product_id' => $request->product_id, // Thêm product_id vào đây
+            'sale_price' => $request->sale_price,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+        ]);
 
-    return redirect()->route('admin.sales.index');
-}
+        // Sync the product association
+        $sale->products()->sync($request->product_id);
+
+        return redirect()->route('admin.sales.index')->with('success', 'Product sale updated successfully.');
+    }
+
     public function destroy(ProductSale $sale)
     {
         $sale->delete();
-        return redirect()->route('admin.sales.index');
+        return redirect()->route('admin.sales.index')->with('success', 'Product sale deleted successfully.');
     }
 }

@@ -25,10 +25,10 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
-         th,td{
-            text-align: center ;
-         }
-    </style>
+        th,td{
+           text-align: center ;
+        }
+   </style>
 </head>
 
 <body>

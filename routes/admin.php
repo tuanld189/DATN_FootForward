@@ -17,6 +17,8 @@ use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
 
+
+
 Route::prefix('admin')
     ->as('admin.')
     // ->middleware(['wed', 'is_admin'])
@@ -57,6 +59,23 @@ Route::prefix('admin')
         });
 
 
+
+        //PRODUCT
+        Route::resource('products', ProductController::class);
+
+
+        // PRODUCT-SALE
+        Route::prefix('sales')->as('sales.')->group(function () {
+            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
+            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
+            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
+            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
+            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
+        });
+
+
         //POST
 
         Route::prefix('posts')
@@ -69,7 +88,7 @@ Route::prefix('admin')
                 Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
                 Route::put('{id}/update', [PostController::class, 'update'])->name('update');
                 Route::get('{id}/destroy', [PostController::class, 'destroy'])->name('destroy');
-
+            });
         // Vourchers
         Route::prefix('vourchers')
         ->as('vourchers.')
@@ -83,16 +102,6 @@ Route::prefix('admin')
             Route::get('{id}/destroy', [VourcherController::class, 'destroy'])->name('destroy');
         });
 
-        // PRODUCT-SALE
-        Route::prefix('sales')->as('sales.')->group(function () {
-            Route::get('/', [ProductSaleController::class, 'index'])->name('index');
-            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
-            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
-            Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
-            Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit'); // Fixed this line
-            Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
-            Route::delete('{sale}', [ProductSaleController::class, 'destroy'])->name('destroy');
-        });
         //ROLE
 
         Route::prefix('roles')
@@ -121,7 +130,19 @@ Route::prefix('admin')
 
         //PERMISSION
         Route::prefix('permissions')
-            ->as('permissions.')
+        ->as('permissions.')
+        ->group(function () {
+        Route::get('/', [PermissionController::class, 'index'])->name('index');
+        Route::get('create', [PermissionController::class, 'create'])->name('create');
+        Route::post('store', [PermissionController::class, 'store'])->name('store');
+        Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [PermissionController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
+        Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
+         });
+        //PERMISSION
+        Route::prefix('roles')
+            ->as('roles.')
             ->group(function () {
 
             Route::get('/', [PermissionController::class, 'index'])->name('index');
@@ -159,3 +180,6 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
             });
     });
+
+
+
