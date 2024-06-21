@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ProductVariant;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -12,6 +13,14 @@ class OrderController extends Controller
 {
     public function save()
     {
+    //     $cart = session('cart');
+
+    //     foreach ($cart as $variantID => $item) {
+    //         $productVariant = ProductVariant::find($variantID);
+    //         if (!$productVariant) {
+    //             return back()->with('error', "Product variant with ID $variantID does not exist.");
+    //         }
+    //     }
         try {
             DB::transaction(function () {
                 // Generate a random user_code
@@ -51,6 +60,7 @@ class OrderController extends Controller
                     'user_email' => request('user_email'),
                     'user_phone' => request('user_phone'),
                     'user_address' => request('user_address'),
+                    'user_note' => request('user_note'),
                     'total_price' => $totalAmount,
                 ]);
 

@@ -26,22 +26,22 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
 
-        // Logic để lấy giá sale nếu có
-        $salePrice = null;
+        // // Logic để lấy giá sale nếu có
+        // $salePrice = null;
 
-        $today = now()->format('Y-m-d');
-        $sale = ProductSale::where('product_id', $product->id)
-                           ->where('status', true)
-                           ->where('start_date', '<=', $today)
-                           ->where('end_date', '>=', $today)
-                           ->latest()
-                           ->first();
+        // $today = now()->format('Y-m-d');
+        // $sale = ProductSale::where('product_id', $product->id)
+        //                    ->where('status', true)
+        //                    ->where('start_date', '<=', $today)
+        //                    ->where('end_date', '>=', $today)
+        //                    ->latest()
+        //                    ->first();
 
-        if ($sale) {
-            $salePrice = $sale->sale_price;
-        }
+        // if ($sale) {
+        //     $salePrice = $sale->sale_price;
+        // }
 
-        return view('users.show', compact('product', 'categories', 'brands', 'salePrice'));
+        return view('users.show', compact('product', 'categories', 'brands'));
     }
     public function getQuantity(Request $request)
     {

@@ -3,7 +3,7 @@
 @section('s')
 <style>
 
-   
+
     .custom-control {
         position: relative;
         display: inline-block;
@@ -91,11 +91,11 @@
 
                     <h3>{{ $product->name }}</h3>
                     <div>
-                    @if (!is_null($salePrice))
+                    {{-- @if (!is_null($salePrice))
                         <del>{{ $product->price }} $</del>  <br> <h2>{{ $salePrice }} $<h2>
-                    @else
+                    @else --}}
                         <h2>{{ $product->price }} $</h2>
-                    @endif
+                    {{-- @endif --}}
                         </div>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Sku </span> :{{ $product->sku }}</a></li>

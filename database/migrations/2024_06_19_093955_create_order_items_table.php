@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Order::class)->constrained();
             $table->foreignIdFor(ProductVariant::class)->constrained();
 
-            $table->unsignedInteger('quatity')->default(0);
+            $table->unsignedInteger('quantity_add')->default(0);
 
             // Sao lưu thông tin sản phẩm
             $table->string('product_name');

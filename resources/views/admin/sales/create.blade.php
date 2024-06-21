@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <div class="form-check form-switch form-switch-warning">
-                        <input class="form-check-input" type="checkbox" role="switch" name="status" id="" checked>
+                        <input class="form-check-input" type="checkbox" role="switch" name="status" id="status" checked>
                         <label class="form-check-label" for="status">Status</label>
                     </div>
                 </div>
@@ -74,7 +74,7 @@ $(document).ready(function() {
     $('#product_id').select2({
         placeholder: 'Select products',
         ajax: {
-            url: 'http://datn_footforward.test/admin/products/search-products',
+            url: '{{ route('admin.products.search-products') }}',
             dataType: 'json',
             delay: 250,
             processResults: function(data) {
@@ -91,7 +91,6 @@ $(document).ready(function() {
         }
     });
 
-    // Xử lý khi form submit để lấy giá trị của Select2
     $('form').on('submit', function(event) {
         var selectedProducts = $('#product_id').val();
         $('#product_id').val(selectedProducts).trigger('change');
