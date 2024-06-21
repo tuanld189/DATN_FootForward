@@ -144,7 +144,7 @@ Route::prefix('admin')
         Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
         Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
          });
-        //PERMISSION
+        //ROLES
         Route::prefix('roles')
             ->as('roles.')
             ->group(function () {
