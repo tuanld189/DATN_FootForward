@@ -21,7 +21,6 @@
         <div class="card-header">
             <h3 class="card-title">Add New Sale</h3>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -38,7 +37,9 @@
                 <div class="form-group">
                     <label for="product_id">Products</label>
                     <select name="product_id[]" id="product_id" class="form-control select2" style="width: 100%;" multiple="multiple" required>
-                        <!-- Options will be loaded dynamically via AJAX -->
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
@@ -62,7 +63,6 @@
                 <button type="submit" class="btn btn-primary mt-3">Create Sale</button>
             </form>
         </div>
-        <!-- /.card-body -->
     </div>
 @endsection
 
@@ -72,28 +72,7 @@
 <script>
 $(document).ready(function() {
     $('#product_id').select2({
-        placeholder: 'Select products',
-        ajax: {
-            url: '{{ route('admin.products.search-products') }}',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: $.map(data, function(product) {
-                        return {
-                            id: product.id,
-                            text: product.name
-                        };
-                    })
-                };
-            },
-            cache: true
-        }
-    });
-
-    $('form').on('submit', function(event) {
-        var selectedProducts = $('#product_id').val();
-        $('#product_id').val(selectedProducts).trigger('change');
+        placeholder: 'Select products'
     });
 });
 </script>

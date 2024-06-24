@@ -107,23 +107,26 @@
                 <div class="col-lg-8">
                     <div class="billing_details">
                         <h3>Billing Details</h3>
-                        <form class="contact_form" action="{{ route('users.order.save') }}" method="post" novalidate="novalidate">
+                        <form class="contact_form" action="{{ route('order.save') }}" method="post" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" name="user_name" id="user_name" >
+                                <input type="hidden" class="form-control" name="user_id" id="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
+
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" name="user_name" id="user_name" value="{{ Auth::check() ? Auth::user()->name : '' }}">
                                 <span class="placeholder" data-placeholder="Username"></span>
 
                             </div>
-
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" name="user_phone" id="user_phone" class="form-control">
-                                <span class="placeholder" data-placeholder="Phone number"></span>
-
+                                <input type="text" name="user_email" id="user_email" class="form-control"  value="{{ Auth::check() ? Auth::user()->email : '' }}">
+                                <span class="placeholder" data-placeholder="Email"></span>
                             </div>
 
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" name="user_email" id="user_email" class="form-control"  >
-                                <span class="placeholder" data-placeholder="Email"></span>
+                                <input type="text" name="user_phone" id="user_phone" class="form-control" >
+                                <span class="placeholder" data-placeholder="Phone number"></span>
+
                             </div>
 
                             <div class="col-md-12 form-group p_star">
@@ -135,7 +138,7 @@
                             <div class="form-group">
                                 <div class="creat_account">
                                     <label for="f-option2">
-                                        <input type="checkbox" id="f-option2" name="create_account" checked>
+                                        <input type="checkbox" id="f-option2" name="create_account" >
                                         Create an account?
                                     </label>
                                 </div>

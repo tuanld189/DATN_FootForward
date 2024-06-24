@@ -60,7 +60,7 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-        return redirect()->route('users.cart.list');
+        return redirect()->route('cart.list');
     }
 
     public function update(Request $request, $id)
@@ -74,10 +74,10 @@ class CartController extends Controller
         if (isset($cart[$id])) {
             $cart[$id]['quantity_add'] = $request->input('quantity_add');
             session(['cart' => $cart]);
-            return redirect()->route('users.cart.list')->with('success', 'Cart updated successfully');
+            return redirect()->route('cart.list')->with('success', 'Cart updated successfully');
         }
 
-        return redirect()->route('users.cart.list')->with('error', 'Product not found in cart');
+        return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
 
     public function updateMultiple(Request $request)
@@ -117,10 +117,11 @@ class CartController extends Controller
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
-            return redirect()->route('users.cart.list')->with('success', 'Product removed successfully');
+            return redirect()->route('cart.list')->with('success', 'Product removed successfully');
         }
 
-        return redirect()->route('users.cart.list')->with('error', 'Product not found in cart');
+        return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
+
 
 }

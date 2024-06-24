@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class ProductSaleController extends Controller
 
         $sale->products()->attach($request->product_id);
 
-        return redirect()->route('admin.sales.index')->with('success', 'Tạo bán hàng sản phẩm thành công.');
+        return redirect()->route('admin.sales.index');
     }
 
     public function show(ProductSale $sale)
@@ -59,7 +60,6 @@ class ProductSaleController extends Controller
 
     public function update(Request $request, ProductSale $sale)
     {
-        Log::info($request->all());
         $request->validate([
             'product_id' => 'required|array',
             'product_id.*' => 'exists:products,id',
@@ -70,7 +70,6 @@ class ProductSaleController extends Controller
         ]);
 
         $sale->update([
-            'product_id' => $request->product_id, // Thêm product_id vào đây
             'sale_price' => $request->sale_price,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -80,12 +79,12 @@ class ProductSaleController extends Controller
         // Sync the product association
         $sale->products()->sync($request->product_id);
 
-        return redirect()->route('admin.sales.index')->with('success', 'Product sale updated successfully.');
+        return redirect()->route('admin.sales.index');
     }
 
     public function destroy(ProductSale $sale)
     {
         $sale->delete();
-        return redirect()->route('admin.sales.index')->with('success', 'Product sale deleted successfully.');
+        return redirect()->route('admin.sales.index');
     }
 }

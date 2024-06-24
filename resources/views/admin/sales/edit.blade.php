@@ -1,4 +1,4 @@
-@extends('admin.layout.master')
+{{-- @extends('admin.layout.master')
 
 @section('content')
     <div class="card">
@@ -50,7 +50,7 @@
         $('#product_id').select2({
             placeholder: 'Select products',
             ajax: {
-                url: 'http://datn_footforward.test/admin/products/search-products',
+                url: '{{ route('admin.products.search') }}',
                 dataType: 'json',
                 delay: 250,
                 processResults: function(data) {
@@ -68,4 +68,4 @@
         });
     });
 </script>
-@endsection
+@endsection --}}

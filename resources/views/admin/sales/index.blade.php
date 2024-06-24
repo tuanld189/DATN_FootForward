@@ -8,7 +8,6 @@
                 <a href="{{ route('admin.sales.create') }}" class="btn btn-primary">Add New Sale</a>
             </div>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -37,9 +36,9 @@
                             <td>{{ $sale->sale_price }}</td>
                             <td>{{ $sale->start_date }}</td>
                             <td>{{ $sale->end_date }}</td>
-                            <td>{{ $sale->status ? 'Active' : 'Inactive' }}</td>
+                            <td> {!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
                             <td>
-                                <a href="{{ route('admin.sales.show', $sale->id) }}" class="btn btn-info btn-sm">View</a>
+                                <a href="{{ route('admin.sales.show', $sale->id) }}" class="btn btn-info btn-sm">Detail</a>
                                 <a href="{{ route('admin.sales.edit', $sale->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                 <form action="{{ route('admin.sales.destroy', $sale->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
@@ -52,6 +51,5 @@
                 </tbody>
             </table>
         </div>
-        <!-- /.card-body -->
     </div>
 @endsection

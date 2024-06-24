@@ -89,16 +89,18 @@
 
                     <h3>{{ $product->name }}</h3>
                     <div>
-                    {{-- @if (!is_null($salePrice))
-                        <del>{{ $product->price }} $</del>  <br> <h2>{{ $salePrice }} $<h2>
-                    @else --}}
-                        <h2>{{ $product->price }} $</h2>
-                    {{-- @endif --}}
+                        @if (isset($salePrice))
+                        <del>{{ $product->price }} $</del>
+                        <br>
+                        <h2>{{ $salePrice }} $</h2>
+                        @else
+                            <h2>{{ $product->price }} $</h2>
+                        @endif
                         </div>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Sku </span> :{{ $product->sku }}</a></li>
                         <li><a class="active" href="#"><span>Category </span> :{{ $product->category->name }}</a></li>
-                        <li><a class="active" href="#"><span>Brand</span> : {{ $product->brand->name }}</a></li>
+<li><a class="active" href="#"><span>Brand</span> : {{ $product->brand->name }}</a></li>
                     </ul>
                     <div>{{ $product->content }}</div>
                     <hr>
@@ -110,7 +112,7 @@
                             <input type="text" class="form-control" id="available_quantity" name="available_quantity" readonly>
                         </div>
 
-                        <form id="variantForm" action="{{ route('users.cart.add') }}" method="POST">
+                        <form id="variantForm" action="{{ route('cart.add') }}" method="POST">
                             @csrf
 
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -397,7 +399,7 @@
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
 <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
                                         <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                                  class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
@@ -440,7 +442,7 @@
                                         <i class="fa fa-star"></i>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                                     commodo</p>
                             </div>
@@ -483,7 +485,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="form-group">
+<div class="form-group">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
                                     </div>
                                 </div>
@@ -537,7 +539,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                         <div class="single-related-product d-flex">
                             <a href="#"><img src="{{asset('images/r2.jpg')}}" alt=""></a>
                             <div class="desc">
@@ -589,7 +591,7 @@
                         <div class="single-related-product d-flex">
                             <a href="#"><img src="{{asset('images/r7.jpg')}}" alt=""></a>
                             <div class="desc">
-                                <a href="#" class="title">Black lace Heels</a>
+<a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
                                     <h6>$189.00</h6>
                                     <h6 class="l-through">$210.00</h6>
@@ -652,7 +654,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   function updateQuantity() {
-    var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
+var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
     var sizeId = document.querySelector('input[name="product_size_id"]:checked').value;
 
     // Gọi AJAX để lấy số lượng có sẵn dựa trên colorId và sizeId

@@ -26,9 +26,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('dashboard');
 // });
 Route::get('/tags/search', [ProductController::class, 'search'])->name('tags.search');
-Route::delete('admin/products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('admin.products.gallery.delete');
 
-Route::get('admin/products/search-products', [ProductController::class, 'searchProducts'])->name('admin.products.search-products');
 
 // routes/web.php
 

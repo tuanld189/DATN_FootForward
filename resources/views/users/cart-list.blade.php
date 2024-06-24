@@ -203,7 +203,7 @@
                                 </td>
                                 <td>
                                     <div class="product_count">
-                                        <form action="{{ route('users.cart.update', ['id' => $item['id']]) }}" method="POST">
+                                        <form action="{{ route('cart.update', ['id' => $item['id']]) }}" method="POST">
                                             @csrf
                                             <input type="number" name="quantity_add" id="sst-{{ $item['id'] }}" value="{{ $item['quantity_add'] }}" title="Quantity:" class="input-text qty" min="1" onchange="this.form.submit()">
                                         </form>
@@ -213,7 +213,7 @@
                                     <h5 id="total-{{ $item['id'] }}" data-price="{{ $item['price'] ?: $item['price_sale'] }}">{{ number_format($itemTotal, 2) }} $</h5>
                                 </td>
                                 <td>
-                                    <form action="{{ route('users.cart.remove', ['id' => $item['id']]) }}" method="POST">
+                                    <form action="{{ route('cart.remove', ['id' => $item['id']]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="remove-btn" onclick="alert('Chắc chắn xóa?')"><i class="fa fa-times"></i></button>
@@ -233,8 +233,8 @@
                 <p><i>Shipping & taxes calculated at checkout</i></p>
             </div>
             <div class="checkout-buttons">
-                <a href="{{ route('index') }}"" class="primary-btn">Continue Shopping</a>
-                <a href="{{ route('users.cart.checkout') }}" class="primary-btn">Proceed to Checkout</a>
+                <a href="{{ route('index') }}" class="primary-btn">Continue Shopping</a>
+                <a href="{{ route('cart.checkout') }}" class="primary-btn">Proceed to Checkout</a>
             </div>
         </div>
     </div>
@@ -261,7 +261,7 @@
       });
 
       // Send a fetch request to update multiple items in the cart
-      fetch('{{ route("users.cart.update-multiple") }}', {
+      fetch('{{ route("cart.update-multiple") }}', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

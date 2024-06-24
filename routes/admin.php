@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 // Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 // Route::post('login', [AuthController::class, 'login']);
 // Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
 
 Route::prefix('admin')
     ->as('admin.')
@@ -66,7 +66,8 @@ Route::prefix('admin')
 
         //PRODUCT
         Route::resource('products', ProductController::class);
-
+        Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
+        Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
         // PRODUCT-SALE
         Route::prefix('sales')->as('sales.')->group(function () {
@@ -144,7 +145,7 @@ Route::prefix('admin')
         Route::put('{id}/update', [PermissionController::class, 'update'])->name('update');
         Route::get('{id}/destroy', [PermissionController::class, 'destroy'])->name('destroy');
          });
-        //PERMISSION
+        //ROLES
         Route::prefix('roles')
             ->as('roles.')
             ->group(function () {
@@ -185,5 +186,3 @@ Route::prefix('admin')
                 Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
             });
     });
-
-
