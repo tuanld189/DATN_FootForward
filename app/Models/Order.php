@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    const STATUS_ORDER = [
+    public const STATUS_ORDER = [
         'pending' => 'Chờ xác nhận',
         'confirmed' => 'Đã xác nhận',
         'preparing_goods' => 'Đang chuẩn bị hàng',
@@ -18,7 +18,7 @@ class Order extends Model
         'canceled' => 'Đơn hàng đã bị hủy',
     ];
 
-    const STATUS_PAYMENT = [
+    public const STATUS_PAYMENT = [
         'unpaid' => 'Chưa thanh toán',
         'paid' => 'Đã thanh toán',
     ];
@@ -49,4 +49,9 @@ class Order extends Model
         'status_payment',
         'total_price',
     ];
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

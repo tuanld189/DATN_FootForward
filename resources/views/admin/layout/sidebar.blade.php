@@ -67,6 +67,7 @@
                                     Sell</a>
                             </li>
 
+
                           {{-- end người dùng --}}
 
 
@@ -181,6 +182,11 @@ data-key="t-horizontal">Users</a>
                 <li class="nav-item">
                     <a href="{{ route('admin.comments.index') }}" class="nav-link"
                         data-key="t-horizontal">Comment</a>
+
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link"
+                        data-key="t-horizontal">Order Manager</a>
 
                 </li>
 

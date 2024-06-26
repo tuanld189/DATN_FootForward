@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +69,6 @@ Route::prefix('admin')
         Route::resource('products', ProductController::class);
         Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
         Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
-
         // PRODUCT-SALE
         Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
@@ -175,5 +175,21 @@ Route::prefix('admin')
                 Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
                 Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
                 Route::get('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
-            });
+        });
+
+
+        //ORDER
+        Route::prefix('orders')
+        ->as('orders.')
+        ->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('index');
+            Route::get('create', [OrderController::class, 'create'])->name('create');
+            Route::post('store', [OrderController::class, 'store'])->name('store');
+            Route::get('show/{id}', [OrderController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [OrderController::class, 'update'])->name('update');
+            Route::delete('{id}/destroy', [OrderController::class, 'destroy'])->name('destroy'); // Changed 'delete' method
+        });
+
+
     });

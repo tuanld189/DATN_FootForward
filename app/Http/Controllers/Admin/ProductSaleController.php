@@ -23,29 +23,29 @@ class ProductSaleController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|array',
-            'product_id.*' => 'exists:products,id',
-            'sale_price' => 'required|numeric|min:0',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'boolean',
-        ]);
+{
+    $request->validate([
+        'product_id' => 'required|array',
+        'product_id.*' => 'exists:products,id',
+        'sale_price' => 'required|numeric|min:0',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date|after_or_equal:start_date',
+        'status' => 'boolean',
+    ]);
 
-        $status = $request->has('status');
+    $status = $request->filled('status') ? true : false;
 
-        $sale = ProductSale::create([
-            'sale_price' => $request->sale_price,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $status,
-        ]);
+    $sale = ProductSale::create([
+        'sale_price' => $request->sale_price,
+        'start_date' => $request->start_date,
+        'end_date' => $request->end_date,
+        'status' => $status,
+    ]);
 
-        $sale->products()->attach($request->product_id);
+    $sale->products()->attach($request->product_id);
 
-        return redirect()->route('admin.sales.index');
-    }
+    return redirect()->route('admin.sales.index');
+}
 
     public function show(ProductSale $sale)
     {
@@ -69,11 +69,13 @@ class ProductSaleController extends Controller
             'status' => 'boolean',
         ]);
 
+        $status = $request->filled('status') ? true : false;
+
         $sale->update([
             'sale_price' => $request->sale_price,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'status' => $request->status,
+            'status' => $status,
         ]);
 
         // Sync the product association

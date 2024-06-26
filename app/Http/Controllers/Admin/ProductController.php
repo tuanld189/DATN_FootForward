@@ -292,12 +292,7 @@ class ProductController extends Controller
     public function searchProducts(Request $request)
     {
         $searchTerm = $request->input('q');
-
-        Log::info('Search term: '.$searchTerm);
-
-        $products = Product::where('name', 'like', '%'.$searchTerm.'%')->get();
-
-        Log::info('Products found: '.$products->toJson());
+        $products = Product::where('name', 'like', '%' . $searchTerm . '%')->get();
 
         return response()->json($products);
     }

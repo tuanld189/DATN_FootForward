@@ -22,4 +22,9 @@ class OrderItem extends Model
         'variant_color_name',
     ];
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
 }

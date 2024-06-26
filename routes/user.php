@@ -17,32 +17,35 @@ Route::post('/signup',[UserController::class, 'postSignup']);
 Route::get('/logout',[UserController::class, 'logout'])->name('logout');
 
 
+//PRODUCT
 
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('users.show');
+Route::get('/get-quantity', [ProductController::class, 'getQuantity'])->name('getQuantity');
+Route::post('/user/product/getQuantity', [ProductController::class, 'getProductQuantity'])->name('user.product.getQuantity');
+Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->name('api.product.quantity');
 
 // Route::get('/categories',[HomeController::class,'index'])->name('users.categories');
-Route::get('/get-quantity', [ProductController::class, 'getQuantity'])->name('getQuantity');
-Route::post('/user/product/getQuantity', [ProductController::class, 'getProductQuantity'])
-    ->name('user.product.getQuantity');
+
 
     // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['user', 'auth']], function () {
     //     // \UniSharp\LaravelFilemanager\Lfm::routes();
     // });
 
-Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->name('api.product.quantity');
     // Mua bán hàng
 Route::get('/cart/list', [CartController::class, 'list'])->name('cart.list');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
 Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
 
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
+
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
 
