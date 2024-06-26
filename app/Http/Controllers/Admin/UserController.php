@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -12,11 +13,31 @@ class UserController extends Controller
 {
     const PATH_UPLOAD = 'users';
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all(); // Lấy danh sách tất cả người dùng
+        $query = User::query(); // Bắt đầu query từ model User
+
+        // Lọc theo tên người dùng
+        if ($request->filled('name')) {
+            $query->where('username', 'like', '%' . $request->input('name') . '%');
+        }
+
+        // Lọc theo email
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->input('email') . '%');
+        }
+
+        // Lọc theo ngày
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->input('date'));
+        }
+
+        // Lấy danh sách người dùng đã lọc và trả về view
+        $users = $query->latest()->get();
+
         return view('admin.users.index', compact('users'));
     }
+
 
     public function show($id)
     {

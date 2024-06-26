@@ -1,64 +1,85 @@
 @extends('admin.layout.master')
-@section('title')
-    Create New Post
-@endsection
+
+@section('title', 'Create New Post')
+
 @section('content')
-    <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="row">
-            <div class="col-md-6">
-                <div class="mb-3 mt-3">
-                    <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name"
-                        required>
-                </div>
-                <div class="mb-3 mt-3">
-                    <label for="description" class="form-label">Description:</label>
-                    <textarea class="form-control" id="description" placeholder="Enter description" name="description"></textarea>
-                </div>
-                <div class="mb-3 mt-3">
-                    <label for="image" class="form-label">Image:</label>
-                    <input type="file" class="form-control" id="image" name="image">
-                </div>
-                <div class="mb-3 mt-3">
-                    <label for="content" class="form-label">Content:</label>
-                    <textarea class="form-control" name="content" id="content"></textarea>
-                </div>
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Datatables</h4>
 
-                <div class="col-md-6">
-                    <div class="mb-3 mt-3">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="1" checked name="is_active">Is
-                            Active
-                        </label>
-                    </div>
-
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Posts</li>
+                        <li class="breadcrumb-item active">Create</li>
+                    </ol>
+                </div>
 
             </div>
-            <div class="col-md-6">
-                <div class="mb-3 mt-3">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="1" checked name="is_active">Is Active
-                    </label>
+        </div>
+    </div>
+    <!-- end page title -->
+    <div class="row">
+        <div class="col-xxl-12 ">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 mt-3">
+                                    <label for="name" class="form-label">Name:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter name"
+                                        name="name" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label for="description" class="form-label">Description:</label>
+                                    <textarea class="form-control" id="description" placeholder="Enter description" name="description"></textarea>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label for="image" class="form-label">Image:</label>
+                                    <input type="file" class="form-control" id="image" name="image">
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label for="content" class="form-label">Content:</label>
+                                    <textarea class="form-control" name="content" id="ckeditor-classic"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" checked
+                                            name="is_active" id="is_active">
+                                        <label class="form-check-label" for="is_active">Is Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 @endsection
 
 @section('script-libs')
-
-    <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
-
-{{-- <script src="//cdn.ckeditor.com/4.24.0-lts/basic/ckeditor.js"></script> --}}
-<script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
+    <!-- ckeditor -->
+    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <!-- dropzone js -->
+    <script src="assets/libs/dropzone/dropzone-min.js"></script>
+    <!-- project-create init -->
+    <script src="assets/js/pages/project-create.init.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
 @endsection
 
 @section('scripts')
     <script>
-        CKEDITOR.replace('content');
+        CKEDITOR.replace('ckeditor-classic');
     </script>
 @endsection
-
