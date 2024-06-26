@@ -12,6 +12,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Banner</li>
                     </ol>
                 </div>
 
@@ -24,53 +25,97 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Brands</h5>
+                    <h5 class="card-title mb-0">Banner</h5>
                     <a href="{{ route('admin.banners.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
-                        <tr>
-                            <th scope="col" style="width: 10px;">
-                                <div class="form-check">
-                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                </div>
-                            </th>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>IMAGE</th>
-                            <th>Is Active</th>
-                            {{-- <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th> --}}
-                            <th>ACTION</th>
-                        </tr>
-                        @foreach ($data as $item)
 
-                            <tr>
-                                <td scope="col" style="width: 10px;">
-                                    <div class="form-check">
-                                        <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                    </div>
-                                </td>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>
-                                    <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
-                                    {{-- <img src="{{ $item->image }}" alt="" width="100px"> --}}
-                                </td>
-                                <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                {{-- <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td> --}}
-                                <td>
-                                    <a href="{{ route('admin.banners.show', $item->id) }}" class="btn btn-info mb-2">Chi
-                                        tiết</a>
-                                    <a href="{{ route('admin.banners.edit', $item->id) }}"
-                                        class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.banners.destroy', $item->id) }}" class="btn btn-danger mb-2"
-                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
-                                </td>
-                            </tr>
-                        @endforeach
+
                     </table>
+                    <div class="table-responsive table-card mb-1">
+                        <table class="table table-nowrap align-middle" id="orderTable">
+                            <thead class="text-muted table-light">
+                                <tr class="text-uppercase">
+                                    <th scope="col" style="width: 25px;">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                        </div>
+                                    </th>
+                                    <th class="sort" data-sort="id">ID</th>
+                                    <th class="sort" data-sort="customer_name">Name</th>
+                                    <th class="sort" data-sort="product_name">Image</th>
+                                    <th class="sort" data-sort="product_address">Is_active</th>
+                                    <th class="sort" data-sort="city">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="checkAll"
+                                                    value="option1">
+                                            </div>
+                                        </th>
+                                        <td class="id"><a href="apps-ecommerce-order-details.html"
+                                                class="fw-medium link-primary">{{ $item->id }}</a>
+                                        </td>
+                                        <td class="customer_name">{{ $item->name }}</td>
+                                        <td class="customer_phone">
+                                            <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
+                                        </td>
+                                        {{-- <td class="customer_address">{{ $item-> }}</td> --}}
+                                        <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+
+                                        <td>
+                                            <ul class="list-inline hstack gap-2 mb-0">
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                        data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                        <a href="{{ route('admin.banners.show', $item->id) }}"
+                                                            class="text-primary d-inline-block">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                        <a href="{{ route('admin.banners.edit', $item->id) }}"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                        data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                        <form id="delete-form-{{ $item->id }}"
+                                                            action="{{ route('admin.banners.destroy', $item->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                        <a href="#" class="text-danger d-inline-block"
+                                                            onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
+                                                            <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    {{-- </ul> --}}
+                                                </ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="noresult" style="display: none">
+                            <div class="text-center">
+                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                                    colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
+                                <h5 class="mt-2">Sorry! No Result Found</h5>
+                                <p class="text-muted">We've searched more than 150+ Orders We did not
+                                    find any orders for you search.</p>
+                            </div>
+                        </div>
+                    </div>
                     {{ $data->links() }}
                 </div>
             </div>
@@ -104,9 +149,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
+
+    <!-- list.js min js -->
+    <script src="assets/libs/list.js/list.min.js"></script>
+
+    <!--list pagination js-->
+    <script src="assets/libs/list.pagination.js/list.pagination.min.js"></script>
+
+    <!-- ecommerce-order init js -->
+    <script src="assets/js/pages/ecommerce-order.init.js"></script>
+
+    <!-- Sweet Alerts js -->
+    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        DataTable('#example', {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection

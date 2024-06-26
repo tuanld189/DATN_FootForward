@@ -29,45 +29,77 @@
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
-                        <tr>
-                            <th scope="col" style="width: 10px;">
-                                <div class="form-check">
-                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                </div>
-                            </th>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>DESCRIPTION</th>
-                            <th>Is Active</th>
-                            {{-- <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th> --}}
-                            <th>ACTION</th>
-                        </tr>
-                        @foreach ($permissions as $permission)
+                        <thead class="text-muted table-light">
                             <tr>
-                                <td scope="col" style="width: 10px;">
+                                <th scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
-                                </td>
-                                <td>{{ $permission->id }}</td>
-                                <td>{{ $permission->name }}</td>
-                                <td>
-                                    {{ $permission->description }}
-                                </td>
-                                <td>{!! $permission->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                {{-- <td>{{ $permission->created_at }}</td>
-                                <td>{{ $permission->updated_at }}</td> --}}
-                                <td>
-                                    <a href="{{ route('admin.permissions.show', $permission->id) }}" class="btn btn-info mb-2">Chi
-                                        tiết</a>
-                                    <a href="{{ route('admin.permissions.edit', $permission->id) }}"
-                                        class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.permissions.destroy', $permission->id) }}" class="btn btn-danger mb-2"
-                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
-                                </td>
+                                </th>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>DESCRIPTION</th>
+                                <th>Is Active</th>
+                                {{-- <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th> --}}
+                                <th>ACTION</th>
                             </tr>
-                        @endforeach
+                        </thead>
+                        <tbody class="list form-check-all">
+
+                            @foreach ($permissions as $permission)
+                                <tr>
+                                    <td scope="col" style="width: 10px;">
+                                        <div class="form-check">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
+                                                value="option">
+                                        </div>
+                                    </td>
+                                    <td>{{ $permission->id }}</td>
+                                    <td>{{ $permission->name }}</td>
+                                    <td>
+                                        {{ $permission->description }}
+                                    </td>
+                                    <td>{!! $permission->is_active
+                                        ? '<span class="badge bg-success">Yes</span>'
+                                        : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    {{-- <td>{{ $permission->created_at }}</td>
+                                <td>{{ $permission->updated_at }}</td> --}}
+                                    <td>
+                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="View">
+                                            <a href="{{ route('admin.permissions.show', $permission->id) }}"
+                                                class="text-primary d-inline-block">
+                                                <i class="ri-eye-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('admin.permissions.edit', $permission->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <form id="delete-form-{{ $permission->id }}"
+                                                action="{{ route('admin.permissions.destroy', $permission->id) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="#" class="text-danger d-inline-block"
+                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $permission->id }}').submit();">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        {{-- </ul> --}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                     {{-- {{ $permission->links() }} --}}
                 </div>

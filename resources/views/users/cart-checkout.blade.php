@@ -19,7 +19,7 @@
 
         .order-column.product-quantity {
             text-align: center;
-            margin-left:20px;
+            margin-left: 20px;
         }
 
         .order-column.product-price {
@@ -31,26 +31,31 @@
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 10px;
         }
+
         .coupon_area {
             margin-top: 20px;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Align buttons to the start */
+            justify-content: flex-start;
+            /* Align buttons to the start */
         }
 
         .coupon_area input[type="text"] {
-            flex: 1; /* Take up remaining space */
+            flex: 1;
+            /* Take up remaining space */
             padding: 10px;
             margin-right: 10px;
             border: 1px solid #e6e6e6;
             border-radius: 5px;
             font-size: 14px;
-            max-width: 200px; /* Limit input width */
+            max-width: 200px;
+            /* Limit input width */
         }
 
         .coupon_area .tp_btn {
             height: 45px;
-            min-width: 100px; /* Minimum width for button */
+            min-width: 100px;
+            /* Minimum width for button */
             background: #f57224;
             color: #fff;
             border: none;
@@ -58,7 +63,8 @@
             cursor: pointer;
             font-size: 13px;
             text-align: center;
-            padding: 0 10px; /* Adjust padding for better fit */
+            padding: 0 10px;
+            /* Adjust padding for better fit */
         }
 
         .coupon_area .tp_btn:hover {
@@ -79,7 +85,8 @@
         }
 
         .payment_item img {
-            max-width: 50px; /* Limit image width */
+            max-width: 50px;
+            /* Limit image width */
             margin-left: 10px;
         }
 
@@ -89,9 +96,9 @@
         }
 
         .text-center.pl-4 {
-            margin-top: 20px; /* Add margin to bottom button */
+            margin-top: 20px;
+            /* Add margin to bottom button */
         }
-
     </style>
 @endsection
 
@@ -110,20 +117,26 @@
                         <form class="contact_form" action="{{ route('order.save') }}" method="post" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" name="user_name" id="user_name" >
+                                <input type="hidden" class="form-control" name="user_id" id="user_id"
+                                    value="{{ Auth::check() ? Auth::user()->id : '' }}">
+
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" name="user_name" id="user_name"
+                                    value="{{ Auth::check() ? Auth::user()->name : '' }}">
                                 <span class="placeholder" data-placeholder="Username"></span>
 
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" name="user_email" id="user_email" class="form-control"
+                                    value="{{ Auth::check() ? Auth::user()->email : '' }}">
+                                <span class="placeholder" data-placeholder="Email"></span>
                             </div>
 
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" name="user_phone" id="user_phone" class="form-control">
                                 <span class="placeholder" data-placeholder="Phone number"></span>
 
-                            </div>
-
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" name="user_email" id="user_email" class="form-control"  >
-                                <span class="placeholder" data-placeholder="Email"></span>
                             </div>
 
                             <div class="col-md-12 form-group p_star">
@@ -135,7 +148,7 @@
                             <div class="form-group">
                                 <div class="creat_account">
                                     <label for="f-option2">
-                                        <input type="checkbox" id="f-option2" name="create_account" checked>
+                                        <input type="checkbox" id="f-option2" name="create_account">
                                         Create an account?
                                     </label>
                                 </div>
@@ -162,11 +175,13 @@
                                 <div class="order-column product-quantity">Quantity</div>
                                 <div class="order-column product-price">Price</div>
                             </li>
-                            @foreach($cart as $item)
+                            @foreach ($cart as $item)
                                 <li class="order-item">
                                     <div class="order-column product-name">{{ $item['name'] }}</div>
                                     <div class="order-column product-quantity">x {{ $item['quantity_add'] }}</div>
-                                    <div class="order-column product-price">${{ number_format($item['quantity_add'] * ($item['price'] ?: $item['price_sale']), 2) }}</div>
+                                    <div class="order-column product-price">
+                                        ${{ number_format($item['quantity_add'] * ($item['price'] ?: $item['price_sale']), 2) }}
+                                    </div>
                                 </li>
                             @endforeach
                         </ul>
@@ -198,18 +213,18 @@
 
                         <div class="creat_account">
                             <input type="checkbox" id="f-option4" name="accept_terms" checked>
-                            <label for="f-option4">I’ve read and accept the <a href="#">terms & conditions*</a></label>
+                            <label for="f-option4">I’ve read and accept the <a href="#">terms &
+                                    conditions*</a></label>
                         </div>
                         <div class="text-center pl-4">
                             <button type="submit" class="btn primary-btn ml-3">CHECKOUT</button>
                         </div>
                     </div>
                 </div>
-            </form>
+                </form>
 
             </div>
 
         </div>
     </section>
 @endsection
-
