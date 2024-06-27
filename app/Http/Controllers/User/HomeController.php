@@ -17,7 +17,7 @@ class HomeController extends Controller
         $products = Product::all(); // Lấy tất cả sản phẩm
         $categories = Category::all(); // Lấy tất cả danh mục
         $brands = Brand::all(); // Lấy tất cả thương hiệu
-        return view('users.home', compact('products', 'categories', 'brands'));
+        return view('client.home', compact('products', 'categories', 'brands'));
 
     }
 }

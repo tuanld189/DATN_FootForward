@@ -31,6 +31,7 @@
         th,td{
            text-align: center ;
         }
+
    </style>
 </head>
 

@@ -36,6 +36,19 @@ Route::prefix('admin')
         //PRODUCT
         Route::resource('products', ProductController::class);
 
+        //ORDER
+        Route::prefix('orders')
+            ->as('orders.')
+            ->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('index');
+            Route::get('create', [OrderController::class, 'create'])->name('create');
+            Route::post('store', [OrderController::class, 'store'])->name('store');
+            Route::get('show/{id}', [OrderController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [OrderController::class, 'update'])->name('update');
+            Route::get('{id}/destroy', [OrderController::class, 'destroy'])->name('destroy');
+        });
+
         //BRAND
         Route::prefix('brands')
             ->as('brands.')

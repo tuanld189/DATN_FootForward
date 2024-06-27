@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
     public function list()
     {
+        $cart=Order::all();
         $cart = session('cart', []);
         $totalAmount = 0;
 
@@ -17,7 +22,7 @@ class CartController extends Controller
             $totalAmount += $item['quantity_add'] * ($item['price'] ?: $item['sale_price']);
         }
 
-        return view('users.cart-list', compact('cart', 'totalAmount'));
+        return view('client.cart-list', compact('cart', 'totalAmount'));
     }
 
     public function add(Request $request)
@@ -100,6 +105,7 @@ class CartController extends Controller
 
     public function checkout()
     {
+
         $cart = session()->get('cart', []);
         $totalAmount = 0;
 
@@ -107,11 +113,12 @@ class CartController extends Controller
             $totalAmount += $item['quantity_add'] * ($item['price'] ?: $item['price_sale']);
         }
 
-        return view('users.cart-checkout', compact('cart', 'totalAmount'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount'));
     }
 
     public function remove($id)
     {
+
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
@@ -122,5 +129,25 @@ class CartController extends Controller
 
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
+
+    // public function confirmation() {
+    //     // Retrieve order data from the session or database
+
+    //     $cart = session()->get('cart');
+    //     $discountCode = 'MGD062024';
+    //     $totalValue = 1000; // Example value
+    //     $totalDiscount = 500; // Example value
+    //     $shippingFee = 500; // Example value
+    //     $totalPayment = 1000; // Example value
+    //     $customerName = 'John Doe';
+    //     $customerEmail = 'john.doe@example.com';
+    //     $customerAddress = '123 Main St, City, Country';
+    //     $customerPhone = '123-456-7890';
+    //     $paymentMethod = 'Credit Card';
+
+    //     return view('client.cart-confirmation', compact(
+    //         'cart', 'discountCode', 'totalValue', 'totalDiscount', 'shippingFee', 'totalPayment', 'customerName', 'customerEmail', 'customerAddress', 'customerPhone', 'paymentMethod'
+    //     ));
+    // }
 
 }

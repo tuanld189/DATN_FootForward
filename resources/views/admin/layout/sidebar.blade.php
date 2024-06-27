@@ -179,6 +179,22 @@
 
                 </li>
 
+                {{-- Voucher --}}
+                {{-- <li class="nav-item">
+                    <a href="{{ route('admin.voucher.index') }}" class="nav-link"
+                        data-key="t-horizontal">Voucher</a>
+
+                </li> --}}
+
+
+                {{-- Oders --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link"
+                        data-key="t-horizontal">Order</a>
+
+                </li>
+
+
             </ul>
         </div>
     </div>
