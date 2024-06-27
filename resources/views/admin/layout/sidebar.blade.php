@@ -155,11 +155,6 @@ data-key="t-horizontal">Users</a>
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.orders.index') }}" class="nav-link"
-                        data-key="t-horizontal">Order Manager</a>
-
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarVouchers" data-bs-toggle="collapse" role="button"
