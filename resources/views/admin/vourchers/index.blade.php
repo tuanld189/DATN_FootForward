@@ -30,75 +30,50 @@
                     {{-- <a href="{{ route('admin.vouchers.create') }}" class="nav-link" data-key="t-horizontal">Thêm mới</a> --}}
                 </div>
                 <div class="card-body">
-                    <table class="table">
-                        <thead class="text-muted table-light">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
+                        <tr>
+                            <th scope="col" style="width: 10px;">
+                                <div class="form-check">
+                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                </div>
+                            </th>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Discount</th>
+                            <th>Description</th>
+                            <th>Start_date</th>
+                            <th>End_date</th>
+                            <th>IS_ACTIVE</th>
+                            <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th>
+                            <th>ACTION</th>
+                        </tr>
+                        @foreach ($vourchers as $item)
                             <tr>
-                                <th>Mã Voucher</th>
-                                <th>Loại Giảm Giá</th>
-                                <th>Giá Trị Giảm Giá</th>
-                                <th>Mô tả</th>
-                                <th>Ngày Bắt Đầu</th>
-                                <th>Ngày Kết Thúc</th>
-                                <th>Trạng Thái</th>
-                                <th>Số Lượng Còn Lại</th>
-                                <th>Thao Tác</th>
+                                <td scope="col" style="width: 10px;">
+                                    <div class="form-check">
+                                        <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                    </div>
+                                </td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->code }}</td>
+                                <td>{{ $item->discount }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
+                                <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>
+                                    <a href="{{ route('admin.vourchers.show', $item->id) }}" class="btn btn-info mb-2">Chi
+                                        tiết</a>
+                                    <a href="{{ route('admin.vourchers.edit', $item->id) }}"
+                                        class="btn btn-warning mb-2">Sửa</a>
+                                    <a href="{{ route('admin.vourchers.destroy', $item->id) }}" class="btn btn-danger mb-2"
+                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="list form-check-all">
-                            @foreach ($vourchers as $voucher)
-                                <tr>
-                                    <td>{{ $voucher->code }}</td>
-                                    <td>{{ ucfirst($voucher->discount_type) }}</td>
-                                    {{-- <td>{{$voucher->formatted_discount, 0, ',', '.'}}</td> --}}
-                                    <td>{{ number_format($voucher->discount_value, 0, ',', '.') }}</td>
-                                    <td>{{ $voucher->description }}</td>
-                                    <td>{{ $voucher->start_date }}</td>
-                                    <td>{{ $voucher->end_date }}</td>
-                                    <td>{!! $voucher->is_active
-                                        ? '<span class="badge bg-success">Hoạt động</span>'
-                                        : '<span class="badge bg-danger">Không hoạt động</span>' !!}</td>
-                                    <td>{{ $voucher->quantity }}</td>
-                                    <td>
-                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
-                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="View">
-                                            <a href="{{ route('admin.vourchers.show', $voucher->id) }}"
-                                                class="text-primary d-inline-block">
-                                                <i class="ri-eye-fill fs-16"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="Edit">
-                                            <a href="{{ route('admin.vourchers.edit', $voucher->id) }}"
-                                                class="text-primary d-inline-block edit-item-btn">
-                                                <i class="ri-pencil-fill fs-16"></i>
-                                            </a>
-                                        </li>
-                                        {{-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="Remove">
-                                            <a href="{{ route('admin.vourchers.destroy', $voucher->id) }}"
-                                                class="text-danger d-inline-block remove-item-btn"
-                                                onclick="return confirm('Chắc chắn chưa')">
-                                                <i class="ri-delete-bin-5-fill fs-16"></i></a>
-                                        </li> --}}
-                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="Remove">
-                                            <form id="delete-form-{{ $voucher->id }}"
-                                                action="{{ route('admin.vourchers.destroy', $voucher->id) }}"
-                                                method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                            <a href="#" class="text-danger d-inline-block"
-                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $voucher->id }}').submit();">
-                                                <i class="ri-delete-bin-5-fill fs-16"></i>
-                                            </a>
-                                        </li>
-                                        {{-- </ul> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                        @endforeach
                     </table>
                     {{ $vourchers->links() }}
                 </div>

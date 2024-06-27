@@ -1,574 +1,740 @@
+(function ($) {
+    "use strict";
 
-$(document).ready(function(){
-	"use strict";
-
-	var window_width 	 = $(window).width(),
-	window_height 		 = window.innerHeight,
-	header_height 		 = $(".default-header").height(),
-	header_height_static = $(".site-header.static").outerHeight(),
-	fitscreen 			 = window_height - header_height;
-
-
-	$(".fullscreen").css("height", window_height)
-    $(".fitscreen").css("height", fitscreen);
-
-  //------- Active Nice Select --------//
-
-    $('select').niceSelect();
-
-
-    $('.navbar-nav li.dropdown').hover(function() {
-    $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
-    }, function() {
-    $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+    /*--
+        Menu Sticky
+    -----------------------------------*/
+    var windows = $(window);
+    var sticky = $('.header-sticky');
+    
+    windows.on('scroll', function() {
+        var scroll = windows.scrollTop();
+        if (scroll < 230) {
+            sticky.removeClass('is-sticky');
+        }else{
+            sticky.addClass('is-sticky');
+        }
+    });
+    
+    
+    /*--
+        Header dropdowns
+    ---------------------------*/
+    $(".dropdown-toggle").on("click", function() {
+        $(this).toggleClass('open').next('.dropdown-menu').toggleClass('open');
+        $(this).parents().siblings().find('.dropdown-menu, .dropdown-toggle').removeClass('open');
     });
 
-    $('.img-pop-up').magnificPopup({
+    // Closing the dropdown by clicking in the menu button or anywhere in the screen
+    $('body').on('click', function (e) {
+        var target = e.target;
+        if (!$(target).is('.dropdown-toggle') && !$(target).parents().is('.dropdown-toggle')) {
+            $('.dropdown-toggle, .dropdown-menu').removeClass('open');
+        }
+    });
+
+    // Prevent closing dropdown upon clicking inside the dropdown
+    $(".dropdown-menu,.main-search-active").on("click", function(e) {
+        e.stopPropagation();
+    });
+    
+    
+    /*--
+        Mobile Menu
+    ------------------------*/
+    var menuNav = $('nav.main-navigation');
+    menuNav.meanmenu({
+        meanScreenWidth: '991',
+        meanMenuContainer: '.mobile-menu',
+        meanMenuClose: '<span class="menu-close"></span>',
+        meanMenuOpen: '<span class="menu-bar"></span>',
+        meanRevealPosition: 'right',
+        meanMenuCloseSize: '0',
+    });
+
+    /*--
+       Sidebar Search Active
+    -----------------------------*/
+    function sidebarSearch() {
+        var searchTrigger = $('.trigger-search'),
+            container = $('.main-search-active');
+        
+        searchTrigger.on('click', function() {
+            container.slideToggle('inside');
+        });
+    };
+    sidebarSearch();
+    // Closing the button or anywhere in the screen
+    $('body').on('click', function (e) {
+        var target = e.target;
+        if (!$(target).is('.trigger-search') && !$(target).parents().is('.trigger-search')) {
+            $('.main-search-active').slideUp();
+        }
+    });
+
+    /*--
+        Hero Slider
+    --------------------------------------------*/
+    var heroSlider = $('.hero-slider');
+    heroSlider.slick({
+        arrows: true,
+        autoplay: false,
+        autoplaySpeed: 5000,
+        dots: false,
+        pauseOnFocus: false,
+        pauseOnHover: false,
+        fade: true,
+        infinite: true,
+        slidesToShow: 1,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+              breakpoint: 767,
+              settings: {
+                dots: false,
+              }
+            }
+        ]
+    });
+
+    /*--
+        Deals product active Slider
+    -----------------------------------*/
+    $('.deals-product-active').slick({
+        accessibility: false,
+        dots: false,
+        infinite: true,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        autoplay: false,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 479,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+    
+    /*--
+        Sidebar single active Slider
+    -----------------------------------*/
+    $('.sidebar-single-active').slick({
+        accessibility: false,
+        dots: false,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },
+            {
+                breakpoint: 479,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+    
+    /*--
+        Product Slider
+    -----------------------------------*/
+    $('.product-slider').slick({
+        dots: false,
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: false,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 1199,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 479,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+    /*--
+        Product show 3 Slider
+    -----------------------------------*/
+    $('.product-slider-show-3').slick({
+        dots: false,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: false,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 1199,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 479,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+    /*--
+        Product Slider
+    -----------------------------------*/
+    $('.trend-product-active').slick({
+        dots: false,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 1199,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },
+            {
+                breakpoint: 479,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+
+
+     /* Product Details Images Slider */
+    $('.product-details-images').each(function(){
+        var $this = $(this);
+        var $thumb = $this.siblings('.product-details-thumbs');
+        $this.slick({
+            arrows: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: false,
+            autoplaySpeed: 5000,
+            dots: false,
+            infinite: true,
+            centerMode: false,
+            centerPadding: 0,
+            asNavFor: $thumb,
+        });
+    });
+    $('.product-details-thumbs').each(function(){
+        var $this = $(this);
+        var $details = $this.siblings('.product-details-images');
+        $this.slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: false,
+            autoplaySpeed: 5000,
+            dots: false,
+            infinite: true,
+            focusOnSelect: true,
+            centerMode: true,
+            centerPadding: 0,
+            prevArrow: '<span class="slick-prev"><i class="fa fa-angle-left"></i></span>',
+            nextArrow: '<span class="slick-next"><i class="fa fa-angle-right"></i></span>',
+            asNavFor: $details,
+        });
+    });
+
+     /* Product Details 2 Images Slider */
+    $('.product-details-images-2').each(function(){
+        var $this = $(this);
+        var $thumb = $this.siblings('.product-details-thumbs-2');
+        $this.slick({
+            arrows: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: false,
+            autoplaySpeed: 5000,
+            dots: false,
+            infinite: true,
+            centerMode: false,
+            centerPadding: 0,
+            asNavFor: $thumb,
+        });
+    });
+    $('.product-details-thumbs-2').each(function(){
+        var $this = $(this);
+        var $details = $this.siblings('.product-details-images-2');
+        $this.slick({
+            arrows: true,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            autoplay: false,
+            autoplaySpeed: 5000,
+            vertical:true,
+            verticalSwiping:true,
+            dots: false,
+            infinite: true,
+            focusOnSelect: true,
+            centerMode: false,
+            centerPadding: 0,
+            prevArrow: '<span class="slick-prev"><i class="fa fa-angle-up"></i></span>',
+            nextArrow: '<span class="slick-next"><i class="fa fa-angle-down"></i></span>',
+            asNavFor: $details,
+            responsive: [
+            {
+              breakpoint: 1200,
+              settings: {
+                slidesToShow: 3,
+              }
+            },
+            {
+              breakpoint: 991,
+              settings: {
+                slidesToShow: 3,
+              }
+            },
+            {
+              breakpoint: 767,
+              settings: {
+                slidesToShow: 2,
+              }
+            },
+            {
+              breakpoint: 479,
+              settings: {
+                slidesToShow: 2,
+              }
+            }
+        ]
+        });
+    });
+
+    /*-- 
+        Brand Slider 
+    ------------------------------------*/
+    var ourBrandActive = $('.our-brand-active');
+    ourBrandActive.slick({
+        arrows: true,
+        autoplay: false,
+        dots: false,
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScoll: 2,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+              breakpoint: 991,
+              settings: {
+                slidesToShow: 4,
+              }
+            },
+            {
+              breakpoint: 767,
+              settings: {
+                slidesToShow: 3,
+              }
+            },
+            {
+              breakpoint: 479,
+              settings: {
+                slidesToShow: 2,
+              }
+            }
+        ]
+    });
+
+    /*-- 
+        Blog Slider 
+    --------------------------*/
+    var latestBlogSlider = $('.latest-blog-slider');
+    latestBlogSlider.slick({
+        arrows: true,
+        autoplay: false,
+        dots: false,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScoll: 1,
+        prevArrow:true,
+        nextArrow: true,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+            {
+              breakpoint: 991,
+              settings: {
+                slidesToShow: 2,
+              }
+            },
+            {
+              breakpoint: 767,
+              settings: {
+                slidesToShow: 1,
+              }
+            },
+            {
+              breakpoint: 479,
+              settings: {
+                slidesToShow: 1,
+              }
+            }
+        ]
+    }); 
+    /*-- 
+        Brand Slider 
+    --------------------------*/
+    var blogSlider = $('.blog-image-slider');
+    blogSlider.slick({
+        arrows: true,
+        autoplay: false,
+        dots: false,
+        pauseOnFocus: true,
+        pauseOnHover: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScoll: 1,
+        prevArrow: '<button type="button" class="slick-prev"> <i class="fa fa-angle-left"></i> </button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        
+    });
+
+    /*-- 
+        Testimonial Slider 
+    -----------------------------*/
+    var testimonialSlider = $('.testimonial-slider');
+    testimonialSlider.slick({
+        arrows: false,
+        autoplay: false,
+        autoplaySpeed: 7000,
+        dots: true,
+        pauseOnFocus: false,
+        pauseOnHover: false,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScoll: 1,
+    });
+
+    /*-- 
+        Testimonial Slider 
+    -----------------------------*/
+    var testimonialSlider = $('.sidebar-client-active');
+    testimonialSlider.slick({
+        arrows: false,
+        autoplay: false,
+        autoplaySpeed: 7000,
+        dots: true,
+        pauseOnFocus: false,
+        pauseOnHover: false,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScoll: 1,
+    });
+
+
+    /*--
+        vertical-product-active
+    --------------------------------------*/
+    $('.product-categproes-active').slick({
+        slidesToShow: 4,
+        arrows: false,
+        autoplay: false,
+        slidesToScroll: 1,
+        button:false,
+        responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+              slidesToShow: 2,
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                vertical:false,
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                vertical:false,
+              }
+            }
+        ]
+
+    });	  
+    
+
+    /*----------
+        price-slider active
+    -------------------------------*/  
+    $( "#price-slider" ).slider({
+       range: true,
+       min: 0,
+       max: 120,
+       values: [ 20, 115 ],
+       slide: function( event, ui ) {
+            $( "#min-price" ).val('$' + ui.values[ 0 ] );
+            $( "#max-price" ).val('$' + ui.values[ 1 ] );
+         }
+      });
+      $( "#min-price" ).val('$' + $( "#price-slider" ).slider( "values", 0 ));   
+      $( "#max-price" ).val('$' + $( "#price-slider" ).slider( "values", 1 )); 
+
+   
+    /*------------------------------ 
+        Cart Plus Minus Button
+    ---------------------------------*/
+    $(".cart-plus-minus").append('<div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>');
+    $(".qtybutton").on("click", function() {
+        var $button = $(this);
+        var oldValue = $button.parent().find("input").val();
+        if ($button.hasClass('inc')) {
+          var newVal = parseFloat(oldValue) + 1;
+        } else {
+           // Don't allow decrementing below zero
+          if (oldValue > 0) {
+            var newVal = parseFloat(oldValue) - 1;
+            } else {
+            newVal = 0;
+          }
+          }
+        $button.parent().find("input").val(newVal);
+      }); 
+    
+     // Single Product Sticky Sidebar
+        var windowWidth = $(window).width();
+        if (992 <= windowWidth) {
+            $('.sidebar-active').stickySidebar({
+                topSpacing: 80,
+                bottomSpacing: 30,
+                minWidth: 767
+            });
+        }
+
+     /*--
+        Magnific Popup
+    ------------------------*/
+    $('.img-poppu').magnificPopup({
         type: 'image',
         gallery:{
-        enabled:true
+            enabled:true
         }
     });
 
-    // Search Toggle
-    $("#search_input_box").hide();
-    $("#search").on("click", function () {
-        $("#search_input_box").slideToggle();
-        $("#search_input").focus();
-    });
-    $("#close_search").on("click", function () {
-        $('#search_input_box').slideUp(500);
-    });
-
-    /*==========================
-		javaScript for sticky header
-		============================*/
-			$(".sticky-header").sticky();
-
-    /*=================================
-    Javascript for banner area carousel
-    ==================================*/
-    $(".active-banner-slider").owlCarousel({
-        items: 1,
-        autoplay: false,
-        autoplayTimeout: 5000,
-        loop: true,
-        nav: true,
-        navText: [
-           "<img src='/images/product/prev.png'>",
-        "<img src='/images/product/next.png'>"
-        ],
-        dots: false
-    });
-
-    /*=================================
-    Javascript for product area carousel
-    =================================*/
-    $(".active-product-area").owlCarousel({
-        items: 1,
-        autoplay: false,
-        autoplayTimeout: 5000,
-        loop: true,
-        nav: true,
-        navText: [
-           "<img src='/images/product/prev.png'>",
-        "<img src='/images/product/next.png'>"
-        ],
-        dots: false
-    });
-
-    /*=================================
-    Javascript for single product area carousel
-    ==================================*/
-    $(".s_Product_carousel").owlCarousel({
-      items:1,
-      autoplay:false,
-      autoplayTimeout: 5000,
-      loop:true,
-      nav:false,
-      dots:true
-    });
-
-    /*=================================
-    Javascript for exclusive area carousel
-    ==================================*/
-    $(".active-exclusive-product-slider").owlCarousel({
-        items:1,
-        autoplay:false,
-        autoplayTimeout: 5000,
-        loop:true,
-        nav:true,
-        navText:[
-          "<img src='/images/product/prev.png'>",
-        "<img src='/images/product/next.png'>"
-        ],
-        dots:false
-    });
-
-    //--------- Accordion Icon Change ---------//
-
-    $('.collapse').on('shown.bs.collapse', function(){
-        $(this).parent().find(".lnr-arrow-right").removeClass("lnr-arrow-right").addClass("lnr-arrow-left");
-    }).on('hidden.bs.collapse', function(){
-        $(this).parent().find(".lnr-arrow-left").removeClass("lnr-arrow-left").addClass("lnr-arrow-right");
-    });
-
-  // Select all links with hashes
-  $('.main-menubar a[href*="#"]')
-    // Remove links that don't actually link to anything
-    .not('[href="#"]')
-    .not('[href="#0"]')
-    .click(function(event) {
-      // On-page links
-      if (
-        location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
-        &&
-        location.hostname == this.hostname
-      ) {
-        // Figure out element to scroll to
-        var target = $(this.hash);
-        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-        // Does a scroll target exist?
-        if (target.length) {
-          // Only prevent default if animation is actually gonna happen
-          event.preventDefault();
-          $('html, body').animate({
-            scrollTop: target.offset().top-70
-          }, 1000, function() {
-            // Callback after animation
-            // Must change focus!
-            var $target = $(target);
-            $target.focus();
-            if ($target.is(":focus")) { // Checking if the target was focused
-              return false;
-            } else {
-              $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
-              $target.focus(); // Set focus again
-            };
-          });
-        }
-      }
-    });
-
-
-
-      // -------   Mail Send ajax
-
-         $(document).ready(function() {
-            var form = $('#booking'); // contact form
-            var submit = $('.submit-btn'); // submit button
-            var alert = $('.alert-msg'); // alert div for show alert message
-
-            // form submit event
-            form.on('submit', function(e) {
-                e.preventDefault(); // prevent default form submit
-
-                $.ajax({
-                    url: 'booking.php', // form action url
-                    type: 'POST', // form submit method get/post
-                    dataType: 'html', // request type html/json/xml
-                    data: form.serialize(), // serialize form data
-                    beforeSend: function() {
-                        alert.fadeOut();
-                        submit.html('Sending....'); // change submit button text
-                    },
-                    success: function(data) {
-                        alert.html(data).fadeIn(); // fade in response data
-                        form.trigger('reset'); // reset form
-                        submit.attr("style", "display: none !important");; // reset submit button text
-                    },
-                    error: function(e) {
-                        console.log(e)
-                    }
-                });
-            });
+    /*--
+        Count Down Timer
+    ----------------------------*/
+    $('[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+            $this.html(event.strftime('<span class="cdown day"><span class="time-count">%-D</span> <p>Days</p></span> <span class="cdown hour"><span class="time-count">%-H</span> <p>Hours</p></span> <span class="cdown minutes"><span class="time-count">%M</span> <p>mins</p></span> <span class="cdown second"><span class="time-count">%S</span> <p>secs</p></span>'));
         });
+    }); 
+    /*--
+    Category menu Activation
+    ------------------------------*/
+    $('.category-sub-menu li.has-sub > a').on('click', function () {
+        $(this).removeAttr('href');
+        var element = $(this).parent('li');
+        if (element.hasClass('open')) {
+            element.removeClass('open');
+            element.find('li').removeClass('open');
+            element.find('ul').slideUp();
+        } else {
+            element.addClass('open');
+            element.children('ul').slideDown();
+            element.siblings('li').children('ul').slideUp();
+            element.siblings('li').removeClass('open');
+            element.siblings('li').find('li').removeClass('open');
+            element.siblings('li').find('ul').slideUp();
+        }
+    }); 
 
+    /*--
+        showlogin toggle function
+    --------------------------*/
+    $( '#showlogin' ).on('click', function() {
+        $('#checkout-login' ).slideToggle(500);
+    }); 
 
-
-
-    $(document).ready(function() {
-        $('#mc_embed_signup').find('form').ajaxChimp();
+    /*--
+        showcoupon toggle function
+    --------------------------*/
+    $( '#showcoupon' ).on('click', function() {
+        $('#checkout-coupon' ).slideToggle(500);
     });
 
+    /*--
+        Checkout 
+    --------------------------*/
+    $("#chekout-box").on("change",function(){
+        $(".account-create").slideToggle("100");
+    });
 
+    /*-- 
+        Checkout 
+    ---------------------------*/
+    $("#chekout-box-2").on("change",function(){
+        $(".ship-box-info").slideToggle("100");
+    });   
+    
+    /* ---
+       payment-accordion
+    * --------------------------------*/ 
+        $(".payment-accordion").collapse({
+            accordion:true,
+          open: function() {
+            this.slideDown(550);
+          },
+          close: function() {
+            this.slideUp(550);
+          }		
+        }); 
+    
+    /*--
+        Accordion
+    -------------------------*/
+    $(".faequently-accordion").collapse({
+        accordion:true,
+      open: function() {
+        this.slideDown(300);
+      },
+      close: function() {
+        this.slideUp(300);
+      }		
+    });	 
+    
+    /* --
+        counterUp 
+    -----------------------------*/
+    $('.count').counterUp({
+        delay: 10,
+        time: 1000
+    });
 
-     if(document.getElementById("js-countdown")){
-
-        var countdown = new Date("October 17, 2018");
-
-        function getRemainingTime(endtime) {
-            var milliseconds = Date.parse(endtime) - Date.parse(new Date());
-            var seconds = Math.floor(milliseconds / 1000 % 60);
-            var minutes = Math.floor(milliseconds / 1000 / 60 % 60);
-            var hours = Math.floor(milliseconds / (1000 * 60 * 60) % 24);
-            var days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
-
-        return {
-            'total': milliseconds,
-            'seconds': seconds,
-            'minutes': minutes,
-            'hours': hours,
-            'days': days
-            };
-        }
-
-        function initClock(id, endtime) {
-            var counter = document.getElementById(id);
-            var daysItem = counter.querySelector('.js-countdown-days');
-            var hoursItem = counter.querySelector('.js-countdown-hours');
-            var minutesItem = counter.querySelector('.js-countdown-minutes');
-            var secondsItem = counter.querySelector('.js-countdown-seconds');
-
-        function updateClock() {
-            var time = getRemainingTime(endtime);
-
-            daysItem.innerHTML = time.days;
-            hoursItem.innerHTML = ('0' + time.hours).slice(-2);
-            minutesItem.innerHTML = ('0' + time.minutes).slice(-2);
-            secondsItem.innerHTML = ('0' + time.seconds).slice(-2);
-
-            if (time.total <= 0) {
-              clearInterval(timeinterval);
+    /*--
+        ScrollUp Active
+    -----------------------------------*/
+    $.scrollUp({
+        scrollText: '<i class="fa fa-angle-double-up"></i>',
+        easingType: 'linear',
+        scrollSpeed: 900,
+        animation: 'fade'
+    });   
+    
+    
+    /*------------------------------------
+        DateCountdown active
+    ------------------------------------- */
+    $(".DateCountdown").TimeCircles({
+        direction: "Counter-clockwise",
+        fg_width: 0.009,
+        bg_width: 0,
+        use_background: false,
+        time: {
+            Days: {
+                text: "Days",
+                color: "#fff"
+            },
+            Hours: {
+                text: "Hours",
+                color: "#fff"
+            },
+            Minutes: {
+                text: "Mins",
+                color: "#fff"
+            },
+            Seconds: {
+                text: "Secs",
+                color: "#fff"
             }
-            }
-
-            updateClock();
-            var timeinterval = setInterval(updateClock, 1000);
-        }
-
-        initClock('js-countdown', countdown);
-
-  };
-
-
-
-      $('.quick-view-carousel-details').owlCarousel({
-          loop: true,
-          dots: true,
-          items: 1,
-      })
-
-
-
-    //----- Active No ui slider --------//
-
-
-
-    $(function(){
-
-        if(document.getElementById("price-range")){
-
-        var nonLinearSlider = document.getElementById('price-range');
-
-        noUiSlider.create(nonLinearSlider, {
-            connect: true,
-            behaviour: 'tap',
-            start: [ 500, 4000 ],
-            range: {
-                // Starting at 500, step the value by 500,
-                // until 4000 is reached. From there, step by 1000.
-                'min': [ 0 ],
-                '10%': [ 500, 500 ],
-                '50%': [ 4000, 1000 ],
-                'max': [ 10000 ]
-            }
-        });
-
-
-        var nodes = [
-            document.getElementById('lower-value'), // 0
-            document.getElementById('upper-value')  // 1
-        ];
-
-        // Display the slider value and how far the handle moved
-        // from the left edge of the slider.
-        nonLinearSlider.noUiSlider.on('update', function ( values, handle, unencoded, isTap, positions ) {
-            nodes[handle].innerHTML = values[handle];
-        });
-
         }
 
     });
+    
+    
+    
 
-
-    //-------- Have Cupon Button Text Toggle Change -------//
-
-    $('.have-btn').on('click', function(e){
-        e.preventDefault();
-        $('.have-btn span').text(function(i, text){
-          return text === "Have a Coupon?" ? "Close Coupon" : "Have a Coupon?";
-        })
-        $('.cupon-code').fadeToggle("slow");
-    });
-
-    $('.load-more-btn').on('click', function(e){
-        e.preventDefault();
-        $('.load-product').fadeIn('slow');
-        $(this).fadeOut();
-    });
-
-
-
-
-
-  //------- Start Quantity Increase & Decrease Value --------//
-
-
-
-
-    var value,
-        quantity = document.getElementsByClassName('quantity-container');
-
-    function createBindings(quantityContainer) {
-        var quantityAmount = quantityContainer.getElementsByClassName('quantity-amount')[0];
-        var increase = quantityContainer.getElementsByClassName('increase')[0];
-        var decrease = quantityContainer.getElementsByClassName('decrease')[0];
-        increase.addEventListener('click', function () { increaseValue(quantityAmount); });
-        decrease.addEventListener('click', function () { decreaseValue(quantityAmount); });
-    }
-
-    function init() {
-        for (var i = 0; i < quantity.length; i++ ) {
-            createBindings(quantity[i]);
-        }
-    };
-
-    function increaseValue(quantityAmount) {
-        value = parseInt(quantityAmount.value, 10);
-
-        console.log(quantityAmount, quantityAmount.value);
-
-        value = isNaN(value) ? 0 : value;
-        value++;
-        quantityAmount.value = value;
-    }
-
-    function decreaseValue(quantityAmount) {
-        value = parseInt(quantityAmount.value, 10);
-
-        value = isNaN(value) ? 0 : value;
-        if (value > 0) value--;
-
-        quantityAmount.value = value;
-    }
-
-  init();
-
-//------- End Quantity Increase & Decrease Value --------//
-
-  /*----------------------------------------------------*/
-  /*  Google map js
-    /*----------------------------------------------------*/
-
-    if ($("#mapBox").length) {
-        var $lat = $("#mapBox").data("lat");
-        var $lon = $("#mapBox").data("lon");
-        var $zoom = $("#mapBox").data("zoom");
-        var $marker = $("#mapBox").data("marker");
-        var $info = $("#mapBox").data("info");
-        var $markerLat = $("#mapBox").data("mlat");
-        var $markerLon = $("#mapBox").data("mlon");
-        var map = new GMaps({
-          el: "#mapBox",
-          lat: $lat,
-          lng: $lon,
-          scrollwheel: false,
-          scaleControl: true,
-          streetViewControl: false,
-          panControl: true,
-          disableDoubleClickZoom: true,
-          mapTypeControl: false,
-          zoom: $zoom,
-          styles: [
-            {
-              featureType: "water",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  color: "#dcdfe6"
-                }
-              ]
-            },
-            {
-              featureType: "transit",
-              stylers: [
-                {
-                  color: "#808080"
-                },
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road.highway",
-              elementType: "geometry.stroke",
-              stylers: [
-                {
-                  visibility: "on"
-                },
-                {
-                  color: "#dcdfe6"
-                }
-              ]
-            },
-            {
-              featureType: "road.highway",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  color: "#ffffff"
-                }
-              ]
-            },
-            {
-              featureType: "road.local",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  visibility: "on"
-                },
-                {
-                  color: "#ffffff"
-                },
-                {
-                  weight: 1.8
-                }
-              ]
-            },
-            {
-              featureType: "road.local",
-              elementType: "geometry.stroke",
-              stylers: [
-                {
-                  color: "#d7d7d7"
-                }
-              ]
-            },
-            {
-              featureType: "poi",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  visibility: "on"
-                },
-                {
-                  color: "#ebebeb"
-                }
-              ]
-            },
-            {
-              featureType: "administrative",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#a7a7a7"
-                }
-              ]
-            },
-            {
-              featureType: "road.arterial",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  color: "#ffffff"
-                }
-              ]
-            },
-            {
-              featureType: "road.arterial",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  color: "#ffffff"
-                }
-              ]
-            },
-            {
-              featureType: "landscape",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  visibility: "on"
-                },
-                {
-                  color: "#efefef"
-                }
-              ]
-            },
-            {
-              featureType: "road",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#696969"
-                }
-              ]
-            },
-            {
-              featureType: "administrative",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  visibility: "on"
-                },
-                {
-                  color: "#737373"
-                }
-              ]
-            },
-            {
-              featureType: "poi",
-              elementType: "labels.icon",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "poi",
-              elementType: "labels",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road.arterial",
-              elementType: "geometry.stroke",
-              stylers: [
-                {
-                  color: "#d6d6d6"
-                }
-              ]
-            },
-            {
-              featureType: "road",
-              elementType: "labels.icon",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {},
-            {
-              featureType: "poi",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  color: "#dadada"
-                }
-              ]
-            }
-          ]
-        });
-      }
-
-
-
-
- });
+})(jQuery);	
