@@ -78,7 +78,6 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $orderItems = OrderItem::where('order_id', $order->id)->get(); // Sử dụng $order->id thay vì $orderId
-
         return view(self::PATH_VIEW . 'show', compact('order', 'orderItems'));
     }
 

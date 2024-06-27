@@ -12,7 +12,7 @@
 
     <!-- jsvectormap css -->
 
-    @yield('style-libs');
+    @yield('style-libs')
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -25,14 +25,19 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="{{asset('vendor/laravel-filemanager/css/lfm.css')}}">
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/lfm.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        th,td{
-           text-align: center ;
+        th,
+        td {
+            text-align: center
         }
+<<<<<<< HEAD
 
    </style>
+=======
+    </style>
+>>>>>>> 80abdf694c10e9767677db3cdf804d051d945bb9
 </head>
 
 <body>
@@ -41,12 +46,12 @@
     <div id="layout-wrapper">
 
         {{-- giao dien header --}}
-        @include('admin.layout.header');
+        @include('admin.layout.header')
         {{-- end header --}}
 
 
 
-        @include('admin.layout.sidebar');
+        @include('admin.layout.sidebar')
 
         <div class="sidebar-background"></div>
     </div>
@@ -68,7 +73,7 @@
         </div>
         <!-- End Page-content -->
 
-        @include('admin.layout.footer');
+        @include('admin.layout.footer')
     </div>
     <!-- end main content-->
 
@@ -99,8 +104,6 @@
         </div>
     </div>
 
-    <!-- Theme Settings -->
-    @include('admin.layout.Light&Dark')
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -111,17 +114,29 @@
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
-    @yield('script-libs');
+    @yield('script-libs')
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script>
-            new DataTable('#example');
+        new DataTable('#example')
     </script>
-    @yield('scripts');
+    @yield('scripts')
 
-    @yield('scripts');
+    @yield('scripts')
 
     <script src="{{ asset('https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js') }}"></script>
+
+    <script src="{{ asset('assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+
+    <!-- dropzone js -->
+    <script src="{{ asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
+    <!-- project-create init -->
+    <script src="{{ asset('assets/js/pages/project-create.init.js') }}"></script>
+
+    <!-- App js -->
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 </body>
 

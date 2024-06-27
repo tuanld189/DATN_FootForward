@@ -12,6 +12,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Vourchers</li>
                     </ol>
                 </div>
 
@@ -29,50 +30,50 @@
                     {{-- <a href="{{ route('admin.vouchers.create') }}" class="nav-link" data-key="t-horizontal">Thêm mới</a> --}}
                 </div>
                 <div class="card-body">
-                    <table class="table">
-                        <thead>
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
+                        <tr>
+                            <th scope="col" style="width: 10px;">
+                                <div class="form-check">
+                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                </div>
+                            </th>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Discount</th>
+                            <th>Description</th>
+                            <th>Start_date</th>
+                            <th>End_date</th>
+                            <th>IS_ACTIVE</th>
+                            <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th>
+                            <th>ACTION</th>
+                        </tr>
+                        @foreach ($vourchers as $item)
                             <tr>
-                                <th>Mã Voucher</th>
-                                <th>Loại Giảm Giá</th>
-                                <th>Giá Trị Giảm Giá</th>
-                                <th>Mô tả</th>
-                                <th>Ngày Bắt Đầu</th>
-                                <th>Ngày Kết Thúc</th>
-                                <th>Trạng Thái</th>
-                                <th>Số Lượng Còn Lại</th>
-                                <th>Thao Tác</th>
+                                <td scope="col" style="width: 10px;">
+                                    <div class="form-check">
+                                        <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                    </div>
+                                </td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->code }}</td>
+                                <td>{{ $item->discount }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
+                                <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>
+                                    <a href="{{ route('admin.vourchers.show', $item->id) }}" class="btn btn-info mb-2">Chi
+                                        tiết</a>
+                                    <a href="{{ route('admin.vourchers.edit', $item->id) }}"
+                                        class="btn btn-warning mb-2">Sửa</a>
+                                    <a href="{{ route('admin.vourchers.destroy', $item->id) }}" class="btn btn-danger mb-2"
+                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($vourchers as $voucher)
-                                <tr>
-                                    <td>{{ $voucher->code }}</td>
-                                    <td>{{ ucfirst($voucher->discount_type) }}</td>
-                                    {{-- <td>{{$voucher->formatted_discount, 0, ',', '.'}}</td> --}}
-                                    <td>{{number_format($voucher->discount_value, 0, ',', '.' )}}</td>
-                                    <td>{{ $voucher->description }}</td>
-                                    <td>{{ $voucher->start_date }}</td>
-                                    <td>{{ $voucher->end_date }}</td>
-                                    <td>{!! $voucher->is_active
-                                        ? '<span class="badge bg-success">Hoạt động</span>'
-                                        : '<span class="badge bg-danger">Không hoạt động</span>' !!}</td>
-                                    <td>{{ $voucher->quantity }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.vourchers.show', $voucher->id) }}"
-                                            class="btn btn-primary btn-sm">Xem</a>
-                                        <a href="{{ route('admin.vourchers.edit', $voucher->id) }}"
-                                            class="btn btn-info btn-sm">Chỉnh Sửa</a>
-                                        <form action="{{ route('admin.vourchers.destroy', $voucher->id) }}" method="POST"
-                                            style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                        @endforeach
                     </table>
                     {{ $vourchers->links() }}
                 </div>
@@ -80,7 +81,6 @@
         </div><!--end col-->
     </div><!--end row-->
 @endsection
-
 
 
 @section('style-libs')

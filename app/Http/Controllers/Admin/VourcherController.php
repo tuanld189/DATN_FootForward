@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VoucherRequest;
 use App\Models\Vourcher;
 use Carbon\Carbon;
-// use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VourcherController extends Controller
@@ -23,7 +22,6 @@ class VourcherController extends Controller
         return view(self::PATH_VIEW . 'index', compact('vourchers'));
     }
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -34,6 +32,7 @@ class VourcherController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -66,7 +65,6 @@ class VourcherController extends Controller
         return redirect()->route('admin.vourchers.index')
             ->with('success', 'Vourcher created successfully.');
     }
-
 
 
     /**
@@ -137,7 +135,6 @@ class VourcherController extends Controller
         $vourcher->delete();
         return back();
     }
-
 
     public function redeemVoucher($id)
     {

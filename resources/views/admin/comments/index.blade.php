@@ -14,6 +14,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Comment</li>
                     </ol>
                 </div>
 
@@ -32,7 +33,7 @@
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
-                        <thead>
+                        <thead class="text-muted table-light">
                             <tr>
                                 <th scope="col" style="width: 10px;">
                                     <div class="form-check">
@@ -52,7 +53,7 @@
                                 <th>ACTION</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="list form-check-all">
                             @foreach ($comments as $comment)
                                 <tr>
                                     <td scope="col" style="width: 10px;">
@@ -67,13 +68,42 @@
                                     {{-- <td>{{ $comment->product_id }}</td> --}}
                                     <td>{{ $comment->content }}</td>
                                     <td>
-                                        <a href="{{ route('admin.comments.show', $comment->id) }}"
-                                            class="btn btn-info mb-2">Chi tiết</a>
-                                        <a href="{{ route('admin.comments.edit', $comment->id) }}"
-                                            class="btn btn-warning mb-2">Sửa</a>
-                                        <a href="{{ route('admin.comments.destroy', $comment->id) }}"
-                                            class="btn btn-danger mb-2"
-                                            onclick="return confirm('Bạn có muốn xóa không')">Xóa</a>
+                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="View">
+                                            <a href="{{ route('admin.comments.show', $comment->id) }}"
+                                                class="text-primary d-inline-block">
+                                                <i class="ri-eye-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('admin.comments.edit', $comment->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        {{-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <a href="{{ route('admin.comments.destroy', $comment->id) }}"
+                                                class="text-danger d-inline-block remove-item-btn"
+                                                onclick="return confirm('Chắc chắn chưa')">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i></a>
+                                        </li> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <form id="delete-form-{{ $comment->id }}"
+                                                action="{{ route('admin.comments.destroy', $comment->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="#" class="text-danger d-inline-block"
+                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $comment->id }}').submit();">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        {{-- </ul> --}}
                                     </td>
                                 </tr>
                             @endforeach
