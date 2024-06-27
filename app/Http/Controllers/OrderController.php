@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ProductVariant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,9 +78,16 @@ class OrderController extends Controller
                 foreach ($dataItem as $item) {
                     $item['order_id'] = $order->id;
                     OrderItem::create($item);
+
+                    // Update product variant quantity
+                    $productVariant = ProductVariant::findOrFail($item['product_variant_id']);
+                    $productVariant->quantity -= $item['quantity_add'];
+                    $productVariant->save();
                 }
                 // dd($order,$dataItem);
             });
+
+
 
             // Clear the cart after successful order placement
             session()->forget('cart');

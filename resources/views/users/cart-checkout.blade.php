@@ -145,17 +145,6 @@
 
                             </div>
 
-                            <div class="province-district-ward">
-                                <select name="city" id="city">
-                                    <option value="">Tỉnh/Tp</option>
-                                </select>
-                                <select name="district" id="district">
-                                    <option value="">Quận/Huyện</option>
-                                </select>
-                                <select name="ward" id="ward">
-                                    <option value="">Phường/Xã</option>
-                                </select>
-                            </div>
 
                             <div class="form-group">
                                 <div class="creat_account">
@@ -240,71 +229,6 @@
 @section('scripts')
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const provinceSelect = document.getElementById('province');
-        const districtSelect = document.getElementById('district');
-        const wardSelect = document.getElementById('ward');
-
-        // Hàm để gọi API lấy danh sách tỉnh/thành phố
-        async function fetchProvinces() {
-            const response = await fetch('https://provinces.open-api.vn/api/p/');
-            const data = await response.json();
-            return data;
-        }
-
-        // Hàm để gọi API lấy danh sách quận/huyện dựa vào tỉnh/thành phố
-        async function fetchDistricts(provinceCode) {
-            const response = await fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`);
-            const data = await response.json();
-            return data.districts;
-        }
-
-        // Hàm để gọi API lấy danh sách xã/phường dựa vào quận/huyện
-        async function fetchWards(districtCode) {
-            const response = await fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
-            const data = await response.json();
-            return data.wards;
-        }
-
-        // Hàm để điền dữ liệu vào select
-        function populateSelect(select, options, labelKey, valueKey) {
-            select.innerHTML = '<option value="">Chọn</option>';
-            options.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option[valueKey];
-                optionElement.textContent = option[labelKey];
-                select.appendChild(optionElement);
-            });
-        }
-
-        // Khi người dùng chọn tỉnh/thành phố
-        provinceSelect.addEventListener('change', async function() {
-            const provinceCode = this.value;
-            if (provinceCode) {
-                const districts = await fetchDistricts(provinceCode);
-                populateSelect(districtSelect, districts, 'name', 'code');
-                wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
-            } else {
-                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-                wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
-            }
-        });
-
-        // Khi người dùng chọn quận/huyện
-        districtSelect.addEventListener('change', async function() {
-            const districtCode = this.value;
-            if (districtCode) {
-                const wards = await fetchWards(districtCode);
-                populateSelect(wardSelect, wards, 'name', 'code');
-            } else {
-                wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
-            }
-        });
-
-        // Khởi tạo danh sách tỉnh/thành phố khi trang được tải
-        fetchProvinces().then(provinces => {
-            populateSelect(provinceSelect, provinces, 'name', 'code');
-        });
-    });
+  
 </script>
 @endsection
