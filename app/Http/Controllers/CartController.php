@@ -122,6 +122,4 @@ class CartController extends Controller
 
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
-
-
 }

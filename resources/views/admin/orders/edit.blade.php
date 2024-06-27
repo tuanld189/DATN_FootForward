@@ -22,42 +22,40 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="user_name" class="form-label">Tên người đặt</label>
-                            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name', $order->user_name) }}" required>
+                            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ $order->user_name }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="user_email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="user_email" name="user_email" value="{{ old('user_email', $order->user_email) }}" required>
+                            <input type="email" class="form-control" id="user_email" name="user_email" value="{{ $order->user_email }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="user_phone" class="form-label">Điện thoại</label>
-                            <input type="text" class="form-control" id="user_phone" name="user_phone" value="{{ old('user_phone', $order->user_phone) }}" required>
+                            <input type="text" class="form-control" id="user_phone" name="user_phone" value="{{ $order->user_phone }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="user_address" class="form-label">Địa chỉ</label>
-                            <input type="text" class="form-control" id="user_address" name="user_address" value="{{ old('user_address', $order->user_address) }}" required>
+                            <input type="text" class="form-control" id="user_address" name="user_address" value="{{ $order->user_address }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="total_price" class="form-label">Tổng giá tiền</label>
-                            <input type="text" class="form-control" id="total_price" name="total_price" value="{{ old('total_price', $order->total_price) }}" required>
+                            <input type="text" class="form-control" id="total_price" name="total_price" value="{{ $order->total_price }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="status_order" class="form-label">Trạng thái đơn hàng</label>
                             <select class="form-select" id="status_order" name="status_order" required>
-                                @foreach(App\Models\Order::STATUS_ORDER as $key => $value)
-                                    <option value="{{ $key }}" {{ old('status_order', $order->status_order) === $key ? 'selected' : '' }}>
-                                        {{ $value }}
-                                    </option>
-                                @endforeach
+                                <option value="pending" {{ $order->status_order == 'pending' ? 'selected' : '' }}>Chờ xác nhận</option>
+                                <option value="confirmed" {{ $order->status_order == 'confirmed' ? 'selected' : '' }}>Đã xác nhận</option>
+                                <option value="preparing_goods" {{ $order->status_order == 'preparing_goods' ? 'selected' : '' }}>Đang chuẩn bị hàng</option>
+                                <option value="shipping" {{ $order->status_order == 'shipping' ? 'selected' : '' }}>Đang vận chuyển</option>
+                                <option value="delivered" {{ $order->status_order == 'delivered' ? 'selected' : '' }}>Đã giao hàng</option>
+                                <option value="canceled" {{ $order->status_order == 'canceled' ? 'selected' : '' }}>Đơn hàng đã bị hủy</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="status_payment" class="form-label">Trạng thái thanh toán</label>
                             <select class="form-select" id="status_payment" name="status_payment" required>
-                                @foreach(App\Models\Order::STATUS_PAYMENT as $key => $value)
-                                    <option value="{{ $key }}" {{ old('status_payment', $order->status_payment) === $key ? 'selected' : '' }}>
-                                        {{ $value }}
-                                    </option>
-                                @endforeach
+                                <option value="unpaid" {{ $order->status_payment == 'unpaid' ? 'selected' : '' }}>Chưa thanh toán</option>
+                                <option value="paid" {{ $order->status_payment == 'paid' ? 'selected' : '' }}>Đã thanh toán</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Cập nhật</button>

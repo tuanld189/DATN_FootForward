@@ -12,6 +12,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Brands</li>
                     </ol>
                 </div>
 
@@ -29,45 +30,81 @@
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
-                        <tr>
-                            <th scope="col" style="width: 10px;">
-                                <div class="form-check">
-                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                </div>
-                            </th>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>IMAGE</th>
-                            <th>Is Active</th>
-                            {{-- <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th> --}}
-                            <th>ACTION</th>
-                        </tr>
-                        @foreach ($data as $item)
+                        <thead class="text-muted table-light">
                             <tr>
-                                <td scope="col" style="width: 10px;">
+                                <th scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
-                                </td>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>
-                                    <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
-                                </td>
-                                <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                {{-- <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td> --}}
-                                <td>
-                                    <a href="{{ route('admin.brands.show', $item->id) }}" class="btn btn-info mb-2">Chi
-                                        tiết</a>
-                                    <a href="{{ route('admin.brands.edit', $item->id) }}"
-                                        class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.brands.destroy', $item->id) }}" class="btn btn-danger mb-2"
-                                        onclick="return confirm('Chắc chắn chưa')">Xóa</a>
-                                </td>
+                                </th>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>IMAGE</th>
+                                <th>Is Active</th>
+                                {{-- <th>CREATE_AT</th>
+                                <th>UPDATE_AT</th> --}}
+                                <th>ACTION</th>
                             </tr>
-                        @endforeach
+                        </thead>
+                        <tbody class="list form-check-all">
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td scope="col" style="width: 10px;">
+                                        <div class="form-check">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
+                                                value="option">
+                                        </div>
+                                    </td>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>
+                                        <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
+                                    </td>
+                                    <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    {{-- <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td> --}}
+                                    <td>
+                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="View">
+                                            <a href="{{ route('admin.brands.show', $item->id) }}"
+                                                class="text-primary d-inline-block">
+                                                <i class="ri-eye-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('admin.brands.edit', $item->id) }}" data-bs-toggle="modal"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        {{-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                        data-bs-placement="top" title="Remove">
+                                        <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal"
+                                            href="{{ route('admin.brands.destroy', $item->id) }}"
+                                            onclick="return confirm('Bạn có muốn xóa không')">
+                                            <i class="ri-delete-bin-5-fill fs-16"></i>
+                                        </a>
+                                    </li> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <form id="delete-form-{{ $item->id }}"
+                                                action="{{ route('admin.brands.destroy', $item->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="#" class="text-danger d-inline-block"
+                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                     {{ $data->links() }}
                 </div>
@@ -102,9 +139,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
+
+    <!-- list.js min js -->
+    <script src="assets/libs/list.js/list.min.js"></script>
+
+    <!--list pagination js-->
+    <script src="assets/libs/list.pagination.js/list.pagination.min.js"></script>
+
+    <!-- ecommerce-order init js -->
+    <script src="assets/js/pages/ecommerce-order.init.js"></script>
+
+    <!-- Sweet Alerts js -->
+    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
     <script>
-        DataTable('#example',{
-           order: [ [0, 'desc'] ]
+        DataTable('#example', {
+            order: [
+                [0, 'desc']
+            ]
         });
     </script>
 @endsection

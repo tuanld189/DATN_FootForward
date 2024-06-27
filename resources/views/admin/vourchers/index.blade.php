@@ -12,6 +12,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Vourchers</li>
                     </ol>
                 </div>
 
@@ -30,7 +31,7 @@
                 </div>
                 <div class="card-body">
                     <table class="table">
-                        <thead>
+                        <thead class="text-muted table-light">
                             <tr>
                                 <th>Mã Voucher</th>
                                 <th>Loại Giảm Giá</th>
@@ -43,7 +44,7 @@
                                 <th>Thao Tác</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="list form-check-all">
                             @foreach ($vourchers as $voucher)
                                 <tr>
                                     <td>{{ $voucher->code }}</td>
@@ -58,17 +59,42 @@
                                         : '<span class="badge bg-danger">Không hoạt động</span>' !!}</td>
                                     <td>{{ $voucher->quantity }}</td>
                                     <td>
-                                        <a href="{{ route('admin.vourchers.show', $voucher->id) }}"
-                                            class="btn btn-primary btn-sm">Xem</a>
-                                        <a href="{{ route('admin.vourchers.edit', $voucher->id) }}"
-                                            class="btn btn-info btn-sm">Chỉnh Sửa</a>
-                                        <form action="{{ route('admin.vourchers.destroy', $voucher->id) }}" method="POST"
-                                            style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-                                        </form>
+                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="View">
+                                            <a href="{{ route('admin.vourchers.show', $voucher->id) }}"
+                                                class="text-primary d-inline-block">
+                                                <i class="ri-eye-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('admin.vourchers.edit', $voucher->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        {{-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <a href="{{ route('admin.vourchers.destroy', $voucher->id) }}"
+                                                class="text-danger d-inline-block remove-item-btn"
+                                                onclick="return confirm('Chắc chắn chưa')">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i></a>
+                                        </li> --}}
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <form id="delete-form-{{ $voucher->id }}"
+                                                action="{{ route('admin.vourchers.destroy', $voucher->id) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="#" class="text-danger d-inline-block"
+                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $voucher->id }}').submit();">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        {{-- </ul> --}}
                                     </td>
                                 </tr>
                             @endforeach

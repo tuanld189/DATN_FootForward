@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    List Role
+    List Roles
 @endsection
 @section('content')
     <div class="row">
@@ -12,6 +12,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">Roles</li>
                     </ol>
                 </div>
 
@@ -28,55 +29,75 @@
                     <a href="{{ route('admin.roles.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
-                        <tr>
-                            <th scope="col" style="width: 10px;">
-                                <div class="form-check">
-                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                </div>
-                            </th>
-                            <th>ID</th>
-                            <th>PERMISSION</th>
-                            <th>NAME</th>
-                            <th>DESCRIPTION</th>
-                            <th>Is Active</th>
-                            {{-- <th>CREATE_AT</th>
-                            <th>UPDATE_AT</th> --}}
-                            <th>ACTION</th>
-                        </tr>
-                        @foreach ($roles as $role)
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+
+                        {{-- <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%"> --}}
+                        {{-- <thead class="text-muted table-light"> --}}
+                        <thead class="text-muted table-light">
                             <tr>
-                                <td scope="col" style="width: 10px;">
+                                <th scope="col" style="width: 10px;">
                                     <div class="form-check">
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
-                                </td>
-                                <td>{{ $role->id }}</td>
-                                <td>
-                                    @foreach ($role->permissions as $permission)
-                                        {{ $permission->name }},
-                                    @endforeach
-                                </td>
-                                <td>{{ $role->name }}</td>
-                                <td>
-                                    {{ $role->description }}
-                                </td>
-                                <td>{!! $role->is_active
-                                    ? '<span class="badge bg-success">Yes</span>'
-                                    : '<span class="badge bg-danger">No</span>' !!}</td>
-                                {{-- <td>{{ $role->created_at }}</td>
-                                <td>{{ $role->updated_at }}</td> --}}
-                                <td>
-                                    {{-- <a href="{{ route('admin.roles.show', $permission->id) }}"
-                                        class="btn btn-info mb-2">Chi
-                                        tiết</a> --}}
-                                    <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                        class="btn btn-warning mb-2">Sửa</a>
-                                    <a href="{{ route('admin.roles.destroy', $role->id) }}"
-                                        class="btn btn-danger mb-2" onclick="return confirm('Chắc chắn chưa')">Xóa</a>
-                                </td>
+                                </th>
+                                <th>ID</th>
+                                <th>PERMISSION</th>
+                                <th>NAME</th>
+                                <th>DESCRIPTION</th>
+                                <th>Is Active</th>
+                                {{-- <th>CREATE_AT</th>
+                            <th>UPDATE_AT</th> --}}
+                                <th>ACTION</th>
                             </tr>
-                        @endforeach
+                        </thead>
+                        <tbody class="list form-check-all">
+                            @foreach ($roles as $role)
+                                <tr>
+                                    <td scope="col" style="width: 10px;">
+                                        <div class="form-check">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
+                                                value="option">
+                                        </div>
+                                    </td>
+                                    <td>{{ $role->id }}</td>
+                                    <td>
+                                        @foreach ($role->permissions as $permission)
+                                            {{ $permission->name }},
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $role->name }}</td>
+                                    <td>
+                                        {{ $role->description }}
+                                    </td>
+                                    <td>{!! $role->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    {{-- <td>{{ $role->created_at }}</td>
+                                <td>{{ $role->updated_at }}</td> --}}
+                                    <td>
+                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('admin.roles.edit', $role->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <form id="delete-form-{{ $role->id }}"
+                                                action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="#" class="text-danger d-inline-block"
+                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $role->id }}').submit();">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                     {{-- {{ $permission->links() }} --}}
                 </div>
@@ -119,3 +140,4 @@
         });
     </script>
 @endsection
+

@@ -73,8 +73,7 @@ class OrderController extends Controller
                     'user_note' => $request->input('user_note'),
                     'total_price' => $totalAmount,
                 ]);
-
-                // Create order items
+// Create order items
                 foreach ($dataItem as $item) {
                     $item['order_id'] = $order->id;
                     OrderItem::create($item);
@@ -86,8 +85,6 @@ class OrderController extends Controller
                 }
                 // dd($order,$dataItem);
             });
-
-
 
             // Clear the cart after successful order placement
             session()->forget('cart');

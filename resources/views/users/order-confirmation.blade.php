@@ -10,7 +10,8 @@
         }
 
         .panel-head h2 {
-            color: #f57224; /* Màu sắc tiêu đề */
+            color: #f57224;
+            /* Màu sắc tiêu đề */
             font-weight: bold;
             font-size: 30px;
         }
@@ -31,17 +32,21 @@
         }
 
         .checkout-box {
-            border: 1px solid #ddd; /* Đổi sang màu sắc border mong muốn */
+            border: 1px solid #ddd;
+            /* Đổi sang màu sắc border mong muốn */
             border-radius: 5px;
             padding: 30px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Thêm độ bóng */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* Thêm độ bóng */
             display: flex;
             justify-content: space-between;
-            margin-top: 20px; /* Thêm margin top cho khoảng cách */
+            margin-top: 20px;
+            /* Thêm margin top cho khoảng cách */
         }
 
-        .checkout-box-left, .checkout-box-right {
+        .checkout-box-left,
+        .checkout-box-right {
             width: 48%;
         }
 
@@ -63,7 +68,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 10px;
             text-align: left;
             border-bottom: 1px solid #e6e6e6;
@@ -108,7 +114,8 @@
 
         .info-row span {
             font-weight: bold;
-            width: 120px; /* Độ rộng của nhãn (label) */
+            width: 120px;
+            /* Độ rộng của nhãn (label) */
             display: inline-block;
         }
 
@@ -150,7 +157,8 @@
                                         <td>{{ $item->product_name }}</td>
                                         <td>{{ $item->quantity_add }}</td>
                                         <td>{{ number_format($item->product_price ?: $item->product_sale_price, 0) }} $</td>
-                                        <td>{{ number_format($item->quantity_add * ($item->product_price ?: $item->product_sale_price), 0) }} $</td>
+                                        <td>{{ number_format($item->quantity_add * ($item->product_price ?: $item->product_sale_price), 0) }}
+                                            $</td>
                                     </tr>
                                 @endforeach
                             </tbody>

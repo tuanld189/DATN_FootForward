@@ -28,3 +28,4 @@ class OrderItem extends Model
     }
 
 }
+
