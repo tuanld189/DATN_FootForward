@@ -18,9 +18,6 @@ class OrderController extends Controller
             // Declare $order variable outside the transaction scope
             $order = null;
 
-            // Initialize $order with an empty Order instance
-            $order = new Order();
-
             DB::transaction(function () use ($request, &$order) {
                 // Check if the user is authenticated
                 if (!Auth::check()) {
@@ -64,7 +61,7 @@ class OrderController extends Controller
 
                 // Create the order
                 $order = Order::create([
-                    'user_id' => Auth::check() ? $request->input('user_id') : $user->id,
+                    'user_id' => Auth::check() ? Auth::id() : $user->id,
                     'user_name' => $request->input('user_name'),
                     'user_email' => $request->input('user_email'),
                     'user_phone' => $request->input('user_phone'),
@@ -72,12 +69,12 @@ class OrderController extends Controller
                     'user_note' => $request->input('user_note'),
                     'total_price' => $totalAmount,
                 ]);
-// Create order items
+
+                // Create order items
                 foreach ($dataItem as $item) {
                     $item['order_id'] = $order->id;
                     OrderItem::create($item);
                 }
-                // dd($order,$dataItem);
             });
 
             // Clear the cart after successful order placement
@@ -88,17 +85,87 @@ class OrderController extends Controller
 
         } catch (\Exception $exception) {
             // Handle exceptions
-            dd($exception); // Consider logging the exception instead
+            // Log the exception for debugging
+            \Log::error('Order placement error: ' . $exception->getMessage());
             return back()->with('error', 'Lỗi đặt hàng');
         }
     }
+    public function vnpay_payment(Request $request)
+    {
+
+
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://datn.test/order-confirmation";
+        $vnp_TmnCode = "XBZGT2AU"; // Mã website tại VNPAY
+        $vnp_HashSecret = "4GA17SQ9XWMQNJCCNJ6Y8P4IT7O4OW81"; // Chuỗi bí mật
+
+        $vnp_TxnRef = "12345"; // Mã đơn hàng
+        $vnp_OrderInfo = "Thanh toán đơn hàng";
+        $vnp_OrderType = "FootForward";
+        $vnp_Amount = 10000 * 100;
+        $vnp_Locale = "vn";
+        $vnp_BankCode = $request->input('bank_code'); // Validate and sanitize user input
+        $vnp_IpAddr = $request->ip();
+
+        $inputData = [
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+        ];
+
+        if ($vnp_BankCode) {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        $returnData = array(
+            'code' => '00'
+            ,
+            'message' => 'success'
+            ,
+            'data' => $vnp_Url
+        );
+        if (isset($_POST['redirect'])) {
+            header('Location: ' . $vnp_Url);
+            die();
+        } else {
+            echo json_encode($returnData);
+        }
+    }
+
 
     public function confirmation($order_id)
     {
-
         $order = Order::findOrFail($order_id);
         $orderItems = OrderItem::where('order_id', $order_id)->get();
 
-        return view('users.order-confirmation', compact('order', 'orderItems'));
+        return view('client.order-confirmation', compact('order', 'orderItems'));
     }
 }
