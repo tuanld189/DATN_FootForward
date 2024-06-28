@@ -41,7 +41,7 @@ class ProductController extends Controller
             $salePrice = $sale->sale_price;
         }
 
-        return view('users.show', compact('product', 'categories', 'brands', 'salePrice'));
+        return view('client.show', compact('product', 'categories', 'brands', 'salePrice'));
     }
     public function getQuantity(Request $request)
     {

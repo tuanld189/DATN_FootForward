@@ -34,7 +34,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data['is_active'] ??= 0;
+        // $data['is_active'] ??= 0;
+
+
+
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
@@ -71,7 +74,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $model = Category::findOrFail($id);
-        $data['is_active'] ??= 0;
+        // $data['is_active'] ??= 0;
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
