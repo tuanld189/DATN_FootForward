@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\Vourcher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -19,6 +21,65 @@ class CartController extends Controller
 
         return view('users.cart-list', compact('cart', 'totalAmount'));
     }
+
+
+    public function applyVoucher(Request $request)
+    {
+        $request->validate([
+            'voucher_code' => 'nullable|string',
+        ]);
+
+        $voucherCode = $request->input('voucher_code');
+
+        if ($voucherCode) {
+            $voucher = Vourcher::validateVoucher($voucherCode);
+
+            if ($voucher) {
+                // Lưu mã giảm giá tạm thời trong session flash để chỉ áp dụng trong lần thanh toán hiện tại
+                session()->flash('voucher_code', $voucherCode);
+                return redirect()->route('cart.checkout')->with('success', 'Voucher applied successfully');
+            }
+        }
+
+        return redirect()->route('cart.checkout')->with('error', 'Invalid or expired voucher');
+    }
+
+
+
+    public function checkout(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $totalAmount = 0;
+
+        foreach ($cart as $item) {
+            $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+        }
+
+        $voucherCode = session()->get('voucher_code');
+        $discount = 0;
+
+        if ($voucherCode) {
+            $voucher = Vourcher::validateVoucher($voucherCode);
+
+            if ($voucher) {
+                $discount = 0;
+                if ($voucher->discount_type === 'percentage') {
+                    $discount = ($voucher->discount_value / 100) * $totalAmount;
+                    // $totalAmount -= $discount;
+                } elseif ($voucher->discount_type === 'amount') {
+                    $discount = $voucher->discount_value;
+                    // $totalAmount -= $discount;
+                }
+                $totalAmount -= $discount;
+            }
+        }
+
+        return view('users.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
+    }
+
+
+
+
 
     public function add(Request $request)
     {
@@ -98,17 +159,17 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function checkout()
-    {
-        $cart = session()->get('cart', []);
-        $totalAmount = 0;
+    // public function checkout()
+    // {
+    //     $cart = session()->get('cart', []);
+    //     $totalAmount = 0;
 
-        foreach ($cart as $item) {
-            $totalAmount += $item['quantity_add'] * ($item['price'] ?: $item['price_sale']);
-        }
+    //     foreach ($cart as $item) {
+    //         $totalAmount += $item['quantity_add'] * ($item['price'] ?: $item['price_sale']);
+    //     }
 
-        return view('users.cart-checkout', compact('cart', 'totalAmount'));
-    }
+    //     return view('users.cart-checkout', compact('cart', 'totalAmount'));
+    // }
 
     public function remove($id)
     {

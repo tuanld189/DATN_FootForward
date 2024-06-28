@@ -114,7 +114,7 @@
                 <div class="col-lg-8">
                     <div class="billing_details">
                         <h3>Billing Details</h3>
-                        <form class="contact_form" action="{{ route('order.save') }}" method="post" novalidate="novalidate">
+                        {{-- <form class="contact_form" action="{{ route('order.save') }}" method="post" novalidate="novalidate"> --}}
                             @csrf
                             <div class="col-md-12 form-group p_star">
                                 <input type="hidden" class="form-control" name="user_id" id="user_id"
@@ -191,8 +191,17 @@
                             <li><a href="#">Total <span>${{ number_format($totalAmount + 50, 2) }}</span></a></li>
                         </ul>
                         <div class="coupon_area">
-                            <input type="text" placeholder="Enter coupon code">
-                            <a class="tp_btn" href="#">Apply</a>
+                            <form action="{{ route('cart.applyVoucher') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="voucher_code">Voucher Code</label>
+                                    <input type="text" name="voucher_code" id="voucher_code" class="form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Apply Voucher</button>
+                            </form>
+
+                            {{-- <input type="text" placeholder="Enter coupon code">
+                            <a class="tp_btn" href="#">Apply</a> --}}
                         </div>
                         <div class="payment_item">
                             <div class="radion_btn">
@@ -227,4 +236,45 @@
 
         </div>
     </section>
+    <!-- resources/views/users/cart-checkout.blade.php -->
+    {{--
+    <div class="container">
+        <h1>Checkout</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($cart as $item)
+                    <tr>
+                        <td>{{ $item['name'] }}</td>
+                        <td>{{ $item['quantity_add'] }}</td>
+                        <td>${{ number_format($item['sale_price'] ?: $item['price']) }}</td>
+                        <td>${{ number_format($item['quantity_add'] * ($item['sale_price'] ?: $item['price'])) }}</td>
+                    </tr>
+                @endforeach
+
+                <tr>
+                    <td colspan="3"><strong>Total</strong></td>
+                    <td><strong>${{ number_format($totalAmount) }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form action="{{ route('cart.applyVoucher') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="voucher_code">Voucher Code</label>
+                <input type="text" name="voucher_code" id="voucher_code" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply Voucher</button>
+        </form>
+
+        <!-- Checkout button or form goes here -->
+    </div> --}}
 @endsection
