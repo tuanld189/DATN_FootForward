@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::all();
+        $comments = Comment::with('user', 'post', 'product')->get();
         return view('admin.comments.index', compact('comments'));
     }
 
@@ -34,33 +34,30 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'post_id' => 'required|exists:posts,id',
-        'content' => 'required|string',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'post_id' => 'required|exists:posts,id',
+            'product_id' => 'required|exists:products,id', // Corrected to 'products' table
+            'content' => 'required|string',
+        ]);
 
+        if ($validatedData) {
+            $validatedData['created_by'] = Auth::id();
+            $validatedData['updated_by'] = Auth::id();
 
-    if ($validatedData) {
-        $validatedData['created_by'] = Auth::id();
-        $validatedData['updated_by'] = Auth::id();
+            $comment = Comment::create($validatedData);
 
-
-        $comment = Comment::create($validatedData);
-
-
-        if ($comment) {
-
-            return redirect()->route('admin.comments.index')->with('status', 'Comment Created Successfully');
+            if ($comment) {
+                return redirect()->route('admin.comments.index')->with('status', 'Comment Created Successfully');
+            } else {
+                return redirect()->back()->with('error', 'Failed to create comment');
+            }
         } else {
-            return redirect()->back()->with('error', 'Failed to create comment');
+            // Handle validation errors
+            return redirect()->back()->withErrors($request->errors())->withInput();
         }
-    } else {
-        // Xử lý lỗi nếu validate dữ liệu không thành công
-        return redirect()->back()->withErrors($request->errors())->withInput();
     }
-}
 
     /**
      * Show the form for editing the specified resource.

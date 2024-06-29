@@ -15,6 +15,9 @@ use Illuminate\Support\Str;
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
+
+
+
     {
         try {
             // Declare $order variable outside the transaction scope
@@ -87,6 +90,8 @@ class OrderController extends Controller
                 }
                 // dd($order,$dataItem);
             });
+
+
 
             // Clear the cart after successful order placement
             session()->forget('cart');

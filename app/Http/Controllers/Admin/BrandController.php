@@ -35,8 +35,8 @@ class BrandController extends Controller
     {
         $data=$request->except('image');
         $data['is_active'] ??= 0;
-        if($request->except('image')){
-            $data['image']=Storage::put(self::PATH_UPLOAD,$request->file('image'));
+        if ($request->hasFile('image')) {
+            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
         }
         Brand::query()->create($data);
 

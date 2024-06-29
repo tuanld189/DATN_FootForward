@@ -106,7 +106,7 @@
                                                     <ul>
                                                         <li><a href="my-account.html">My account</a></li>
                                                         <li><a href="checkout.html">Checkout</a></li>
-                                                        <li><a href="login-register.html">Sign in</a></li>
+                                                        <li><a href="{{route('login')}}">Sign in</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
-// use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
@@ -82,7 +82,8 @@ Route::prefix('admin')
 
         //PRODUCT
         Route::resource('products', ProductController::class);
-
+        Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
+        Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
         // PRODUCT-SALE
         Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
@@ -195,18 +196,18 @@ Route::prefix('admin')
         // Route cho phương thức search
         Route::get('users/search', [UserController::class, 'index'])->name('admin.users.search');
 
-        //COMMENT
+        // COMMENT
         Route::prefix('comments')
-            ->as('comments.')
-            ->group(function () {
-                Route::get('/', [CommentController::class, 'index'])->name('index');
-                Route::get('create', [CommentController::class, 'create'])->name('create');
-                Route::post('store', [CommentController::class, 'store'])->name('store');
-                Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
-                Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
-            });
+        ->as('comments.')
+        ->group(function () {
+            Route::get('/', [CommentController::class, 'index'])->name('index');
+            Route::get('create', [CommentController::class, 'create'])->name('create');
+            Route::post('store', [CommentController::class, 'store'])->name('store');
+            Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
+            Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+        });
 
 
         // order

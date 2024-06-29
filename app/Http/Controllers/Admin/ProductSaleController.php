@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductSale;
 use App\Models\Product;
+use Illuminate\Support\Facades\Log;
 
 class ProductSaleController extends Controller
 {
@@ -21,32 +23,29 @@ class ProductSaleController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|array',
-            'product_id.*' => 'exists:products,id',
-            'sale_price' => 'required|numeric|min:0',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'boolean',
-        ]);
+{
+    $request->validate([
+        'product_id' => 'required|array',
+        'product_id.*' => 'exists:products,id',
+        'sale_price' => 'required|numeric|min:0',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date|after_or_equal:start_date',
+        'status' => 'boolean',
+    ]);
 
-        // Kiểm tra checkbox 'status' đã được chọn hay chưa
-        $status = $request->has('status');
+    $status = $request->filled('status') ? true : false;
 
-        // Tạo bản ghi ProductSale mới
-        $sale = ProductSale::create([
-            'sale_price' => $request->sale_price,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $status,
-        ]);
+    $sale = ProductSale::create([
+        'sale_price' => $request->sale_price,
+        'start_date' => $request->start_date,
+        'end_date' => $request->end_date,
+        'status' => $status,
+    ]);
 
-        // Lưu danh sách các sản phẩm liên quan
-        $sale->products()->attach($request->product_id); // Sử dụng attach để gán nhiều sản phẩm
+    $sale->products()->attach($request->product_id);
 
-        return redirect()->route('admin.sales.index')->with('success', 'Tạo bán hàng sản phẩm thành công.');
-    }
+    return redirect()->route('admin.sales.index');
+}
 
     public function show(ProductSale $sale)
     {
@@ -70,23 +69,24 @@ class ProductSaleController extends Controller
             'status' => 'boolean',
         ]);
 
+        $status = $request->filled('status') ? true : false;
+
         $sale->update([
-            'product_id' => $request->product_id, // Thêm product_id vào đây
             'sale_price' => $request->sale_price,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'status' => $request->status,
+            'status' => $status,
         ]);
 
         // Sync the product association
         $sale->products()->sync($request->product_id);
 
-        return redirect()->route('admin.sales.index')->with('success', 'Product sale updated successfully.');
+        return redirect()->route('admin.sales.index');
     }
 
     public function destroy(ProductSale $sale)
     {
         $sale->delete();
-        return redirect()->route('admin.sales.index')->with('success', 'Product sale deleted successfully.');
+        return redirect()->route('admin.sales.index');
     }
 }

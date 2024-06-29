@@ -9,23 +9,28 @@ class Comment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'post_id',
         'user_id',
+        // 'post_id',
+        'product_id',
         'content',
-        'created_at',
-        'updated_at'
+        'created_by',
+        'updated_by',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 
-    // Quan hệ với bảng Post
     public function post()
     {
         return $this->belongsTo(Post::class);
     }
+
     // Quan hệ với người tạo (user)
     public function creator()
     {

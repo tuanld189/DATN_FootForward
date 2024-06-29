@@ -25,7 +25,6 @@
                 <a href="{{ route('admin.sales.create') }}" class="btn btn-primary">Add New Sale</a>
             </div>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -54,7 +53,7 @@
                             <td>{{ $sale->sale_price }}</td>
                             <td>{{ $sale->start_date }}</td>
                             <td>{{ $sale->end_date }}</td>
-                            <td>{{ $sale->status ? 'Active' : 'Inactive' }}</td>
+                            <td> {!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
                             <td>
                                 {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                 <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
@@ -86,6 +85,5 @@
                 </tbody>
             </table>
         </div>
-        <!-- /.card-body -->
     </div>
 @endsection
