@@ -1,6 +1,5 @@
 @extends('client.layout.inheritance')
 
-
 @section('content')
     <!-- breadcrumb-area start -->
     <div class="breadcrumb-area bg-grey">
@@ -17,71 +16,17 @@
     </div>
     <!-- breadcrumb-area end -->
 
-
     <!-- content-wraper start -->
     <div class="content-wraper">
         <div class="container">
-            {{-- <div class="row">
-                <div class="col">
-                    <div class="coupon-area">
-                        <!-- coupon-accordion start -->
-                        <div class="coupon-accordion">
-                            <h3>Returning customer? <span class="coupon" id="showlogin">Click here to login</span></h3>
-                            <div class="coupon-content" id="checkout-login">
-                                <div class="coupon-info">
-                                    <p>If you have shopped with us before, please enter your details in the boxes below. If
-                                        you are a new customer, please proceed to the Billing &amp; Shipping section.</p>
-                                    <form action="#">
-                                        <p class="coupon-input form-row-first">
-                                            <label>Username or email <span class="required">*</span></label>
-                                            <input type="text" name="email">
-                                        </p>
-                                        <p class="coupon-input form-row-last">
-                                            <label>password <span class="required">*</span></label>
-                                            <input type="password" name="password">
-                                        </p>
-                                        <div class="clear"></div>
-                                        <p>
-                                            <button type="submit" class="button-login btn" name="login"
-                                                value="Login">Login</button>
-                                            <label class="remember"><input type="checkbox"
-                                                    value="1"><span>Remember</span></label>
-                                        </p>
-                                        <p class="lost-password">
-                                            <a href="#">Lost your password?</a>
-                                        </p>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- coupon-accordion end -->
-                        <!-- coupon-accordion start -->
-                        <div class="coupon-accordion">
-                            <h3>Have a coupon? <span class="coupon" id="showcoupon">Click here to enter your code</span>
-                            </h3>
-                            <div class="coupon-content" id="checkout-coupon">
-                                <div class="coupon-info">
-                                    <form action="#">
-                                        <p class="checkout-coupon">
-                                            <input type="text" placeholder="Coupon code">
-                                            <button type="submit" class="btn button-apply-coupon" name="apply_coupon"
-                                                value="Apply coupon">Apply coupon</button>
-                                        </p>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- coupon-accordion end -->
-                    </div>
-                </div>
-            </div> --}}
             <!-- checkout-details-wrapper start -->
             <div class="checkout-details-wrapper">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <!-- billing-details-wrap start -->
                         <div class="billing-details-wrap">
-                            <form action="#">
+                            <form id="checkout-form" action="{{ route('order.save') }}" method="POST">
+                                @csrf
                                 <h3 class="shoping-checkboxt-title">Billing Details</h3>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -94,7 +39,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <p class="single-form-row">
-                                            <label> Email <span class="required">*</span></label>
+                                            <label>Email <span class="required">*</span></label>
                                             <input type="text" name="user_email" id="user_email" class="form-control"
                                                 value="{{ Auth::check() ? Auth::user()->email : '' }}">
                                             <span class="placeholder" data-placeholder="Email"></span>
@@ -102,73 +47,18 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <p class="single-form-row">
-                                            <label> Number phone <span class="required">*</span></label>
+                                            <label>Number phone <span class="required">*</span></label>
                                             <input type="text" name="user_phone" id="user_phone" class="form-control">
                                             <span class="placeholder" data-placeholder="Phone number"></span>
                                         </p>
                                     </div>
                                     <div class="col-lg-6">
                                         <p class="single-form-row">
-                                            <label> Address <span class="required">*</span></label>
+                                            <label>Address <span class="required">*</span></label>
                                             <input type="text" name="user_address" id="user_address"
                                                 class="form-control">
                                             <span class="placeholder" data-placeholder="Address"></span>
                                         </p>
-                                    </div>
-                                    {{-- <div class="col-lg-12">
-                                        <p class="single-form-row">
-                                            <label>Company name</label>
-                                            <input type="text" name="email">
-                                        </p>
-                                    </div> --}}
-
-                                    <div class="col-lg-12">
-                                        <div class="checkout-box-wrap">
-                                            <label><input type="checkbox" id="chekout-box f-option2" name="create_account">
-                                                Create an account?</label>
-                                            <div class="account-create single-form-row">
-                                                <p>Create an account by entering the information below. If you are a
-                                                    returning customer please login at the top of the page.</p>
-                                                <label class="create-pass">Create account password <span>*</span></label>
-                                                <input type="password" class="input-text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="checkout-box-wrap">
-                                            <label id="chekout-box-2"><input type="checkbox"> Ship to a different
-                                                address?</label>
-                                            <div class="ship-box-info">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <p class="single-form-row">
-                                                            <label>User name <span class="required">*</span></label>
-                                                            <input type="text" name="username">
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <p class="single-form-row">
-                                                            <label>Email <span class="required">*</span></label>
-                                                            <input type="text" name="email">
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <p class="single-form-row">
-                                                            <label>Phone</label>
-                                                            <input type="text" name="phone">
-                                                        </p>
-                                                    </div>
-
-                                                    <div class="col-lg-12">
-                                                        <p class="single-form-row">
-                                                            <label>Address <span class="required">*</span></label>
-                                                            <input type="text" placeholder="House number and street name"
-                                                                name="address">
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <p class="single-form-row m-0">
@@ -194,8 +84,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="product-name">Product Name</th>
-                                                {{-- <th class="product-quantity">Quantity</th> --}}
-
                                                 <th class="product-total">Total</th>
                                             </tr>
                                         </thead>
@@ -214,25 +102,14 @@
                                             @endforeach
                                         </tbody>
                                         <tfoot>
-                                            {{-- <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">£215.00</span></td>
-                                            </tr> --}}
                                             <tr class="shipping">
                                                 <th>Shipping</th>
                                                 <td>
                                                     <ul>
-                                                        {{-- <li>
-                                                            <input type="radio">
-                                                            <label>
-                                                                Flat Rate: <span class="amount">£7.00</span>
-                                                            </label>
-                                                        </li> --}}
                                                         <li>
                                                             <input type="radio">
                                                             <label>Free Shipping:</label>
                                                         </li>
-                                                        <li></li>
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -250,33 +127,27 @@
                                 <!-- your-order-wrap end -->
                                 <div class="payment-method">
                                     <div class="payment-accordion">
-                                        <!-- ACCORDION START -->
-
                                         <div class="form-check payment-content">
                                             <input type="radio" class="form-check-input bg-primary border-0"
-                                                id="Delivery-1" name="payment_method" value="2">
+                                                id="Delivery-1" name="payment_method" value="cod">
                                             <label class="form-check-label" for="Delivery-1">Thanh toán khi nhận
                                                 hàng</label>
-
                                         </div>
-                                        <!-- ACCORDION END -->
-                                        <!-- ACCORDION START -->
-
-
-                                        <!-- ACCORDION END -->
-                                    </div>
-                                    <div class="form-check payment-content">
-                                        <form action="{{route('vnpay_payment')}}" method="POST">
-                                            @csrf
-                                            <button class="btn btn-default" type="submit">Thanh toán VNPAY</button>
-                                        </form>
+                                        <div class="form-check payment-content">
+                                            <input type="radio" id="vnpay-checkbox" class="form-check-input" name="payment_method" value="vnpay">
+                                            <label class="form-check-label" for="vnpay-checkbox">Thanh toán VNPAY</label>
+                                        </div>
                                     </div>
                                     <div class="order-button-payment">
-                                        <input type="submit" value="Place order"/>
+                                        <form id="vnpay-form" action="{{ route('vnpay_payment') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="redirect" value="1">
+                                            <button class="btn btn-default" type="submit">Thanh toán VNPAY</button>
+                                        </form>
+                                        <input type="submit" form="checkout-form" value="Place order"/>
                                     </div>
                                 </div>
                                 <!-- your-order-wrapper start -->
-
                             </div>
                         </div>
                     </div>
@@ -287,6 +158,7 @@
     </div>
     <!-- content-wraper end -->
 @endsection
+
 @section('scripts')
     <script>
         fetch('ssvnpay_payment', {

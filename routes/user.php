@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AddressController;
@@ -38,8 +39,9 @@ Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->
 Route::get('/cart/list', [CartController::class, 'list'])->name('cart.list');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
+
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
 
@@ -52,3 +54,7 @@ Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmati
 // vnpay payment
     Route::post('/vnpay_payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');
     Route::post('/check-out',[OrderController::class,'store'])->name('checkout.store');
+//comment
+Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
+Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
+Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('comment.update');

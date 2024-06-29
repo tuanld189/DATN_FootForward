@@ -50,7 +50,6 @@ class Order extends Model
         'total_price',
     ];
 
-
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);

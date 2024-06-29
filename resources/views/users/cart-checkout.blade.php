@@ -109,7 +109,17 @@
             <div class="product_detail_row">
                 <h3 class="product_detail_title">CART CHECKOUT</h3>
             </div>
-
+            <div class="row">
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="row">
                 <div class="col-lg-8">
                     <div class="billing_details">
@@ -134,9 +144,8 @@
                             </div>
 
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" name="user_phone" id="user_phone" class="form-control">
-                                <span class="placeholder" data-placeholder="Phone number"></span>
-
+                                <input type="text" name="user_email" id="user_email" class="form-control"  value="{{ Auth::check() ? Auth::user()->email : '' }}">
+                                <span class="placeholder" data-placeholder="Email"></span>
                             </div>
 
                             <div class="col-md-12 form-group p_star">
@@ -144,6 +153,7 @@
                                 <span class="placeholder" data-placeholder="Address"></span>
 
                             </div>
+
 
                             <div class="form-group">
                                 <div class="creat_account">

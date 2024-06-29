@@ -28,7 +28,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">List Comment</h5>
-                    <a href="{{ route('admin.comments.create') }}" class="btn btn-primary mb-2 w-10">Thêm mới</a>
                 </div>
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
@@ -40,16 +39,10 @@
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </th>
-                                {{-- <th data-ordering="false">SR No.</th> --}}
                                 <th data-ordering="false">ID</th>
                                 <th>User</th>
-                                <th>Post</th>
-                                {{-- <th>Product</th> --}}
+                                <th>WHERE</th>
                                 <th>Content</th>
-                                {{-- <th>CREATE_BY</th>
-                                <th>UPDATE_BY</th>
-                                <th>CREATE_AT</th> --}}
-                                {{-- <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -58,38 +51,34 @@
                                 <tr>
                                     <td scope="col" style="width: 10px;">
                                         <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
-                                                value="option">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                         </div>
                                     </td>
                                     <td>{{ $comment->id }}</td>
                                     <td>{{ $comment->user->name }}</td>
-                                    <td>{{ $comment->post->name }}</td>
-                                    {{-- <td>{{ $comment->product_id }}</td> --}}
+                                    <td>
+                                        @if ($comment->post)
+                                            <b>POST:</b> {{ $comment->post->name }}
+                                        @elseif ($comment->product)
+                                            <b>PRODUCT:</b> {{ $comment->product->name }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>{{ $comment->content }}</td>
                                     <td>
-                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="View">
-                                            <a href="{{ route('admin.comments.show', $comment->id) }}"
-                                                class="text-primary d-inline-block">
+                                            <a href="{{ route('admin.comments.show', $comment->id) }}" class="text-primary d-inline-block">
                                                 <i class="ri-eye-fill fs-16"></i>
                                             </a>
                                         </li>
                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Edit">
-                                            <a href="{{ route('admin.comments.edit', $comment->id) }}"
-                                                class="text-primary d-inline-block edit-item-btn">
+                                            <a href="{{ route('admin.comments.edit', $comment->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
-                                        {{-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="Remove">
-                                            <a href="{{ route('admin.comments.destroy', $comment->id) }}"
-                                                class="text-danger d-inline-block remove-item-btn"
-                                                onclick="return confirm('Chắc chắn chưa')">
-                                                <i class="ri-delete-bin-5-fill fs-16"></i></a>
-                                        </li> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Remove">
                                             <form id="delete-form-{{ $comment->id }}"
@@ -103,7 +92,6 @@
                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                             </a>
                                         </li>
-                                        {{-- </ul> --}}
                                     </td>
                                 </tr>
                             @endforeach

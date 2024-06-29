@@ -77,6 +77,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
+
         $orderItems = OrderItem::where('order_id', $order->id)->get(); // Sử dụng $order->id thay vì $orderId
         return view(self::PATH_VIEW . 'show', compact('order', 'orderItems'));
     }
@@ -120,6 +121,28 @@ class OrderController extends Controller
             'order_items.*.variant_color_name' => 'nullable|string|max:100',
         ]);
 
+        // Lấy dữ liệu từ request
+        $input = $request->all();
+
+        // Kiểm tra và cập nhật các thuộc tính của đơn hàng
+        $order->user_name = $input['user_name'];
+        $order->user_email = $input['user_email'];
+        $order->user_phone = $input['user_phone'];
+        $order->user_address = $input['user_address'];
+        $order->total_price = $input['total_price'];
+
+
+        // Kiểm tra xem giá trị status_order được gửi từ form có phù hợp hay không
+        if (array_key_exists('status_order', $input) && in_array($input['status_order'], array_keys(Order::STATUS_ORDER))) {
+            $order->status_order = $input['status_order'];
+        }
+
+        // Kiểm tra xem giá trị status_payment được gửi từ form có phù hợp hay không
+        if (array_key_exists('status_payment', $input) && in_array($input['status_payment'], array_keys(Order::STATUS_PAYMENT))) {
+            $order->status_payment = $input['status_payment'];
+        }
+
+        // Lưu lại các thay đổi
         // Cập nhật order
         $order->fill($validated);
         $order->save();
@@ -144,5 +167,4 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.index')
             ->with('success', 'Đã xóa đơn hàng thành công.');
     }
-
 }
