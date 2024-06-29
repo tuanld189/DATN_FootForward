@@ -44,7 +44,10 @@ Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.updat
 
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
-// order
+
+Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
+Route::get('cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
 Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
 Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 

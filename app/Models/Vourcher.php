@@ -18,7 +18,7 @@ class Vourcher extends Model
     protected $dates = [
         'start_date',
         'end_date',
-        'discount_value' => 'integer',
+        // 'discount_value' => 'integer',
     ];
 
     // Accessor to check if the vourcher is expired
@@ -49,5 +49,25 @@ class Vourcher extends Model
         } else {
             return 'N/A';
         }
+    }
+
+    public static function validateVoucher($code)
+    {
+        $voucher = self::where('code', $code)->first();
+        if ($voucher && $voucher->canBeRedeemed()) {
+            return $voucher;
+        }
+        return null;
+    }
+
+    // ham nay de kiem tra ngay neu ma het hạn sẽ không dùng dc
+    public static function firstWithExpiryDate($code, $userId)
+    {
+        return static::where('code', $code)
+            ->where('is_active', true)
+            ->where('quantity', '>', 0)
+            ->where('start_date', '<=', Carbon::now())
+            ->where('end_date', '>=', Carbon::now())
+            ->first();
     }
 }
