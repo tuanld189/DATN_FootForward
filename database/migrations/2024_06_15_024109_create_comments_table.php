@@ -17,7 +17,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Post::class)->constrained();
+            $table->foreignIdFor(Post::class)->nullable()->constrained();
+            $table->foreignIdFor(Product::class)->nullable()->constrained();
             $table->text('content');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

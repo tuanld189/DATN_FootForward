@@ -9,15 +9,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+
     public function save(Request $request)
     {
         try {
             // Declare $order variable outside the transaction scope
             $order = null;
+
+            // Initialize $order with an empty Order instance
+            $order = new Order();
 
             DB::transaction(function () use ($request, &$order) {
                 // Check if the user is authenticated
@@ -62,7 +67,7 @@ class OrderController extends Controller
 
                 // Create the order
                 $order = Order::create([
-                    'user_id' => Auth::check() ? Auth::id() : $user->id,
+                    'user_id' => Auth::check() ? $request->input('user_id') : $user->id,
                     'user_name' => $request->input('user_name'),
                     'user_email' => $request->input('user_email'),
                     'user_phone' => $request->input('user_phone'),
@@ -81,7 +86,10 @@ class OrderController extends Controller
                     $productVariant->quantity -= $item['quantity_add'];
                     $productVariant->save();
                 }
+                // dd($order,$dataItem);
             });
+
+
 
             // Clear the cart after successful order placement
             session()->forget('cart');
@@ -91,8 +99,7 @@ class OrderController extends Controller
 
         } catch (\Exception $exception) {
             // Handle exceptions
-            // Log the exception for debugging
-            \Log::error('Order placement error: ' . $exception->getMessage());
+            dd($exception); // Consider logging the exception instead
             return back()->with('error', 'Lỗi đặt hàng');
         }
     }
@@ -104,7 +111,6 @@ class OrderController extends Controller
         $vnp_Returnurl = "http://datn.test/order-confirmation";
         $vnp_TmnCode = "XBZGT2AU"; // Mã website tại VNPAY
         $vnp_HashSecret = "4GA17SQ9XWMQNJCCNJ6Y8P4IT7O4OW81"; // Chuỗi bí mật
-
         $vnp_TxnRef = "12345"; // Mã đơn hàng
         $vnp_OrderInfo = "Thanh toán đơn hàng";
         $vnp_OrderType = "FootForward";

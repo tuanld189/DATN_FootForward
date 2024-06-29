@@ -33,6 +33,46 @@
         .custom-control-input:checked~.custom-control-label span {
             font-weight: bold;
         }
+        .comment-form-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+        }
+
+        .comment-avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 0;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            padding: 8px 15px;
+            border-radius: 0;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
     </style>
 @endsection
 
@@ -112,7 +152,7 @@
                                                     @php
                                                         $displayedColors[] = $variant->color->id; // Mark color as displayed
                                                     @endphp
-                                                    <div class="custom-control custom-radio mr-3 mb-2">
+                                                    <div class="custom-control custom-radio mr-3 mb-2 ">
                                                         <input type="radio" id="color{{ $variant->color->id }}"
                                                             name="product_color_id" value="{{ $variant->color->id }}"
                                                             class="custom-control-input" onchange="updateQuantity()">
@@ -220,7 +260,7 @@
                                 <a data-bs-toggle="tab" role="tab" href="#sheet">Product Details</a>
                             </li>
                             <li role="presentation">
-                                <a data-bs-toggle="tab" role="tab" href="#reviews">Reviews</a>
+                                <a data-bs-toggle="tab" role="tab" href="#reviews">Comments</a>
                             </li>
                         </ul>
                     </div>
@@ -278,108 +318,103 @@
                             </div>
                         </div>
                         <!-- End Single Content -->
-                        <!-- Start Single Content -->
-                        <div class="product_tab_content tab-pane" id="reviews" role="tabpanel">
-                            <div class="review_address_inner">
-                                <!-- Start Single Review -->
-                                <div class="pro_review">
-                                    <div class="review_thumb">
-                                        <img alt="review images" src="assets/images/review/1.jpg">
-                                    </div>
-                                    <div class="review_details">
-                                        <div class="review_info">
-                                            <h4><a href="#">Gerald Barnes</a></h4>
-                                            <ul class="product-rating d-flex">
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                            </ul>
-                                            <div class="rating_send">
-                                                <a href="#"><i class="fa fa-reply"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="review_date">
-                                            <span>27 Jun, 2023 at 3:30pm</span>
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas
-                                            elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent
-                                            et messages in con sectetur posuere dolor non.</p>
-                                    </div>
-                                </div>
-                                <!-- End Single Review -->
-                                <!-- Start Single Review -->
-                                <div class="pro_review ans">
-                                    <div class="review_thumb">
-                                        <img alt="review images" src="assets/images/review/2.jpg">
-                                    </div>
-                                    <div class="review_details">
-                                        <div class="review_info">
-                                            <h4><a href="#">Gerald Barnes</a></h4>
-                                            <ul class="product-rating d-flex">
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                            </ul>
-                                            <div class="rating_send">
-                                                <a href="#"><i class="fa fa-reply"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="review_date">
-                                            <span>27 Jun, 2023 at 4:32pm</span>
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas
-                                            elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent
-                                            et messages in con sectetur posuere dolor non.</p>
-                                    </div>
-                                </div>
-                                <!-- End Single Review -->
+<!-- Start Single COMMENT -->
+
+<div class="product_tab_content tab-pane" id="reviews" role="tabpanel" style="background-color:rgb(246, 242, 242); ">
+    <div class="row">
+        <!-- Column for posting comment -->
+        <div class="col-lg-6">
+            <!-- Start Rating Area -->
+            <div class="rating_wrap " style="margin-top: 20px; padding:20px;">
+                <h2 class="rating-title ">Write A review</h2>
+                <h4 class="rating-title-2">Your Rating</h4>
+                <div class="rating_list">
+                    <ul class="product-rating d-flex">
+                        <li><span class="fa fa-star"></span></li>
+                        <li><span class="fa fa-star"></span></li>
+                        <li><span class="fa fa-star"></span></li>
+                        <li><span class="fa fa-star"></span></li>
+                        <li><span class="fa fa-star"></span></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- End Rating Area -->
+
+            <div class="comments-area comments-reply-area mt-3">
+                <form action="{{ route('product.comment', $product->id) }}" method="POST" class="comment-form-area">
+                    @csrf
+                    <div class="form-group ">
+                        <div style="display: flex;">
+                            <div class="review_thumb" style="margin-right: 15px; margin-top:70px; margin-left:20px;">
+                                <img alt="user avatar" src="{{ asset('assets/images/about1.jpg') }}" width="50px" height="50px" style="border-radius: 50%;">
                             </div>
-                            <!-- Start RAting Area -->
-                            <div class="rating_wrap">
-                                <h2 class="rating-title">Write A review</h2>
-                                <h4 class="rating-title-2">Your Rating</h4>
-                                <div class="rating_list">
-                                    <ul class="product-rating d-flex">
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- End RAting Area -->
-                            <div class="comments-area comments-reply-area">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <form action="#" class="comment-form-area">
-                                            <div class="comment-input">
-                                                <p class="comment-form-author">
-                                                    <label>Name <span class="required">*</span></label>
-                                                    <input type="text" required="required" name="Name">
-                                                </p>
-                                                <p class="comment-form-email">
-                                                    <label>Email <span class="required">*</span></label>
-                                                    <input type="text" required="required" name="email">
-                                                </p>
-                                            </div>
-                                            <p class="comment-form-comment">
-                                                <label>Comment</label>
-                                                <textarea class="comment-notes" required="required"></textarea>
-                                            </p>
-                                            <div class="comment-form-submit">
-                                                <input type="submit" value="Post Comment" class="comment-submit">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                            <div style="flex-grow: 1; margin-right: 15px;">
+                                <h4><i>{{ Auth::check() ? Auth::user()->name : '' }}</i></h4>
+                                <textarea name="content" class="form-control" placeholder="Write a comment..." required style="width: 400px; height:120px;"></textarea>
+                                <button type="submit" class="btn btn-primary btn-block mt-3 " style="font-weight: bold; "><i class="fa fa-paper-plane"></i> Post Comment</button>
+
                             </div>
                         </div>
-                        <!-- End Single Content -->
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Column for displaying comments -->
+        <div class="col-lg-6">
+            <div class="review_address_inner" style="overflow: auto; height: 500px; padding: 10px;">
+                @foreach($product->comments as $comment)
+                    <div class="pro_review" style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div class="review_thumb" style="margin-right: 15px;">
+                            <img alt="review images" src="{{ asset('assets/images/about1.jpg') }}" width="70px" height="70px" style="border-radius: 50%;">
+                        </div>
+                        <div class="review_details" style="flex-grow: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div>
+                                    <h4><i><a href="#">{{ $comment->user->name }}</a></i></h4>
+                                    <ul class="product-rating d-flex" style="margin-right: 10px;">
+                                        @for ($i = 0; $i < 5; $i++)
+                                            @if ($i < $comment->rating)
+                                                <li><span class="fa fa-star" style="color: #ffc107;"></span></li>
+                                            @else
+                                                <li><span class="fa fa-star"></span></li>
+                                            @endif
+                                        @endfor
+                                    </ul>
+
+                                </div>
+                                @if(Auth::check() && Auth::id() === $comment->user_id)
+                                <div  style="float:right; margin-right:20px;" >
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('delete-comment-{{ $comment->id }}').submit();" style="font-weight: bold; color: #dc3545; font-size: 25px;"><i class="fa fa-trash"></i></a>
+                                    <form id="delete-comment-{{ $comment->id }}" action="{{ route('product.comment.delete', $comment->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
+                                @endif
+                            </div>
+
+                            <p style="margin-bottom: 10px;"> <span class="badge bg-success text-center" height="20px;">{{ $comment->content }}</span></p>
+                            <div>
+                                <span class="review_date">{{ $comment->created_at->format('d M, Y \a\t h:i a') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- End Single COMMENT -->
+
+
+
                     </div>
                 </div>
             </div>
@@ -630,4 +665,80 @@
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+    <script>
+        // Ajax request for posting a comment
+        function postComment(event) {
+            event.preventDefault();
+
+            var formData = new FormData(event.target);
+            var url = event.target.action;
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Append new comment to the comments list
+                var commentHTML = `
+                    <div class="pro_review" style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div class="review_thumb" style="margin-right: 15px;">
+                            <img alt="review images" src="{{ asset('assets/images/about1.jpg') }}" width="70px" height="70px" style="border-radius: 50%;">
+                        </div>
+                        <div class="review_details" style="flex-grow: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div>
+                                    <h4><a href="#">{{ Auth::user()->name }}</a></h4>
+                                    <ul class="product-rating d-flex" style="margin-right: 10px;">
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <a href="#" onclick="deleteComment(${data.comment.id})" style="font-weight: bold; color: #dc3545; font-size: 18px;"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </div>
+                            <p style="margin-bottom: 10px;">${data.comment.content}</p>
+                            <div>
+                                <span class="review_date">${data.comment.created_at}</span>
+                            </div>
+                        </div>
+                    </div>`;
+
+                // Append new comment to the review_address_inner element
+                document.querySelector('.review_address_inner').innerHTML += commentHTML;
+                // Clear the textarea after posting
+                event.target.querySelector('textarea').value = '';
+            })
+            .catch(error => console.error('Error posting comment:', error));
+        }
+
+        // Ajax request for deleting a comment
+        function deleteComment(commentId) {
+            var url = '{{ route("product.comment.delete", ":commentId") }}'.replace(':commentId', commentId);
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove the deleted comment from the DOM
+                var commentElement = document.getElementById('comment-' + commentId);
+                if (commentElement) {
+                    commentElement.remove();
+                }
+            })
+            .catch(error => console.error('Error deleting comment:', error));
+        }
+    </script>
 @endsection

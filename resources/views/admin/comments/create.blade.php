@@ -1,4 +1,4 @@
-@extends('admin.layout.master')
+{{-- @extends('admin.layout.master')
 @section('title')
     Create New Comment
 @endsection
@@ -67,4 +67,4 @@
     <script>
         CKEDITOR.replace('description'); < !--Sửa thành description-- >
     </script>
-@endsection
+@endsection --}}

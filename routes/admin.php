@@ -196,18 +196,18 @@ Route::prefix('admin')
         // Route cho phương thức search
         Route::get('users/search', [UserController::class, 'index'])->name('admin.users.search');
 
-        //COMMENT
+        // COMMENT
         Route::prefix('comments')
-            ->as('comments.')
-            ->group(function () {
-                Route::get('/', [CommentController::class, 'index'])->name('index');
-                Route::get('create', [CommentController::class, 'create'])->name('create');
-                Route::post('store', [CommentController::class, 'store'])->name('store');
-                Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
-                Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
-            });
+        ->as('comments.')
+        ->group(function () {
+            Route::get('/', [CommentController::class, 'index'])->name('index');
+            Route::get('create', [CommentController::class, 'create'])->name('create');
+            Route::post('store', [CommentController::class, 'store'])->name('store');
+            Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
+            Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+        });
 
 
         // order
