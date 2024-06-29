@@ -57,8 +57,8 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Type your name">
                 </div>
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Type your username">
+                    <label for="username">Full Name</label>
+                    <input type="text" class="form-control" id="username" name="fullname" placeholder="Type your fullname">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>

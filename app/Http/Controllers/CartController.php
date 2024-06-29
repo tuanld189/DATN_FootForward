@@ -14,7 +14,7 @@ class CartController extends Controller
 {
     public function list()
     {
-        $cart=Order::all();
+        $cart = Order::all();
         $cart = session('cart', []);
         $totalAmount = 0;
 
@@ -46,7 +46,6 @@ class CartController extends Controller
         if (isset($cart[$productVariant->id])) {
             $cart[$productVariant->id]['quantity_add'] += $request->quantity_add;
         } else {
-            // Include all relevant product details in the cart
             $cart[$productVariant->id] = [
                 'id' => $productVariant->id,
                 'name' => $product->name,

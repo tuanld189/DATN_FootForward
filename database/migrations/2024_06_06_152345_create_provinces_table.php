@@ -12,10 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('provinces', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code')->unique();
-            $table->timestamps();
+            $table->string('code', 20)->primary();
+            $table->string('name', 255);
+            $table->string('name_en', 255)->nullable();
+            $table->string('full_name', 255);
+            $table->string('full_name_en', 255)->nullable();
+            $table->string('code_name', 255)->nullable();
+            $table->integer('administrative_unit_id')->nullable();
+            $table->integer('administrative_region_id')->nullable();
+
+            $table->foreign('administrative_unit_id')->references('id')->on('administrative_units');
+            $table->foreign('administrative_region_id')->references('id')->on('administrative_regions');
+
+            $table->index('administrative_region_id', 'idx_provinces_region');
+            $table->index('administrative_unit_id', 'idx_provinces_unit');
         });
     }
 

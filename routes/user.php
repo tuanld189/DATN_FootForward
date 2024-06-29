@@ -38,14 +38,17 @@ Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->
 Route::get('/cart/list', [CartController::class, 'list'])->name('cart.list');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
-// order
-Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
-Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+// Đơn hàng
+// Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('placeOrder');
+// Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
+// Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
-// vnpay payment
-    Route::post('/vnpay_payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');
-    Route::post('/check-out',[OrderController::class,'store'])->name('checkout.store');
+// Thanh toán VNPAY
+
+Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
+Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
+Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');

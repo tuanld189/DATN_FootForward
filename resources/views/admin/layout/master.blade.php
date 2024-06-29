@@ -32,12 +32,8 @@
         td {
             text-align: center
         }
-<<<<<<< HEAD
 
    </style>
-=======
-    </style>
->>>>>>> 80abdf694c10e9767677db3cdf804d051d945bb9
 </head>
 
 <body>
