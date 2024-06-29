@@ -15,8 +15,5 @@ class Province extends Model
         'created_at',
         'updated_at',
     ];
-    public function districts()
-    {
-        return $this->hasMany(District::class);
-    }
+    protected $table='provinces';
 }

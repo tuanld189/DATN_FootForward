@@ -12,18 +12,19 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'role_id',
         'name',
-        'email',
+        'fullname',
         'phone',
-        'user_code',
-        'username',
-        'password',
+        'province_id',
+        'district_id',
+        'wand_id',
+        'address',
+        'birthday',
         'photo_thumbs',
         'status',
-        'is_active',
-        // 'is_admin',
-        'remember_token',
+        'email',
+        'user_code',
+        'password',
     ];
 
     protected $hidden = [
@@ -44,7 +45,7 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
-        return $this->roles()->whereHas('permissions', function($q) use ($permission) {
+        return $this->roles()->whereHas('permissions', function ($q) use ($permission) {
             $q->where('name', $permission);
         })->exists();
     }
