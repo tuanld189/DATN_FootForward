@@ -14,9 +14,46 @@ class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
 
-    public function index()
+    // public function index()
+    // {
+    //     $orders = Order::latest()->paginate(10);
+
+    //     return view(self::PATH_VIEW . 'index', compact('orders'));
+    // }
+    public function index(Request $request)
     {
-        $orders = Order::latest()->paginate(10);
+        $query = Order::query();
+
+        // Lọc theo trạng thái đơn hàng
+        if ($request->filled('status_order')) {
+            $query->where('status_order', $request->status_order);
+        }
+
+        // Lọc theo trạng thái thanh toán
+        if ($request->filled('status_payment')) {
+            $query->where('status_payment', $request->status_payment);
+        }
+
+        // Lọc theo khoảng thời gian
+        if ($request->filled('date_from') && $request->filled('date_to')) {
+            $query->whereBetween('created_at', [$request->date_from, $request->date_to]);
+        } elseif ($request->filled('date_from')) {
+            $query->where('created_at', '>=', $request->date_from);
+        } elseif ($request->filled('date_to')) {
+            $query->where('created_at', '<=', $request->date_to);
+        }
+
+        // Lọc theo customer_id
+        if ($request->filled('customer_id')) {
+            $query->where('user_id', $request->customer_id);
+        }
+
+        // Lọc theo user_name
+        if ($request->filled('user_name')) {
+            $query->where('user_name', 'like', '%' . $request->user_name . '%');
+        }
+
+        $orders = $query->get();
 
         return view(self::PATH_VIEW . 'index', compact('orders'));
     }

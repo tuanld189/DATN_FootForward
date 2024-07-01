@@ -64,7 +64,7 @@
                             </div>
                             <!--end col-->
                             <div class="col-xxl-2 col-sm-4">
-                                <div>
+<div>
                                     <select class="form-control" data-choices data-choices-search-false
                                         name="status_payment" id="status_payment">
                                         <option value="">All</option>
@@ -117,7 +117,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
+</div>
 
                                 <div class="col-md-2 mb-0">
 
@@ -177,7 +177,7 @@
                                 <th>SHOW_HOME</th>
                                 {{-- <th>CREATE AT</th>
                             <th>UPDATE AT</th> --}}
-                                <th>ACTION</th>
+<th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
@@ -204,8 +204,9 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->sku }}</td>
                                     <td>{{ $item->slug }}</td>
-                                    <td>{{ $item->category->name }}</td>
-                                    <td>{{ $item->brand->name }}</td>
+                                    
+                                    <td>{{ $item->category}}</td>
+                                    <td>{{ $item->brand }}</td>
                                     {{-- <td>{{ $item->category }}</td> --}}
                                     {{-- <td>{{ $item->brand }}</td> --}}
                                     <td>{{ $item->price }}</td>
@@ -227,7 +228,7 @@
                                         : '<span class="badge bg-danger">No</span>' !!}</td>
 
                                     {{-- <td>{{$item->created_at}}</td>
-                                <td>{{$item->updated_at}}</td> --}}
+<td>{{$item->updated_at}}</td> --}}
 
                                     <td>
                                         <ul class="list-inline hstack gap-1 mb-0">
@@ -275,7 +276,7 @@
 
 @section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">

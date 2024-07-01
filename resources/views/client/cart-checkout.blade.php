@@ -15,11 +15,73 @@
     .payment-method label {
         margin-left: 8px;
     }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    }
+
+    .checkout-mess {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    .cart-method label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .cart-method input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .cart-checkout {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 0.25rem;
+        transition: background-color 0.15s ease-in-out;
+    }
+
+    .cart-checkout:hover {
+        background-color: #0056b3;
+    }
+
+    .cart-heading {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .amount {
+        font-weight: bold;
+    }
 </style>
 @endsection
 
 @section('content')
-<div class="content-wraper">
+<div class="content-wraper mb-5">
     <div class="container">
         <div class="checkout-details-wrapper">
             <div class="row">
@@ -105,7 +167,7 @@
                                     </tfoot>
                                 </table>
                             </div>
-                            <div class="panel-foot">
+                            <div class="panel-foot" style="margin-left: 35px">
                                 <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
                                 <div class="cart-method">
                                     <label for="COD" class="uk-flex uk-flex-middle">
@@ -126,7 +188,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" class="cart-checkout" value="create" name="create">Thanh toán đơn hàng</button>
+                            <button type="submit"  class=" cart-checkout btn btn-primary" value="create" name="create">Thanh toán đơn hàng</button>
                         </form>
                     </div>
                 </div>
@@ -134,4 +196,22 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        const paymentInfoText = document.querySelector('.payment-info-text');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('change', function() {
+                if (this.value === 'bank_transfer') {
+                    paymentInfoText.style.display = 'block';
+                } else {
+                    paymentInfoText.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
 @endsection
