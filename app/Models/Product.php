@@ -60,4 +60,10 @@ class Product extends Model
     {
         return $this->hasMany(Comment::class, 'product_id');
     }
+
+    //funciton Product Cluster
+    public function productClusters()
+    {
+        return $this->belongsToMany(ProductCluster::class, 'product_cluster_product');
+    }
 }
