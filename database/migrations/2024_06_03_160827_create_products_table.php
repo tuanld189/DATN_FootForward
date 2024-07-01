@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('content')->nullable();
             $table->string('img_thumbnail')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 10, 2  );
             $table->text('description')->nullable();
             $table->unsignedBigInteger('view_count')->default(0);
             $table->boolean('is_active')->default(true);

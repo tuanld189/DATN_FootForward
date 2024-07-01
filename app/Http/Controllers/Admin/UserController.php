@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    // public $serviceBindings=[
+    //     'App\Services\Interfaces\UserServicesInterface'=>
+    //     'App\Services\UserService'
+    // ];
     const PATH_UPLOAD = 'users';
 
     public function index(Request $request)

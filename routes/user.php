@@ -44,17 +44,13 @@ Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.updat
 
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
+// Đơn hàng
+// Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('placeOrder');
+// Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
+// Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
-Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
-Route::get('cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+// Thanh toán VNPAY
 
-Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
-Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
-
-// vnpay payment
-    Route::post('/vnpay_payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');
-    Route::post('/check-out',[OrderController::class,'store'])->name('checkout.store');
-//comment
-Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
-Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
-Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('comment.update');
+Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
+Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
+Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');

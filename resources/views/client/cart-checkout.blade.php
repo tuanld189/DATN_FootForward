@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="billing-details-wrap">
-                            {{-- <form action="{{ route('order.place') }}" method="POST"> --}}
+                            <form action="{{ route('order.place') }}" method="POST">
                             @csrf
                             <h3 class="shoping-checkboxt-title">Thông tin đặt hàng</h3>
                             <div class="row">
@@ -179,7 +179,7 @@
                                     </table>
                                 </div>
 
-                                <div class="coupon container m-4">
+                                {{-- <div class="coupon container m-4">
                                     @if (session('message'))
                                         <div class="alert alert-{{ session('status') }}">
                                             {{ session('message') }}
@@ -194,7 +194,9 @@
                                             name="voucher_code" value="" placeholder="Coupon code" type="text">
                                         <input class="btn btn-primary" value="Apply coupon" type="submit">
                                     </form>
-                                </div>
+                                </div> --}}
+
+
                                 <div class="panel-foot" style="margin-left: 35px">
                                     <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
                                     <div class="cart-method">
@@ -221,8 +223,7 @@
                                 <button type="submit" class=" cart-checkout btn btn-primary" value="create"
                                     name="create">Thanh toán đơn hàng</button>
                                 </form>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

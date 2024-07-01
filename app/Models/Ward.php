@@ -16,8 +16,5 @@ class Ward extends Model
         'created_at',
         'updated_at',
     ];
-    public function district()
-    {
-        return $this->belongsTo(District::class);
-    }
+    protected $table='wards';
 }

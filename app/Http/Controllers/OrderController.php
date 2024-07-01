@@ -14,8 +14,10 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+    public function placeOrder(Request $request)
 
-    public function save(Request $request)
+
+
     {
         try {
             // Declare $order variable outside the transaction scope
@@ -94,8 +96,8 @@ class OrderController extends Controller
             // Clear the cart after successful order placement
             session()->forget('cart');
 
-            // Redirect to order confirmation page with order_id
-            return redirect()->route('order.confirmation', ['order_id' => $order->id]);
+            // Redirect to VNPAY payment
+            return $this->vnpay_payment($request, $order->id);
 
         } catch (\Exception $exception) {
             // Handle exceptions
@@ -103,15 +105,14 @@ class OrderController extends Controller
             return back()->with('error', 'Lỗi đặt hàng');
         }
     }
-    public function vnpay_payment(Request $request)
+
+    public function vnpay_payment(Request $request, $orderId)
     {
-
-
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://datn.test/order-confirmation";
+        $vnp_Returnurl = route('order.vnpay_return', ['order_id' => $orderId]);
         $vnp_TmnCode = "XBZGT2AU"; // Mã website tại VNPAY
         $vnp_HashSecret = "4GA17SQ9XWMQNJCCNJ6Y8P4IT7O4OW81"; // Chuỗi bí mật
-        $vnp_TxnRef = "12345"; // Mã đơn hàng
+        $vnp_TxnRef = Str::random(10); // Mã đơn hàng, should be unique
         $vnp_OrderInfo = "Thanh toán đơn hàng";
         $vnp_OrderType = "FootForward";
         $vnp_Amount = 10000 * 100;
@@ -154,24 +155,21 @@ class OrderController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array(
-            'code' => '00'
-            ,
-            'message' => 'success'
-            ,
-            'data' => $vnp_Url
-        );
-        if (isset($_POST['redirect'])) {
-            header('Location: ' . $vnp_Url);
-            die();
-        } else {
-            echo json_encode($returnData);
-        }
+
+        return redirect($vnp_Url);
     }
 
+    public function vnpay_return(Request $request)
+    {
+        $orderId = $request->input('order_id');
+
+        // Add logic to verify the payment with VNPAY and update the order status
+
+        return redirect()->route('order.confirmation', ['order_id' => $orderId]);
+    }
 
     public function confirmation($order_id)
     {

@@ -140,54 +140,22 @@
                     </div>
                 </li>
 
+                {{-- Voucher --}}
+                {{-- <li class="nav-item">
+                    <a href="{{ route('admin.voucher.index') }}" class="nav-link"
+                        data-key="t-horizontal">Voucher</a>
+
+                </li> --}}
+
+
+                {{-- Oders --}}
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarBanners" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarBanners">
-                        <i class="ri-honour-line"></i> <span data-key="t-layouts">Quản lí Banner</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarBanners">
-                        <ul class="nav nav-sm flex-column">
-                            {{-- Banners --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.banners.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Banners</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link"
+                        data-key="t-horizontal">Order</a>
+
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarVouchers" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarVouchers">
-                        <i class="ri-pencil-ruler-2-line"></i> <span data-key="t-layouts">Quản lí Vouchers</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarVouchers">
-                        <ul class="nav nav-sm flex-column">
-                            {{-- Vourchers --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.vourchers.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Vourchers</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarComment" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarComment">
-                        <i class="ri-pages-line"></i> <span data-key="t-layouts">Quản lí bình luận</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarComment">
-                        <ul class="nav nav-sm flex-column">
-                            {{-- Comments --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.comments.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Comment</a>
-
-                            </li>
-                        </ul>
-                    </div>
-                </li>
             </ul>
         </div>
     </div>
