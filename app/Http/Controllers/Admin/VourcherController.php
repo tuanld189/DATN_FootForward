@@ -36,18 +36,18 @@ class VourcherController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|unique:vouchers,code,',
+            'code' => 'nullable|max:255|unique:vourchers,code,',
             'description' => 'required',
             'discount_type' => 'required|in:percentage,amount',
             'discount_value' => [
                 'required',
                 'numeric',
-                // 'integer',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->discount_type === 'percentage' && ($value < 0 || $value > 100)) {
                         $fail('The discount value must be between 0 and 100 for percentage discounts.');
                     }
                 },
+
             ],
             'start_date' => 'required|date|before:end_date',
             'end_date' => 'required|date|after:start_date',
@@ -97,8 +97,8 @@ class VourcherController extends Controller
             'discount_type' => 'required|in:percentage,amount',
             'discount_value' => [
                 'required',
-                'numeric',
-                function ($attribute, $value, $fail) use ($request) {
+'numeric',
+function ($attribute, $value, $fail) use ($request) {
                     if ($request->discount_type === 'percentage' && ($value < 0 || $value > 100)) {
                         $fail('The discount value must be between 0 and 100 for percentage discounts.');
                     }

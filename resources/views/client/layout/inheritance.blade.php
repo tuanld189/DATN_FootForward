@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-shoes.png') }}">
 
     <!-- CSS -->
     <!-- Bootstrap CSS -->
@@ -53,14 +53,14 @@
                                         <!-- Currency Start -->
                                         <li class="currency list-inline-item">
                                             <div class="btn-group">
-                                                <button class="dropdown-toggle"> USD $ <i
+                                                <button class="dropdown-toggle"> VND đ <i
                                                         class="fa fa-angle-down"></i></button>
-                                                <div class="dropdown-menu">
+                                                {{-- <div class="dropdown-menu">
                                                     <ul>
                                                         <li><a href="#">Euro €</a></li>
                                                         <li><a href="#" class="current">USD $</a></li>
                                                     </ul>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </li>
                                         <!-- Currency End -->
@@ -68,8 +68,8 @@
                                         <li class="language list-inline-item">
                                             <div class="btn-group">
                                                 <button class="dropdown-toggle"><img
-                                                        src="{{ asset('assets/images/icon/la-1.jpg') }}" alt="">
-                                                    English <i class="fa fa-angle-down"></i></button>
+                                                        src="{{ asset('assets/images/covietnam.png') }}" width="30px" alt="">
+                                                    Vietnam <i class="fa fa-angle-down"></i></button>
                                                 <div class="dropdown-menu">
                                                     <ul>
                                                         <li><a href="#"><img
@@ -89,8 +89,8 @@
                             <div class="col-lg-4 order-lg-2 col-md-12">
                                 <!-- logo start -->
                                 <div class="logo text-center">
-                                    <a href="index.html"><img src="{{ asset('assets/images/logo-dark.png') }}"
-                                            alt=""></a>
+                                    <a href="{{route('index')}}"><img src="{{ asset('assets/images/logo-shoes.png') }}"
+                                            alt="" width="100px" height="100px"></a>
                                 </div>
                                 <!-- logo end -->
                             </div>

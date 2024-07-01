@@ -59,7 +59,7 @@
                                     data-key="t-horizontal">Categories</a>
                             </li>
                             {{-- Products --}}
-<li class="nav-item">
+                            <li class="nav-item">
                                 <a href="{{ route('admin.products.index') }}" class="nav-link"
                                     data-key="t-horizontal">Products</a>
                             </li>
@@ -101,7 +101,7 @@
                             {{-- Users --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.users.index') }}" class="nav-link"
-data-key="t-horizontal">Users</a>
+                                    data-key="t-horizontal">Users</a>
                             </li>
 
                         </ul>
