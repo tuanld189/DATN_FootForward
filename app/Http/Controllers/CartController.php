@@ -79,7 +79,7 @@ class CartController extends Controller
             }
         }
 
-        return view('users.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
     }
 
 

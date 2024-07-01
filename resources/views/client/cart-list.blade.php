@@ -1,5 +1,17 @@
 @extends('client.layout.inheritance')
+@section('styles')
+    <style>
+        .plantmore-product-quantity input.qty {
+            width: 60px;
 
+            height: 30px;
+            text-align: center;
+            display: inline-block;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="breadcrumb-area bg-grey">
         <div class="container">
@@ -14,7 +26,6 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
-
 
     <!-- content-wraper start -->
     <div class="content-wraper">
@@ -41,7 +52,7 @@
                                     @forelse(session('cart', []) as $item)
                                         @php
                                             $itemTotal =
-                                                $item['quantity_add'] * ($item['price'] ?: $item['price_sale']);
+                                                $item['quantity_add'] * ($item['price'] ?: $item['sale_price']);
                                             $totalAmount += $itemTotal;
                                         @endphp
                                         <tr>
@@ -56,9 +67,8 @@
                                             <td class="plantmore-product-color">{{ $item['color']['name'] }}</td>
                                             <td class="plantmore-product-size">{{ $item['size']['name'] }}</td>
                                             <td class="plantmore-product-price"><span
-                                                    class="amount">${{ $item['price'] ?: $item['price_sale'] }}</span></td>
-
-
+                                                    class="amount">{{ number_format($item['price'] ?: $item['sale_price']) }} VNĐ</span>
+                                            </td>
                                             <td class="plantmore-product-quantity product_count">
                                                 <form action="{{ route('cart.update', ['id' => $item['id']]) }}"
                                                     method="POST">
@@ -69,8 +79,8 @@
                                                 </form>
                                             </td>
                                             <td class="product-subtotal"><span id="total-{{ $item['id'] }}"
-                                                    data-price="{{ $item['price'] ?: $item['price_sale'] }}">
-                                                    {{ number_format($itemTotal, 2) }} $
+                                                    data-price="{{ $item['price'] ?: $item['sale_price'] }}">
+                                                    {{ number_format($itemTotal) }} VNĐ
                                                 </span></td>
                                             <td class="plantmore-product-remove">
                                                 <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"
@@ -78,14 +88,14 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="remove-btn"
-                                                        onclick="alert('Chắc chắn xóa?')"><i
+                                                        onclick="return confirm('Are you sure?')"><i
                                                             class="fa fa-times"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7">No items in the cart</td>
+                                            <td colspan="8">No items in the cart</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -94,29 +104,29 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="coupon-all">
-
                                     <div class="coupon2">
-                                        {{-- <input class="submit btn" name="update_cart" value="Update cart" type="submit"> --}}
                                         <a href="{{ route('index') }}" class="btn continue-btn">Continue Shopping</a>
                                     </div>
-
-                                    <div class="coupon">
+                                    {{-- <div class="coupon">
                                         <h3>Coupon</h3>
                                         <p>Enter your coupon code if you have one.</p>
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value=""
-                                            placeholder="Coupon code" type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                                    </div>
+                                        <form action="{{ route('cart.applyVoucher') }}" method="POST">
+                                            @csrf
+                                            <input id="voucher_code" class="input-text" name="voucher_code" value=""
+                                                placeholder="Coupon code" type="text">
+                                            <input class="button" value="Apply coupon" type="submit">
+                                        </form>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        {{-- <li>Subtotal <span>$170.00</span></li> --}}
-                                        <li>Total <span>${{ number_format($totalAmount, 2) }}</span></li>
+                                        <li>Total <span>{{ number_format($totalAmount) }} VNĐ</span></li>
                                     </ul>
-                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Proceed to checkout</a>
+                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Proceed to
+                                        checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -127,62 +137,72 @@
     </div>
     <!-- content-wraper end -->
 @endsection
+
 @section('scripts')
+    <script>
+        function updateCart() {
+            var cartItems = [];
 
+            var cartRows = document.querySelectorAll('tbody tr');
 
-<script>
-    function updateCart() {
-      var cartItems = [];
+            cartRows.forEach(function(row) {
+                var id = row.querySelector('input.qty').getAttribute('id').replace('sst-', '');
+                var quantity = parseInt(row.querySelector('input.qty').value);
 
-      // Select all rows in the cart table
-      var cartRows = document.querySelectorAll('tbody tr');
+                cartItems.push({
+                    id: id,
+                    quantity_add: quantity
+                });
+            });
 
-      cartRows.forEach(function(row) {
-          var id = row.querySelector('input.qty').getAttribute('id').replace('sst-', '');
-          var quantity = parseInt(row.querySelector('input.qty').value);
+            fetch('{{ route('cart.update-multiple') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        updated_cart: cartItems
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    if (data.success) {
+                        alert('Cart updated successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to update cart.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
 
-          // Push each item with its updated quantity to the cartItems array
-          cartItems.push({ id: id, quantity_add: quantity }); // Ensure the key matches what the backend expects
-      });
+        function updatetotalAmount() {
+            var totalAmounts = document.querySelectorAll('.product-subtotal span');
 
-      // Send a fetch request to update multiple items in the cart
-      fetch('{{ route("cart.update-multiple") }}', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': '{{ csrf_token() }}'
-          },
-          body: JSON.stringify({ updated_cart: cartItems })
-      })
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          }
-          throw new Error('Network response was not ok.');
-      })
-      .then(data => {
-          // Handle successful response
-          if (data.success) {
-              alert('Cart updated successfully!');
-              updatetotalAmount(); // Update totalAmount if needed
-          } else {
-              alert('Failed to update cart.');
-          }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-  }
+            var total = 0;
 
-      function updatetotalAmount() {
-          // Function to update totalAmount in UI if needed
-          // Example implementation, adjust as per your UI requirements
-          var totalAmounts = document.querySelectorAll('td[id^="total-"]');
-          var totalAmount = 0;
-          totalAmounts.forEach(function (element) {
-              totalAmount += parseFloat(element.innerText.split(' ')[0]);
-          });
-          document.getElementById('totalAmount').innerText = totalAmount.toFixed(2);
-      }
-  </script>
-  @endsection
+            totalAmounts.forEach(function(totalAmount) {
+                var price = parseFloat(totalAmount.dataset.price);
+                var quantity = parseInt(totalAmount.closest('tr').querySelector('input.qty').value);
+
+                total += price * quantity;
+            });
+
+            document.querySelector('.cart-page-total li span').textContent = '$' + total.toFixed(2);
+        }
+
+        document.querySelectorAll('input.qty').forEach(function(input) {
+            input.addEventListener('change', function() {
+                updatetotalAmount();
+            });
+        });
+    </script>
+@endsection
