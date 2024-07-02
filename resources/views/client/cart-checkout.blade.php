@@ -1,6 +1,7 @@
 @extends('client.layout.inheritance')
 
 @section('styles')
+
 <style>
     .payment-methods {
         display: flex;
@@ -88,34 +89,40 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="billing-details-wrap">
                         <form action="{{ route('order.place') }}" method="POST">
+
                             @csrf
                             <h3 class="shoping-checkboxt-title">Thông tin đặt hàng</h3>
                             <div class="row">
                                 {{-- <div class="col-lg-6">
                                     <p class="single-form-row"> --}}
-                                        {{-- <label>User id<span class="required">*</span></label> --}}
-                                        <input type="hidden" class="form-control" name="user_id"  value="{{ Auth::check() ? Auth::user()->id : '' }}">
-                                        {{-- <span class="placeholder" data-placeholder="Username"></span> --}}
-                                    {{-- </p>
+                                {{-- <label>User id<span class="required">*</span></label> --}}
+                                <input type="hidden" class="form-control" name="user_id"
+                                    value="{{ Auth::check() ? Auth::user()->id : '' }}">
+                                {{-- <span class="placeholder" data-placeholder="Username"></span> --}}
+                                {{-- </p>
                                 </div> --}}
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>User name<span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="user_name" placeholder="Nhập vào tên người dùng" value="{{ Auth::check() ? Auth::user()->name : '' }}">
+                                        <input type="text" class="form-control" name="user_name"
+                                            placeholder="Nhập vào tên người dùng"
+                                            value="{{ Auth::check() ? Auth::user()->name : '' }}">
                                         <span class="placeholder" data-placeholder="Username"></span>
                                     </p>
                                 </div>
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>Email <span class="required">*</span></label>
-                                        <input type="text" name="user_email" placeholder="Nhập vào email" class="form-control" value="{{ Auth::check() ? Auth::user()->email : '' }}">
+                                        <input type="text" name="user_email" placeholder="Nhập vào email"
+                                            class="form-control" value="{{ Auth::check() ? Auth::user()->email : '' }}">
                                         <span class="placeholder" data-placeholder="Email"></span>
                                     </p>
                                 </div>
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>Number phone <span class="required">*</span></label>
-                                        <input type="text" name="user_phone" placeholder="Nhập vào số điện thoại" class="form-control">
+                                        <input type="text" name="user_phone" placeholder="Nhập vào số điện thoại"
+                                            class="form-control">
                                         <span class="placeholder" data-placeholder="Phone number"></span>
                                     </p>
                                 </div>
@@ -129,11 +136,14 @@
                                 <div class="col-lg-12">
                                     <p class="single-form-row m-0">
                                         <label>Order notes</label>
-                                        <textarea placeholder="Notes about your order, e.g. special notes for delivery." class="checkout-mess" rows="2" cols="5" name="user_note"></textarea>
+                                        <textarea placeholder="Notes about your order, e.g. special notes for delivery." class="checkout-mess" rows="2"
+                                            cols="5" name="user_note"></textarea>
                                     </p>
                                 </div>
                             </div>
+                        </div>
                     </div>
+
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="your-order-wrapper">
@@ -180,20 +190,59 @@
                                         <input type="radio" name="payment_method" value="vnpay" id="vnpay">
                                         <span class="title">Thanh toán bằng VNPAY</span>
                                     </label>
+
                                 </div>
-                                <div class="cart-method">
-                                    <label for="momo" class="uk-flex uk-flex-middle">
-                                        <input type="radio" name="payment_method" value="momo" id="momo">
-                                        <span class="title">Thanh toán bằng MOMO</span>
-                                    </label>
+
+                                {{-- <div class="coupon container m-4">
+                                    @if (session('message'))
+                                        <div class="alert alert-{{ session('status') }}">
+                                            {{ session('message') }}
+                                        </div>
+                                    @endif
+                                    <h4>Coupon</h4>
+                                    <p>Enter your coupon code if you have one.</p>
+                                    <form action="{{ route('cart.applyVoucher') }}" method="POST"
+                                        class="flex justify-center">
+                                        @csrf
+                                        <input id="voucher_code" class="input-text" style="height: 38px;"
+                                            name="voucher_code" value="" placeholder="Coupon code" type="text">
+                                        <input class="btn btn-primary" value="Apply coupon" type="submit">
+                                    </form>
+                                </div> --}}
+
+
+                                <div class="panel-foot" style="margin-left: 35px">
+                                    <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
+                                    <div class="cart-method">
+                                        <label for="COD" class="uk-flex uk-flex-middle">
+                                            <input type="radio" name="payment_method" value="COD" checked
+                                                id="COD">
+                                            <span class="title">Thanh toán khi nhân hàng</span>
+                                        </label>
+                                    </div>
+                                    <div class="cart-method">
+                                        <label for="vnpay" class="uk-flex uk-flex-middle">
+                                            <input type="radio" name="payment_method" value="vnpay" id="vnpay">
+                                            <span class="title">Thanh toán bằng VNPAY</span>
+                                        </label>
+                                    </div>
+                                    <div class="cart-method">
+                                        <label for="momo" class="uk-flex uk-flex-middle">
+                                            <input type="radio" name="payment_method" value="momo" id="momo">
+                                            <span class="title">Thanh toán bằng MOMO</span>
+                                        </label>
+                                    </div>
                                 </div>
+
                             </div>
                             <button type="submit"  class=" cart-checkout btn btn-primary" value="create" name="create">Thanh toán đơn hàng</button>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 @endsection

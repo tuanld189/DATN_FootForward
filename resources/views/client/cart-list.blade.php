@@ -67,7 +67,8 @@
                                             <td class="plantmore-product-color">{{ $item['color']['name'] }}</td>
                                             <td class="plantmore-product-size">{{ $item['size']['name'] }}</td>
                                             <td class="plantmore-product-price"><span
-                                                    class="amount">${{ $item['price'] ?: $item['sale_price'] }}</span></td>
+                                                    class="amount">{{ number_format($item['price'] ?: $item['sale_price']) }} VNĐ</span>
+                                            </td>
                                             <td class="plantmore-product-quantity product_count">
                                                 <form action="{{ route('cart.update', ['id' => $item['id']]) }}"
                                                     method="POST">
@@ -79,7 +80,7 @@
                                             </td>
                                             <td class="product-subtotal"><span id="total-{{ $item['id'] }}"
                                                     data-price="{{ $item['price'] ?: $item['sale_price'] }}">
-                                                    {{ number_format($itemTotal, 2) }} $
+                                                    {{ number_format($itemTotal) }} VNĐ
                                                 </span></td>
                                             <td class="plantmore-product-remove">
                                                 <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"
@@ -106,20 +107,23 @@
                                     <div class="coupon2">
                                         <a href="{{ route('index') }}" class="btn continue-btn">Continue Shopping</a>
                                     </div>
-                                    <div class="coupon">
+                                    {{-- <div class="coupon">
                                         <h3>Coupon</h3>
                                         <p>Enter your coupon code if you have one.</p>
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value=""
-                                            placeholder="Coupon code" type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                                    </div>
+                                        <form action="{{ route('cart.applyVoucher') }}" method="POST">
+                                            @csrf
+                                            <input id="voucher_code" class="input-text" name="voucher_code" value=""
+                                                placeholder="Coupon code" type="text">
+                                            <input class="button" value="Apply coupon" type="submit">
+                                        </form>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        <li>Total <span>${{ number_format($totalAmount, 2) }}</span></li>
+                                        <li>Total <span>{{ number_format($totalAmount) }} VNĐ</span></li>
                                     </ul>
                                     <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Proceed to
                                         checkout</a>

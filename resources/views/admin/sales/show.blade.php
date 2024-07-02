@@ -13,7 +13,7 @@
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('admin.products.index') }}">Products</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin.sales.index') }}">Sales</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.sales.index', $sale->product_id) }}">Sales</a></li>
                     <li class="breadcrumb-item active">Detail</li>
                 </ol>
             </div>
@@ -21,12 +21,13 @@
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0"><b>SALE DETAIL PRODUCT : {{ $sale->products->pluck('name')->implode(', ') }}</b></h5>
-                <a href="{{ route('admin.sales.index') }}" class="btn btn-primary mb-2">Back to List</a>
+                <h5 class="card-title mb-0"><b>SALE DETAIL PRODUCT : {{ $sale->product->name }}</b></h5>
+                <a href="{{ route('admin.sales.index', $sale->product_id) }}" class="btn btn-primary mb-2">Back to List</a>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -35,8 +36,8 @@
                         <td>{{ $sale->id }}</td>
                     </tr>
                     <tr>
-                        <th>Products</th>
-                        <td>{{ $sale->products->pluck('name')->implode(', ') }}</td>
+                        <th>Product</th>
+                        <td>{{ $sale->product->name }}</td>
                     </tr>
                     <tr>
                         <th>Sale Price</th>
@@ -52,6 +53,7 @@
                     </tr>
                     <tr>
                         <th>Status</th>
+
                         <td>{!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
                     </tr>
                     <tr>
