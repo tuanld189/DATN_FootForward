@@ -18,17 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('dashboard', function () {
-//     return view('dashboard');
-// });
+//tags,products
 Route::get('/tags/search', [ProductController::class, 'search'])->name('tags.search');
-
-
-// routes/web.php
+Route::get('/products/search-products', [ProductController::class, 'searchProducts'])->name('admin.products.search-products');
 
 
 Route::post('/vnpay-payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');

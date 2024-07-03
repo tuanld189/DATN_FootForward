@@ -117,22 +117,16 @@
     </script>
     @yield('scripts')
 
-    @yield('scripts')
-
     <script src="{{ asset('https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js') }}"></script>
 
     <script src="{{ asset('assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
 
     <!-- dropzone js -->
     <script src="{{ asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
     <!-- project-create init -->
     <script src="{{ asset('assets/js/pages/project-create.init.js') }}"></script>
 
-    <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 </body>
 
 </html>

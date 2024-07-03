@@ -83,12 +83,13 @@ Route::prefix('admin')
         //PRODUCT
         Route::resource('products', ProductController::class);
         Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
-        Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
+
+
         // PRODUCT-SALE
         Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
-            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
-            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('store', [ProductSaleController::class, 'store'])->name('store');
             Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
             Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
             Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');

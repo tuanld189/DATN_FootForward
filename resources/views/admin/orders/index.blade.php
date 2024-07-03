@@ -151,7 +151,7 @@
                                                         <td class="date">
                                                             {{ $order->created_at->format('d-m-Y H:i:s') }}
                                                         </td>
-                                                        <td class="amount">{{ number_format($order->total_price, 2) }}
+                                                        <td class="amount">{{ number_format($order->total_price, 0, ',', '.') }}
                                                         </td>
                                                         <td class="payment">
                                                             <span
