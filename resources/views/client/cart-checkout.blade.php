@@ -203,7 +203,7 @@
                                     </table>
                                 </div>
 
-                                <div class="coupon container m-4">
+                                {{-- <div class="coupon container m-4">
                                     @if (session('message'))
                                         <div class="alert alert-{{ session('status') }}">
                                             {{ session('message') }}
@@ -266,7 +266,6 @@
                 </div>
             </div>
         </div>
-
     @endsection
     @section('scripts')
         <script>
