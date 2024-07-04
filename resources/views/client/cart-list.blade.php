@@ -10,6 +10,9 @@
             margin: 0 auto;
             box-sizing: border-box;
         }
+        .old-price {
+            text-decoration: line-through;
+        }
     </style>
 @endsection
 @section('content')
@@ -52,7 +55,7 @@
                                     @forelse(session('cart', []) as $item)
                                         @php
                                             $itemTotal =
-                                                $item['quantity_add'] * ($item['price'] ?: $item['sale_price']);
+                                                $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
                                             $totalAmount += $itemTotal;
                                         @endphp
                                         <tr>
@@ -66,8 +69,13 @@
                                             </td>
                                             <td class="plantmore-product-color">{{ $item['color']['name'] }}</td>
                                             <td class="plantmore-product-size">{{ $item['size']['name'] }}</td>
-                                            <td class="plantmore-product-price"><span
-                                                    class="amount">{{ number_format($item['price'] ?: $item['sale_price']) }} VNĐ</span>
+                                            <td class="plantmore-product-price">
+                                                @if ($item['sale_price'])
+                                                    <span class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                    <span class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }} VNĐ</span>
+                                                @else
+                                                    <span class="amount">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                @endif
                                             </td>
                                             <td class="plantmore-product-quantity product_count">
                                                 <form action="{{ route('cart.update', ['id' => $item['id']]) }}"
@@ -79,8 +87,8 @@
                                                 </form>
                                             </td>
                                             <td class="product-subtotal"><span id="total-{{ $item['id'] }}"
-                                                    data-price="{{ $item['price'] ?: $item['sale_price'] }}">
-                                                    {{ number_format($itemTotal) }} VNĐ
+                                                    data-price="{{ $item['sale_price'] ?: $item['price'] }}">
+                                                     {{ number_format($itemTotal, 0, ',', '.') }}VNĐ
                                                 </span></td>
                                             <td class="plantmore-product-remove">
                                                 <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"

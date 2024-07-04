@@ -61,37 +61,7 @@ public function deleteComment($commentId)
     return redirect()->back()->with('success', 'Comment deleted successfully.');
 }
 
-    // public function show($id)
-    // {
-    //     $product = Product::with([
-    //         'galleries',
-    //         'variants' => function ($query) {
-    //             $query->whereNotNull('image');
-    //         },
-    //         'variants.color',
-    //         'variants.size'
-    //     ])->findOrFail($id);
-
-    //     $categories = Category::all();
-    //     $brands = Brand::all();
-
-    //     // // Logic để lấy giá sale nếu có
-    //     // $salePrice = null;
-
-    //     // $today = now()->format('Y-m-d');
-    //     // $sale = ProductSale::where('product_id', $product->id)
-    //     //                    ->where('status', true)
-    //     //                    ->where('start_date', '<=', $today)
-    //     //                    ->where('end_date', '>=', $today)
-    //     //                    ->latest()
-    //     //                    ->first();
-
-    //     // if ($sale) {
-    //     //     $salePrice = $sale->sale_price;
-    //     // }
-
-    //     return view('client.show', compact('product', 'categories', 'brands'));
-    // }
+    
     public function getQuantity(Request $request)
     {
         $productId = $request->input('product_id');

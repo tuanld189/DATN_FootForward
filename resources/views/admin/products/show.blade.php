@@ -68,7 +68,7 @@
                         </tr>
                         <tr>
                             <th>Price</th>
-                            <td>{{ $model->price }}</td>
+                            <td>{{ number_format($model->price, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th>Content</th>

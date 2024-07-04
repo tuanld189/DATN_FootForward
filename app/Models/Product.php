@@ -29,10 +29,7 @@ class Product extends Model
 
 
     ];
-    public function sales()
-    {
-        return $this->belongsToMany(ProductSale::class, 'product_sale_product');
-    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
@@ -59,5 +56,15 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'product_id');
+    }
+    public function activeSale()
+    {
+        return $this->sales()->active()->first();
+    }
+    public function sales()
+    {
+        return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
+                    ->withPivot('sale_price') 
+                    ->withTimestamps();
     }
 }

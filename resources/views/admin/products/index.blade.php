@@ -27,71 +27,6 @@
         <div class="col-lg-12">
             <div class="card">
 
-
-
-
-                {{-- test --}}
-                {{-- <div class="card-body border border-dashed border-end-0 border-start-0">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-xxl-5 col-sm-6">
-                                <div class="search-box">
-                                    <input type="text" name="name" id="name" value="{{ request('name') }}"
-                                        class="form-control search" placeholder="Search">
-                                    <i class="ri-search-line search-icon"></i>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-6">
-                                <div>
-                                    <input type="date" class="form-control"  name="date_from" id="date_from"
-                                    value="{{ request('date_from') }}">
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-4">
-                                <div>
-                                    <select class="form-control" data-choices data-choices-search-false name="status_order"
-                                        id="status_order">
-                                        <option value="">All</option>
-                                        @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
-                                            <option value="{{ $key }}"
-                                                {{ request('status_order') == $key ? 'selected' : '' }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-4">
-                                <div>
-                                    <select class="form-control" data-choices data-choices-search-false
-                                        name="status_payment" id="status_payment">
-                                        <option value="">All</option>
-                                        @foreach (\App\Models\Order::STATUS_PAYMENT as $key => $value)
-                                            <option value="{{ $key }}"
-                                                {{ request('status_payment') == $key ? 'selected' : '' }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-1 col-sm-4">
-                                <div>
-                                    <button type="submit" class="btn btn-primary w-100" onclick="SearchData();"> <i
-                                            class="ri-equalizer-fill me-1 align-bottom"></i>
-                                        Filters
-                                    </button>
-                                </div>
-                            </div>
-                            <!--end col-->
-                        </div>
-                        <!--end row-->
-                    </form>
-                </div> --}}
-
-                {{-- test --}}
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Products</h5>
                     <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
@@ -154,12 +89,6 @@
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                         <thead class="text-muted table-light gap-3">
                             <tr class="text-uppercase">
-                                {{-- <th scope="col" style="width: 10px;">
-                                <div class="form-check">
-                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                </div>
-                            </th> --}}
-
                                 <th>ID: </th>
                                 <th>THUMBNAIL </th>
                                 <th>NAME </th>
@@ -168,26 +97,17 @@
                                 <th>CATEGORY </th>
                                 <th>BRAND </th>
                                 <th>PRICE </th>
-                                {{-- <th>SHORT CONTENT</th>
-                            <th>DESCRIPTION</th> --}}
                                 <th>TAGS</th>
                                 <th>ACTIVE</th>
                                 <th>HOT_DEAL</th>
                                 <th>NEW</th>
                                 <th>SHOW_HOME</th>
-                                {{-- <th>CREATE AT</th>
-                            <th>UPDATE AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
                             @foreach ($data as $item)
                                 <tr>
-                                    {{-- <td scope="row">
-                                    <div class="form-check">
-                                        <input class="form-check-input fs-15" type="checkbox" name="checkAll"
-                                            value="option1">
-                                    </div>
                                 </td> --}}
                                     <td>{{ $item->id }}</td>
                                     <td>
@@ -206,11 +126,7 @@
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->category->name }}</td>
                                     <td>{{ $item->brand->name }}</td>
-                                    {{-- <td>{{ $item->category }}</td> --}}
-                                    {{-- <td>{{ $item->brand }}</td> --}}
-                                    <td>{{ $item->price }}</td>
-                                    {{-- <td>{{$item->content}}</td>
-                                <td>{{$item->description}}</td> --}}
+                                    <td> {{ number_format( $item->price , 0, ',', '.') }}</td>
                                     <td>
                                         @foreach ($item->tags as $tag)
                                             <span class="badge bg-info">{{ $tag->name }}</span>
@@ -225,9 +141,6 @@
                                     <td>{!! $item->is_show_home
                                         ? '<span class="badge bg-success">Yes</span>'
                                         : '<span class="badge bg-danger">No</span>' !!}</td>
-
-                                    {{-- <td>{{$item->created_at}}</td>
-                                <td>{{$item->updated_at}}</td> --}}
 
                                     <td>
                                         <ul class="list-inline hstack gap-1 mb-0">

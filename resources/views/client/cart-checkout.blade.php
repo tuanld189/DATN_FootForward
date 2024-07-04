@@ -77,6 +77,9 @@
         .amount {
             font-weight: bold;
         }
+        .old-price {
+            text-decoration: line-through;
+        }
     </style>
 @endsection
 
@@ -150,28 +153,49 @@
                                         <thead>
                                             <tr>
                                                 <th class="product-name">Product Name</th>
-                                                <th class="product-total">Total</th>
+                                                <th class="product-name">Price</th>
+                                                <th class="product-name">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($cart as $item)
                                                 <tr class="cart_item">
-                                                    <td class="product-name">
+                                                    <td class="product-name"><b>
                                                         {{ $item['name'] }} <strong class="product-quantity"> ×
-                                                            {{ $item['quantity_add'] }}</strong>
+                                                            {{ $item['quantity_add'] }}</strong></b>
+                                                    </td>
+                                                    <td>
+                                                        @if ($item['sale_price'])
+                                                        <span class="amount old-price">{{ number_format( $item['price'], 0, ',', '.') }} VNĐ</span> <br>
+                                                        <span class="amount new-price">{{ number_format( $item['sale_price'], 0, ',', '.') }} VNĐ</span>
+                                                        @else
+                                                        <span class="amount">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                    @endif
                                                     </td>
                                                     <td class="product-total">
-                                                        <span
-                                                            class="amount">{{ number_format($item['quantity_add'] * ($item['price'] ?: $item['price_sale'])) }}
-                                                            VNĐ</span>
+                                                        @if ($item['sale_price'])
+                                                        <span class="amount old-price">{{ number_format($item['quantity_add'] * $item['price'], 0, ',', '.') }} VNĐ</span> <br>
+                                                        <span class="amount new-price">{{ number_format($item['quantity_add'] * $item['sale_price'], 0, ',', '.') }} VNĐ</span>
+                                                    @else
+                                                        <span class="amount new-price">{{ number_format($item['quantity_add'] * $item['price'], 0, ',', '.') }} VNĐ</span>
+                                                    @endif
+
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                         <tfoot>
                                             <tr class="order-total">
-                                                <th>Order Total</th>
-                                                <td><strong><span class="amount">{{ number_format($totalAmount, 0) }}
+                                                <th><b>Shipping</b></th>
+                                                <td></td>
+                                                <td><strong><span class="amount">50000
+                                                            VNĐ</span></strong>
+                                                </td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th><b>Order Total</b></th>
+                                                <td></td>
+                                                <td><strong><span class="amount">{{ number_format($totalAmount + 50000, 0, ',', '.') }}
                                                             VNĐ</span></strong>
                                                 </td>
                                             </tr>
@@ -187,16 +211,14 @@
                                     @endif
                                     <h4>Coupon</h4>
                                     <p>Enter your coupon code if you have one.</p>
-                                    <form action="{{ route('cart.applyVoucher') }}" method="POST"
+                                    {{-- <form action="{{ route('cart.applyVoucher') }}" method="POST"
                                         class="flex justify-center">
                                         @csrf
                                         <input id="voucher_code" class="input-text" style="height: 38px;"
                                             name="voucher_code" value="" placeholder="Coupon code" type="text">
                                         <input class="btn btn-primary" value="Apply coupon" type="submit">
-                                    </form>
-                                </div> --}}
-
-
+                                    </form> --}}
+                                </div>
                                 <div class="panel-foot" style="margin-left: 35px">
                                     <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
                                     <div class="cart-method">
@@ -223,7 +245,23 @@
                                 <button type="submit" class=" cart-checkout btn btn-primary" value="create"
                                     name="create">Thanh toán đơn hàng</button>
                                 </form>
-
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon container m-4">
+                        @if (session('message'))
+                            <div class="alert alert-{{ session('status') }}">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+                        <h4>Coupon</h4>
+                        <p>Enter your coupon code if you have one.</p>
+                        <form action="{{ route('cart.applyVoucher') }}" method="POST" class="flex justify-center">
+                            @csrf
+                            <input id="voucher_code" class="input-text" style="height: 38px;" name="voucher_code"
+                                value="" placeholder="Coupon code" type="text">
+                            <input class="btn btn-primary" value="Apply coupon" type="submit">
+                        </form>
                     </div>
                 </div>
             </div>

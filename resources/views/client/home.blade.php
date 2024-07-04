@@ -162,43 +162,50 @@
                         @foreach ($products as $product)
                         <div class="single-product-wrap">
                             <div class="product-image">
-                                <a href="{{ route('client.show', $product->id) }}"><img class="img-fluid"
-                                        src="{{ Storage::url($product->img_thumbnail) }}" alt=""></a>
+                                <a href="{{ route('client.show', $product->id) }}">
+                                    <img class="img-fluid" src="{{ Storage::url($product->img_thumbnail) }}" alt="">
+                                </a>
                                 <span class="label-product label-new">new</span>
-                                <span class="label-product label-sale">-7%</span>
+
+                                @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
+                                    @php
+                                        $discountPercentage = ($product->price - $product->sales->first()->pivot->sale_price) / $product->price * 100;
+                                    @endphp
+                                    <span class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
+                                @endif
+
                                 <div class="quick_view">
-                                    <a href="#" title="quick view" class="quick-view-btn"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i
-                                            class="fa fa-search"></i></a>
+                                    <a href="#" title="quick view" class="quick-view-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                        <i class="fa fa-search"></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="product-content">
                                 <h3><a href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a></h3>
                                 <div class="price-box">
-                                    <span class="new-price">$51.27</span>
-                                    <span class="old-price">${{ $product->price }}</span>
+                                    @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
+                                        <span class="old-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
+                                        <span class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }} VNĐ</span>
+                                    @else
+                                        <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
+                                    @endif
                                 </div>
                                 <div class="product-action">
-                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add
-                                        to cart</button>
+                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to cart</button>
                                     <div class="star_content">
                                         <ul class="d-flex">
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a>
-                                            </li>
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a>
-                                            </li>
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a>
-                                            </li>
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a>
-                                            </li>
-                                            <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a>
-                                            </li>
+                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                    @endforeach
+
                         <!-- single-product-wrap end -->
                     </div>
                 </div>

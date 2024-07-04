@@ -317,13 +317,11 @@ class ProductController extends Controller
 
     public function searchProducts(Request $request)
     {
-        $searchTerm = $request->input('q');
+        $search = $request->input('term');
 
-        Log::info('Search term: ' . $searchTerm);
-
-        $products = Product::where('name', 'like', '%' . $searchTerm . '%')->get();
-
-        Log::info('Products found: ' . $products->toJson());
+        $products = Product::whereDoesntHave('sales')
+            ->where('name', 'LIKE', "%{$search}%")
+            ->get(['id', 'name']);
 
         return response()->json($products);
     }
