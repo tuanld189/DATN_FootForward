@@ -1,5 +1,5 @@
-@extends('client.layout.inheritance')
-
+@extends('client.layouts.master')
+@section('title', 'Checkout')
 @section('styles')
     <style>
         .payment-methods {

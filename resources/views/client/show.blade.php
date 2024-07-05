@@ -1,5 +1,5 @@
-@extends('client.layout.inheritance')
-
+@extends('client.layouts.master')
+@section('title', 'Chi tiết sản phẩm')
 @section('styles')
     <style>
         .card_area .add-to-cart {

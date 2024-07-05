@@ -108,7 +108,7 @@
                         <tbody class="list form-check-all">
                             @foreach ($data as $item)
                                 <tr>
-                                </td> --}}
+                                </td>
                                     <td>{{ $item->id }}</td>
                                     <td>
                                         @php

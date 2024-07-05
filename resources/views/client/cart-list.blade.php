@@ -1,4 +1,5 @@
-@extends('client.layout.inheritance')
+@extends('client.layouts.master')
+@section('title', 'Cart-list')
 @section('styles')
     <style>
         .plantmore-product-quantity input.qty {
