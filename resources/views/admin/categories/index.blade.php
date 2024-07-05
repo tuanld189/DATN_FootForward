@@ -45,8 +45,8 @@
                                 <th>NAME</th>
                                 <th>IMAGE</th>
                                 <th>Is Active</th>
-                                <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th>
+                                {{-- <th>CREATE_AT</th>
+                                <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -67,8 +67,8 @@
 
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
+                                    {{-- <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->updated_at }}</td> --}}
                                     <td>
                                         {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"

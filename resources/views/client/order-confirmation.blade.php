@@ -1,5 +1,5 @@
-@extends('client.layout.inheritance')
-
+@extends('client.layouts.master')
+@section('title', 'Xác nhận')
 @section('styles')
     <style>
         .panel-head {
