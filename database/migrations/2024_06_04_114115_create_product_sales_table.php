@@ -14,11 +14,10 @@ return new class extends Migration
     {
         Schema::create('product_sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Product::class)->constrained();
-            $table->decimal('sale_price', 10, 2);
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('end_date')->nullable();
-            $table->boolean('status')->default(true);
+            $table->decimal('sale_price', 8, 2);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

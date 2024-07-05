@@ -49,36 +49,52 @@
                     @foreach ($sales as $sale)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+
                             <td>{{ $sale->products->pluck('name')->implode(', ') }}</td>
                             <td>{{ $sale->sale_price }}</td>
                             <td>{{ $sale->start_date }}</td>
                             <td>{{ $sale->end_date }}</td>
                             <td> {!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
+
                             <td>
-                                {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
-                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="View">
-                                    <a href="{{ route('admin.sales.show', $sale->id) }}"
-                                        class="text-primary d-inline-block">
-                                        <i class="ri-eye-fill fs-16"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="Edit">
-                                    <a href="{{ route('admin.sales.edit', $sale->id) }}"
-                                        class="text-primary d-inline-block edit-item-btn">
-                                        <i class="ri-pencil-fill fs-16"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="Remove">
-                                    <a href="{{ route('admin.sales.destroy', $sale->id) }}"
-                                        class="text-danger d-inline-block remove-item-btn"
-                                        onclick="return confirm('Bạn có muốn xóa không')">
-                                        <i class="ri-delete-bin-5-fill fs-16"></i></a>
-                                </li>
+                                @foreach ($sale->products as $product)
+                                    <span class="badge bg-info">{{ $product->name }}</span>
+                                    @if (!$loop->last)
+                                        <br>
+                                    @endif
+                                @endforeach
                             </td>
-                            {{-- </ul> --}}
+                            <td>{{ number_format($sale->sale_price, 0, ',', '.') }}</td>
+                            <td>{{ $sale->start_date }}</td>
+                            <td>{{ $sale->end_date }}</td>
+                            <td> {!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
+                            <td style="display: flex; justify-content:center; ">
+                                <ul class="list-inline hstack gap-2 mb-0">
+                                    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                        data-bs-placement="top" title="View">
+                                        <a href="{{ route('admin.sales.show', $sale->id) }}"
+                                            class="text-primary d-inline-block">
+                                            <i class="ri-eye-fill fs-16"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                        data-bs-placement="top" title="Edit">
+                                        <a href="{{ route('admin.sales.edit', $sale->id) }}"
+                                            class="text-primary d-inline-block edit-item-btn">
+                                            <i class="ri-pencil-fill fs-16"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item remove" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                        <form action="{{ route('admin.sales.destroy', $sale->id) }}" method="POST" onsubmit="return confirm('Bạn có muốn xóa không?');" style="display: inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link text-danger p-0 m-0">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
                     @endforeach

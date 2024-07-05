@@ -29,10 +29,7 @@ class Product extends Model
 
 
     ];
-    public function sales()
-    {
-        return $this->belongsToMany(ProductSale::class, 'product_sale_product');
-    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
@@ -41,12 +38,12 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class,'category_id');
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(Brand::class,'brand_id');
     }
     public function galleries()
     {
@@ -55,5 +52,19 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'product_id');
+    }
+    public function activeSale()
+    {
+        return $this->sales()->active()->first();
+    }
+    public function sales()
+    {
+        return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
+                    ->withPivot('sale_price') 
+                    ->withTimestamps();
     }
 }

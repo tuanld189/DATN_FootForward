@@ -3,7 +3,6 @@
 @section('style-libs')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <style>
-        /* Custom CSS for checkbox */
         .form-check-label {
             display: flex;
             align-items: center;
@@ -12,7 +11,6 @@
         .form-check-input[type="checkbox"] {
             margin-top: 0;
             margin-right: 8px;
-            /* Adjust spacing between checkbox and label */
         }
     </style>
 @endsection
@@ -42,7 +40,6 @@
                         <div class="card-header">
                             <h3 class="card-title">Add New Sale</h3>
                         </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
@@ -58,9 +55,10 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="product_id">Products</label>
-                                    <select name="product_id[]" id="product_id" class="form-control select2"
-                                        style="width: 100%;" multiple="multiple" required>
-                                        <!-- Options will be loaded dynamically via AJAX -->
+                                    <select name="product_id[]" id="product_id" class="form-control select2" style="width: 100%;" multiple="multiple" required>
+                                        @foreach($products as $product)
+                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -76,16 +74,23 @@
                                     <input type="date" name="end_date" id="end_date" class="form-control">
                                 </div>
                                 <div class="form-group mt-3">
-                                    <div class="form-check form-switch form-switch-warning">
-                                        <input class="form-check-input" type="checkbox" role="switch" name="status"
-                                            id="" checked>
-                                        <label class="form-check-label" for="status">Status</label>
+                                    <label for="status">Status</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status" id="active" value="1" checked>
+                                        <label class="form-check-label" for="active">
+                                            Active
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status" id="inactive" value="0">
+                                        <label class="form-check-label" for="inactive">
+                                            Inactive
+                                        </label>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-3">Create Sale</button>
                             </form>
                         </div>
-                        <!-- /.card-body -->
                     </div>
                 </div>
             </div>
@@ -101,7 +106,7 @@
             $('#product_id').select2({
                 placeholder: 'Select products',
                 ajax: {
-                    url: 'http://datn_footforward.test/admin/products/search-products',
+                    url: '{{ route("admin.products.search-products") }}',
                     dataType: 'json',
                     delay: 250,
                     processResults: function(data) {
@@ -116,12 +121,6 @@
                     },
                     cache: true
                 }
-            });
-
-            // Xử lý khi form submit để lấy giá trị của Select2
-            $('form').on('submit', function(event) {
-                var selectedProducts = $('#product_id').val();
-                $('#product_id').val(selectedProducts).trigger('change');
             });
         });
     </script>

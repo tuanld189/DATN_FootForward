@@ -10,6 +10,11 @@
             margin: 0 auto;
             box-sizing: border-box;
         }
+
+        .old-price {
+            text-decoration: line-through;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -52,7 +57,11 @@
                                     @forelse(session('cart', []) as $item)
                                         @php
                                             $itemTotal =
+
                                                 $item['quantity_add'] * ($item['price'] ?: $item['sale_price']);
+
+                                                $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+
                                             $totalAmount += $itemTotal;
                                         @endphp
                                         <tr>
@@ -66,8 +75,18 @@
                                             </td>
                                             <td class="plantmore-product-color">{{ $item['color']['name'] }}</td>
                                             <td class="plantmore-product-size">{{ $item['size']['name'] }}</td>
+
                                             <td class="plantmore-product-price"><span
                                                     class="amount">${{ $item['price'] ?: $item['sale_price'] }}</span></td>
+
+                                            <td class="plantmore-product-price">
+                                                @if ($item['sale_price'])
+                                                    <span class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                    <span class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }} VNĐ</span>
+                                                @else
+                                                    <span class="amount">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                @endif
+                                            </td>
                                             <td class="plantmore-product-quantity product_count">
                                                 <form action="{{ route('cart.update', ['id' => $item['id']]) }}"
                                                     method="POST">
@@ -78,8 +97,13 @@
                                                 </form>
                                             </td>
                                             <td class="product-subtotal"><span id="total-{{ $item['id'] }}"
+
                                                     data-price="{{ $item['price'] ?: $item['sale_price'] }}">
                                                     {{ number_format($itemTotal, 2) }} $
+
+                                                    data-price="{{ $item['sale_price'] ?: $item['price'] }}">
+                                                     {{ number_format($itemTotal, 0, ',', '.') }}VNĐ
+
                                                 </span></td>
                                             <td class="plantmore-product-remove">
                                                 <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"
@@ -106,20 +130,31 @@
                                     <div class="coupon2">
                                         <a href="{{ route('index') }}" class="btn continue-btn">Continue Shopping</a>
                                     </div>
+
                                     <div class="coupon">
+
+                                    {{-- <div class="coupon">
+
                                         <h3>Coupon</h3>
                                         <p>Enter your coupon code if you have one.</p>
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value=""
-                                            placeholder="Coupon code" type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                                    </div>
+                                        <form action="{{ route('cart.applyVoucher') }}" method="POST">
+                                            @csrf
+                                            <input id="voucher_code" class="input-text" name="voucher_code" value=""
+                                                placeholder="Coupon code" type="text">
+                                            <input class="button" value="Apply coupon" type="submit">
+                                        </form>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
+
                                         <li>Total <span>${{ number_format($totalAmount, 2) }}</span></li>
+
+                                        <li>Total <span>{{ number_format($totalAmount) }} VNĐ</span></li>
+
                                     </ul>
                                     <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Proceed to
                                         checkout</a>
@@ -140,6 +175,7 @@
             var cartItems = [];
 
             var cartRows = document.querySelectorAll('tbody tr');
+
 
             cartRows.forEach(function(row) {
                 var id = row.querySelector('input.qty').getAttribute('id').replace('sst-', '');
@@ -191,6 +227,60 @@
 
                 total += price * quantity;
             });
+
+
+
+            cartRows.forEach(function(row) {
+                var id = row.querySelector('input.qty').getAttribute('id').replace('sst-', '');
+                var quantity = parseInt(row.querySelector('input.qty').value);
+
+                cartItems.push({
+                    id: id,
+                    quantity_add: quantity
+                });
+            });
+
+            fetch('{{ route('cart.update-multiple') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        updated_cart: cartItems
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    if (data.success) {
+                        alert('Cart updated successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to update cart.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function updatetotalAmount() {
+            var totalAmounts = document.querySelectorAll('.product-subtotal span');
+
+            var total = 0;
+
+            totalAmounts.forEach(function(totalAmount) {
+                var price = parseFloat(totalAmount.dataset.price);
+                var quantity = parseInt(totalAmount.closest('tr').querySelector('input.qty').value);
+
+                total += price * quantity;
+            });
+
 
             document.querySelector('.cart-page-total li span').textContent = '$' + total.toFixed(2);
         }

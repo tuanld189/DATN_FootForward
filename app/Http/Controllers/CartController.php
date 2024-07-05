@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductSale;
 use App\Models\ProductVariant;
 use App\Models\Vourcher;
 use Carbon\Carbon;
@@ -15,17 +16,17 @@ use Illuminate\Support\Facades\DB;
 class CartController extends Controller
 {
     public function list()
-    {
-        $cart=Order::all();
-        $cart = session('cart', []);
-        $totalAmount = 0;
+{
+    $cart = session('cart', []);
 
-        foreach ($cart as $item) {
-            $totalAmount += $item['quantity_add'] * ($item['price'] ?: $item['sale_price']);
-        }
+    $totalAmount = 0;
 
-        return view('client.cart-list', compact('cart', 'totalAmount'));
+    foreach ($cart as $item) {
+        $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
     }
+
+    return view('client.cart-list', compact('cart', 'totalAmount'));
+}
 
 
     public function applyVoucher(Request $request)
@@ -79,7 +80,7 @@ class CartController extends Controller
             }
         }
 
-        return view('users.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
     }
 
 
@@ -104,16 +105,22 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
+        $sale = ProductSale::whereHas('products', function ($query) use ($request) {
+            $query->where('products.id', $request->product_id);
+        })->active()->first();
+
+        $salePrice = $sale ? $sale->sale_price : null;
+
+
         if (isset($cart[$productVariant->id])) {
             $cart[$productVariant->id]['quantity_add'] += $request->quantity_add;
         } else {
-            // Include all relevant product details in the cart
             $cart[$productVariant->id] = [
                 'id' => $productVariant->id,
                 'name' => $product->name,
                 'image' => $product->img_thumbnail,
                 'price' => $product->price,
-                'sale_price' => $product->sale_price,
+                'sale_price' => $salePrice,
                 'category_id' => $product->category_id,
                 'brand_id' => $product->brand_id,
                 'sku' => $product->sku,
@@ -124,8 +131,8 @@ class CartController extends Controller
                 'quantity_add' => $request->quantity_add,
             ];
         }
-
         session()->put('cart', $cart);
+
         return redirect()->route('cart.list');
     }
 

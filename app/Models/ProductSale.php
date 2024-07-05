@@ -9,7 +9,6 @@ class ProductSale extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id',
         'sale_price',
         'start_date',
         'end_date',
@@ -20,9 +19,10 @@ class ProductSale extends Model
         'status' => 'boolean',
     ];
 
+
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_sale_product');
+        return $this->belongsToMany(Product::class, 'product_sale_product', 'product_sale_id', 'product_id');
     }
 
     public function scopeActive($query)

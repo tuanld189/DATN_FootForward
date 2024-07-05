@@ -42,6 +42,10 @@
                                             </div>
                                         </div>
 
+
+                                        <a href="{{ route('admin.orders.create') }}" class="btn btn-primary mb-2">Thêm
+                                            mới</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +164,11 @@
                                                         <td class="date">
                                                             {{ $order->created_at->format('d-m-Y H:i:s') }}
                                                         </td>
+
                                                         <td class="amount">{{ number_format($order->total_price, 2) }}
+
+                                                        <td class="amount">{{ number_format($order->total_price, 0, ',', '.') }}
+
                                                         </td>
                                                         <td class="payment">
                                                             <span

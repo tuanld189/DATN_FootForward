@@ -31,6 +31,7 @@
 
 
 
+
                 <div class="container mt-3">
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -104,6 +105,9 @@
 
 
                 {{-- <div class="card-header d-flex justify-content-between align-items-center">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
                     <h5 class="card-title mb-0">Products</h5>
                     <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div> --}}
@@ -223,12 +227,6 @@
                         style="width:100%">
                         <thead class="text-muted table-light gap-3">
                             <tr class="text-uppercase">
-                                {{-- <th scope="col" style="width: 10px;">
-                                <div class="form-check">
-                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
-                                </div>
-                            </th> --}}
-
                                 <th>ID: </th>
                                 <th>THUMBNAIL </th>
                                 <th>NAME </th>
@@ -237,26 +235,17 @@
                                 <th>CATEGORY </th>
                                 <th>BRAND </th>
                                 <th>PRICE </th>
-                                {{-- <th>SHORT CONTENT</th>
-                            <th>DESCRIPTION</th> --}}
                                 <th>TAGS</th>
                                 <th>ACTIVE</th>
                                 <th>HOT_DEAL</th>
                                 <th>NEW</th>
                                 <th>SHOW_HOME</th>
-                                {{-- <th>CREATE AT</th>
-                            <th>UPDATE AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
                             @foreach ($data as $item)
                                 <tr>
-                                    {{-- <td scope="row">
-                                    <div class="form-check">
-                                        <input class="form-check-input fs-15" type="checkbox" name="checkAll"
-                                            value="option1">
-                                    </div>
                                 </td> --}}
                                     <td>{{ $item->id }}</td>
                                     <td>
@@ -275,11 +264,7 @@
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->category->name }}</td>
                                     <td>{{ $item->brand->name }}</td>
-                                    {{-- <td>{{ $item->category }}</td> --}}
-                                    {{-- <td>{{ $item->brand }}</td> --}}
-                                    <td>{{ $item->price }}</td>
-                                    {{-- <td>{{$item->content}}</td>
-                                <td>{{$item->description}}</td> --}}
+                                    <td> {{ number_format( $item->price , 0, ',', '.') }}</td>
                                     <td>
                                         @foreach ($item->tags as $tag)
                                             <span class="badge bg-info">{{ $tag->name }}</span>
@@ -294,9 +279,6 @@
                                     <td>{!! $item->is_show_home
                                         ? '<span class="badge bg-success">Yes</span>'
                                         : '<span class="badge bg-danger">No</span>' !!}</td>
-
-                                    {{-- <td>{{$item->created_at}}</td>
-                                <td>{{$item->updated_at}}</td> --}}
 
                                     <td>
                                         <ul class="list-inline hstack gap-1 mb-0">

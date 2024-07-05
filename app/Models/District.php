@@ -16,13 +16,5 @@ class District extends Model
         'created_at',
         'updated_at',
     ];
-    public function province()
-    {
-        return $this->belongsTo(Province::class);
-    }
-
-    public function wards()
-    {
-        return $this->hasMany(Ward::class);
-    }
+   protected $table='districts';
 }

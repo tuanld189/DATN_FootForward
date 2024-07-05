@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(Order::class)->constrained();
-            $table->foreignIdFor(ProductVariant::class)->constrained();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_variant_id')->constrained()->onDelete('cascade');
 
             $table->unsignedInteger('quantity_add')->default(0);
 
@@ -31,7 +31,6 @@ return new class extends Migration
             // Sao lưu thông tin biến thể
             $table->string('variant_size_name');
             $table->string('variant_color_name');
-
             $table->timestamps();
         });
     }

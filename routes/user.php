@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AddressController;
@@ -38,17 +39,24 @@ Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->
 Route::get('/cart/list', [CartController::class, 'list'])->name('cart.list');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
 
 Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
-Route::get('cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
+// Đơn hàng
+// Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('placeOrder');
+// Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
+// Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
-Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
-Route::get('order/confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+// Thanh toán VNPAY
 
-// vnpay payment
-    Route::post('/vnpay_payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');
-    Route::post('/check-out',[OrderController::class,'store'])->name('checkout.store');
+Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
+Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
+Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+//comment
+Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
+Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
+Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('comment.update');
+

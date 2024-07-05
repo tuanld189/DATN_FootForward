@@ -78,43 +78,27 @@ Route::prefix('admin')
                 Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
             });
 
+      // product
         Route::resource('products', ProductController::class);
         Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
         Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
-        // Route::get('file-import-export', [ProductController::class, 'fileImportExport'])->name('file.import.export');
-        // Route::get('/import-products', [ProductController::class, 'import'])->name('products.import');
+      
         Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
         Route::get('/export-products', [ProductController::class, 'export'])->name('products.export');
-        // Route::post('/import-products', [ProductController::class, 'importProducts'])->name('import.products');
-        // Route::post('/import-products', [ProductController::class, 'importProducts'])->name('admin.import.products');
-        // Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
-        // Route::post('import-products', [ProductController::class, 'import']);
-        // Route::get('import-products', function () {
-        //     return view('import');
-        // });
+       
+       
 
-        // Route::post('import-products', [ProductController::class, 'import']);
-
-        // Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
-        // Route::post('/export','ProductController@export');
-
-        // Route::post('products/import', [ProductController::class, 'import'])->name('products.import');
-        // Route::post('products/import', [ProductController::class, 'import'])->name('products.import');
-        // Route::post('/import', [ProductController::class, 'import'])->name('products.import');
+        Route::resource('products', ProductController::class);
+        Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
 
 
-
-        //PRODUCT
-        // Route::resource('products', ProductController::class);
-        // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
-        // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
         // PRODUCT-SALE
         Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
-            Route::get('/create', [ProductSaleController::class, 'create'])->name('create');
-            Route::post('/', [ProductSaleController::class, 'store'])->name('store');
+            Route::get('create', [ProductSaleController::class, 'create'])->name('create');
+            Route::post('store', [ProductSaleController::class, 'store'])->name('store');
             Route::get('{sale}', [ProductSaleController::class, 'show'])->name('show');
             Route::get('{sale}/edit', [ProductSaleController::class, 'edit'])->name('edit');
             Route::put('{sale}', [ProductSaleController::class, 'update'])->name('update');
@@ -224,16 +208,16 @@ Route::prefix('admin')
 
         // COMMENT
         Route::prefix('comments')
-            ->as('comments.')
-            ->group(function () {
-                Route::get('/', [CommentController::class, 'index'])->name('index');
-                Route::get('create', [CommentController::class, 'create'])->name('create');
-                Route::post('store', [CommentController::class, 'store'])->name('store');
-                Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
-                Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
-            });
+        ->as('comments.')
+        ->group(function () {
+            Route::get('/', [CommentController::class, 'index'])->name('index');
+            Route::get('create', [CommentController::class, 'create'])->name('create');
+            Route::post('store', [CommentController::class, 'store'])->name('store');
+            Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
+            Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+        });
 
 
         // order

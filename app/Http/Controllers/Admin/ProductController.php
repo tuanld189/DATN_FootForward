@@ -80,77 +80,6 @@ class ProductController extends Controller
 
 
 
-    // public function import(Request $request)
-    // {
-    //     // phpinfo();
-    //     $request->validate([
-    //         // 'import_file' => 'required|mimes:xlsx,csv',
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     Excel::import(new ProductsImport, $request->file('import_file'));
-    //     dd($request->all());
-
-    //     return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
-    // }
-
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     $file = $request->file('file_excel');
-    //     $extension = $file->getClientOriginalExtension();
-
-    //     // Debugging information
-    //     // dd([
-    //     //     'file' => $file,
-    //     //     'extension' => $extension,
-    //     //     'mime_type' => $file->getMimeType(),
-    //     // ]);
-
-    //     Excel::import(new ProductsImport, $file);
-
-    //     return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
-    // }
-
-
-    // public function importProducts(Request $request)
-    // {
-    //     $request->validate([
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     Excel::import(new ProductsImport, $request->file('file_excel'));
-
-    //     return redirect()->back()->with('success', 'Products imported successfully.');
-    // }
-
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     Excel::import(new ProductsImport, $request->file('file'));
-
-    //     return redirect()->back()->with('success', 'Products imported successfully.');
-    // }
-
-
-    // public function importProducts(Request $request)
-    // {
-    //     $request->validate([
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     Excel::import(new ProductsImport, $request->file('file_excel'));
-    //     // Excel::import(new ProductsImport, $request->file('file')->store('temp'));
-    //     return redirect()->back()->with('success', 'Products imported successfully.');
-    // }
-
-
     public function import(Request $request)
     {
         $request->validate([
@@ -279,6 +208,17 @@ class ProductController extends Controller
 
         $salePrice = $sale ? $sale->sale_price : null;
         return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
+        $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants','sales'])->findOrFail($id);
+        $sale = ProductSale::where('status', true)
+                       ->where('start_date', '<=', now())
+                       ->where('end_date', '>=', now())
+                       ->whereHas('products', function ($query) use ($id) {
+                           $query->where('product_id', $id);
+                       })
+                       ->first();
+
+        $salePrice = $sale ? $sale->sale_price : null;
+        return view(self::PATH_VIEW . __FUNCTION__, compact('model','salePrice'));
     }
 
     public function edit($id)
@@ -441,14 +381,13 @@ class ProductController extends Controller
 
     public function searchProducts(Request $request)
     {
-        $searchTerm = $request->input('q');
+        $search = $request->input('term');
 
-        Log::info('Search term: ' . $searchTerm);
-
-        $products = Product::where('name', 'like', '%' . $searchTerm . '%')->get();
-
-        Log::info('Products found: ' . $products->toJson());
+        $products = Product::whereDoesntHave('sales')
+            ->where('name', 'LIKE', "%{$search}%")
+            ->get(['id', 'name']);
 
         return response()->json($products);
     }
+
 }
