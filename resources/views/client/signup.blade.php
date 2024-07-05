@@ -29,7 +29,11 @@
                 border-radius: 10px;
             }
         </style>
+
+    @endsection
+
 @endsection
+
     @section('content')
         <div class="signup-container">
             <h2 class="text-center">Sign Up</h2>

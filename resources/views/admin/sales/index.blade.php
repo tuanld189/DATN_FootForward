@@ -49,6 +49,13 @@
                     @foreach ($sales as $sale)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+
+                            <td>{{ $sale->products->pluck('name')->implode(', ') }}</td>
+                            <td>{{ $sale->sale_price }}</td>
+                            <td>{{ $sale->start_date }}</td>
+                            <td>{{ $sale->end_date }}</td>
+                            <td> {!! $sale->status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' !!}</td>
+
                             <td>
                                 @foreach ($sale->products as $product)
                                     <span class="badge bg-info">{{ $product->name }}</span>

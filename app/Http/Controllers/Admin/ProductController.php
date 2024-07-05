@@ -19,6 +19,21 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+// use Excel;
+// use App\Imports\ProductsImport;
+// use App\Exports\ProductsExport;
+// use App\Imports\ProductImport;
+// use Maatwebsite\Excel\Excel as ExcelExcel;
+// // use Maatwebsite\Excel\Excel as ExcelExcel;
+// use Maatwebsite\Excel\Facades\Excel;
+
+use App\Imports\ProductsImport;
+use App\Exports\ProductsExport;
+// use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
+
+// class ProductController extends Controller
 class ProductController extends Controller
 {
 
@@ -64,6 +79,44 @@ class ProductController extends Controller
     }
 
 
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file_excel' => 'required|mimes:xlsx,csv',
+        ]);
+
+        // Perform the import
+        Excel::import(new ProductsImport, $request->file('file_excel'));
+
+        return redirect()->back()->with('success', 'Products imported successfully.');
+    }
+
+
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     try {
+    //         Excel::import(new ProductsImport(), $request->file('file_excel'));
+
+    //         return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
+    //     } catch (\Throwable $th) {
+    //         // Handle any errors that occur during the import process
+    //         dd($request->all());
+    //         return redirect()->back()->with('error', 'Error importing products: ' . $th->getMessage());
+    //     }
+    // }
+
+    public function export()
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
+    }
+
+    // end import & export
 
     /**
      * Show the form for creating a new resource.
@@ -144,6 +197,17 @@ class ProductController extends Controller
     public function show($id)
     {
 
+        $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants', 'sales'])->findOrFail($id);
+        $sale = ProductSale::where('status', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->whereHas('products', function ($query) use ($id) {
+                $query->where('product_id', $id);
+            })
+            ->first();
+
+        $salePrice = $sale ? $sale->sale_price : null;
+        return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
         $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants','sales'])->findOrFail($id);
         $sale = ProductSale::where('status', true)
                        ->where('start_date', '<=', now())
