@@ -10,15 +10,61 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
+use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
 
-    public function index()
+    // public function index()
+    // {
+    //     $orders = Order::latest()->paginate(10);
+
+    //     return view(self::PATH_VIEW . 'index', compact('orders'));
+    // }
+    public function index(Request $request)
     {
-        $orders = Order::latest()->paginate(10);
+        $query = Order::query();
+
+        // Lọc theo trạng thái đơn hàng
+        if ($request->filled('status_order')) {
+            $query->where('status_order', $request->status_order);
+        }
+
+        // Lọc theo trạng thái thanh toán
+        if ($request->filled('status_payment')) {
+            $query->where('status_payment', $request->status_payment);
+        }
+
+        // Lọc theo khoảng thời gian
+        if ($request->filled('date_from') && $request->filled('date_to')) {
+            $query->whereBetween('created_at', [$request->date_from, $request->date_to]);
+        } elseif ($request->filled('date_from')) {
+            $query->where('created_at', '>=', $request->date_from);
+        } elseif ($request->filled('date_to')) {
+            $query->where('created_at', '<=', $request->date_to);
+        }
+
+        // Lọc theo customer_id
+        if ($request->filled('customer_id')) {
+            $query->where('user_id', $request->customer_id);
+        }
+
+        // Lọc theo user_name
+        if ($request->filled('user_name')) {
+            $query->where('user_name', 'like', '%' . $request->user_name . '%');
+        }
+
+        $orders = $query->get();
 
         return view(self::PATH_VIEW . 'index', compact('orders'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 
     public function create()
@@ -77,6 +123,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
+
         $orderItems = OrderItem::where('order_id', $order->id)->get(); // Sử dụng $order->id thay vì $orderId
         return view(self::PATH_VIEW . 'show', compact('order', 'orderItems'));
     }
@@ -120,6 +167,28 @@ class OrderController extends Controller
             'order_items.*.variant_color_name' => 'nullable|string|max:100',
         ]);
 
+        // Lấy dữ liệu từ request
+        $input = $request->all();
+
+        // Kiểm tra và cập nhật các thuộc tính của đơn hàng
+        $order->user_name = $input['user_name'];
+        $order->user_email = $input['user_email'];
+        $order->user_phone = $input['user_phone'];
+        $order->user_address = $input['user_address'];
+        $order->total_price = $input['total_price'];
+
+
+        // Kiểm tra xem giá trị status_order được gửi từ form có phù hợp hay không
+        if (array_key_exists('status_order', $input) && in_array($input['status_order'], array_keys(Order::STATUS_ORDER))) {
+            $order->status_order = $input['status_order'];
+        }
+
+        // Kiểm tra xem giá trị status_payment được gửi từ form có phù hợp hay không
+        if (array_key_exists('status_payment', $input) && in_array($input['status_payment'], array_keys(Order::STATUS_PAYMENT))) {
+            $order->status_payment = $input['status_payment'];
+        }
+
+        // Lưu lại các thay đổi
         // Cập nhật order
         $order->fill($validated);
         $order->save();
@@ -144,5 +213,4 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.index')
             ->with('success', 'Đã xóa đơn hàng thành công.');
     }
-
 }

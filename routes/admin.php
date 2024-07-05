@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ProductSaleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
-// use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
@@ -36,20 +36,20 @@ Route::prefix('admin')
 
 
         //PRODUCT
-        Route::resource('products', ProductController::class);
+        // Route::resource('products', ProductController::class);
 
         //ORDER
         Route::prefix('orders')
             ->as('orders.')
             ->group(function () {
-            Route::get('/', [OrderController::class, 'index'])->name('index');
-            Route::get('create', [OrderController::class, 'create'])->name('create');
-            Route::post('store', [OrderController::class, 'store'])->name('store');
-            Route::get('show/{id}', [OrderController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [OrderController::class, 'update'])->name('update');
-            Route::get('{id}/destroy', [OrderController::class, 'destroy'])->name('destroy');
-        });
+                Route::get('/', [OrderController::class, 'index'])->name('index');
+                Route::get('create', [OrderController::class, 'create'])->name('create');
+                Route::post('store', [OrderController::class, 'store'])->name('store');
+                Route::get('show/{id}', [OrderController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [OrderController::class, 'update'])->name('update');
+                Route::get('{id}/destroy', [OrderController::class, 'destroy'])->name('destroy');
+            });
 
         //BRAND
         Route::prefix('brands')
@@ -78,10 +78,37 @@ Route::prefix('admin')
                 Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
             });
 
+        Route::resource('products', ProductController::class);
+        Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
+        Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
+
+        // Route::get('file-import-export', [ProductController::class, 'fileImportExport'])->name('file.import.export');
+        // Route::get('/import-products', [ProductController::class, 'import'])->name('products.import');
+        Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
+        Route::get('/export-products', [ProductController::class, 'export'])->name('products.export');
+        // Route::post('/import-products', [ProductController::class, 'importProducts'])->name('import.products');
+        // Route::post('/import-products', [ProductController::class, 'importProducts'])->name('admin.import.products');
+        // Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
+        // Route::post('import-products', [ProductController::class, 'import']);
+        // Route::get('import-products', function () {
+        //     return view('import');
+        // });
+
+        // Route::post('import-products', [ProductController::class, 'import']);
+
+        // Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
+        // Route::post('/export','ProductController@export');
+
+        // Route::post('products/import', [ProductController::class, 'import'])->name('products.import');
+        // Route::post('products/import', [ProductController::class, 'import'])->name('products.import');
+        // Route::post('/import', [ProductController::class, 'import'])->name('products.import');
+
 
 
         //PRODUCT
-        Route::resource('products', ProductController::class);
+        // Route::resource('products', ProductController::class);
+        // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
+        // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
         // PRODUCT-SALE
         Route::prefix('sales')->as('sales.')->group(function () {
@@ -195,7 +222,7 @@ Route::prefix('admin')
         // Route cho phương thức search
         Route::get('users/search', [UserController::class, 'index'])->name('admin.users.search');
 
-        //COMMENT
+        // COMMENT
         Route::prefix('comments')
             ->as('comments.')
             ->group(function () {
@@ -224,4 +251,6 @@ Route::prefix('admin')
                 Route::delete('{id}/destroy', [AdminOrderController::class, 'destroy'])->name('destroy');
             });
         // Route::resource('orders', AdminOrderController::class);
+        Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
+
     });

@@ -149,8 +149,8 @@
                     <div class="col-lg-12">
                         <!-- section-title start -->
                         <div class="section-title">
-                            <h2>New Arrivals </h2>
-                            <p>Most Trendy 2023 Clother</p>
+                            <h2>New Product </h2>
+                            <p>Most Summmer 2024</p>
                         </div>
                         <!-- section-title end -->
                     </div>

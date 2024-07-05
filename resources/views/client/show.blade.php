@@ -33,6 +33,74 @@
         .custom-control-input:checked~.custom-control-label span {
             font-weight: bold;
         }
+
+        .comment-form-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+        }
+
+        .comment-avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 0;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            padding: 8px 15px;
+            border-radius: 0;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .custom-control-input {
+            display: none;
+        }
+
+        .custom-control-label {
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 6px 12px;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .custom-control-label img {
+            border-radius: 5px;
+        }
+
+        .custom-control-input:checked+.custom-control-label {
+            border-color: #007bff;
+            background-color: #e7f1ff;
+        }
+
+        .custom-control-input:checked+.custom-control-label img {
+            border: 2px solid #007bff;
+        }
     </style>
 @endsection
 
@@ -87,47 +155,14 @@
                                 <span class="new-price">${{ $product->price }}</span>
                                 <span class="discount discount-percentage">Save 5%</span>
                             </div>
-                            <p>{{ $product->content }}</p>
 
 
                             <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="available_quantity">Available Quantity:</label>
-                                    <input type="text" class="form-control" id="available_quantity"
-                                        name="available_quantity" readonly>
-                                </div>
+
 
                                 <form id="variantForm" action="{{ route('cart.add') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                                    <div class="form-group">
-                                        <label for="color">Color:</label>
-                                        <div class="d-flex flex-wrap">
-                                            @php
-                                                $displayedColors = []; // Array to track displayed colors
-                                            @endphp
-                                            @foreach ($product->variants as $variant)
-                                                @if ($variant->image && !in_array($variant->color->id, $displayedColors))
-                                                    @php
-                                                        $displayedColors[] = $variant->color->id; // Mark color as displayed
-                                                    @endphp
-                                                    <div class="custom-control custom-radio mr-3 mb-2">
-                                                        <input type="radio" id="color{{ $variant->color->id }}"
-                                                            name="product_color_id" value="{{ $variant->color->id }}"
-                                                            class="custom-control-input" onchange="updateQuantity()">
-                                                        <label class="custom-control-label d-flex align-items-center"
-                                                            for="color{{ $variant->color->id }}">
-                                                            <span>{{ $variant->color->name }}</span>
-                                                            <img src="{{ Storage::url($variant->image) }}"
-                                                                alt="{{ $variant->color->name }}"
-                                                                style="width: 40px; height: 40px; object-fit: cover; margin-left: 8px;">
-                                                        </label>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         <label for="size">Size:</label>
@@ -150,240 +185,289 @@
                                                 @endif
                                             @endforeach
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="quantity">Quantity:</label>
-                                        <input type="number" class="form-control" id="quantity_add" name="quantity_add"
-                                            min="1" value="1">
-                                    </div>
-
-                                    <div class="card_area d-flex align-items-center">
-                                        <button type="submit" class="add-to-cart">Add to Cart</button>
-                                    </div>
-                                </form>
                             </div>
 
-                            <div class="product-availability">
-                                <i class="fa fa-check"></i> In stock
-                            </div>
-                            <div class="product-social-sharing">
-                                <label>Share</label>
-                                <ul>
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="block-reassurance">
-                                <ul>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-check-square-o"></i>
+                            <div class="form-group">
+                                <label for="color">Màu:</label>
+                                <div class="d-flex flex-wrap">
+                                    @php
+                                        $displayedColors = []; // Array to track displayed colors
+                                    @endphp
+                                    @foreach ($product->variants as $variant)
+                                        @if ($variant->image && !in_array($variant->color->id, $displayedColors))
+                                            @php
+                                                $displayedColors[] = $variant->color->id; // Mark color as displayed
+                                            @endphp
+                                            <div class="custom-control custom-radio mr-3 mb-2">
+                                                <input type="radio" id="color{{ $variant->color->id }}"
+                                                    name="product_color_id" value="{{ $variant->color->id }}"
+                                                    class="custom-control-input" onchange="updateQuantity()">
+                                                <label class="custom-control-label d-flex align-items-center"
+                                                    for="color{{ $variant->color->id }}">
+                                                    <img src="{{ Storage::url($variant->image) }}"
+                                                        alt="{{ $variant->color->name }}"
+                                                        style="width: 40px; height: 40px; object-fit: cover; margin-right: 8px;">
+                                                    <span>{{ $variant->color->name }}</span>
+                                                </label>
                                             </div>
-                                            <p>Security policy (edit with Customer reassurance module)</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-truck"></i>
-                                            </div>
-                                            <p>Delivery policy (edit with Customer reassurance module)</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-exchange"></i>
-                                            </div>
-                                            <p> Return policy (edit with Customer reassurance module)</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="available_quantity">Available Quantity:</label>
+                                <input type="text" class="form-control" id="available_quantity" name="available_quantity"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" class="form-control" id="quantity_add" name="quantity_add"
+                                    min="1" value="1">
+                            </div>
+                            <p class="mt-2">{{ $product->content }}</p>
+
+
+
+
+                            <div class="card_area d-flex align-items-center">
+                                <button type="submit" class="add-to-cart">Add to Cart</button>
+                            </div>
+                            </form>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="product-details-tab mt--60">
-                        <ul role="tablist" class="mb--50 nav">
-                            <li class="active" role="presentation">
-                                <a data-bs-toggle="tab" role="tab" href="#description"
-                                    class="active">Description</a>
-                            </li>
-                            <li role="presentation">
-                                <a data-bs-toggle="tab" role="tab" href="#sheet">Product Details</a>
-                            </li>
-                            <li role="presentation">
-                                <a data-bs-toggle="tab" role="tab" href="#reviews">Reviews</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="product_details_tab_content tab-content">
-                        <!-- Start Single Content -->
-                        <div class="product_tab_content tab-pane active" id="description" role="tabpanel">
-                            <div class="product_description_wrap">
-                                <div class="product_desc mb--30">
-                                    <h2 class="title_3">Details</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis noexercit
-                                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id.</p>
-                                </div>
-                                <div class="pro_feature">
-                                    <h2 class="title_3">Features</h2>
-                                    <ul class="feature_list">
-                                        <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in
-                                                reprehenderit in voluptate velit esse</a></li>
-                                        <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
-                                                voluptate velit esse</a></li>
-                                        <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt
-                                                ut labore et </a></li>
-                                        <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
-                                                consequat.</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+
+                        <div class="product-availability">
+                            <i class="fa fa-check"></i> In stock
                         </div>
-                        <!-- End Single Content -->
-                        <!-- Start Single Content -->
-                        <div class="product_tab_content tab-pane" id="sheet" role="tabpanel">
-                            <div class="pro_feature">
-                                <h2 class="title_3">Data sheet</h2>
-                                <ul class="feature_list">
-                                    <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in reprehenderit
-                                            in voluptate velit esse</a></li>
-                                    <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
-                                            voluptate velit esse</a></li>
-                                    <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
-                                            voluptate velit esse</a></li>
-                                    <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt ut
-                                            labore et </a></li>
-                                    <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt ut
-                                            labore et </a></li>
-                                    <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
-                                            consequat.</a></li>
-                                    <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
-                                            consequat.</a></li>
-                                </ul>
-                            </div>
+                        <div class="product-social-sharing">
+                            <label>Share</label>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                            </ul>
                         </div>
-                        <!-- End Single Content -->
-                        <!-- Start Single Content -->
-                        <div class="product_tab_content tab-pane" id="reviews" role="tabpanel">
-                            <div class="review_address_inner">
-                                <!-- Start Single Review -->
-                                <div class="pro_review">
-                                    <div class="review_thumb">
-                                        <img alt="review images" src="assets/images/review/1.jpg">
-                                    </div>
-                                    <div class="review_details">
-                                        <div class="review_info">
-                                            <h4><a href="#">Gerald Barnes</a></h4>
-                                            <ul class="product-rating d-flex">
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                            </ul>
-                                            <div class="rating_send">
-                                                <a href="#"><i class="fa fa-reply"></i></a>
-                                            </div>
+                        <div class="block-reassurance">
+                            <ul>
+                                <li>
+                                    <div class="reassurance-item">
+                                        <div class="reassurance-icon">
+                                            <i class="fa fa-check-square-o"></i>
                                         </div>
-                                        <div class="review_date">
-                                            <span>27 Jun, 2023 at 3:30pm</span>
+                                        <p>Security policy (edit with Customer reassurance module)</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="reassurance-item">
+                                        <div class="reassurance-icon">
+                                            <i class="fa fa-truck"></i>
                                         </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas
-                                            elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent
-                                            et messages in con sectetur posuere dolor non.</p>
+                                        <p>Delivery policy (edit with Customer reassurance module)</p>
                                     </div>
-                                </div>
-                                <!-- End Single Review -->
-                                <!-- Start Single Review -->
-                                <div class="pro_review ans">
-                                    <div class="review_thumb">
-                                        <img alt="review images" src="assets/images/review/2.jpg">
-                                    </div>
-                                    <div class="review_details">
-                                        <div class="review_info">
-                                            <h4><a href="#">Gerald Barnes</a></h4>
-                                            <ul class="product-rating d-flex">
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                                <li><span class="fa fa-star"></span></li>
-                                            </ul>
-                                            <div class="rating_send">
-                                                <a href="#"><i class="fa fa-reply"></i></a>
-                                            </div>
+                                </li>
+                                <li>
+                                    <div class="reassurance-item">
+                                        <div class="reassurance-icon">
+                                            <i class="fa fa-exchange"></i>
                                         </div>
-                                        <div class="review_date">
-                                            <span>27 Jun, 2023 at 4:32pm</span>
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas
-                                            elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent
-                                            et messages in con sectetur posuere dolor non.</p>
+                                        <p> Return policy (edit with Customer reassurance module)</p>
                                     </div>
-                                </div>
-                                <!-- End Single Review -->
-                            </div>
-                            <!-- Start RAting Area -->
-                            <div class="rating_wrap">
-                                <h2 class="rating-title">Write A review</h2>
-                                <h4 class="rating-title-2">Your Rating</h4>
-                                <div class="rating_list">
-                                    <ul class="product-rating d-flex">
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                        <li><span class="fa fa-star"></span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- End RAting Area -->
-                            <div class="comments-area comments-reply-area">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <form action="#" class="comment-form-area">
-                                            <div class="comment-input">
-                                                <p class="comment-form-author">
-                                                    <label>Name <span class="required">*</span></label>
-                                                    <input type="text" required="required" name="Name">
-                                                </p>
-                                                <p class="comment-form-email">
-                                                    <label>Email <span class="required">*</span></label>
-                                                    <input type="text" required="required" name="email">
-                                                </p>
-                                            </div>
-                                            <p class="comment-form-comment">
-                                                <label>Comment</label>
-                                                <textarea class="comment-notes" required="required"></textarea>
-                                            </p>
-                                            <div class="comment-form-submit">
-                                                <input type="submit" value="Post Comment" class="comment-submit">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
-                        <!-- End Single Content -->
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="product-details-tab mt--60">
+                    <ul role="tablist" class="mb--50 nav">
+                        <li class="active" role="presentation">
+                            <a data-bs-toggle="tab" role="tab" href="#description" class="active">Description</a>
+                        </li>
+                        <li role="presentation">
+                            <a data-bs-toggle="tab" role="tab" href="#sheet">Product Details</a>
+                        </li>
+                        <li role="presentation">
+                            <a data-bs-toggle="tab" role="tab" href="#reviews">Comments</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="product_details_tab_content tab-content">
+                    <!-- Start Single Content -->
+                    <div class="product_tab_content tab-pane active" id="description" role="tabpanel">
+                        <div class="product_description_wrap">
+                            <div class="product_desc mb--30">
+                                <h2 class="title_3">Details</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis noexercit
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                    mollit anim id.</p>
+                            </div>
+                            <div class="pro_feature">
+                                <h2 class="title_3">Features</h2>
+                                <ul class="feature_list">
+                                    <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in
+                                            reprehenderit in voluptate velit esse</a></li>
+                                    <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
+                                            voluptate velit esse</a></li>
+                                    <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt
+                                            ut labore et </a></li>
+                                    <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
+                                            consequat.</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Content -->
+                    <!-- Start Single Content -->
+                    <div class="product_tab_content tab-pane" id="sheet" role="tabpanel">
+                        <div class="pro_feature">
+                            <h2 class="title_3">Data sheet</h2>
+                            <ul class="feature_list">
+                                <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in reprehenderit
+                                        in voluptate velit esse</a></li>
+                                <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
+                                        voluptate velit esse</a></li>
+                                <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
+                                        voluptate velit esse</a></li>
+                                <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt ut
+                                        labore et </a></li>
+                                <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt ut
+                                        labore et </a></li>
+                                <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
+                                        consequat.</a></li>
+                                <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
+                                        consequat.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Single Content -->
+                    <!-- Start Single COMMENT -->
+
+                    <div class="product_tab_content tab-pane" id="reviews" role="tabpanel"
+                        style="background-color:rgb(246, 242, 242); ">
+                        <div class="row">
+                            <!-- Column for posting comment -->
+                            <div class="col-lg-6">
+                                <!-- Start Rating Area -->
+                                <div class="rating_wrap " style="margin-top: 20px; padding:20px;">
+                                    <h2 class="rating-title ">Write A review</h2>
+                                    <h4 class="rating-title-2">Your Rating</h4>
+                                    <div class="rating_list">
+                                        <ul class="product-rating d-flex">
+                                            <li><span class="fa fa-star"></span></li>
+                                            <li><span class="fa fa-star"></span></li>
+                                            <li><span class="fa fa-star"></span></li>
+                                            <li><span class="fa fa-star"></span></li>
+                                            <li><span class="fa fa-star"></span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- End Rating Area -->
+
+                                <div class="comments-area comments-reply-area mt-3">
+                                    <form action="{{ route('product.comment', $product->id) }}" method="POST"
+                                        class="comment-form-area">
+                                        @csrf
+                                        <div class="form-group ">
+                                            <div style="display: flex;">
+                                                <div class="review_thumb"
+                                                    style="margin-right: 15px; margin-top:70px; margin-left:20px;">
+                                                    <img alt="user avatar" src="{{ asset('assets/images/about1.jpg') }}"
+                                                        width="50px" height="50px" style="border-radius: 50%;">
+                                                </div>
+                                                <div style="flex-grow: 1; margin-right: 15px;">
+                                                    <h4><i>{{ Auth::check() ? Auth::user()->name : '' }}</i></h4>
+                                                    <textarea name="content" class="form-control" placeholder="Write a comment..." required
+                                                        style="width: 400px; height:120px;"></textarea>
+                                                    <button type="submit" class="btn btn-primary btn-block mt-3 "
+                                                        style="font-weight: bold; "><i class="fa fa-paper-plane"></i> Post
+                                                        Comment</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Column for displaying comments -->
+                            <div class="col-lg-6">
+                                <div class="review_address_inner" style="overflow: auto; height: 500px; padding: 10px;">
+                                    @foreach ($product->comments as $comment)
+                                        <div class="pro_review"
+                                            style="display: flex; align-items: center; margin-bottom: 20px;">
+                                            <div class="review_thumb" style="margin-right: 15px;">
+                                                <img alt="review images" src="{{ asset('assets/images/about1.jpg') }}"
+                                                    width="70px" height="70px" style="border-radius: 50%;">
+                                            </div>
+                                            <div class="review_details" style="flex-grow: 1;">
+                                                <div
+                                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                                    <div>
+                                                        <h4><i><a href="#">{{ $comment->user->name }}</a></i></h4>
+                                                        <ul class="product-rating d-flex" style="margin-right: 10px;">
+                                                            @for ($i = 0; $i < 5; $i++)
+                                                                @if ($i < $comment->rating)
+                                                                    <li><span class="fa fa-star"
+                                                                            style="color: #ffc107;"></span></li>
+                                                                @else
+                                                                    <li><span class="fa fa-star"></span></li>
+                                                                @endif
+                                                            @endfor
+                                                        </ul>
+
+                                                    </div>
+                                                    @if (Auth::check() && Auth::id() === $comment->user_id)
+                                                        <div style="float:right; margin-right:20px;">
+                                                            <a href="#"
+                                                                onclick="event.preventDefault(); document.getElementById('delete-comment-{{ $comment->id }}').submit();"
+                                                                style="font-weight: bold; color: #dc3545; font-size: 25px;"><i
+                                                                    class="fa fa-trash"></i></a>
+                                                            <form id="delete-comment-{{ $comment->id }}"
+                                                                action="{{ route('product.comment.delete', $comment->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <p style="margin-bottom: 10px;"> <span
+                                                        class="badge bg-success text-center"
+                                                        height="20px;">{{ $comment->content }}</span></p>
+                                                <div>
+                                                    <span
+                                                        class="review_date">{{ $comment->created_at->format('d M, Y \a\t h:i a') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!-- End Single COMMENT -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <!-- content-wraper end -->
 
@@ -630,4 +714,80 @@
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+    <script>
+        // Ajax request for posting a comment
+        function postComment(event) {
+            event.preventDefault();
+
+            var formData = new FormData(event.target);
+            var url = event.target.action;
+
+            fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-Token': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Append new comment to the comments list
+                    var commentHTML = `
+                    <div class="pro_review" style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div class="review_thumb" style="margin-right: 15px;">
+                            <img alt="review images" src="{{ asset('assets/images/about1.jpg') }}" width="70px" height="70px" style="border-radius: 50%;">
+                        </div>
+                        <div class="review_details" style="flex-grow: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div>
+                                    <h4><a href="#">{{ Auth::user()->name }}</a></h4>
+                                    <ul class="product-rating d-flex" style="margin-right: 10px;">
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                        <li><span class="fa fa-star"></span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <a href="#" onclick="deleteComment(${data.comment.id})" style="font-weight: bold; color: #dc3545; font-size: 18px;"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </div>
+                            <p style="margin-bottom: 10px;">${data.comment.content}</p>
+                            <div>
+                                <span class="review_date">${data.comment.created_at}</span>
+                            </div>
+                        </div>
+                    </div>`;
+
+                    // Append new comment to the review_address_inner element
+                    document.querySelector('.review_address_inner').innerHTML += commentHTML;
+                    // Clear the textarea after posting
+                    event.target.querySelector('textarea').value = '';
+                })
+                .catch(error => console.error('Error posting comment:', error));
+        }
+
+        // Ajax request for deleting a comment
+        function deleteComment(commentId) {
+            var url = '{{ route('product.comment.delete', ':commentId') }}'.replace(':commentId', commentId);
+
+            fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-Token': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Remove the deleted comment from the DOM
+                    var commentElement = document.getElementById('comment-' + commentId);
+                    if (commentElement) {
+                        commentElement.remove();
+                    }
+                })
+                .catch(error => console.error('Error deleting comment:', error));
+        }
+    </script>
 @endsection

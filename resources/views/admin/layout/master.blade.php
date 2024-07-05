@@ -32,12 +32,7 @@
         td {
             text-align: center
         }
-<<<<<<< HEAD
-
-   </style>
-=======
     </style>
->>>>>>> 80abdf694c10e9767677db3cdf804d051d945bb9
 </head>
 
 <body>
@@ -100,7 +95,7 @@
     <div class="customizer-setting d-none d-md-block">
         <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas"
             data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
-            <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
+<i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
         </div>
     </div>
 

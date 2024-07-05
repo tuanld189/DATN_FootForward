@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\ProductGallery;
 use App\Models\Tag;
 use App\Models\Category;
+use App\Models\ProductSale;
+
 use App\Models\ProductColor;
 use App\Models\ProductSize;
 use App\Models\ProductVariant;
@@ -17,6 +19,21 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+// use Excel;
+// use App\Imports\ProductsImport;
+// use App\Exports\ProductsExport;
+// use App\Imports\ProductImport;
+// use Maatwebsite\Excel\Excel as ExcelExcel;
+// // use Maatwebsite\Excel\Excel as ExcelExcel;
+// use Maatwebsite\Excel\Facades\Excel;
+
+use App\Imports\ProductsImport;
+use App\Exports\ProductsExport;
+// use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
+
+// class ProductController extends Controller
 class ProductController extends Controller
 {
 
@@ -62,6 +79,115 @@ class ProductController extends Controller
     }
 
 
+
+    // public function import(Request $request)
+    // {
+    //     // phpinfo();
+    //     $request->validate([
+    //         // 'import_file' => 'required|mimes:xlsx,csv',
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     Excel::import(new ProductsImport, $request->file('import_file'));
+    //     dd($request->all());
+
+    //     return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
+    // }
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     $file = $request->file('file_excel');
+    //     $extension = $file->getClientOriginalExtension();
+
+    //     // Debugging information
+    //     // dd([
+    //     //     'file' => $file,
+    //     //     'extension' => $extension,
+    //     //     'mime_type' => $file->getMimeType(),
+    //     // ]);
+
+    //     Excel::import(new ProductsImport, $file);
+
+    //     return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
+    // }
+
+
+    // public function importProducts(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     Excel::import(new ProductsImport, $request->file('file_excel'));
+
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+    // }
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     Excel::import(new ProductsImport, $request->file('file'));
+
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+    // }
+
+
+    // public function importProducts(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     Excel::import(new ProductsImport, $request->file('file_excel'));
+    //     // Excel::import(new ProductsImport, $request->file('file')->store('temp'));
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+    // }
+
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file_excel' => 'required|mimes:xlsx,csv',
+        ]);
+
+        // Perform the import
+        Excel::import(new ProductsImport, $request->file('file_excel'));
+
+        return redirect()->back()->with('success', 'Products imported successfully.');
+    }
+
+
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     try {
+    //         Excel::import(new ProductsImport(), $request->file('file_excel'));
+
+    //         return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
+    //     } catch (\Throwable $th) {
+    //         // Handle any errors that occur during the import process
+    //         dd($request->all());
+    //         return redirect()->back()->with('error', 'Error importing products: ' . $th->getMessage());
+    //     }
+    // }
+
+    public function export()
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
+    }
+
+    // end import & export
 
     /**
      * Show the form for creating a new resource.
@@ -141,8 +267,18 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants'])->findOrFail($id);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
+
+        $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants', 'sales'])->findOrFail($id);
+        $sale = ProductSale::where('status', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->whereHas('products', function ($query) use ($id) {
+                $query->where('product_id', $id);
+            })
+            ->first();
+
+        $salePrice = $sale ? $sale->sale_price : null;
+        return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
     }
 
     public function edit($id)

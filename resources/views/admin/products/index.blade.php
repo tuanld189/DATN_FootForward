@@ -26,76 +26,144 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-
-
-
-
                 {{-- test --}}
-                {{-- <div class="card-body border border-dashed border-end-0 border-start-0">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-xxl-5 col-sm-6">
-                                <div class="search-box">
-                                    <input type="text" name="name" id="name" value="{{ request('name') }}"
-                                        class="form-control search" placeholder="Search">
-                                    <i class="ri-search-line search-icon"></i>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-6">
-                                <div>
-                                    <input type="date" class="form-control"  name="date_from" id="date_from"
-                                    value="{{ request('date_from') }}">
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-4">
-                                <div>
-                                    <select class="form-control" data-choices data-choices-search-false name="status_order"
-                                        id="status_order">
-                                        <option value="">All</option>
-                                        @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
-                                            <option value="{{ $key }}"
-                                                {{ request('status_order') == $key ? 'selected' : '' }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-4">
-                                <div>
-                                    <select class="form-control" data-choices data-choices-search-false
-                                        name="status_payment" id="status_payment">
-                                        <option value="">All</option>
-                                        @foreach (\App\Models\Order::STATUS_PAYMENT as $key => $value)
-                                            <option value="{{ $key }}"
-                                                {{ request('status_payment') == $key ? 'selected' : '' }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-1 col-sm-4">
-                                <div>
-                                    <button type="submit" class="btn btn-primary w-100" onclick="SearchData();"> <i
-                                            class="ri-equalizer-fill me-1 align-bottom"></i>
-                                        Filters
+
+
+
+
+                <div class="container mt-3">
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Products</h5>
+                            <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Thêm mới</a>
+                        </div>
+                        <div class="card-body">
+                            @if ($message = Session::get('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ $message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Import Products
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="{{ route('admin.products.import') }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="file_excel">Choose Excel File (XLSX, CSV)</label>
+                                                    <input type="file" name="file_excel"
+                                                        class="form-control-file @error('file_excel') is-invalid @enderror"
+                                                        id="file_excel">
+                                                    @error('file_excel')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mt-2">Import Products</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Export Products
+                                        </div>
+                                        <div class="card-body d-flex align-items-center">
+                                            <a href="{{ route('admin.products.export') }}"
+                                                class="btn btn-success w-100">Export Products</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <!--end col-->
                         </div>
-                        <!--end row-->
-                    </form>
-                </div> --}}
+                    </div>
+                </div>
 
                 {{-- test --}}
-                <div class="card-header d-flex justify-content-between align-items-center">
+
+
+
+                {{-- <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Products</h5>
                     <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
+                </div> --}}
+
+
+                {{-- test --}}
+                {{-- <div class="container mt-2"> --}}
+                <div class="container-fluid  mt-3">
+                    <div class="row justify-content-center">
+                        {{-- code của phần import và export --}}
+                        {{-- <div class="col-md-8">
+                            @if ($message = Session::get('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ $message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <div class="card">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <form action="{{ route('admin.products.import') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="file_excel">Choose Excel File (XLSX, CSV)</label>
+                                            <input type="file" name="file_excel"
+                                                class="form-control-file @error('file_excel') is-invalid @enderror"
+                                                id="file_excel">
+                                            @error('file_excel')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Import Products</button>
+                                    </form>
+                                    <div class="mt-3">
+                                        <a href="{{ route('admin.products.export') }}" class="btn btn-success">Export
+                                            Products</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+                        {{-- end code của phần import và export --}}
+                    </div>
                 </div>
+
+                {{-- test --}}
 
                 <div class="card-body">
                     <div class="container">
@@ -151,7 +219,8 @@
                             </div>
                         </form>
                     </div>
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        style="width:100%">
                         <thead class="text-muted table-light gap-3">
                             <tr class="text-uppercase">
                                 {{-- <th scope="col" style="width: 10px;">
@@ -269,6 +338,10 @@
                 </div>
             </div>
         </div><!--end col-->
+
+
+
+
     </div><!--end row-->
 @endsection
 
