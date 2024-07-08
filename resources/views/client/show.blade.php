@@ -1,5 +1,5 @@
-@extends('client.layout.inheritance')
-
+@extends('client.layouts.master')
+@section('title', 'Chi tiết sản phẩm')
 @section('styles')
     <style>
         .card_area .add-to-cart {
@@ -101,6 +101,7 @@
         .custom-control-input:checked+.custom-control-label img {
             border: 2px solid #007bff;
         }
+
         .price-box {
         position: relative;
         display: inline-block;
@@ -119,6 +120,7 @@
             border-radius: 3px;
             margin-left: 10px;
         }
+
     </style>
 @endsection
 
@@ -180,6 +182,7 @@
                                     <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
                                 @endif
                             </div>
+
 
                             <div class="col-md-12">
 

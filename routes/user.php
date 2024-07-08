@@ -13,6 +13,9 @@ use App\Http\Controllers\User\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
+//shop
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
+
 // login
 Route::get('/login',[UserController::class, 'login'])->name('login');
 Route::post('/login',[UserController::class, 'postLogin']);
