@@ -33,11 +33,13 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $data=$request->except('image');
+        $data = $request->except('image');
         $data['is_active'] ??= 0;
-        if ($request->hasFile('image')) {
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+
+        if ($request->has('image')) {
+            $data['image'] = $request->input('image');
         }
+
         Brand::query()->create($data);
 
         return redirect()->route('admin.brands.index');

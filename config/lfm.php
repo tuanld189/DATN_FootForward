@@ -14,9 +14,10 @@ return [
     | Routing
     |--------------------------------------------------------------------------
      */
+    'base_directory' => 'public', // Thư mục cơ sở
+    'public_folder' => '/uploads', // Thư mục public để hiển thị
 
     'use_package_routes'       => true,
-
     /*
     |--------------------------------------------------------------------------
     | Shared folder / Private folder

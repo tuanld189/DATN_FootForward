@@ -58,7 +58,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
+                                        <img src="{{$item->image }}" alt="" width="100px">
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     {{-- <td>{{ $item->created_at }}</td>

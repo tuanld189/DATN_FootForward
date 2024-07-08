@@ -23,8 +23,11 @@ Route::get('/tags/search', [ProductController::class, 'search'])->name('tags.sea
 Route::get('/products/search-products', [ProductController::class, 'searchProducts'])->name('admin.products.search-products');
 
 
-Route::post('/vnpay-payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');
-Route::get('/vnpay-return', [OrderController::class, 'vnpay_return'])->name('vnpay_return');
-Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
+Route::get('/file-manager',function(){
+    return view('file-manager');
+})->name('file-manager');
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

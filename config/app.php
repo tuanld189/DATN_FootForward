@@ -169,6 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -184,6 +186,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+    'Filemanager' => Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+
     ])->toArray(),
 
 ];
