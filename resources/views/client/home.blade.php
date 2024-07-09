@@ -94,7 +94,7 @@
                 <div class="col-lg-12">
                     <!-- section-title start -->
                     <div class="section-title section-bg-3">
-                        <h2>Dịch vụ</h2>
+                        <h2>Service</h2>
                         {{-- <p>There are latest blog posts</p> --}}
                     </div>
                     <!-- section-title end -->
@@ -390,11 +390,12 @@
             </div>
             <div class="row our-brand-active text-center">
                 @foreach ($brands as $brand)
-                <div class="col-12">
-                    <div class="single-brand">
-                        <img class="img-fluid" src="{{ Storage::url($brand->image) }}" alt="">
+                    <div class="col-12">
+                        <div class="single-brand ">
+                            <img class="img-fluid" src="{{ $brand->image }}" alt="" width="100px"
+                                height="100px">
+                        </div>
                     </div>
-                </div>
                 @endforeach
 
             </div>

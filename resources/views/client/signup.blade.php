@@ -33,7 +33,7 @@
 
     @endsection
 
-@endsection
+
 
     @section('content')
         <div class="signup-container">

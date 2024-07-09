@@ -181,7 +181,9 @@
                     <div class="checkout-box-right ml-2">
 
                             <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
-
+                            <div class="order-date">
+                           Cảm ơn bạn vì đã đặt hàng!
+                            </div>
                             <div class="info-row mt-5">
                                 <span>Tên:</span>
                                 <p>{{ $order->user_name }}</p>

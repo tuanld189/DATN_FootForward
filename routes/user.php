@@ -31,9 +31,9 @@ Route::get('/get-quantity', [ProductController::class, 'getQuantity'])->name('ge
 Route::post('/user/product/getQuantity', [ProductController::class, 'getProductQuantity'])->name('product.getQuantity');
 
 // filemanager
-// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['user', 'auth']], function () {
-//     \UniSharp\LaravelFilemanager\Lfm::routes();
-// });
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['user', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 // api product
 Route::get('/api/product/quantity', [ProductController::class, 'getQuantity'])->name('api.product.quantity');

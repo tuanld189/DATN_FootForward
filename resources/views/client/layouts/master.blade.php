@@ -29,12 +29,50 @@
     {{-- Customr Style CSS --}}
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     @yield('styles')
+    <style>
+        .header-bottom-area {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
 
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-menu-area {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            padding-top: 10px
+        }
+
+        .main-navigation ul {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-bottom-right {
+            display: flex;
+            gap: 15px;
+        }
+
+        .trigger-search,
+        .shoping-cart {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .logo{
+            padding-left:20px;
+        }
+    </style>
 
 </head>
 
 <body class="box-body">
-
+    <div class="main-wrapper home-2">
     <!-- Main Wrapper Start -->
     <div class="main-wrapper">
 
@@ -42,7 +80,7 @@
         @include('client.layouts.header')
 
         <!-- Main Content -->
-        <div class="content" style="min-height: calc(100vh - 200px); padding-top: 50px; padding-bottom: 50px;">
+        <div class="content" style="min-height: calc(100vh - 200px); padding-top: 50px; padding-bottom: 50px; background:#fff; ">
             @yield('content')
         </div>
         <!-- End Main Content -->
@@ -128,8 +166,8 @@
                                                     <div class="cart-plus-minus">
                                                         <input class="cart-plus-minus-box" value="1"
                                                             type="text">
-                                                        <div class="dec qtybutton"><i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                        <div class="dec qtybutton"><i
+                                                                class="fa fa-angle-down"></i></div>
                                                         <div class="inc qtybutton"><i class="fa fa-angle-up"></i>
                                                         </div>
                                                     </div>
@@ -144,7 +182,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
             <!-- Modal Algemeen Uitgelicht end -->
 
             <!-- jQuery JS -->

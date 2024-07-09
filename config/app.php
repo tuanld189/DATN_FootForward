@@ -169,8 +169,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+
+
     ])->toArray(),
 
     /*
@@ -186,7 +189,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-    'Filemanager' => Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        'Filemanager' => Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),

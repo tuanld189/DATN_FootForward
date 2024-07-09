@@ -95,7 +95,7 @@ Route::prefix('admin')
 
 
         // PRODUCT-SALE
-        Route::prefix('sales')->as('sales.')->group(function () {
+         Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
             Route::get('create', [ProductSaleController::class, 'create'])->name('create');
             Route::post('store', [ProductSaleController::class, 'store'])->name('store');

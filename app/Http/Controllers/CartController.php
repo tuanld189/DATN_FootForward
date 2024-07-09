@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
+    public function home()
+    {
+        $cart = session('cart', []);
+
+        $totalAmount = 0;
+
+        foreach ($cart as $item) {
+            $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+        }
+
+        return view('client.home', compact('cart', 'totalAmount'));
+    }
     public function list()
 {
     $cart = session('cart', []);
@@ -132,9 +144,10 @@ class CartController extends Controller
             ];
         }
         session()->put('cart', $cart);
-
+        dd(session('cart'));
         return redirect()->route('cart.list');
     }
+
 
     public function update(Request $request, $id)
     {

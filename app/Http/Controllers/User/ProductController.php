@@ -1,105 +1,109 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Comment;
-use App\Models\Product;
-use App\Models\ProductSale;
-use App\Models\ProductVariant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-class ProductController extends Controller
+use App\Models\ProductSale;
+use App\Models\Product;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+class ProductSaleController extends Controller
 {
-    public function show($id)
+    public function index()
     {
-        $product = Product::with([
-            'galleries',
-            'variants' => function ($query) {
-                $query->whereNotNull('image');
-            },
-            'variants.color',
-            'variants.size',
-            'comments.user' // Eager load comments and associated users
-        ])->findOrFail($id);
-
-        $categories = Category::all();
-        $brands = Brand::all();
-
-        return view('client.show', compact('product', 'categories', 'brands'));
+        $sales = ProductSale::all();
+        return view('admin.sales.index', compact('sales'));
     }
 
-    public function storeForProduct(Request $request, $productId)
+    public function create()
 {
-    $validatedData = $request->validate([
-        'content' => 'required|string|max:1000',
+    $products = Product::whereDoesntHave('sales')->get();
+    return view('admin.sales.create', compact('products'));
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'sale_price' => 'required|numeric|min:0',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date|after_or_equal:start_date',
+        'status' => 'boolean',
     ]);
 
-    $comment = new Comment();
-    $comment->user_id = Auth::id();
-    $comment->content = $validatedData['content'];
-    $comment->created_by = Auth::id();
-    $comment->updated_by = Auth::id();
-    $comment->product_id = $productId;
-    $comment->save();
+    $status = $request->has('status');
 
-    return redirect()->back()->with('success', 'Comment added successfully');
+    $sale = ProductSale::create([
+        'sale_price' => $request->sale_price,
+        'start_date' => $request->start_date,
+        'end_date' => $request->end_date,
+        'status' => $status,
+    ]);
+
+    // Attach products
+    if ($request->has('product_id')) {
+        $sale->products()->attach($request->product_id, ['sale_price' => $request->sale_price]);
+    }
+
+    return redirect()->route('admin.sales.index')->with('success', 'Sale created successfully.');
 }
+    public function show(ProductSale $sale)
+    {
+        return view('admin.sales.show', compact('sale'));
+    }
 
-public function deleteComment($commentId)
+    public function edit(ProductSale $sale)
+    {
+        $products = Product::all();
+        return view('admin.sales.edit', compact('sale', 'products'));
+    }
+
+    public function update(Request $request, ProductSale $sale)
 {
-    $comment = Comment::findOrFail($commentId);
-
-    if ($comment->user_id != Auth::id()) {
-        return redirect()->back()->with('error', 'You can only delete your own comments.');
-    }
-
-    $comment->delete();
-    return redirect()->back()->with('success', 'Comment deleted successfully.');
-}
-
-    
-    public function getQuantity(Request $request)
-    {
-        $productId = $request->input('product_id');
-        $colorId = $request->input('product_color_id');
-        $sizeId = $request->input('product_size_id');
-
-        // Query để lấy số lượng có sẵn của biến thể sản phẩm
-        $productVariant = ProductVariant::where('product_id', $productId)
-            ->where('product_color_id', $colorId)
-            ->where('product_size_id', $sizeId)
-            ->first();
-
-        if ($productVariant) {
-            $quantity = $productVariant->quantity;
-        } else {
-            $quantity = 0; // Nếu không tìm thấy thì số lượng là 0
-        }
-
-        return response()->json(['quantity' => $quantity]);
-    }
-    public function postComment(Request $request, $productId)
-    {
-        $validatedData = $request->validate([
-            'content' => 'required|string',
+    try {
+        // Validate input data
+        $request->validate([
+            'product_id' => 'required|array',
+            'product_id.*' => 'exists:products,id',
+            'sale_price' => 'required|numeric|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required|boolean',
         ]);
 
-        $comment = new Comment();
-        $comment->user_id = Auth::id();
-        $comment->content = $validatedData['content'];
-        $comment->created_by = Auth::id();
-        $comment->updated_by = Auth::id();
-        $comment->save();
+        // Update sale attributes
+        $sale->sale_price = $request->sale_price;
+        $sale->start_date = $request->start_date;
+        $sale->end_date = $request->end_date;
+        $sale->status = (bool) $request->status;
 
-        // Liên kết comment với sản phẩm
-        $product = Product::findOrFail($productId);
-        $product->comments()->attach($comment->id);
+        // Save the updated sale
+        $sale->save();
 
-        return redirect()->back()->with('status', 'Comment posted successfully');
+        // Sync products
+        $sale->products()->sync($request->product_id);
+
+        // Redirect with success message
+        return redirect()->route('admin.sales.index');
+
+    } catch (ValidationException $e) {
+        return back()->withErrors($e->validator->errors())->withInput();
+
+    } catch (ModelNotFoundException $e) {
+        Log::error('ProductSale not found: ' . $e->getMessage());
+        return redirect()->route('admin.sales.index');
+
+    } catch (\Exception $e) {
+        Log::error('Error updating sale: ' . $e->getMessage());
+        return redirect()->route('admin.sales.index');
     }
+}
+    public function destroy(ProductSale $sale)
+    {
+        $sale->delete();
+        return redirect()->route('admin.sales.index');
+    }
+
 
 }

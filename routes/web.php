@@ -24,10 +24,10 @@ Route::get('/products/search-products', [ProductController::class, 'searchProduc
 
 
 
-Route::get('/file-manager',function(){
-    return view('file-manager');
-})->name('file-manager');
+// Route::get('/file-manager',function(){
+//     return view('file-manager');
+// })->name('file-manager');
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
+// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//     \UniSharp\LaravelFilemanager\Lfm::routes();
+// });
