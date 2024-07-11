@@ -172,90 +172,69 @@
                             <!-- Mini Cart wrap start -->
                             <div class="dropdown-menu mini-cart-wrap mt-4" style="overflow-y:scroll; width:350px; height: 350px; background-color: white;">
                                 <div class="shopping-cart-content">
-
-
                                     <ul class="mini-cart-content">
                                         @php
-                                            $totalAmount = 0;
+                                            $totalAmount = 0; // Khởi tạo tổng số tiền
                                         @endphp
                                         @forelse(session('cart', []) as $item)
-                                        @php
-                                            $itemTotal =
-                                                $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-                                            $totalAmount += $itemTotal;
-                                        @endphp
-                                        <!-- Mini-Cart-item start -->
-                                        <li class="mini-cart-item">
-                                            <div class="mini-cart-product-img">
-                                                <a href="#"> <img src="{{ asset('storage/' . $item['image']) }}" alt=""
-                                                    width="70px"></a>
-                                                <span class="product-quantity">x{{ $item['quantity_add'] }}</span>
-                                            </div>
-                                            <div class="mini-cart-product-desc">
-                                                <h3><a href="#">{{ $item['name'] }}</a></h3>
-                                                <div class="price-box">
-                                                    @if ($item['sale_price'])
-                                                        <span class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
-                                                        <span class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }} VNĐ</span>
-                                                    @else
-                                                        <span class="amount">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
-                                                    @endif
+                                            @php
+                                                $itemTotal = $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+                                                $totalAmount += $itemTotal;
+                                            @endphp
+                                            <!-- Mini-Cart-item start -->
+                                            <li class="mini-cart-item">
+                                                <div class="mini-cart-product-img">
+                                                    <a href="#"> <img src="{{ asset('storage/' . $item['image']) }}" alt="" width="70px"></a>
+                                                    <span class="product-quantity">x{{ $item['quantity_add'] }}</span>
                                                 </div>
-                                                <div class="size">Size: {{ $item['size']['name'] }}</div>
-                                                <div class="color">Color: {{ $item['color']['name'] }}</div>
-
-                                            </div>
-                                            <div class="remove-from-cart">
-                                                <div class="remove-from-cart">
-                                                    <div class="remove-from-cart">
-                                                        <form action="{{ route('cart.remove', ['id' => $item['id']]) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" onclick="return confirm('Are you sure?')" title="Remove" style="background:none; border:none; color: inherit;">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </form>
+                                                <div class="mini-cart-product-desc">
+                                                    <h3><a href="#">{{ $item['name'] }}</a></h3>
+                                                    <div class="price-box">
+                                                        @if ($item['sale_price'])
+                                                            <span class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                            <span class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }} VNĐ</span>
+                                                        @else
+                                                            <span class="amount">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                        @endif
                                                     </div>
+                                                    <div class="size">Size: {{ $item['size']['name'] }}</div>
+                                                    <div class="color">Color: {{ $item['color']['name'] }}</div>
                                                 </div>
-
-                                        </li>
+                                                <div class="remove-from-cart " style="margin-left:30px;">
+                                                    <form action="{{ route('cart.remove', ['id' => $item['id']]) }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" onclick="return confirm('Are you sure?')" title="Remove" style="background:none; border:none; color: inherit;">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </li>
                                         @empty
-                                            <div colspan="8">No items in the cart</div>
-                                    @endforelse
+                                            <li>
+                                                <div class="shopping-cart-content text-center" colspan="8" style="height:150px;" >No items in the cart</div>
+                                            </li>
+                                        @endforelse
+
                                         <li>
                                             <!-- shopping-cart-total start -->
                                             <div class="shopping-cart-total">
-                                                <h4>Sub-Total :
-                                                    <span id="total-{{ $item['id'] }}"
-                                                    data-price="{{ $item['sale_price'] ?: $item['price'] }}">
-                                                     {{ number_format($itemTotal, 0, ',', '.') }}VNĐ
-                                                    </span>
-                                                </h4>
-
-                                                <h4>Total :
-                                                    <span id="total-{{ $item['id'] }}"
-                                                        data-price="{{ $item['sale_price'] ?: $item['price'] }}">
-                                                        {{ number_format($itemTotal, 0, ',', '.') }}VNĐ
-                                                    </span>
-                                                </h4>
+                                                <h4>Sub-Total : <span>{{ number_format($totalAmount, 0, ',', '.') }} VNĐ</span></h4>
+                                                <!-- Include other total calculations here if needed -->
                                             </div>
-                                            <!-- shopping-cart-total end -->
-                                        </li>
-
-                                        <li>
-                                            <!-- shopping-cart-btn start -->
-
+                                            <div class="shopping-cart-total">
+                                                <h4>Total : <span>{{ number_format($totalAmount, 0, ',', '.') }} VNĐ</span></h4>
+                                                <!-- Include other total calculations here if needed -->
+                                            </div>
                                             <div class="shopping-cart-btn">
-                                                <a href="{{route('cart.list')}}">Detail</a>
-                                                <a href="{{route('cart.checkout')}}">Checkout</a>
+                                                <a href="{{ route('cart.list') }}">Detail</a>
+                                                <a href="{{ route('cart.checkout') }}">Checkout</a>
                                             </div>
                                             <!-- shopping-cart-btn end -->
                                         </li>
-                                       <!-- Mini-Cart-item end -->
-
                                     </ul>
-
                                 </div>
+
                             </div>
                             <!-- Mini Cart wrap End -->
                         </div>

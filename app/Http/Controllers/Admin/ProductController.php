@@ -208,7 +208,7 @@ class ProductController extends Controller
 
         $salePrice = $sale ? $sale->sale_price : null;
         return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
-        
+
     }
 
     public function edit($id)

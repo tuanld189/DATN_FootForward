@@ -60,7 +60,7 @@
                             <div class="col-12">
                                 <div class="form-group form-check mb-4">
                                     <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" checked>
-                                    <label for="is_active" class="form-check-label">Is Active</label>
+                                    <label for="is_active" class="form-check-label">Active</label>
                                 </div>
                             </div>
 

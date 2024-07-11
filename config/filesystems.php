@@ -41,14 +41,6 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        'lfm' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/uploads'),
-            'url' => env('APP_URL') . '/uploads',
-            'visibility' => 'public',
         ],
 
         's3' => [

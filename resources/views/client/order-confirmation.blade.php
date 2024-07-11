@@ -127,7 +127,6 @@
 @endsection
 
 @section('content')
-    <section class="checkout_area section_gap mt-5">
         <div class="container">
             <div class="panel-head">
                 <h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG</span></h2>
@@ -218,5 +217,4 @@
                 <a href="{{ route('index') }}" class="btn btn-warning">Tiếp tục mua hàng</a>
             </div>
         </div>
-    </section>
 @endsection

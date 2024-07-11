@@ -80,8 +80,8 @@ Route::prefix('admin')
 
       // product
         Route::resource('products', ProductController::class);
-        Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
-        Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
+        // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
+        // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
 
         Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');

@@ -139,29 +139,45 @@
         .product-details-thumbs img:hover {
             border-color: #007bff; /* Viền khi hover */
         }
+
     </style>
 @endsection
 
 @section('content')
     <!-- breadcrumb-area start -->
-    <div class="breadcrumb-area bg-grey">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Product Details</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- breadcrumb-area end -->
 
 
     <!-- content-wraper start -->
     <div class="content-wraper">
         <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Product Detail </h4>
+
+                        <div class="page-title-right ">
+                            <ol class="breadcrumb m-0 ">
+                                <li class="m-1"><a href="javascript: void(0);">Tables   > </a></li>
+                                <li class="active m-1"> Datatables   > </li>
+                                <li class="active m-1"> Products  </li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="breadcrumb-area bg-grey mb-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                            <li class="breadcrumb-item active">Product Details</li>
+                        </ul>
+                    </div>
+                </div>
+        </div> --}}
             <div class="row single-product-area">
                 <div class="col-lg-5 col-md-6">
                     <!-- Product Details Left -->
@@ -170,14 +186,15 @@
                         <div class="product-details-images slider-lg-image-1">
                             @foreach ($product->galleries as $gallery)
                                 <div class="lg-image">
-                                    <a href="{{ Storage::url($gallery->image) }}" class="img-poppu"><img class="img-fluid"
-                                            src="{{ Storage::url($gallery->image) }}" alt="product image"></a>
+                                    <a href="{{ asset('storage/' . $gallery->image) }}" class="img-poppu">
+                                        <img class="img-fluid" src="{{ asset('storage/' . $gallery->image) }}" alt="product image">
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
                         <div class="product-details-thumbs slider-thumbs-1">
                             @foreach ($product->galleries as $gallery)
-                                <img class="img-fluid" src="{{ Storage::url($gallery->image) }}" alt="product image">
+                                <img class="img-fluid" src="{{ asset('storage/' . $gallery->image) }}" alt="product image">
                             @endforeach
                         </div>
                     </div>
@@ -249,7 +266,7 @@
                                                     class="custom-control-input" onchange="updateQuantity()">
                                                 <label class="custom-control-label d-flex align-items-center"
                                                     for="color{{ $variant->color->id }}">
-                                                    <img src="{{ Storage::url($variant->image) }}"
+                                                    <img src="{{ asset('storage/' . $variant->image) }}"
                                                         alt="{{ $variant->color->name }}"
                                                         style="width: 40px; height: 40px; object-fit: cover; margin-right: 8px;">
                                                     <span>{{ $variant->color->name }}</span>
@@ -533,7 +550,7 @@
             <!-- product-wrapper start -->
             <div class="product-wrapper-tab-panel">
                 <!-- tab-contnt start -->
-                <div class="product-slider">
+                {{-- <div class="product-slider">
                     <!-- single-product-wrap start -->
                     @foreach ($relateproduct as $relate)
                         <div class="single-product-wrap">
@@ -592,7 +609,7 @@
                     @endforeach
 
                     <!-- single-product-wrap end -->
-                </div>
+                </div> --}}
 
 
                 <!-- tab-contnt end -->

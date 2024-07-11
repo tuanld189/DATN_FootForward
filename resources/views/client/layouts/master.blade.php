@@ -71,7 +71,7 @@
 
 </head>
 
-<body class="box-body">
+<body class="box-body  ">
     <div class="main-wrapper home-2">
     <!-- Main Wrapper Start -->
     <div class="main-wrapper">

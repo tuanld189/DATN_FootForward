@@ -139,7 +139,7 @@
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>Number phone <span class="required">*</span></label>
-                                        <input type="text" name="user_phone" placeholder="Nhập vào số điện thoại"
+                                        <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại" value="0904143512"
                                             class="form-control">
                                         <span class="placeholder" data-placeholder="Phone number"></span>
                                     </p>
@@ -147,7 +147,7 @@
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text" name="user_address" id="user_address" class="form-control">
+                                        <input type="text" name="user_address" id="user_address" class="form-control" value="HH, HN ">
                                         <span class="placeholder" data-placeholder="Address"></span>
                                     </p>
                                 </div>
@@ -202,6 +202,13 @@
                                             @endforeach
                                         </tbody>
                                         <tfoot>
+                                            <tr class="order-total">
+                                                <th><b>Sub Total</b></th>
+                                                <td></td>
+                                                <td><strong><span class="amount">{{ number_format($totalAmount, 0, ',', '.') }}
+                                                            VNĐ</span></strong>
+                                                </td>
+                                            </tr>
                                             <tr class="order-total">
                                                 <th><b>Shipping</b></th>
                                                 <td></td>
@@ -283,6 +290,7 @@
                 </div>
             </div>
         </div>
+    </div>
     @endsection
     @section('scripts')
         <script>

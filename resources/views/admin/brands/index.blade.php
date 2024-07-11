@@ -40,7 +40,7 @@
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>IMAGE</th>
-                                <th>Is Active</th>
+                                <th>Active</th>
                                 {{-- <th>CREATE_AT</th>
                                 <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
@@ -79,14 +79,7 @@
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
-                                        {{-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                        data-bs-placement="top" title="Remove">
-                                        <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal"
-                                            href="{{ route('admin.brands.destroy', $item->id) }}"
-                                            onclick="return confirm('Bạn có muốn xóa không')">
-                                            <i class="ri-delete-bin-5-fill fs-16"></i>
-                                        </a>
-                                    </li> --}}
+                                   
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Remove">
                                             <form id="delete-form-{{ $item->id }}"

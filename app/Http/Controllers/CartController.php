@@ -19,12 +19,6 @@ class CartController extends Controller
     {
         $cart = session('cart', []);
 
-        $totalAmount = 0;
-
-        foreach ($cart as $item) {
-            $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-        }
-
         return view('client.home', compact('cart', 'totalAmount'));
     }
     public function list()
@@ -144,7 +138,7 @@ class CartController extends Controller
             ];
         }
         session()->put('cart', $cart);
-        dd(session('cart'));
+        // dd(session('cart'));
         return redirect()->route('cart.list');
     }
 

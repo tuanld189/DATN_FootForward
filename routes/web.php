@@ -22,12 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tags/search', [ProductController::class, 'search'])->name('tags.search');
 Route::get('/products/search-products', [ProductController::class, 'searchProducts'])->name('admin.products.search-products');
 
+// filemanager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' ], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 
-// Route::get('/file-manager',function(){
-//     return view('file-manager');
-// })->name('file-manager');
-
-// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-//     \UniSharp\LaravelFilemanager\Lfm::routes();
-// });
+//sendmail

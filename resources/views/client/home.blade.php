@@ -190,7 +190,7 @@
                         <div class="single-product-wrap">
                             <div class="product-image">
                                 <a href="{{ route('client.show', $product->id) }}">
-                                    <img class="img-fluid" src="{{ Storage::url($product->img_thumbnail) }}" alt="">
+                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}" >
                                 </a>
                                 <span class="label-product label-new">new</span>
 
@@ -275,6 +275,37 @@
         </div>
     </div>
     <!-- Banner area end -->
+
+ 
+
+    {{-- Category --}}
+
+    <div class="our-brand-area mb--30 mt--40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- section-title start -->
+                    <div class="section-title section-bg-3">
+                        <h2>Categories</h2>
+                        {{-- <p>There are latest blog posts</p> --}}
+                    </div>
+                    <!-- section-title end -->
+                </div>
+            </div>
+            <div class="row our-brand-active text-center">
+                @foreach ($categories as $cate)
+                    <div class="col-12">
+                        <div class="single-brand ">
+                            <img class="img-fluid" src="{{ $cate->image }}" alt="" width="300px"
+                                height="400px">
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
+    </div>
+    {{-- End Cate --}}
 
     <!-- Latest Blog Posts Area start -->
     <div class="latest-blog-post-area section-ptb">
@@ -375,8 +406,9 @@
     </div>
     <!-- Latest Blog Posts Area End -->
 
-    <!-- Our Brand Area Start -->
-    <div class="our-brand-area mb--30">
+
+     <!-- Our Brand Area Start -->
+     <div class="our-brand-area mb--30">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -401,6 +433,10 @@
             </div>
         </div>
     </div>
+    {{-- End brand --}}
+
+
+
     <!-- Our Brand Area End -->
     </div>
 
