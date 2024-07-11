@@ -42,9 +42,9 @@
                                             </div>
                                         </div>
 
-
+{{--
                                         <a href="{{ route('admin.orders.create') }}" class="btn btn-primary mb-2">Thêm
-                                            mới</a>
+                                            mới</a> --}}
 
                                     </div>
                                 </div>

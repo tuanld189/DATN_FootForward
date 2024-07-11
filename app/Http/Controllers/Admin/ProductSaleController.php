@@ -96,7 +96,7 @@ public function store(Request $request)
 
     } catch (\Exception $e) {
         Log::error('Error updating sale: ' . $e->getMessage());
-        return redirect()->route('admin.sales.index');
+return redirect()->route('admin.sales.index');
     }
 }
     public function destroy(ProductSale $sale)

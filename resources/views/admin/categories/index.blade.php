@@ -44,7 +44,7 @@
                                 <th data-ordering="false">ID</th>
                                 <th>NAME</th>
                                 <th>IMAGE</th>
-                                <th>Is Active</th>
+                                <th>Active</th>
                                 {{-- <th>CREATE_AT</th>
                                 <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
@@ -62,9 +62,10 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
-                                            height="">
-
+                                        {{-- <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
+                                        height=""> --}}
+                                        <img src="{{$item->image }}" alt="" width="100px">
+                                        {{-- <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="100px"> --}}
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     {{-- <td>{{ $item->created_at }}</td>

@@ -61,7 +61,7 @@ public function deleteComment($commentId)
     return redirect()->back()->with('success', 'Comment deleted successfully.');
 }
 
-    
+
     public function getQuantity(Request $request)
     {
         $productId = $request->input('product_id');

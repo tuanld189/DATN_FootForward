@@ -22,9 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tags/search', [ProductController::class, 'search'])->name('tags.search');
 Route::get('/products/search-products', [ProductController::class, 'searchProducts'])->name('admin.products.search-products');
 
+// filemanager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' ], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
-Route::post('/vnpay-payment', [OrderController::class, 'vnpay_payment'])->name('vnpay_payment');
-Route::get('/vnpay-return', [OrderController::class, 'vnpay_return'])->name('vnpay_return');
-Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
-
+//sendmail

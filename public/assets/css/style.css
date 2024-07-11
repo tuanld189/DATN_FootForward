@@ -232,7 +232,7 @@ ul {
 }
 
 .bg-grey {
-  background: #F6F6F6;
+  background: gray;
 }
 
 .bg-black {
@@ -1016,11 +1016,10 @@ body.box-body {
 /*---- Breadcrumb One ----*/
 .breadcrumb-area {
   padding: 15px 0;
-  margin-bottom: 100px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .breadcrumb-area {
-    margin-bottom: 80px;
+    margin-bottom: 50px;
   }
 }
 @media only screen and (max-width: 767px) {

@@ -249,7 +249,7 @@ ul {
 /*--
     - Input Placeholder
 -----------------------------------------*/
-input:-moz-placeholder, textarea:-moz-placeholder {
+/* input:-moz-placeholder, textarea:-moz-placeholder {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
@@ -262,7 +262,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 input::-moz-placeholder, textarea::-moz-placeholder {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-}
+} */
 
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   opacity: 1;
@@ -1016,7 +1016,7 @@ body.box-body {
 /*---- Breadcrumb One ----*/
 .breadcrumb-area {
   padding: 15px 0;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .breadcrumb-area {

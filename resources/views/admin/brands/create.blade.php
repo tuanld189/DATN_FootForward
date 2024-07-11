@@ -1,7 +1,11 @@
 @extends('admin.layout.master')
 
 @section('title', "Create New Brand's Product")
+@section('style-libs')
 
+<link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/cropper.min.css') }}">
+<link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/lfm.css') }}">
+@endsection
 @section('content')
     <div class="row mb-4">
         <div class="col-12">
@@ -23,8 +27,7 @@
         <div class="col-xxl-12 ">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center font-weight-bold"
-                        style="font-size: 40px; font-family: 'Times New Roman', serif;">
+                    <h3 class="text-center font-weight-bold" style="font-size: 40px; font-family: 'Times New Roman', serif;">
                         <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image">
                         Create New Brand's Product
                     </h3>
@@ -42,20 +45,31 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label for="image" class="form-label">Image:</label>
-                                    <input type="file" class="form-control" id="image" name="image" required>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                                <i class="fa fa-picture-o"></i> Choose
+                                            </a>
+                                        </span>
+                                        <input id="thumbnail" class="form-control" type="text" name="image">
+                                    </div>
+                                    <img id="holder" style="margin-top:15px;max-height:100px;">
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group form-check mb-4">
                                     <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" checked>
-                                    <label for="is_active" class="form-check-label">Is Active</label>
+                                    <label for="is_active" class="form-check-label">Active</label>
                                 </div>
                             </div>
 
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
+                            {{-- <div class="col-12">
+                                <a href="{{route('file-manager')}}">FILE MANAGER</a>
+                            </div> --}}
                         </div>
                     </form>
                 </div>
@@ -65,9 +79,12 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#lfm').filemanager('image');
-        });
-    </script>
+<script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+<script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#lfm').filemanager('image');
+    });
+
+</script>
 @endsection

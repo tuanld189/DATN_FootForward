@@ -127,7 +127,6 @@
 @endsection
 
 @section('content')
-    <section class="checkout_area section_gap mt-5">
         <div class="container">
             <div class="panel-head">
                 <h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG</span></h2>
@@ -181,7 +180,9 @@
                     <div class="checkout-box-right ml-2">
 
                             <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
-
+                            <div class="order-date">
+                           Cảm ơn bạn vì đã đặt hàng!
+                            </div>
                             <div class="info-row mt-5">
                                 <span>Tên:</span>
                                 <p>{{ $order->user_name }}</p>
@@ -216,5 +217,4 @@
                 <a href="{{ route('index') }}" class="btn btn-warning">Tiếp tục mua hàng</a>
             </div>
         </div>
-    </section>
 @endsection

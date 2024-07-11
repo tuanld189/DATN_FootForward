@@ -80,14 +80,14 @@ Route::prefix('admin')
 
       // product
         Route::resource('products', ProductController::class);
-        Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
-        Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
+        // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
+        // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
-      
+
         Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
         Route::get('/export-products', [ProductController::class, 'export'])->name('products.export');
-       
-       
+
+
 
         Route::resource('products', ProductController::class);
         Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
@@ -95,7 +95,7 @@ Route::prefix('admin')
 
 
         // PRODUCT-SALE
-        Route::prefix('sales')->as('sales.')->group(function () {
+         Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
             Route::get('create', [ProductSaleController::class, 'create'])->name('create');
             Route::post('store', [ProductSaleController::class, 'store'])->name('store');
@@ -125,17 +125,17 @@ Route::prefix('admin')
 
         //ROLE
 
-        Route::prefix('roles')
-            ->as('roles.')
-            ->group(function () {
-                Route::get('/', [RoleController::class, 'index'])->name('index');
-                Route::get('create', [RoleController::class, 'create'])->name('create');
-                Route::post('store', [RoleController::class, 'store'])->name('store');
-                Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
-                Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
-                Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
-                Route::Delete('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
-            });
+        // Route::prefix('roles')
+        //     ->as('roles.')
+        //     ->group(function () {
+        //         Route::get('/', [RoleController::class, 'index'])->name('index');
+        //         Route::get('create', [RoleController::class, 'create'])->name('create');
+        //         Route::post('store', [RoleController::class, 'store'])->name('store');
+        //         Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+        //         Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
+        //         Route::put('{id}/update', [RoleController::class, 'update'])->name('update');
+        //         Route::delete('{id}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+        //     });
         //BANNERS
         Route::prefix('banners')
             ->as('banners.')

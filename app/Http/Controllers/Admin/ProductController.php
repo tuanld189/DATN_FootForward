@@ -208,17 +208,7 @@ class ProductController extends Controller
 
         $salePrice = $sale ? $sale->sale_price : null;
         return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
-        $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants','sales'])->findOrFail($id);
-        $sale = ProductSale::where('status', true)
-                       ->where('start_date', '<=', now())
-                       ->where('end_date', '>=', now())
-                       ->whereHas('products', function ($query) use ($id) {
-                           $query->where('product_id', $id);
-                       })
-                       ->first();
 
-        $salePrice = $sale ? $sale->sale_price : null;
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model','salePrice'));
     }
 
     public function edit($id)
