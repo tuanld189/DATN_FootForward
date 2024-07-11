@@ -1,4 +1,5 @@
-@extends('client.layout.inheritance')
+@extends('client.layouts.master')
+@section('title', 'Đăng ký')
 @section('styles')
         <style>
             .signup-container {
@@ -29,7 +30,11 @@
                 border-radius: 10px;
             }
         </style>
+
     @endsection
+
+@endsection
+
     @section('content')
         <div class="signup-container">
             <h2 class="text-center">Sign Up</h2>

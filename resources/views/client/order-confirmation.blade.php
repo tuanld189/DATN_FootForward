@@ -1,18 +1,27 @@
-@extends('client.layout.inheritance')
-
-@section('style-list')
+@extends('client.layouts.master')
+@section('title', 'Xác nhận')
+@section('styles')
     <style>
         .panel-head {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 30px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 5px;
         }
 
         .panel-head h2 {
-            color: #f57224; /* Màu sắc tiêu đề */
+            color: #f57224;
             font-weight: bold;
             font-size: 30px;
+            margin: 0;
+        }
+
+        .panel-foot {
+            text-align: center;
+            margin-top: 20px;
         }
 
         .panel-foot a {
@@ -24,25 +33,21 @@
             padding: 10px 20px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-        }
-
-        .panel-head a:hover {
-            background-color: #e56613;
+            float: right;
         }
 
         .checkout-box {
-            border: 1px solid #ddd; /* Đổi sang màu sắc border mong muốn */
-            border-radius: 5px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             padding: 30px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Thêm độ bóng */
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px; /* Thêm margin top cho khoảng cách */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         .checkout-box-left, .checkout-box-right {
-            width: 48%;
+            padding: 20px;
         }
 
         .order-title {
@@ -55,6 +60,7 @@
         .order-date {
             color: #888;
             font-size: 14px;
+            margin-bottom: 10px;
         }
 
         table {
@@ -92,6 +98,7 @@
             margin-top: 20px;
             font-size: 14px;
             color: #555;
+            padding: 20px;
         }
 
         .customer-info strong {
@@ -108,7 +115,7 @@
 
         .info-row span {
             font-weight: bold;
-            width: 120px; /* Độ rộng của nhãn (label) */
+            width: 120px;
             display: inline-block;
         }
 
@@ -123,7 +130,7 @@
     <section class="checkout_area section_gap mt-5">
         <div class="container">
             <div class="panel-head">
-<h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG </span></h2>
+                <h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG</span></h2>
             </div>
 
             <div class="panel-body">
@@ -149,36 +156,37 @@
                                     <tr>
                                         <td>{{ $item->product_name }}</td>
                                         <td>{{ $item->quantity_add }}</td>
-                                        <td>{{ number_format($item->product_price ?: $item->product_sale_price, 0) }} $</td>
-                                        <td>{{ number_format($item->quantity_add * ($item->product_price ?: $item->product_sale_price), 0) }} $</td>
+                                        <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }} VNĐ</td>
+                                        <td>{{ number_format($item->quantity_add * ($item->product_sale_price ?: $item->product_price), 0, ',', '.') }} VNĐ</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr class="total_payment">
                                     <td colspan="3"><span>Tổng tiền sản phẩm</span></td>
-                                    <td>{{ number_format($order->total_price, 0) }} $</td>
+                                    <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"><span>Phí vận chuyển</span></td>
-                                    <td>{{ number_format(50, 0) }} $</td>
+                                    <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"><span><b>Tổng cộng thanh toán</b></span></td>
-                                    <td><b>{{ number_format($order->total_price + 50, 0) }} $</b></td>
+                                    <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
 
                     <div class="checkout-box-right ml-2">
-                        <div class="customer-info">
-                            <strong class="order-title text-center">THÔNG TIN NGƯỜI ĐẶT HÀNG:</strong>
+
+                            <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
+
                             <div class="info-row mt-5">
                                 <span>Tên:</span>
                                 <p>{{ $order->user_name }}</p>
                             </div>
-<hr>
+                            <hr>
                             <div class="info-row">
                                 <span>Email:</span>
                                 <p>{{ $order->user_email }}</p>
@@ -200,12 +208,12 @@
                                     <p>{{ $order->user_note }}</p>
                                 </div>
                             @endif
-                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="panel-foot mt-3">
-                <a href="{{ route('index') }}">Tiếp tục mua hàng</a>
+                <a href="{{ route('index') }}" class="btn btn-warning">Tiếp tục mua hàng</a>
             </div>
         </div>
     </section>

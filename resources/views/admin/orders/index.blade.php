@@ -31,8 +31,21 @@
                                 <div class="row align-items-center gy-3 ">
                                     <div class="col-sm d-flex justify-content-between">
                                         <h5 class="card-title mb-0">Order History</h5>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <div class="m-2">
+                                                <a href="{{ route('admin.orders.export') }}"
+                                                    class="btn btn-success">Export Orders</a>
+                                            </div>
+                                            <div class="m-2">
+                                                <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">Thêm
+                                                    mới</a>
+                                            </div>
+                                        </div>
+
+
                                         <a href="{{ route('admin.orders.create') }}" class="btn btn-primary mb-2">Thêm
                                             mới</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +164,11 @@
                                                         <td class="date">
                                                             {{ $order->created_at->format('d-m-Y H:i:s') }}
                                                         </td>
+
                                                         <td class="amount">{{ number_format($order->total_price, 2) }}
+
+                                                        <td class="amount">{{ number_format($order->total_price, 0, ',', '.') }}
+
                                                         </td>
                                                         <td class="payment">
                                                             <span

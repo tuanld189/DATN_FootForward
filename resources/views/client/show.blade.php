@@ -1,5 +1,5 @@
-@extends('client.layout.inheritance')
-
+@extends('client.layouts.master')
+@section('title', 'Chi tiết sản phẩm')
 @section('styles')
     <style>
         .card_area .add-to-cart {
@@ -101,6 +101,26 @@
         .custom-control-input:checked+.custom-control-label img {
             border: 2px solid #007bff;
         }
+
+        .price-box {
+        position: relative;
+        display: inline-block;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 10px;
+        }
+
+        .discount {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+
     </style>
 @endsection
 
@@ -151,9 +171,16 @@
                         <div class="product-info">
                             <h2>{{ $product->name }}</h2>
                             <div class="price-box">
-                                {{-- <span class="old-price">$70.00</span> --}}
-                                <span class="new-price">${{ $product->price }}</span>
-                                <span class="discount discount-percentage">Save 5%</span>
+                                @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
+                                    <span class="old-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
+                                    <span class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }} VNĐ</span>
+                                    @php
+                                        $discountPercentage = ($product->price - $product->sales->first()->pivot->sale_price) / $product->price * 100;
+                                    @endphp
+                                    <span class="discount discount-percentage">Save {{ round($discountPercentage, 0) }}%</span>
+                                @else
+                                    <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
+                                @endif
                             </div>
 
 

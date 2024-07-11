@@ -13,6 +13,9 @@ use App\Http\Controllers\User\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
+//shop
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
+
 // login
 Route::get('/login',[UserController::class, 'login'])->name('login');
 Route::post('/login',[UserController::class, 'postLogin']);
@@ -41,9 +44,13 @@ Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
+
 Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 
+
+Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
+Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
 // Đơn hàng
 // Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('placeOrder');
 // Route::post('/order/save', [OrderController::class, 'save'])->name('order.save');
@@ -59,3 +66,4 @@ Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmat
 Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
 Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
 Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('comment.update');
+

@@ -1,4 +1,5 @@
-@extends('client.layout.inheritance')
+@extends('client.layouts.master')
+@section('title', 'Đăng nhập')
 @section('styles')
     <style>
         .login-container {

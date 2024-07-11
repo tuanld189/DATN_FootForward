@@ -10,6 +10,10 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
+use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
@@ -56,6 +60,11 @@ class OrderController extends Controller
         $orders = $query->get();
 
         return view(self::PATH_VIEW . 'index', compact('orders'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 
     public function create()
