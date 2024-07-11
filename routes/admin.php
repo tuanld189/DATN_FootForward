@@ -235,6 +235,21 @@ Route::prefix('admin')
                 Route::delete('{id}/destroy', [AdminOrderController::class, 'destroy'])->name('destroy');
             });
         // Route::resource('orders', AdminOrderController::class);
+
+
+        // PRODUCT CLUSTER
+        Route::prefix('product-clusters')
+        ->as('product-clusters.')
+        ->group(function () {
+            Route::get('/', [ProductClusterController::class, 'index'])->name('index');
+            Route::get('create', [ProductClusterController::class, 'create'])->name('create');
+            Route::post('store', [ProductClusterController::class, 'store'])->name('store');
+            Route::get('show/{id}', [ProductClusterController::class, 'show'])->name('show');
+            Route::get('{id}/edit', [ProductClusterController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [ProductClusterController::class, 'update'])->name('update');
+            Route::delete('{id}/destroy', [ProductClusterController::class, 'destroy'])->name('destroy');
+        });
+
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
 
     });

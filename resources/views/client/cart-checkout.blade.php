@@ -7,73 +7,85 @@
             gap: 20px;
         }
 
-        .payment-method {
-            display: flex;
-            align-items: center;
-        }
 
-        .payment-method label {
-            margin-left: 8px;
-        }
+<style>
+    .payment-methods {
+        display: flex;
+        gap: 20px;
+    }
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+    .payment-method {
+        display: flex;
+        align-items: center;
+    }
 
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
+    .payment-method label {
+        margin-left: 8px;
+    }
 
-        .form-control:focus {
-            border-color: #80bdff;
-            outline: 0;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }
+    .form-group {
+        margin-bottom: 1rem;
+    }
 
-        .checkout-mess {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-        }
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
 
-        .cart-method label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    }
 
-        .cart-method input[type="radio"] {
-            margin-right: 10px;
-        }
+    .checkout-mess {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
 
-        .cart-checkout {
-            display: block;
-            width: 100%;
-            padding: 0.75rem;
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: center;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 0.25rem;
-            transition: background-color 0.15s ease-in-out;
-        }
+    .cart-method label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
 
-        .cart-checkout:hover {
-            background-color: #0056b3;
-        }
+    .cart-method input[type="radio"] {
+        margin-right: 10px;
+    }
 
-        .cart-heading {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
+    .cart-checkout {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 0.25rem;
+        transition: background-color 0.15s ease-in-out;
+    }
 
+    .cart-checkout:hover {
+        background-color: #0056b3;
+    }
+
+
+    .cart-heading {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .amount {
+        font-weight: bold;
+    }
+</style>
         .amount {
             font-weight: bold;
         }
@@ -87,27 +99,26 @@
 @endsection
 
 @section('content')
-    <div class="breadcrumb-area bg-grey" id="navv">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Cart Checkout</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="content-wraper mb-5">
+    <div class="container">
 
-
-    <div class="content-wraper mb-5">
-        <div class="container">
-            <div class="checkout-details-wrapper">
+        <div class="breadcrumb-area bg-grey" id="navv">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="billing-details-wrap">
-                            <form action="{{ route('order.place') }}" method="POST">
+                    <div class="col-lg-12">
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                            <li class="breadcrumb-item active">Cart Checkout</li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        <div class="checkout-details-wrapper">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="billing-details-wrap">
+                        <form action="{{ route('order.place') }}" method="POST">
+
                             @csrf
                             <h3 class="shoping-checkboxt-title">Thông tin đặt hàng</h3>
                             <div class="row">
@@ -161,6 +172,54 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="your-order-wrapper">
+                        <h3 class="shoping-checkboxt-title">Giỏ hàng</h3>
+                        <div class="your-order-wrap">
+                            <div class="your-order-table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="product-name">Product Name</th>
+                                            <th class="product-total">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($cart as $item)
+                                        <tr class="cart_item">
+                                            <td class="product-name">
+                                                {{ $item['name'] }} <strong class="product-quantity"> × {{ $item['quantity_add'] }}</strong>
+                                            </td>
+                                            <td class="product-total">
+                                                <span class="amount">${{ number_format($item['quantity_add'] * ($item['price'] ?: $item['price_sale']), 2) }}</span>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="order-total">
+                                            <th>Order Total</th>
+                                            <td><strong><span class="amount">${{ number_format($totalAmount, 0) }}</span></strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="panel-foot" style="margin-left: 35px">
+                                <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
+                                <div class="cart-method">
+                                    <label for="COD" class="uk-flex uk-flex-middle">
+                                        <input type="radio" name="payment_method" value="COD" checked id="COD">
+                                        <span class="title">Thanh toán khi nhân hàng</span>
+                                    </label>
+                                </div>
+                                <div class="cart-method">
+                                    <label for="vnpay" class="uk-flex uk-flex-middle">
+                                        <input type="radio" name="payment_method" value="vnpay" id="vnpay">
+                                        <span class="title">Thanh toán bằng VNPAY</span>
+                                    </label>
+
                     <div class="col-lg-6 col-md-6">
                         <div class="your-order-wrapper">
                             <h3 class="shoping-checkboxt-title">Giỏ hàng</h3>
@@ -265,10 +324,11 @@
                                         </label>
                                     </div>
                                 </div>
-                                <br>
-                                <button type="submit" class=" cart-checkout btn btn-primary" value="create"
-                                    name="create">Thanh toán đơn hàng</button>
-                                </form>
+
+                            </div>
+                            <button type="submit"  class=" cart-checkout btn btn-primary" value="create" name="create">Thanh toán đơn hàng</button>
+                        </form>
+
                             </div>
                         </div>
                     </div>
@@ -290,6 +350,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
     @endsection
     @section('scripts')
@@ -310,15 +372,30 @@
             });
         </script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const form = document.querySelector('form');
 
-                form.addEventListener('submit', function() {
-                    const submitButton = form.querySelector('button[type="submit"]');
-                    submitButton.disabled = true;
-                    submitButton.innerHTML = 'Đang xử lý...'; // Optional: Thay đổi text để thông báo đang xử lý
-                });
+    </div>
+</div>
+@endsection
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        const paymentInfoText = document.querySelector('.payment-info-text');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('change', function() {
+                if (this.value === 'bank_transfer') {
+                    paymentInfoText.style.display = 'block';
+                } else {
+                    paymentInfoText.style.display = 'none';
+                }
             });
+
+        });
+    });
+    </script>
+@endsection
         </script>
     @endsection
+
+
