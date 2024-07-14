@@ -58,4 +58,7 @@ class User extends Authenticatable
             $user->user_code = Str::random(10); // Tạo chuỗi ngẫu nhiên độ dài 10 ký tự
         });
     }
+
+
 }
+
