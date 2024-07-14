@@ -63,3 +63,11 @@ Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct
 Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
 Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('comment.update');
 
+use App\Http\Controllers\UserProfileController;
+
+// Route để hiển thị form chỉnh sửa thông tin người dùng
+Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('client.profile.edit');
+
+// Route để xử lý việc cập nhật thông tin người dùng
+Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
+
