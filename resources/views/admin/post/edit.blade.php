@@ -51,7 +51,8 @@
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="description" class="form-label">Content:</label>
-                                    <textarea class="form-control" id="content" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
+                                    {{-- <textarea class="form-control" id="content" placeholder="Enter content" name="content">{{ $model->content }}</textarea> --}}
+                                    <textarea class="form-control" id="ckeditor-classic" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3 mt-3">
@@ -72,12 +73,22 @@
     </div>
 @endsection
 
-@section('script-libs')
+{{-- @section('script-libs')
     <script src="https:////cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
-@endsection
+@endsection --}}
 
 @section('scripts')
     <script>
         CKEDITOR.replace('content');
     </script>
+@endsection
+@section('script-libs')
+    <!-- ckeditor -->
+    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <!-- dropzone js -->
+    <script src="assets/libs/dropzone/dropzone-min.js"></script>
+    <!-- project-create init -->
+    <script src="assets/js/pages/project-create.init.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
 @endsection

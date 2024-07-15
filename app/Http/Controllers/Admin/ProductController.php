@@ -94,22 +94,6 @@ class ProductController extends Controller
 
 
 
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     try {
-    //         Excel::import(new ProductsImport(), $request->file('file_excel'));
-
-    //         return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
-    //     } catch (\Throwable $th) {
-    //         // Handle any errors that occur during the import process
-    //         dd($request->all());
-    //         return redirect()->back()->with('error', 'Error importing products: ' . $th->getMessage());
-    //     }
-    // }
 
     public function export()
     {

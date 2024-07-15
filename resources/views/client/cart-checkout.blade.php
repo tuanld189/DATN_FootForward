@@ -249,7 +249,7 @@
                                         <label for="COD" class="uk-flex uk-flex-middle">
                                             <input type="radio" name="payment_method" value="COD" checked
                                                 id="COD">
-                                            <span class="title">Thanh toán khi nhân hàng</span>
+                                            <span class="title">Thanh toán khi nhận hàng</span>
                                         </label>
                                     </div>
                                     <div class="cart-method">
@@ -272,7 +272,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="coupon container m-4">
+                    {{-- <div class="coupon container m-4">
                         @if (session('message'))
                             <div class="alert alert-{{ session('status') }}">
                                 {{ session('message') }}
@@ -286,7 +286,7 @@
                                 value="" placeholder="Coupon code" type="text">
                             <input class="btn btn-primary" value="Apply coupon" type="submit">
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

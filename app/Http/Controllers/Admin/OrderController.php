@@ -18,27 +18,19 @@ class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
 
-    // public function index()
-    // {
-    //     $orders = Order::latest()->paginate(10);
 
-    //     return view(self::PATH_VIEW . 'index', compact('orders'));
-    // }
     public function index(Request $request)
     {
         $query = Order::query();
 
-        // Lọc theo trạng thái đơn hàng
         if ($request->filled('status_order')) {
             $query->where('status_order', $request->status_order);
         }
 
-        // Lọc theo trạng thái thanh toán
         if ($request->filled('status_payment')) {
             $query->where('status_payment', $request->status_payment);
         }
 
-        // Lọc theo khoảng thời gian
         if ($request->filled('date_from') && $request->filled('date_to')) {
             $query->whereBetween('created_at', [$request->date_from, $request->date_to]);
         } elseif ($request->filled('date_from')) {
@@ -47,12 +39,10 @@ class OrderController extends Controller
             $query->where('created_at', '<=', $request->date_to);
         }
 
-        // Lọc theo customer_id
         if ($request->filled('customer_id')) {
             $query->where('user_id', $request->customer_id);
         }
 
-        // Lọc theo user_name
         if ($request->filled('user_name')) {
             $query->where('user_name', 'like', '%' . $request->user_name . '%');
         }
@@ -104,12 +94,10 @@ class OrderController extends Controller
             'order_items.*.variant_color_name' => 'nullable|string|max:100',
         ]);
         $users = User::all();
-        // Tạo order mới
         $order = new Order();
         $order->fill($validated);
         $order->save();
 
-        // Tạo các order item
         foreach ($validated['order_items'] as $item) {
             $orderItem = new OrderItem();
             $orderItem->fill($item);
@@ -124,7 +112,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        $orderItems = OrderItem::where('order_id', $order->id)->get(); // Sử dụng $order->id thay vì $orderId
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
         return view(self::PATH_VIEW . 'show', compact('order', 'orderItems'));
     }
 
@@ -167,33 +155,28 @@ class OrderController extends Controller
             'order_items.*.variant_color_name' => 'nullable|string|max:100',
         ]);
 
-        // Lấy dữ liệu từ request
         $input = $request->all();
 
-        // Kiểm tra và cập nhật các thuộc tính của đơn hàng
         $order->user_name = $input['user_name'];
         $order->user_email = $input['user_email'];
         $order->user_phone = $input['user_phone'];
         $order->user_address = $input['user_address'];
         $order->total_price = $input['total_price'];
 
-
-        // Kiểm tra xem giá trị status_order được gửi từ form có phù hợp hay không
-        if (array_key_exists('status_order', $input) && in_array($input['status_order'], array_keys(Order::STATUS_ORDER))) {
-            $order->status_order = $input['status_order'];
-        }
-
-        // Kiểm tra xem giá trị status_payment được gửi từ form có phù hợp hay không
-        if (array_key_exists('status_payment', $input) && in_array($input['status_payment'], array_keys(Order::STATUS_PAYMENT))) {
-            $order->status_payment = $input['status_payment'];
-        }
-
-        // Lưu lại các thay đổi
-        // Cập nhật order
         $order->fill($validated);
+
+        // Cập nhật trạng thái đơn hàng
+        if (array_key_exists('status_order', $request->all()) && in_array($request->status_order, array_keys(Order::STATUS_ORDER))) {
+            $order->status_order = $request->status_order;
+        }
+
+        // Cập nhật trạng thái thanh toán
+        if (array_key_exists('status_payment', $request->all()) && in_array($request->status_payment, array_keys(Order::STATUS_PAYMENT))) {
+            $order->status_payment = $request->status_payment;
+        }
+
         $order->save();
 
-        // Xóa các order item cũ và tạo lại
         $order->orderItems()->delete();
         foreach ($validated['order_items'] as $item) {
             $orderItem = new OrderItem();
@@ -202,7 +185,7 @@ class OrderController extends Controller
             $orderItem->save();
         }
 
-        return redirect()->route('admin.orders.index')->with('success', 'Đã tạo đơn hàng thành công.');
+        return redirect()->route('admin.orders.index')->with('success', 'Đã cập nhật thành công.');
     }
 
     public function destroy($id)

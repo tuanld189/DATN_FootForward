@@ -28,8 +28,8 @@ class ProductController extends Controller
 
         $categories = Category::all();
         $brands = Brand::all();
-
-        return view('client.show', compact('product', 'categories', 'brands'));
+        $relateproduct = Product::with('sales')->get();
+        return view('client.show', compact('product', 'categories', 'brands','relateproduct'));
     }
 
     public function storeForProduct(Request $request, $productId)
