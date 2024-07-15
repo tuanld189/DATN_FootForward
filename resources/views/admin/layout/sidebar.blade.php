@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
@@ -64,11 +62,6 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.products.index') }}" class="nav-link"
                                     data-key="t-horizontal">Products</a>
-                            </li>
-                            {{-- Product Clusters--}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.product-clusters.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Product clusters</a>
                             </li>
                             {{-- Up sells --}}
                             <li class="nav-item">
@@ -199,4 +192,3 @@
         </div>
     </div>
 </div>
->>>>>>> 43364ea (Initial commit on truongnvph30833)
