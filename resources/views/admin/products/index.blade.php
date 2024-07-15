@@ -52,19 +52,6 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-2 col-sm-4">
-<div>
-                                    <select class="form-control" data-choices data-choices-search-false
-                                        name="status_payment" id="status_payment">
-                                        <option value="">All</option>
-                                        @foreach (\App\Models\Order::STATUS_PAYMENT as $key => $value)
-                                            <option value="{{ $key }}"
-                                                {{ request('status_payment') == $key ? 'selected' : '' }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
                             @endif
 
                             <div class="row">
@@ -132,7 +119,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-</div>
+                                </div>
 
                                 <div class="col-md-2 mb-0">
 
@@ -183,10 +170,7 @@
                                 <th>HOT_DEAL</th>
                                 <th>NEW</th>
                                 <th>SHOW_HOME</th>
-                                {{-- <th>CREATE AT</th>
-                            <th>UPDATE AT</th> --}}
-                            <th>ACTION</th>
-
+                                <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
@@ -291,7 +275,7 @@
 
 @section('style-libs')
     <!--datatable css-->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">

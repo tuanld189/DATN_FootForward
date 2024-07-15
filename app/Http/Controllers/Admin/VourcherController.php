@@ -98,9 +98,7 @@ class VourcherController extends Controller
             'discount_value' => [
                 'required',
 'numeric',
-
-                function ($attribute, $value, $fail) use ($request) {
-
+function ($attribute, $value, $fail) use ($request) {
                     if ($request->discount_type === 'percentage' && ($value < 0 || $value > 100)) {
                         $fail('The discount value must be between 0 and 100 for percentage discounts.');
                     }
