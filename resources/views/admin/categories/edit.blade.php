@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/lfm.css') }}">
 @endsection
 @section('content')
+<div class="a" style="background-color:white; padding:30px;">
 <h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;">
     <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')
 </h3>
@@ -49,6 +50,7 @@
     <br>
     <button type="submit" class="btn btn-primary">Update</button>
 </form>
+</div>
 @endsection
 @section('scripts')
 <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>

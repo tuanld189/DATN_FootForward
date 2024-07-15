@@ -10,6 +10,8 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Services\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\PostController as UserPostController;
+use App\Http\Controllers\UserProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
@@ -41,6 +43,9 @@ Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('car
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
+Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
+Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
+
 
 Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
@@ -54,8 +59,19 @@ Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])-
 Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
 Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
 Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+
 //comment
 Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
 Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
 Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('comment.update');
+
+// Route to show a single post
+Route::get('/post/{id}', [UserPostController::class, 'show'])->name('client.post');
+
+
+// Route để hiển thị form chỉnh sửa thông tin người dùng
+Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('client.profile.edit');
+// Route để xử lý việc cập nhật thông tin người dùng
+Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
+
 
