@@ -56,11 +56,20 @@
                             <!-- Sanguage Start -->
                             <li class="setting-top list-inline-item">
                                 <div class="btn-group">
-                                    <button class="dropdown-toggle"><i class="fa fa-user-circle-o"></i> Setting <i
-                                            class="fa fa-angle-down"></i></button>
+                                    <button class="dropdown-toggle"><i class=""><img alt="user avatar"
+                                        src="{{ Storage::url(Auth::check() ? Auth::user()->photo_thumbs : asset('assets/images/banner/Avatardf.jpg') ) }}" width="20px"
+                                        height="30px" style="border-radius: 100%;"></i>{{ Auth::check() ? Auth::user()->name: 'Setting' }} <i class="fa fa-angle-down"></i></button>
+
                                     <div class="dropdown-menu">
                                         <ul>
-                                            <li><a href="my-account.html">My account</a></li>
+                                            <li>
+                                                @if (Auth::check())
+                                                    <a href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">My account</a>
+                                                @else
+                                                    <a href="#">My account</a> <!-- hoặc thêm liên kết mặc định hoặc thông báo lỗi -->
+                                                @endif
+                                            </li>
+
                                             <li><a href="checkout.html">Checkout</a></li>
                                             <li><a href="{{route('login')}}">Login</a></li>
                                         </ul>

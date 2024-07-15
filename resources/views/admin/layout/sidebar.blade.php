@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
@@ -46,7 +44,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCategories" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarCategories">
-                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí sản phẩm</span>
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lí Sản phẩm</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
@@ -90,7 +88,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarusers" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarusers">
-                        <i class="ri-account-circle-line"></i> <span data-key="t-layouts">Quản lí người dùng</span>
+                        <i class="ri-account-circle-line"></i> <span data-key="t-layouts">Quản lí Người dùng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarusers">
                         <ul class="nav nav-sm flex-column">
@@ -118,7 +116,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarorders" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarorders">
-                        <i class="ri-file-list-2-line"></i> <span data-key="t-layouts">Quản lí đơn hàng</span>
+                        <i class="ri-file-list-2-line"></i> <span data-key="t-layouts">Quản lí Đơn hàng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarorders">
                         <ul class="nav nav-sm flex-column">
@@ -134,7 +132,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarPosts" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarPosts">
-                        <i class="ri-file-list-3-line"></i> <span data-key="t-layouts">Quản lí bài viết</span>
+                        <i class="ri-file-list-3-line"></i> <span data-key="t-layouts">Quản lí Bài viết</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPosts">
                         <ul class="nav nav-sm flex-column">
@@ -142,6 +140,43 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.posts.index') }}" class="nav-link"
                                     data-key="t-horizontal">Posts</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+
+
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarComment" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarComment">
+                        <i class="ri-pages-line"></i> <span data-key="t-layouts">Quản lí Bình luận</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarComment">
+                        <ul class="nav nav-sm flex-column">
+                            {{-- Comments --}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.comments.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Comment</a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarVouchers" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarVouchers">
+                        <i class="ri-pencil-ruler-2-line"></i> <span data-key="t-layouts">Quản lí Voucher</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarVouchers">
+                        <ul class="nav nav-sm flex-column">
+                            {{-- Vourchers --}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vourchers.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Vourchers</a>
                             </li>
                         </ul>
                     </div>
@@ -163,40 +198,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarVouchers" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarVouchers">
-                        <i class="ri-pencil-ruler-2-line"></i> <span data-key="t-layouts">Quản lí Vouchers</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarVouchers">
-                        <ul class="nav nav-sm flex-column">
-                            {{-- Vourchers --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.vourchers.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Vourchers</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarComment" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarComment">
-                        <i class="ri-pages-line"></i> <span data-key="t-layouts">Quản lí bình luận</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarComment">
-                        <ul class="nav nav-sm flex-column">
-                            {{-- Comments --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.comments.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Comment</a>
-
-                            </li>
-                        </ul>
-                    </div>
-                </li>
             </ul>
         </div>
     </div>
 </div>
->>>>>>> 43364ea (Initial commit on truongnvph30833)

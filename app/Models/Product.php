@@ -61,6 +61,7 @@ class Product extends Model
     public function productClusters()
     {
         return $this->belongsToMany(ProductCluster::class, 'product_cluster_product');
+    }
     public function activeSale()
     {
         return $this->sales()->active()->first();

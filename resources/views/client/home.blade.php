@@ -165,7 +165,7 @@
                 <div class="col-lg-12">
                     <!-- section-title start -->
                     <div class="section-title-two pt--60 border-t-one text-center">
-                        <h2>Popular Products</h2>
+                        <h2>New Products</h2>
                         <p>Most Trendy 2024 Clother</p>
                     </div>
                     <!-- section-title end -->
@@ -190,7 +190,7 @@
                         <div class="single-product-wrap">
                             <div class="product-image">
                                 <a href="{{ route('client.show', $product->id) }}">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}" >
+                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}">
                                 </a>
                                 <span class="label-product label-new">new</span>
 
@@ -276,7 +276,7 @@
     </div>
     <!-- Banner area end -->
 
- 
+
 
     {{-- Category --}}
 
@@ -287,7 +287,6 @@
                     <!-- section-title start -->
                     <div class="section-title section-bg-3">
                         <h2>Categories</h2>
-                        {{-- <p>There are latest blog posts</p> --}}
                     </div>
                     <!-- section-title end -->
                 </div>
@@ -310,7 +309,9 @@
     <!-- Latest Blog Posts Area start -->
     <div class="latest-blog-post-area section-ptb">
         <div class="container">
+
             <div class="row">
+
                 <div class="col-lg-12">
                     <!-- section-title start -->
                     <div class="section-title section-bg-3">
@@ -319,96 +320,45 @@
                     </div>
                     <!-- section-title end -->
                 </div>
+
             </div>
             <div class="latest-blog-slider">
-                <!-- single-latest-blog start -->
-                <div class="single-latest-blog mt--30">
-                    <div class="latest-blog-image">
-                        <a href="blog-details.html">
-                            <img src="{{ asset('assets/images/blog/1.jpg') }}" alt="">
-                        </a>
-                    </div>
-                    <div class="latest-blog-content">
-                        <h4><a href="blog-details.html">Work with customizer</a></h4>
-                        <div class="post_meta">
-                            <span class="meta_date"><span> <i class="fa fa-calendar"></i></span>Mar 05,
-                                2018</span>
-                            <span class="meta_author"><span></span>Demo Name</span>
+                @foreach ($posts as $item)
+                    <!-- single-latest-blog start -->
+                    <div class="single-latest-blog mt--30">
+                        <div class="latest-blog-image">
+                            <a href="{{ route('client.post', $item->id) }}">
+                                <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
+                                    style="width: 330px; height: 370px;">
+                            </a>
                         </div>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has
-                            been the industrys standard dummy text ever since the ...</p>
-                    </div>
-                </div>
-                <!-- single-latest-blog end -->
-                <!-- single-latest-blog start -->
-                <div class="single-latest-blog mt--30">
-                    <div class="latest-blog-image">
-                        <a href="blog-details.html">
-                            <img src="{{ asset('assets/images/blog/2.jpg') }}" alt="">
-                        </a>
-                    </div>
-                    <div class="latest-blog-content">
-                        <h4><a href="blog-details.html">Go to New Horizonts</a></h4>
-                        <div class="post_meta">
-                            <span class="meta_date"><span> <i class="fa fa-calendar"></i></span>may 17,
-                                2018</span>
-                            <span class="meta_author"><span></span>Demo Name</span>
+                        <div class="latest-blog-content">
+                            <h4><a href="{{ route('client.post', $item->id) }}">{{ $item->name }}</a></h4>
+                            <div class="post_meta">
+                                <span class="meta_date">
+                                    <i class="fa fa-calendar"></i> {{ $item->created_at->format('M d, Y') }}
+                                </span>
+                                <span class="meta_author">
+                                    <i class="fa fa-user"></i> {{ Auth::check() ? Auth::user()->name : '' }}
+
+                                </span>
+                            </div>
+                            <p style="height: 100px; width: 330px;">{{ $item->description }}</p>
                         </div>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has
-                            been the industrys standard dummy text ever since the ...</p>
                     </div>
-                </div>
-                <!-- single-latest-blog end -->
-                <!-- single-latest-blog start -->
-                <div class="single-latest-blog mt--30">
-                    <div class="latest-blog-image">
-                        <a href="blog-details.html">
-                            <img src="{{ asset('assets/images/blog/3.jpg') }}" alt="">
-                        </a>
-                    </div>
-                    <div class="latest-blog-content">
-                        <h4><a href="blog-details.html">What is Bootstrap?</a></h4>
-                        <div class="post_meta">
-                            <span class="meta_date"><span> <i class="fa fa-calendar"></i></span>june 11,
-                                2018</span>
-                            <span class="meta_author"><span></span>Demo Name</span>
-                        </div>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has
-                            been the industrys standard dummy text ever since the ...</p>
-                    </div>
-                </div>
-                <!-- single-latest-blog end -->
-                <!-- single-latest-blog start -->
-                <div class="single-latest-blog mt--30">
-                    <div class="latest-blog-image">
-                        <a href="blog-details.html">
-                            <img src="{{ asset('assets/images/blog/4.jpg') }}" alt="">
-                        </a>
-                    </div>
-                    <div class="latest-blog-content">
-                        <h4><a href="blog-details.html">Try comfort work </a></h4>
-                        <div class="post_meta">
-                            <span class="meta_date"><span> <i class="fa fa-calendar"></i></span>Mar 13,
-                                2018</span>
-                            <span class="meta_author"><span></span>Demo Name</span>
-                        </div>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has
-                            been the industrys standard dummy text ever since the ...</p>
-                    </div>
-                </div>
-                <!-- single-latest-blog end -->
+                    <!-- single-latest-blog end -->
+                @endforeach
             </div>
         </div>
     </div>
     <!-- Latest Blog Posts Area End -->
 
 
-     <!-- Our Brand Area Start -->
-     <div class="our-brand-area mb--30">
+    <!-- Latest Blog Posts Area End -->
+
+
+    <!-- Our Brand Area Start -->
+    <div class="our-brand-area mb--30">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

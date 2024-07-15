@@ -185,8 +185,8 @@
                                 <th>SHOW_HOME</th>
                                 {{-- <th>CREATE AT</th>
                             <th>UPDATE AT</th> --}}
-<th>ACTION</th>
-                               
+                            <th>ACTION</th>
+
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
@@ -195,30 +195,36 @@
                                 </td>
                                     <td>{{ $item->id }}</td>
                                     <td>
-                                        @php
+                                        {{-- @php
                                             $imageUrl = $item->img_thumbnail;
                                             if (!Str::contains($imageUrl, 'http')) {
-                                                // Nếu không chứa 'http' trong đường dẫn ảnh, coi đó là đường dẫn từ Storage
-                                                $imageUrl = asset('storage/' . $imageUrl); // Sử dụng asset để tạo URL tới storage
+                                                $imageUrl = asset('storage/' . $imageUrl);
                                             }
                                         @endphp
 
-                                        <img src="{{ $imageUrl }}" alt="{{ $item->name }}" width="100px">
+                                        {{-- <img src="{{ $imageUrl }}" alt="{{ $item->name }}" width="100px"> --}}
+
+                                        @php
+                                            $url = $item->img_thumbnail;
+                                            if (!Str::contains($url, 'http')) {
+                                                $url = Storage::url($url);
+                                            }
+                                        @endphp
+
+                                        <img src="{{ $url }}" alt="" width="100px">
+                                        {{-- <img src="{{ $item->image }}" alt="" width="100px"> --}}
+
                                     </td>
 
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->sku }}</td>
                                     <td>{{ $item->slug }}</td>
-                                    
-                                    <td>{{ $item->category}}</td>
-                                    <td>{{ $item->brand }}</td>
-                                    {{-- <td>{{ $item->category }}</td> --}}
-                                    {{-- <td>{{ $item->brand }}</td> --}}
-                                    <td>{{ $item->price }}</td>
-                                    {{-- <td>{{$item->content}}</td>
-                                <td>{{$item->description}}</td> --}}
                                     <td>{{ $item->category->name }}</td>
                                     <td>{{ $item->brand->name }}</td>
+                                    {{-- <td>{{ $item->price }}</td> --}}
+                                    {{-- <td>{{$item->content}}</td>
+                                <td>{{$item->description}}</td> --}}
+
                                     <td> {{ number_format( $item->price , 0, ',', '.') }}</td>
                                     <td>
                                         @foreach ($item->tags as $tag)
@@ -234,9 +240,6 @@
                                     <td>{!! $item->is_show_home
                                         ? '<span class="badge bg-success">Yes</span>'
                                         : '<span class="badge bg-danger">No</span>' !!}</td>
-
-                                    {{-- <td>{{$item->created_at}}</td>
-<td>{{$item->updated_at}}</td> --}}
 
                                     <td>
                                         <ul class="list-inline hstack gap-1 mb-0">
