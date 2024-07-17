@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Mail\OrderPlacedEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Events\OrderShipped;
+use Carbon\Carbon;
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
@@ -64,7 +65,13 @@ class OrderController extends Controller
             $order->user_address = $request->input('user_address');
             $order->user_note = $request->input('user_note');
             $order->total_price = $totalAmount;
+
+            $now = Carbon::now('Asia/Ho_Chi_Minh');
+            $order->created_at = $now;
+            $order->pending_at = $now;
+
             $order->save();
+
 
             foreach ($orderItems as $item) {
                     $item['order_id'] = $order->id;
@@ -77,7 +84,6 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // Mail::to($user->email)->send(new OrderPlacedEmail($order));
 
             event(new OrderShipped($order));
 

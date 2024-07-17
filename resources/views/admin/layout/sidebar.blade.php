@@ -63,11 +63,6 @@
                                 <a href="{{ route('admin.products.index') }}" class="nav-link"
                                     data-key="t-horizontal">Products</a>
                             </li>
-                            {{-- Product Clusters--}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.product-clusters.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Product clusters</a>
-                            </li>
                             {{-- Up sells --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Up
@@ -124,6 +119,10 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.orders.index') }}" class="nav-link"
                                     data-key="t-horizontal">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.orders.status') }}" class="nav-link"
+                                    data-key="t-horizontal">Status Orders</a>
                             </li>
                         </ul>
                     </div>
