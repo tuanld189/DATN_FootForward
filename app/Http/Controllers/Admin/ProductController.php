@@ -94,22 +94,6 @@ class ProductController extends Controller
 
 
 
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
-
-    //     try {
-    //         Excel::import(new ProductsImport(), $request->file('file_excel'));
-
-    //         return redirect()->route('admin.products.index')->with('success', 'Products imported successfully.');
-    //     } catch (\Throwable $th) {
-    //         // Handle any errors that occur during the import process
-    //         dd($request->all());
-    //         return redirect()->back()->with('error', 'Error importing products: ' . $th->getMessage());
-    //     }
-    // }
 
     public function export()
     {
@@ -208,17 +192,7 @@ class ProductController extends Controller
 
         $salePrice = $sale ? $sale->sale_price : null;
         return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
-        $model = Product::with(['category', 'brand', 'tags', 'galleries', 'variants','sales'])->findOrFail($id);
-        $sale = ProductSale::where('status', true)
-                       ->where('start_date', '<=', now())
-                       ->where('end_date', '>=', now())
-                       ->whereHas('products', function ($query) use ($id) {
-                           $query->where('product_id', $id);
-                       })
-                       ->first();
 
-        $salePrice = $sale ? $sale->sale_price : null;
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model','salePrice'));
     }
 
     public function edit($id)

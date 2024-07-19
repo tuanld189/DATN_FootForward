@@ -57,6 +57,11 @@ class Product extends Model
     {
         return $this->hasMany(Comment::class, 'product_id');
     }
+    //funciton Product Cluster
+    public function productClusters()
+    {
+        return $this->belongsToMany(ProductCluster::class, 'product_cluster_product');
+    }
     public function activeSale()
     {
         return $this->sales()->active()->first();
@@ -64,7 +69,7 @@ class Product extends Model
     public function sales()
     {
         return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
-                    ->withPivot('sale_price') 
+                    ->withPivot('sale_price')
                     ->withTimestamps();
     }
 }
