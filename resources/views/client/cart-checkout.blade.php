@@ -90,7 +90,44 @@
 <div class="content-wraper mb-5">
     <div class="container">
 
+
         <div class="breadcrumb-area bg-grey" id="navv">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Cart Detail </h4>
+
+                    <div class="page-title-right ">
+                        <ol class="breadcrumb m-0 ">
+                            <li class="m-1"><a href="javascript: void(0);">Home   > </a></li>
+                            <li class="active m-1"> Cart> </li>
+                            <li class="active m-1">Cart Checkout  </li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="checkout-details-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="breadcrumb-list">
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Cart Checkout</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content-wraper mb-5">
+        <div class="container">
+            <div class="checkout-details-wrapper">
+
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="breadcrumb-list">
@@ -265,9 +302,16 @@
                                     </div>
                                 </div>
 
+
                             </div>
                             <button type="submit"  class=" cart-checkout btn btn-primary" value="create" name="create">Thanh toán đơn hàng</button>
                         </form>
+
+
+                                <br>
+                                <button type="submit" class=" cart-checkout btn btn-primary" value="create"
+                                    name="create">Thanh toán đơn hàng</button>
+                                </form>
 
                             </div>
                         </div>
@@ -292,7 +336,12 @@
         </div>
 
 
+
     </div>
+
+    </div>
+</div>
+
     @endsection
     @section('scripts')
         <script>
@@ -324,5 +373,4 @@
             });
         </script>
     @endsection
-
 
