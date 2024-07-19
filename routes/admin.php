@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
     ->as('admin.')
-    ->middleware('auth')
+    ->middleware(['web', 'auth'])
     ->group(function () {
 
         Route::get('/', function () {
@@ -38,19 +38,7 @@ Route::prefix('admin')
         //PRODUCT
         // Route::resource('products', ProductController::class);
 
-        //ORDER
-        // Route::prefix('orders')
-        //     ->as('orders.')
-        //     ->group(function () {
-        //         Route::get('/', [OrderController::class, 'index'])->name('index');
-        //         Route::get('create', [OrderController::class, 'create'])->name('create');
-        //         Route::post('store', [OrderController::class, 'store'])->name('store');
-        //         Route::get('show/{id}', [OrderController::class, 'show'])->name('show');
-        //         Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
-        //         Route::put('{id}/update', [OrderController::class, 'update'])->name('update');
-        //         Route::get('{id}/destroy', [OrderController::class, 'destroy'])->name('destroy');
-        //     });
-
+        
         //BRAND
         Route::prefix('brands')
             ->as('brands.')
@@ -220,7 +208,6 @@ Route::prefix('admin')
         });
 
 
-        // order
 
         // ORDER
         Route::prefix('orders')
@@ -233,8 +220,40 @@ Route::prefix('admin')
                 Route::get('{id}/edit', [AdminOrderController::class, 'edit'])->name('edit');
                 Route::put('{id}/update', [AdminOrderController::class, 'update'])->name('update');
                 Route::delete('{id}/destroy', [AdminOrderController::class, 'destroy'])->name('destroy');
+                Route::get('status', [AdminOrderController::class, 'status'])->name('status');
             });
-        // Route::resource('orders', AdminOrderController::class);
+
+
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
 
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

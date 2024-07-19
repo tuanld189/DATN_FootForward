@@ -1,9 +1,11 @@
 @extends('admin.layout.master')
 
-@section('title', 'Chi tiết đơn hàng')
+@section('title', 'Show Detail Order')
 
 @section('content')
     <div class="container-fluid">
+
+
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -18,6 +20,23 @@
             </div>
         </div>
         <!-- end page title -->
+        <!-- end page title -->
+        {{-- trang thái đơn hàng --}}
+        <div class="order-status">
+            <div class="progress" style="height: 30px">
+                @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
+                    <div class="progress-bar {{ $order->status_order === $key ? 'bg-success' : 'bg-secondary' }}"
+                        role="progressbar"
+                        style="width: {{ 100 / count(\App\Models\Order::STATUS_ORDER) }}% ; border:1px solid; border-radius:1px; "
+                        aria-valuenow="{{ 100 / count(\App\Models\Order::STATUS_ORDER) }}" aria-valuemin=""
+                        aria-valuemax="100">
+                        {{ $value }}
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+
 
         <div class="row justify-content-center">
             <div class="col-2xxl-9">
@@ -69,33 +88,6 @@
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-3 col-6">
-                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Oder Status</p>
-                                        <span class="badge bg-success-subtle text-success fs-11"
-                                            id="oder-status">{{ \App\Models\Order::STATUS_ORDER[$order->status_order] }}</span>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-3 col-6">
-                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
-                                        <span class="badge bg-success-subtle text-success fs-11"
-                                            id="payment-status">{{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}</span>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-3 col-6">
-                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Total Amount</p>
-                                        <h5 class="fs-14 mb-0">$<span
-                                                id="total-amount">{{ number_format($order->total_price + 50, 2) }}</span>
-                                        </h5>
-                                    </div>
-                                    <!--end col-->
-                                </div>
-                                <!--end row-->
-                            </div>
-                            <!--end card-body-->
-                        </div><!--end col-->
-                        <div class="col-lg-12">
-                            <div class="card-body p-4 border-top border-top-dashed">
-                                <div class="row g-3">
-                                    <div class="col-4">
                                         <h6 class="text-muted text-uppercase fw-semibold mb-3">Billing Address</h6>
                                         <p class="fw-medium mb-2" id="billing-name">{{ $order->user_name }}</p>
                                         <p class="text-muted mb-1" id="billing-address-line-1">{{ $order->user_address }}
@@ -104,9 +96,11 @@
                                                 id="billing-phone-no">{{ $order->user_phone }}</span></p>
                                         <p class="text-muted mb-0"><span>Tax: </span><span id="billing-tax-no">N/A</span>
                                         </p>
+
+
                                     </div>
                                     <!--end col-->
-                                    <div class="col-4">
+                                    <div class="col-lg-3 col-6">
                                         <h6 class="text-muted text-uppercase fw-semibold mb-3">Shipping Address</h6>
                                         <p class="fw-medium mb-2" id="shipping-name">
                                             {{ $order->ship_user_name ?? $order->user_name }}</p>
@@ -116,54 +110,152 @@
                                                 id="shipping-phone-no">{{ $order->ship_user_phone ?? $order->user_phone }}</span>
                                         </p>
 
-                                    </div>
-                                    <div class="col-4">
-                                        <h6 class="text-muted text-uppercase fw-semibold mb-3">Order Note </h6>
-                                        {{-- <p class="text-muted mb-1" id="user-note">{{ $order->user_note }}</p> --}}
-                                        <h3 class="badge  bg-success-subtle text-black fs-15"
-                                            id="oder-status">{{ $order->user_note }}</h3>
 
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3 col-6">
+                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Total Amount</p>
+                                        <h5 class="fs-14 mb-0"><span
+                                                id="total-amount">{{ number_format($order->total_price + 50000, 0, ',', '.') }}
+                                            </span>VND
+
+
+
+                                        </h5>
                                     </div>
                                     <!--end col-->
                                 </div>
                                 <!--end row-->
                             </div>
                             <!--end card-body-->
-                        </div><!--end col-->
+                        </div>
+
+                        <!--end col-->
+
+                        {{-- TRẠNG THÁI ĐƠN HÀNG, TRẠNG THÁI THANH TOÁN --}}
+                        <div class="col-lg-12">
+                            <div class="card-body p-4 border-top border-top-dashed">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Order Status</p>
+                                        <div class="row text-center">
+                                            {{-- @foreach (\App\Models\Order::STATUS_ORDER as $statusKey => $statusValue)
+                                                <div class="col-lg-1">
+                                                    <span class="badge {{ $order->status_order == $statusKey ? 'bg-success-subtle text-success' : 'bg-light text-muted' }} fs-11 d-block mb-1" style="display: flex; justify-content:center;">
+                                                        {{ $statusValue }}
+                                                    </span>
+
+                                                    @if (!empty($order->{$statusKey . '_at'}))
+                                                        <div class="text-muted fs-10">
+                                                            {{ $order->{$statusKey . '_at'} }}
+                                                        </div>
+                                                    @endif
+
+
+                                                </div>
+                                                @if (!$loop->last)
+                                                    <div class="col-lg-1 d-flex align-items-center justify-content-center">
+                                                        <span>-></span>
+                                                    </div>
+                                                @endif
+                                            @endforeach --}}
+
+
+                                            @foreach (\App\Models\Order::STATUS_ORDER as $statusKey => $statusValue)
+                                                <div class="col-4 col-sm-3 col-md-2 mb-4 mt-2">
+                                                    @php
+                                                        $icons = [
+                                                            'pending' => 'fas fa-clock',
+                                                            'confirmed' => 'fas fa-check-circle',
+                                                            'preparing_goods' => 'fas fa-box-open',
+                                                            'shipping' => 'fas fa-shipping-fast',
+                                                            'delivered' => 'fas fa-truck',
+                                                            'canceled' => 'fas fa-times-circle',
+                                                        ];
+                                                    @endphp
+                                                    <i
+                                                        class="{{ $icons[$statusKey] }} fa-2x mb-2 {{ $order->status_order == $statusKey ? 'text-primary' : 'text-muted' }}"></i>
+                                                    <span
+                                                        class="m-2 badge rounded-pill {{ $order->status_order == $statusKey ? 'bg-primary text-white' : 'bg-light text-muted' }} fs-6 d-block">
+                                                        {{ $statusValue }}
+                                                    </span>
+                                                    @if (!empty($order->{$statusKey . '_at'}))
+                                                        <div class="text-muted fs-6">
+                                                            {{ $order->{$statusKey . '_at'} }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+
+
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-12">
+                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
+                                        {{-- <span class="badge bg-success-subtle text-success fs-11" id="payment-status">
+                                            {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
+                                        </span> --}}
+                                        <span class="badge bg-primary text-white fs-6" id="payment-status">
+                                            {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
+                                        </span>
+                                    </div>
+                                    @if (!empty($order->user_note))
+                                        <div class="col-12">
+                                            <h6 class="text-muted text-uppercase fw-semibold mb-3">Order Note</h6>
+                                            <h3 class="badge bg-success-subtle text-black fs-15" id="order-status">
+                                                {{ $order->user_note }}
+                                            </h3>
+                                        </div>
+                                    @endif
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                            <!--end card-body-->
+                        </div>
+
+
+
+
+                        <!--end col-->
                         <div class="col-lg-12">
                             <div class="card-body p-4">
                                 <div class="table-responsive">
                                     <table class="table table-borderless text-center table-nowrap align-middle mb-0">
                                         <thead>
                                             <tr class="table-active">
-                                                <th scope="col" style="width: 50px;">#</th>
-                                                <th scope="col">Product Details</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Color</th>
-                                                <th scope="col">Size</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col" class="text-end">Amount</th>
+                                                <th scope="col" style="width: 50px;" class="text-center">#</th>
+                                                <th scope="col" class="text-center">Product Details</th>
+                                                <th scope="col" class="text-center">Price</th>
+                                                <th scope="col" class="text-center">Color</th>
+                                                <th scope="col" class="text-center">Size</th>
+                                                <th scope="col" class="text-center">Quantity</th>
+                                                <th scope="col" class="text-center">Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody id="products-list">
                                             @foreach ($orderItems as $index => $item)
                                                 <tr>
-                                                    <th scope="row">{{ $index + 1 }}</th>
-                                                    <td class="text-start">
+                                                    <th scope="row" class="text-center">{{ $index + 1 }}</th>
+                                                    <td class="text-start text-center">
                                                         <span class="fw-medium">{{ $item->product_name }}</span>
                                                         <p class="text-muted mb-0">SKU: {{ $item->product_sku }}</p>
                                                     </td>
-                                                    <td>${{ number_format($item->product_price, 2) }}</td>
-                                                    <td>{{ $item->variant_color_name }}</td>
-                                                    <td>{{ $item->variant_size_name }}</td>
-                                                    <td>{{ $item->quantity_add }}</td>
-                                                    <td class="text-end">
-                                                        ${{ number_format($item->product_price * $item->quantity_add, 2) }}
-                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ number_format($item->product_price, 0, ',', '.') }} VND</td>
+                                                    <td class="text-center">{{ $item->variant_color_name }}</td>
+                                                    <td class="text-center">{{ $item->variant_size_name }}</td>
+                                                    <td class="text-center">{{ $item->quantity_add }}</td>
+                                                    <td class="text-center">
+                                                        {{ number_format($item->product_price * $item->quantity_add, 0, ',', '.') }}
+                                                        VND</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                    </table><!--end table-->
+                                    </table>
+
+                                    <!--end table-->
                                 </div>
                                 <div class="border-top border-top-dashed mt-2">
                                     <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto"
@@ -172,24 +264,16 @@
                                             <tr>
                                                 <td>Sub Total</td>
                                                 <td class="text-end" id="sub-total-amount">
-                                                    ${{ number_format($order->total_price, 2) }}</td>
+                                                    {{ number_format($order->total_price, 0, ',', '.') }} VND</td>
                                             </tr>
-                                            {{-- <tr>
-                                                <td>Estimated Tax (12.5%)</td>
-                                                <td class="text-end">$<span id="tax-amount">34.25</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Discount <span class="text-muted">(VELZON15)</span></td>
-                                                <td class="text-end" id="discount-amount">-$<span>10.25</span></td>
-                                            </tr> --}}
                                             <tr>
                                                 <td>Shipping <span class="text-muted"></span></td>
-                                                <td class="text-end">+$<span>50</span></td>
+                                                <td class="text-end">+<span>50.000 VND</span></td>
                                             </tr>
                                             <tr class="border-top border-top-dashed fs-15">
                                                 <th scope="row">Total Amount</th>
                                                 <th class="text-end" id="final-amount">
-                                                    ${{ number_format($order->total_price + 50, 2) }}</th>
+                                                    {{ number_format($order->total_price + 50000, 0, ',', '.') }} VND</th>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -214,7 +298,8 @@
                                 </div>
                                 <!--end row-->
                             </div>
-                            <!--end card-footer-->
+
+                            <!--end row-->
                         </div>
                         <!--end col-->
                     </div><!--end row-->

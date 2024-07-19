@@ -120,6 +120,10 @@
                                 <a href="{{ route('admin.orders.index') }}" class="nav-link"
                                     data-key="t-horizontal">Orders</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.orders.status') }}" class="nav-link"
+                                    data-key="t-horizontal">Status Orders</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
