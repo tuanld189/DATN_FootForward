@@ -127,6 +127,10 @@
                                 <a href="{{ route('admin.orders.status') }}" class="nav-link"
                                     data-key="t-horizontal">Trang thái đơn hàng</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.orders.status') }}" class="nav-link"
+                                    data-key="t-horizontal">Status Orders</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

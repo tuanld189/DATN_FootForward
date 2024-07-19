@@ -10,9 +10,12 @@ use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+use App\Exports\OrdersExport;
+
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Carbon\Carbon;
 class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
@@ -50,6 +53,14 @@ class OrderController extends Controller
         $orders = $query->get();
 
         return view(self::PATH_VIEW . 'index', compact('orders'));
+    }
+    public function status(Request $request)
+    {
+        $query = Order::query();
+
+        $orders = $query->get();
+
+        return view(self::PATH_VIEW . 'status', compact('orders'));
     }
 
     public function update(Request $request, $id)
@@ -295,67 +306,50 @@ class OrderController extends Controller
     }
 
 
+
     public function update(Request $request, Order $order)
+
+    public function update(Request $request, $id)
+ 
     {
-        $validated = $request->validate([
-            'user_id' => 'required|integer',
-            'user_name' => 'required|string|max:255',
-            'user_email' => 'required|email|max:255',
-            'user_phone' => 'required|string|max:20',
-            'user_address' => 'required|string|max:255',
-            'user_note' => 'nullable|string',
-            'is_ship_user_same_user' => 'required|boolean',
-            'ship_user_name' => 'nullable|string|max:255',
-            'ship_user_email' => 'nullable|email|max:255',
-            'ship_user_phone' => 'nullable|string|max:20',
-            'ship_user_address' => 'nullable|string|max:255',
-            'ship_user_note' => 'nullable|string',
-            'status_order' => 'required|string|max:50',
-            'status_payment' => 'required|string|max:50',
-            'total_price' => 'required|numeric',
-            'order_items' => 'required|array',
-            'order_items.*.product_variant_id' => 'required|integer',
-            'order_items.*.quantity_add' => 'required|integer',
-            'order_items.*.product_name' => 'required|string|max:255',
-            'order_items.*.product_sku' => 'required|string|max:100',
-            'order_items.*.product_image' => 'required|string|max:255',
-            'order_items.*.product_price' => 'required|numeric',
-            'order_items.*.product_sale_price' => 'nullable|numeric',
-            'order_items.*.variant_size_name' => 'nullable|string|max:100',
-            'order_items.*.variant_color_name' => 'nullable|string|max:100',
-        ]);
+        try {
+            $order = Order::findOrFail($id);
+            $statusOrder = $request->input('status_order');
+            $statusPayment = $request->input('status_payment');
 
-        $input = $request->all();
+            if ($statusOrder && in_array($statusOrder, array_keys(Order::STATUS_ORDER))) {
+                $currentIndex = array_search($order->status_order, array_keys(Order::STATUS_ORDER));
+                $newIndex = array_search($statusOrder, array_keys(Order::STATUS_ORDER));
 
-        $order->user_name = $input['user_name'];
-        $order->user_email = $input['user_email'];
-        $order->user_phone = $input['user_phone'];
-        $order->user_address = $input['user_address'];
-        $order->total_price = $input['total_price'];
+                if ($newIndex >= $currentIndex) {
+                    if ($order->status_order !== $statusOrder) {
+                        $order->status_order = $statusOrder;
 
-        $order->fill($validated);
+                        // Cập nhật thời gian chuyển trạng thái
+                        $timestampField = $statusOrder . '_at';
+                        $order->$timestampField = Carbon::now('Asia/Ho_Chi_Minh');
 
-        // Cập nhật trạng thái đơn hàng
-        if (array_key_exists('status_order', $request->all()) && in_array($request->status_order, array_keys(Order::STATUS_ORDER))) {
-            $order->status_order = $request->status_order;
+                       
+                    }
+                } else {
+                    return back()->with('error', 'Không thể cập nhật lại trạng thái đơn hàng cũ .');
+                }
+            }
+
+            if ($statusPayment && in_array($statusPayment, array_keys(Order::STATUS_PAYMENT))) {
+                if ($order->status_payment !== $statusPayment) {
+                    $order->status_payment = $statusPayment;
+                }
+            }
+
+
+            $order->save();
+
+            return redirect()->route('admin.orders.index')->with('success', 'Đã cập nhật trạng thái đơn hàng thành công.');
+        } catch (\Exception $exception) {
+            Log::error('Error updating order: ' . $exception->getMessage());
+            return back()->with('error', 'Đã xảy ra lỗi khi cập nhật đơn hàng. Vui lòng thử lại sau.');
         }
-
-        // Cập nhật trạng thái thanh toán
-        if (array_key_exists('status_payment', $request->all()) && in_array($request->status_payment, array_keys(Order::STATUS_PAYMENT))) {
-            $order->status_payment = $request->status_payment;
-        }
-
-        $order->save();
-
-        $order->orderItems()->delete();
-        foreach ($validated['order_items'] as $item) {
-            $orderItem = new OrderItem();
-            $orderItem->fill($item);
-            $orderItem->order_id = $order->id;
-            $orderItem->save();
-        }
-
-        return redirect()->route('admin.orders.index')->with('success', 'Đã cập nhật thành công.');
     }
 
 
@@ -363,7 +357,13 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-
+        // $order->orderItems()->delete();
+        // foreach ($validated['order_items'] as $item) {
+        //     $orderItem = new OrderItem();
+        //     $orderItem->fill($item);
+        //     $orderItem->order_id = $order->id;
+        //     $orderItem->save();
+        // }
         return redirect()->route('admin.orders.index')
             ->with('success', 'Đã xóa đơn hàng thành công.');
     }
