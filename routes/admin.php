@@ -38,7 +38,7 @@ Route::prefix('admin')
         //PRODUCT
         // Route::resource('products', ProductController::class);
 
-        
+
         //BRAND
         Route::prefix('brands')
             ->as('brands.')
@@ -263,7 +263,7 @@ Route::prefix('admin')
             });
 
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
-    });
+
 
 
 
