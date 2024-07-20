@@ -38,51 +38,51 @@ class OrderController extends Controller
                     'name' => $username,
                     'email' => $request->input('user_email'),
                     'password' => bcrypt($request->input('user_email')), // Note: Password should be set securely
-
-            DB::beginTransaction();
-
-            if (!Auth::check()) {
-                $userCode = Str::random(10);
-                $username = Str::random(8);
-
-                $user = User::create([
-                    'name' => $username,
-                    'email' => $request->input('user_email'),
-                    'password' => bcrypt($request->input('user_email')),
-
-                    'username' => $request->input('user_name'),
-                    'user_code' => $userCode,
-                    'status' => null,
                 ]);
-            } else {
+                DB::beginTransaction();
 
-                // User is authenticated, use the logged-in user
-                $user = Auth::user();
-            }
+                if (!Auth::check()) {
+                    $userCode = Str::random(10);
+                    $username = Str::random(8);
 
-            // Calculate total amount and prepare order items
-            $totalAmount = 0;
-            $orderItems = [];
+                    $user = User::create([
+                        'name' => $username,
+                        'email' => $request->input('user_email'),
+                        'password' => bcrypt($request->input('user_email')),
 
-            foreach (session('cart') as $variantID => $item) {
-                $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+                        'username' => $request->input('user_name'),
+                        'user_code' => $userCode,
+                        'status' => null,
+                    ]);
+                } else {
 
-                $orderItems[] = [
-                    'product_variant_id' => $variantID,
-                    'quantity_add' => $item['quantity_add'],
-                    'product_name' => $item['name'],
-                    'product_sku' => $item['sku'],
-                    'product_image' => $item['image'],
-                    'product_price' => $item['price'],
-                    'product_sale_price' => $item['sale_price'],
-                    'variant_size_name' => $item['size']['name'],
-                    'variant_color_name' => $item['color']['name'],
-                ];
-            }
+                    // User is authenticated, use the logged-in user
+                    $user = Auth::user();
+                }
 
-            // Create the order
-            $order = new Order();
-            $order->user_id = Auth::check() ? $user->id : null; // Set user_id only if authenticated
+                // Calculate total amount and prepare order items
+                $totalAmount = 0;
+                $orderItems = [];
+
+                foreach (session('cart') as $variantID => $item) {
+                    $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+
+                    $orderItems[] = [
+                        'product_variant_id' => $variantID,
+                        'quantity_add' => $item['quantity_add'],
+                        'product_name' => $item['name'],
+                        'product_sku' => $item['sku'],
+                        'product_image' => $item['image'],
+                        'product_price' => $item['price'],
+                        'product_sale_price' => $item['sale_price'],
+                        'variant_size_name' => $item['size']['name'],
+                        'variant_color_name' => $item['color']['name'],
+                    ];
+                }
+
+                // Create the order
+                $order = new Order();
+                $order->user_id = Auth::check() ? $user->id : null; // Set user_id only if authenticated
 
                 $user = Auth::user();
             }
@@ -125,12 +125,12 @@ class OrderController extends Controller
 
 
             foreach ($orderItems as $item) {
-                    $item['order_id'] = $order->id;
-                    OrderItem::create($item);
+                $item['order_id'] = $order->id;
+                OrderItem::create($item);
 
-                    $productVariant = ProductVariant::findOrFail($item['product_variant_id']);
-                    $productVariant->quantity -= $item['quantity_add'];
-                    $productVariant->save();
+                $productVariant = ProductVariant::findOrFail($item['product_variant_id']);
+                $productVariant->quantity -= $item['quantity_add'];
+                $productVariant->save();
             }
 
 
@@ -178,7 +178,7 @@ class OrderController extends Controller
         $vnp_TxnRef = Str::random(10); // Mã đơn hàng
         $vnp_OrderInfo = "Thanh toán đơn hàng";
         $vnp_OrderType = "FootForward";
-        $vnp_Amount = $totalAmount*100;
+        $vnp_Amount = $totalAmount * 100;
         $vnp_Locale = "vn";
         $vnp_BankCode = $request->input('bank_code');
         $vnp_IpAddr = $request->ip();
@@ -231,7 +231,7 @@ class OrderController extends Controller
         return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     }
 
-     public function confirmation($order_id)
+    public function confirmation($order_id)
     {
         $order = Order::findOrFail($order_id);
         $orderItems = OrderItem::where('order_id', $order_id)->get();

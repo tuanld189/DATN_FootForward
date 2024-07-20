@@ -10,12 +10,9 @@ use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use App\Exports\OrdersExport;
-
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
+
 class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
@@ -54,6 +51,7 @@ class OrderController extends Controller
 
         return view(self::PATH_VIEW . 'index', compact('orders'));
     }
+
     public function status(Request $request)
     {
         $query = Order::query();
@@ -63,62 +61,7 @@ class OrderController extends Controller
         return view(self::PATH_VIEW . 'status', compact('orders'));
     }
 
-    public function update(Request $request, $id)
-    {
-        try {
-            $order = Order::findOrFail($id);
-            $statusOrder = $request->input('status_order');
-            $statusPayment = $request->input('status_payment');
 
-            // Kiểm tra trạng thái đơn hàng hiện tại
-            if ($order->status_order === 'canceled') {
-                return back()->with('error', 'Đơn hàng đã bị hủy không thể cập nhật.');
-            }
-
-            // Kiểm tra và cập nhật trạng thái đơn hàng
-            if ($statusOrder && array_key_exists($statusOrder, Order::STATUS_ORDER)) {
-                $currentIndex = array_search($order->status_order, array_keys(Order::STATUS_ORDER));
-                $newIndex = array_search($statusOrder, array_keys(Order::STATUS_ORDER));
-
-                // Không cho phép chuyển trạng thái "delivered" thành "canceled"
-                if ($order->status_order === 'delivered' && $statusOrder === 'canceled') {
-                    return back()->with('error', 'Không thể hủy đơn hàng đã được giao.');
-                }
-
-                // Chỉ cho phép cập nhật trạng thái mới nếu trạng thái mới lớn hơn hoặc bằng trạng thái hiện tại
-                if ($newIndex >= $currentIndex) {
-                    if ($order->status_order !== $statusOrder) {
-                        $order->status_order = $statusOrder;
-
-                        // Cập nhật thời gian chuyển trạng thái
-                        $timestampField = $statusOrder . '_at';
-                        $order->$timestampField = now()->format('Y-m-d H:i:s');
-                    }
-                } else {
-                    return back()->with('error', 'Không thể cập nhật lại trạng thái đơn hàng cũ.');
-                }
-            }
-
-            // Kiểm tra và cập nhật trạng thái thanh toán
-            if ($statusPayment && array_key_exists($statusPayment, Order::STATUS_PAYMENT)) {
-                if ($order->status_payment === 'paid' && $statusPayment !== 'paid') {
-                    return back()->with('error', 'Đơn hàng đã được thanh toán không thể cập nhật lại trạng thái thanh toán.');
-                }
-
-                if ($order->status_payment !== $statusPayment) {
-                    $order->status_payment = $statusPayment;
-                }
-            }
-
-            // Lưu thông tin đơn hàng
-            $order->save();
-
-            return redirect()->route('admin.orders.index')->with('success', 'Đã cập nhật trạng thái đơn hàng thành công.');
-        } catch (\Exception $exception) {
-            Log::error('Error updating order: ' . $exception->getMessage());
-            return back()->with('error', 'Đã xảy ra lỗi khi cập nhật đơn hàng. Vui lòng thử lại sau.');
-        }
-    }
 
     // public function updateMultiple(Request $request)
     // {
@@ -187,43 +130,7 @@ class OrderController extends Controller
 
 
 
-    public function status(Request $request)
 
-
-    public function index(Request $request)
-    {
-        $query = Order::query();
-
-        if ($request->filled('status_order')) {
-            $query->where('status_order', $request->status_order);
-        }
-
-        if ($request->filled('status_payment')) {
-            $query->where('status_payment', $request->status_payment);
-        }
-
-        if ($request->filled('date_from') && $request->filled('date_to')) {
-            $query->whereBetween('created_at', [$request->date_from, $request->date_to]);
-        } elseif ($request->filled('date_from')) {
-            $query->where('created_at', '>=', $request->date_from);
-        } elseif ($request->filled('date_to')) {
-            $query->where('created_at', '<=', $request->date_to);
-        }
-
-        if ($request->filled('customer_id')) {
-            $query->where('user_id', $request->customer_id);
-        }
-
-        if ($request->filled('user_name')) {
-            $query->where('user_name', 'like', '%' . $request->user_name . '%');
-        }
-
-        $query->orderBy('created_at', 'desc');
-
-        $orders = $query->get();
-
-        return view(self::PATH_VIEW . 'status', compact('orders'));
-    }
 
     public function export()
     {
@@ -307,42 +214,54 @@ class OrderController extends Controller
 
 
 
-    public function update(Request $request, Order $order)
-
     public function update(Request $request, $id)
- 
     {
         try {
             $order = Order::findOrFail($id);
             $statusOrder = $request->input('status_order');
             $statusPayment = $request->input('status_payment');
 
-            if ($statusOrder && in_array($statusOrder, array_keys(Order::STATUS_ORDER))) {
+            // Kiểm tra trạng thái đơn hàng hiện tại
+            if ($order->status_order === 'canceled') {
+                return back()->with('error', 'Đơn hàng đã bị hủy không thể cập nhật.');
+            }
+
+            // Kiểm tra và cập nhật trạng thái đơn hàng
+            if ($statusOrder && array_key_exists($statusOrder, Order::STATUS_ORDER)) {
                 $currentIndex = array_search($order->status_order, array_keys(Order::STATUS_ORDER));
                 $newIndex = array_search($statusOrder, array_keys(Order::STATUS_ORDER));
 
+                // Không cho phép chuyển trạng thái "delivered" thành "canceled"
+                if ($order->status_order === 'delivered' && $statusOrder === 'canceled') {
+                    return back()->with('error', 'Không thể hủy đơn hàng đã được giao.');
+                }
+
+                // Chỉ cho phép cập nhật trạng thái mới nếu trạng thái mới lớn hơn hoặc bằng trạng thái hiện tại
                 if ($newIndex >= $currentIndex) {
                     if ($order->status_order !== $statusOrder) {
                         $order->status_order = $statusOrder;
 
                         // Cập nhật thời gian chuyển trạng thái
                         $timestampField = $statusOrder . '_at';
-                        $order->$timestampField = Carbon::now('Asia/Ho_Chi_Minh');
-
-                       
+                        $order->$timestampField = now()->format('Y-m-d H:i:s');
                     }
                 } else {
-                    return back()->with('error', 'Không thể cập nhật lại trạng thái đơn hàng cũ .');
+                    return back()->with('error', 'Không thể cập nhật lại trạng thái đơn hàng cũ.');
                 }
             }
 
-            if ($statusPayment && in_array($statusPayment, array_keys(Order::STATUS_PAYMENT))) {
+            // Kiểm tra và cập nhật trạng thái thanh toán
+            if ($statusPayment && array_key_exists($statusPayment, Order::STATUS_PAYMENT)) {
+                if ($order->status_payment === 'paid' && $statusPayment !== 'paid') {
+                    return back()->with('error', 'Đơn hàng đã được thanh toán không thể cập nhật lại trạng thái thanh toán.');
+                }
+
                 if ($order->status_payment !== $statusPayment) {
                     $order->status_payment = $statusPayment;
                 }
             }
 
-
+            // Lưu thông tin đơn hàng
             $order->save();
 
             return redirect()->route('admin.orders.index')->with('success', 'Đã cập nhật trạng thái đơn hàng thành công.');
@@ -351,7 +270,6 @@ class OrderController extends Controller
             return back()->with('error', 'Đã xảy ra lỗi khi cập nhật đơn hàng. Vui lòng thử lại sau.');
         }
     }
-
 
     public function destroy($id)
     {
