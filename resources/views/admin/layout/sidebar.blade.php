@@ -63,6 +63,11 @@
                                 <a href="{{ route('admin.products.index') }}" class="nav-link"
                                     data-key="t-horizontal">Products</a>
                             </li>
+                            {{-- Product Clusters--}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.product-clusters.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Product clusters</a>
+                            </li>
                             {{-- Up sells --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Up
@@ -118,7 +123,9 @@
                             {{-- Posts --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.orders.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Orders</a>
+                                    data-key="t-horizontal">Đơn hàng</a>
+                                <a href="{{ route('admin.orders.status') }}" class="nav-link"
+                                    data-key="t-horizontal">Trang thái đơn hàng</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.orders.status') }}" class="nav-link"

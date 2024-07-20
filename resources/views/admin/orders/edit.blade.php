@@ -2,6 +2,8 @@
 @section('title', 'Edit Order')
 
 @section('content')
+
+
 <!-- Thông báo -->
 @if(session('success'))
     <div class="alert alert-success">
@@ -14,6 +16,7 @@
         {{ session('error') }}
     </div>
 @endif
+
 
     <!-- Error and Success Messages -->
     <div class="row">
@@ -30,6 +33,35 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    {{-- trang thái đơn hàng --}}
+    <div class="order-status">
+        <div class="progress" style="height: 35px">
+            @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
+                <div class="progress-bar {{ $order->status_order === $key ? 'bg-success' : 'bg-secondary' }}"
+                    role="progressbar"
+                    style="width: {{ 100 / count(\App\Models\Order::STATUS_ORDER) }}% ; border:1px solid; border-radius:1px; "
+                    aria-valuenow="{{ 100 / count(\App\Models\Order::STATUS_ORDER) }}" aria-valuemin="" aria-valuemax="100">
+                    {{ $value }}
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+
+
+
  {{-- trang thái đơn hàng --}}
  <div class="order-status">
     <div class="progress" style="height: 30px">
@@ -45,6 +77,7 @@
     </div>
 
 </div>
+
 
     <!-- End Error and Success Messages -->
     <!-- End page title -->
@@ -158,7 +191,11 @@
 
                                                 @if (!empty($order->{$statusKey . '_at'}))
                                                     <div class="text-muted fs-10">
+
+{{ $order->{$statusKey . '_at'} }}
+
                                                         {{ $order->{$statusKey . '_at'} }}
+
                                                     </div>
                                                 @endif
 
@@ -225,7 +262,11 @@
                         </div>
                         <!--end card-body-->
                     </div>
+
+                    <!--end card-body-->
+
                         <!--end card-body-->
+
 
 
                     <div class="col-lg-12">
@@ -240,18 +281,34 @@
 
 
                                         <label for="status_order">Trạng thái đơn hàng:</label>
+
+                                        <select name="status_order" class="status-order form-control"
+                                            data-id="{{ $order->id }}">
+                                            @foreach (App\Models\Order::STATUS_ORDER as $key => $value)
+                                                <option value="{{ $key }}"
+                                                    {{ $order->status_order === $key ? 'selected' : '' }}>
+
                                         <select name="status_order" class="status-order form-control" data-id="{{ $order->id }}">
                                             @foreach (App\Models\Order::STATUS_ORDER as $key => $value)
                                                 <option value="{{ $key }}" {{ $order->status_order === $key ? 'selected' : '' }}>
+ 
                                                     {{ $value }}
                                                 </option>
                                             @endforeach
                                         </select>
 
                                         <label for="status_payment">Trạng thái thanh toán:</label>
+ 
+                                        <select name="status_payment" class="status-payment form-control"
+                                            data-id="{{ $order->id }}">
+                                            @foreach (App\Models\Order::STATUS_PAYMENT as $key => $value)
+                                                <option value="{{ $key }}"
+                                                    {{ $order->status_payment === $key ? 'selected' : '' }}>
+
                                         <select name="status_payment" class="status-payment form-control" data-id="{{ $order->id }}">
                                             @foreach (App\Models\Order::STATUS_PAYMENT as $key => $value)
                                                 <option value="{{ $key }}" {{ $order->status_payment === $key ? 'selected' : '' }}>
+ 
                                                     {{ $value }}
                                                 </option>
                                             @endforeach

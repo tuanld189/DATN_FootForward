@@ -13,13 +13,32 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Mail\OrderPlacedEmail;
 use Illuminate\Support\Facades\Mail;
+
 use App\Events\OrderShipped;
+
 use Carbon\Carbon;
+
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
     {
         try {
+
+            // Start a database transaction
+            DB::beginTransaction();
+
+            // Check if the user is authenticated
+            if (!Auth::check()) {
+                // Generate random user_code and username for a new user
+                $userCode = Str::random(10);
+                $username = Str::random(8);
+
+                // Create a new user
+                $user = User::create([
+                    'name' => $username,
+                    'email' => $request->input('user_email'),
+                    'password' => bcrypt($request->input('user_email')), // Note: Password should be set securely
+
             DB::beginTransaction();
 
             if (!Auth::check()) {
@@ -30,11 +49,41 @@ class OrderController extends Controller
                     'name' => $username,
                     'email' => $request->input('user_email'),
                     'password' => bcrypt($request->input('user_email')),
+
                     'username' => $request->input('user_name'),
                     'user_code' => $userCode,
                     'status' => null,
                 ]);
             } else {
+
+                // User is authenticated, use the logged-in user
+                $user = Auth::user();
+            }
+
+            // Calculate total amount and prepare order items
+            $totalAmount = 0;
+            $orderItems = [];
+
+            foreach (session('cart') as $variantID => $item) {
+                $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+
+                $orderItems[] = [
+                    'product_variant_id' => $variantID,
+                    'quantity_add' => $item['quantity_add'],
+                    'product_name' => $item['name'],
+                    'product_sku' => $item['sku'],
+                    'product_image' => $item['image'],
+                    'product_price' => $item['price'],
+                    'product_sale_price' => $item['sale_price'],
+                    'variant_size_name' => $item['size']['name'],
+                    'variant_color_name' => $item['color']['name'],
+                ];
+            }
+
+            // Create the order
+            $order = new Order();
+            $order->user_id = Auth::check() ? $user->id : null; // Set user_id only if authenticated
+
                 $user = Auth::user();
             }
 
@@ -59,6 +108,7 @@ class OrderController extends Controller
 
             $order = new Order();
             $order->user_id = Auth::check() ? $user->id : null;
+
             $order->user_name = $request->input('user_name');
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
@@ -73,6 +123,7 @@ class OrderController extends Controller
             $order->save();
 
 
+
             foreach ($orderItems as $item) {
                     $item['order_id'] = $order->id;
                     OrderItem::create($item);
@@ -82,7 +133,15 @@ class OrderController extends Controller
                     $productVariant->save();
             }
 
+
+            // Commit the database transaction
             DB::commit();
+
+            // Send email notification for the placed order
+            Mail::to($user->email)->send(new OrderPlacedEmail($order)); // Pass order items to the email
+
+            DB::commit();
+
 
 
             event(new OrderShipped($order));
@@ -91,8 +150,18 @@ class OrderController extends Controller
             return $this->vnpay_payment($request, $order->id);
 
         } catch (\Exception $exception) {
+
+            // Rollback the database transaction on error
+            DB::rollBack();
+
+            // Log the exception (consider using Laravel logging facilities)
+            Log::error('Error placing order: ' . $exception->getMessage());
+
+            // Handle the exception gracefully (display user-friendly message or redirect back)
+
             DB::rollBack();
             Log::error('Error placing order: ' . $exception->getMessage());
+
             return back()->with('error', 'Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại sau.');
         }
     }

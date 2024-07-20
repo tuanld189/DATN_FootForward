@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,7 +67,7 @@ class Order extends Model
             $order->pending_at = $order->created_at;
         });
     }
-    
+
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
