@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,7 +49,24 @@ class Order extends Model
         'status_order',
         'status_payment',
         'total_price',
+        'created_at',
+        'updated_at',
+        'pending_at',
+        'confirmed_at',
+        'preparing_goods_at',
+        'shipping_at',
+        'delivered_at',
+        'canceled_at',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->pending_at = $order->created_at;
+        });
+    }
 
     public function orderItems()
     {
