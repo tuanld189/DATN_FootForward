@@ -10,12 +10,9 @@ use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use App\Exports\OrdersExport;
-
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
+
 class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
@@ -55,6 +52,7 @@ class OrderController extends Controller
 
         return view(self::PATH_VIEW . 'status', compact('orders'));
     }
+
     public function status(Request $request)
     {
         $query = Order::query();
@@ -64,7 +62,6 @@ class OrderController extends Controller
         return view(self::PATH_VIEW . 'status', compact('orders'));
     }
 
-    
 
     // public function updateMultiple(Request $request)
     // {
@@ -131,7 +128,9 @@ class OrderController extends Controller
         }
     }
 
-   
+
+
+
 
     public function export()
     {
@@ -213,6 +212,8 @@ class OrderController extends Controller
         return view(self::PATH_VIEW . 'edit', compact('order', 'orderItems', 'users', 'products'));
     }
 
+
+
     public function update(Request $request, $id)
     {
         try {
@@ -269,7 +270,6 @@ class OrderController extends Controller
             return back()->with('error', 'Đã xảy ra lỗi khi cập nhật đơn hàng. Vui lòng thử lại sau.');
         }
     }
-
 
     public function destroy($id)
     {

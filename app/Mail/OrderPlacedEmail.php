@@ -28,4 +28,3 @@ class OrderPlacedEmail extends Mailable
                     ->with('orderItems', $orderItems); // Truyền dữ liệu vào view
     }
 }
-
