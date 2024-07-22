@@ -20,8 +20,7 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        // $query = Order::query();
-        $query = Order::query()->orderBy('id', 'desc');
+        $query = Order::query();
 
         if ($request->filled('status_order')) {
             $query->where('status_order', $request->status_order);
@@ -47,9 +46,11 @@ class OrderController extends Controller
             $query->where('user_name', 'like', '%' . $request->user_name . '%');
         }
 
+        $query->orderBy('created_at', 'desc');
+
         $orders = $query->get();
 
-        return view(self::PATH_VIEW . 'index', compact('orders'));
+        return view(self::PATH_VIEW . 'status', compact('orders'));
     }
 
     public function status(Request $request)
@@ -60,7 +61,6 @@ class OrderController extends Controller
 
         return view(self::PATH_VIEW . 'status', compact('orders'));
     }
-
 
 
     // public function updateMultiple(Request $request)
