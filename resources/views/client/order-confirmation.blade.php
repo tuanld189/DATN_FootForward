@@ -147,7 +147,7 @@
         }
 
         .customer-info th {
-            background-color: #f2f2f2;
+            background-color: white;
             font-weight: bold;
             padding-left:25px;
             color: #333;

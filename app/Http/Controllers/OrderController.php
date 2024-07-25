@@ -159,6 +159,16 @@ class OrderController extends Controller
     public function vnpay_return(Request $request)
     {
         $orderId = $request->input('order_id');
+        $order = Order::findOrFail($orderId);
+
+        if ($request->input('vnp_ResponseCode') == '00') {
+            $order->status_payment = Order::STATUS_PAYMENT_PAID;
+            $order->save();
+        } else {
+            $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
+            $order->save();
+        }
+
         return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     }
 
@@ -169,4 +179,10 @@ class OrderController extends Controller
 
         return view('client.order-confirmation', compact('order', 'orderItems'));
     }
+
+
+
+
+
+
 }

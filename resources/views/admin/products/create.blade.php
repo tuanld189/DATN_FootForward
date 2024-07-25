@@ -166,9 +166,10 @@
                                 </div>
                                 <div class="mt-3">
                                     <label for="description" class="form-label">Description:</label>
-                                    <textarea class="form-control" placeholder="Enter description............................." id="description" name="description" ></textarea>
+                                    <textarea class="form-control" placeholder="Enter description............................." id="ckeditor-classic" name="description" ></textarea>
 
                                 </div>
+
 
                             </div>
                         </div>
@@ -300,20 +301,30 @@
 </form>
 @endsection
 @section('script-libs')
-    <script src="//cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
-
+    {{-- <script src="//cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script> --}}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+    
+    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <!-- dropzone js -->
+    <script src="assets/libs/dropzone/dropzone-min.js"></script>
+    <!-- project-create init -->
+    <script src="assets/js/pages/project-create.init.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
 @endsection
 
-@section('scripts')
-<script>
-    CKEDITOR.replace('description');
 
-</script>
-<script>
+
+@section('scripts')
+    {{-- CKEDITOR.replace('description'); --}}
+    <script>
+        CKEDITOR.replace('ckeditor-classic');
+    </script>
+
+    <script>
      $(document).ready(function() {
         $('.tags-select2').select2({
             placeholder: '',
@@ -361,6 +372,5 @@
             }
         }
     </script>
-</script>
 @endsection
 

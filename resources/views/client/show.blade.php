@@ -412,10 +412,10 @@
                                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                     Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
                                     mollit anim id.</p> --}}
-                                    <p class="mt-2">{{ $product->description }}</p>
+                                    <p class="mt-2">{!! $product->description !!}</p>
 
                                 </div>
-                                <div class="pro_feature">
+                                {{-- <div class="pro_feature">
                                     <h2 class="title_3">Features</h2>
                                     <ul class="feature_list">
                                         <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in
@@ -427,13 +427,15 @@
                                         <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
                                                 consequat.</a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!-- End Single Content -->
                         <!-- Start Single Content -->
                         <div class="product_tab_content tab-pane" id="sheet" role="tabpanel">
                             <div class="pro_feature">
+                                <h2 class="title_3">Chi tiết mua hàng:</h2>
+                                <p class="mt-2">{!! $product->description !!}</p>
                                 <h2 class="title_3">Data sheet</h2>
                                 <ul class="feature_list">
                                     <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in reprehenderit
@@ -788,4 +790,5 @@
                 .catch(error => console.error('Error deleting comment:', error));
         }
     </script>
+
 @endsection

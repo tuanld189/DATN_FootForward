@@ -139,37 +139,15 @@
                                     <div class="col-12">
                                         <p class="text-muted mb-2 text-uppercase fw-semibold">Order Status</p>
                                         <div class="row text-center">
-                                            {{-- @foreach (\App\Models\Order::STATUS_ORDER as $statusKey => $statusValue)
-                                                <div class="col-lg-1">
-                                                    <span class="badge {{ $order->status_order == $statusKey ? 'bg-success-subtle text-success' : 'bg-light text-muted' }} fs-11 d-block mb-1" style="display: flex; justify-content:center;">
-                                                        {{ $statusValue }}
-                                                    </span>
-
-                                                    @if (!empty($order->{$statusKey . '_at'}))
-                                                        <div class="text-muted fs-10">
-                                                            {{ $order->{$statusKey . '_at'} }}
-                                                        </div>
-                                                    @endif
-
-
-                                                </div>
-                                                @if (!$loop->last)
-                                                    <div class="col-lg-1 d-flex align-items-center justify-content-center">
-                                                        <span>-></span>
-                                                    </div>
-                                                @endif
-                                            @endforeach --}}
-
-
                                             @foreach (\App\Models\Order::STATUS_ORDER as $statusKey => $statusValue)
                                                 <div class="col-4 col-sm-3 col-md-2 mb-4 mt-2">
                                                     @php
                                                         $icons = [
                                                             'pending' => 'fas fa-clock',
                                                             'confirmed' => 'fas fa-check-circle',
-                                                            'preparing_goods' => 'fas fa-box-open',
-                                                            'shipping' => 'fas fa-shipping-fast',
-                                                            'delivered' => 'fas fa-truck',
+                                                            'preparing_goods' => 'fas fa-cogs',
+                                                            'shipping' => 'fas fa-truck',
+                                                            'delivered' => 'fas fa-box-open',
                                                             'canceled' => 'fas fa-times-circle',
                                                         ];
                                                     @endphp
@@ -243,12 +221,12 @@
                                                         <p class="text-muted mb-0">SKU: {{ $item->product_sku }}</p>
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ number_format($item->product_price, 0, ',', '.') }} VND</td>
+                                                        {{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }} VND</td>
                                                     <td class="text-center">{{ $item->variant_color_name }}</td>
                                                     <td class="text-center">{{ $item->variant_size_name }}</td>
                                                     <td class="text-center">{{ $item->quantity_add }}</td>
                                                     <td class="text-center">
-                                                        {{ number_format($item->product_price * $item->quantity_add, 0, ',', '.') }}
+                                                        {{ number_format($item->product_sale_price ?: $item->product_price * $item->quantity_add, 0, ',', '.') }}
                                                         VND</td>
                                                 </tr>
                                             @endforeach

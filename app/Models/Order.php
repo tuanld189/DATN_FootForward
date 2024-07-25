@@ -66,10 +66,14 @@ class Order extends Model
             $order->pending_at = $order->created_at;
         });
     }
-    
+
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
+    }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'amount');
     }
     public function user()
     {

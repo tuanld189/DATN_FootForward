@@ -38,7 +38,7 @@ Route::prefix('admin')
         //PRODUCT
         // Route::resource('products', ProductController::class);
 
-        
+
         //BRAND
         Route::prefix('brands')
             ->as('brands.')
@@ -221,6 +221,9 @@ Route::prefix('admin')
                 Route::put('{id}/update', [AdminOrderController::class, 'update'])->name('update');
                 Route::delete('{id}/destroy', [AdminOrderController::class, 'destroy'])->name('destroy');
                 Route::get('status', [AdminOrderController::class, 'status'])->name('status');
+                Route::get('status', [AdminOrderController::class, 'status'])->name('status');
+                Route::post('update-multiple', [AdminOrderController::class, 'updateMultiple'])->name('update_multiple');
+
             });
 
 

@@ -63,8 +63,9 @@ class Product extends Model
     }
     public function sales()
     {
-        return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
+         return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
                     ->withPivot('sale_price')
                     ->withTimestamps();
     }
+
 }
