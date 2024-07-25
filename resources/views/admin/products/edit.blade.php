@@ -71,110 +71,115 @@
         <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+        {{-- LEFT --}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">INFORMATION</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="live-preview">
+                                <div class="row gy-4">
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">INFORMATION</h4>
-                </div>
-                <div class="card-body">
-                    <div class="live-preview">
-                        <div class="row gy-4">
+                <div class="col-md-5">
+                    <div class="mt-3">
+                        <label for="name" class="form-label">Product Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
+                            placeholder="Enter name...">
+                    </div>
+                    <div class="mt-3">
+                        <label for="category_id" class="form-label">Categories:</label>
+                        <select name="category_id" id="category_id" class="form-select">
+                            @foreach ($categories as $id => $value)
+                                <option value="{{ $id }}" {{ $product->category_id == $id ? 'selected' : '' }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <div class="col-md-5">
-            <div class="mt-3">
-                <label for="name" class="form-label">Product Name:</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
-                    placeholder="Enter name...">
-            </div>
-            <div class="mt-3">
-                <label for="category_id" class="form-label">Categories:</label>
-                <select name="category_id" id="category_id" class="form-select">
-                    @foreach ($categories as $id => $value)
-                        <option value="{{ $id }}" {{ $product->category_id == $id ? 'selected' : '' }}>
-                            {{ $value }}</option>
-                    @endforeach
-                </select>
-            </div>
+                    <div class="mt-3">
+                        <label for="brand_id" class="form-label">Brand:</label>
+                        <select name="brand_id" id="brand_id" class="form-select">
+                            @foreach ($brands as $id => $value)
+                                <option value="{{ $id }}" {{ $product->brand_id == $id ? 'selected' : '' }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="mt-3">
-                <label for="brand_id" class="form-label">Brand:</label>
-                <select name="brand_id" id="brand_id" class="form-select">
-                    @foreach ($brands as $id => $value)
-                        <option value="{{ $id }}" {{ $product->brand_id == $id ? 'selected' : '' }}>
-                            {{ $value }}</option>
-                    @endforeach
-                </select>
-            </div>
+                    <div class="mt-3">
+                        <label for="sku" class="form-label">Sku:</label>
+                        <input type="text" class="form-control" id="sku" name="sku" value="{{ $product->sku }}"
+                            placeholder="Enter sku...">
+                    </div>
 
-            <div class="mt-3">
-                <label for="sku" class="form-label">Sku:</label>
-                <input type="text" class="form-control" id="sku" name="sku" value="{{ $product->sku }}"
-                    placeholder="Enter sku...">
-            </div>
+                    <div class="mt-3">
+                        <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                        <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
+                        <img src="{{ asset('storage/' . $product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
+                    </div>
 
-            <div class="mt-3">
-                <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
-                <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
-                <img src="{{ asset('storage/' . $product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
+                    <div class="mt-3">
+                        <label for="price" class="form-label">Price:</label>
+                        <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, '', '.') }}" >
+                    </div>
             </div>
-
-            <div class="mt-3">
-                <label for="price" class="form-label">Price:</label>
-                <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, ',', '.') }}" >
-            </div>
-    </div>
 
         {{-- RIGHT --}}
-        <div class="col-md-7">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-check form-switch form-switch-primary">
-                        <input class="form-check-input" type="checkbox" role="switch" name="is_active" id="is_active"
-                            {{ $product->is_active ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_active">Active</label>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-check form-switch form-switch-primary">
+                            <input class="form-check-input" type="checkbox" role="switch" name="is_active" id="is_active"
+                                {{ $product->is_active ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_active">Active</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch form-switch-warning">
+                            <input class="form-check-input" type="checkbox" role="switch" name="is_hot_deal"
+                                id="is_hot_deal" {{ $product->is_hot_deal ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_hot_deal">Hot Deal</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch form-switch-success">
+                            <input class="form-check-input" type="checkbox" role="switch" name="is_new" id="is_new"
+                                {{ $product->is_new ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_new">New</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch form-switch-danger">
+                            <input class="form-check-input" type="checkbox" role="switch" name="is_show_home"
+                                id="is_show_home" {{ $product->is_show_home ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_show_home">Show Home</label>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-check form-switch form-switch-warning">
-                        <input class="form-check-input" type="checkbox" role="switch" name="is_hot_deal"
-                            id="is_hot_deal" {{ $product->is_hot_deal ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_hot_deal">Hot Deal</label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-check form-switch form-switch-success">
-                        <input class="form-check-input" type="checkbox" role="switch" name="is_new" id="is_new"
-                            {{ $product->is_new ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_new">New</label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-check form-switch form-switch-danger">
-                        <input class="form-check-input" type="checkbox" role="switch" name="is_show_home"
-                            id="is_show_home" {{ $product->is_show_home ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_show_home">Show Home</label>
-                    </div>
-                </div>
-            </div>
 
-            <div class="mt-3">
-                <label for="content" class="form-label">Short Content:</label>
-                <textarea class="form-control" id="content" name="content" rows="3" placeholder="Enter short content...">{{ $product->content }}</textarea>
-            </div>
+                <div class="mt-3">
+                    <label for="content" class="form-label">Short Content:</label>
+                    <textarea class="form-control" id="content" name="content" rows="3" placeholder="Enter short content...">{{ $product->content }}</textarea>
+                </div>
 
-            <div class="mt-3">
-                <label for="description" class="form-label">Description:</label>
-                <textarea class="form-control" id="description" name="description" rows="7">{{ $product->description }}</textarea>
+                {{-- <div class="mb-3 mt-3">
+                    <label for="description" class="form-label">Content:</label>
+                    {{-- <textarea class="form-control" id="content" placeholder="Enter content" name="content">{{ $model->content }}</textarea> --}}
+                    {{-- <textarea class="form-control" id="ckeditor-classic" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
+                </div> --}}
+                <div class="mt-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="ckeditor-classic" name="description" rows="7">{{ $product->description }}</textarea>
+                </div>
             </div>
         </div>
         </div>
         </div>
-    </div>
-</div>
-</div>
-</div>
+        </div>
+        </div>
+        </div>
         {{-- VARIANTS --}}
         <div class="row mt-3 " >
             <div class="col-lg-12">
@@ -213,7 +218,7 @@
                                                     <input type="file" class="form-control" id="variant_image_{{ $variant->id }}"
                                                         name="product_variants[{{ $variant->size->id }}-{{ $variant->color->id }}][image]" >
                                                     @if ($variant->image)
-                                                        <img src="{{ Storage::url($variant->image) }}" alt="" width="100px" class="mt-2">
+                                                        <img src="{{ Storage::url($variant->image) }}" alt="" width="70px" " class="mt-2">
                                                     @endif
                                                 </td>
                                             </tr>
@@ -226,9 +231,7 @@
                 </div>
             </div>
         </div>
-   {{-- GALLERIES --}}
-
-
+        {{-- GALLERIES --}}
         <div class="row mt-3">
             <div class="col-lg-12">
                 <div class="card">
@@ -246,8 +249,8 @@
                                     <div class="gallery-container">
                                         @foreach ($product->galleries as $gallery)
                                             <div class="gallery-item" data-gallery-id="{{ $gallery->id }}">
-                                                <img src="{{ asset('storage/' . $gallery->image) }}" alt="Gallery Image">
-                                    <button type="button" class="delete-gallery" data-gallery-id="{{ $gallery->id }}" data-image-url="{{ asset('storage/' . $gallery->image) }}">
+                                                <img src="{{ asset('storage/' . $gallery->image) }}" alt="Gallery Image" width="250px" height="200px" class="mt-2">
+                                    <button type="button" class="delete-gallery mt-2" data-gallery-id="{{ $gallery->id }}" data-image-url="{{ asset('storage/' . $gallery->image) }}" >
                                         X
                                     </button>
 
@@ -263,47 +266,64 @@
                 </div>
             </div>
         </div>
-        {{-- TAGS --}}
 
- <div class="row mt-3">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">TAGS</h4>
-            </div>
-            <div class="card-body">
-                <div class="live-preview">
-                    <div class="row gy-4">
-                        <div class="mb-3">
-                            <label for="tags" class="form-label">Add Information:</label>
-                            <select class="form-select tags-select2" id="tags" name="tags[]" multiple>
-                                @foreach ($product->tags as $tag)
-                                    <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
-                                @endforeach
-                            </select>
+        {{-- TAGS --}}
+        <div class="row mt-3">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">TAGS</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="live-preview">
+                            <div class="row gy-4">
+                                <div class="mb-3">
+                                    <label for="tags" class="form-label">Add Information:</label>
+                                    <select class="form-select tags-select2" id="tags" name="tags[]" multiple>
+                                        @foreach ($product->tags as $tag)
+                                            <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
+        {{-- BUTTON UPDATE --}}
         <div class="row">
             <div class="col-lg-12">
-
-                <button type="submit" class="btn btn-success">Update Product</button>
+                <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                        <button type="submit" class="btn btn-success">Update Product</button>
+                    </div>
+                </div>
             </div>
         </div>
+
     </form>
+    {{-- FINAL FROM --}}
+
     </div>
     </div>
     </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        CKEDITOR.replace('desccription');
+    </script>
+@endsection
+
 @section('script-libs')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <script src="assets/libs/dropzone/dropzone-min.js"></script>
+    <script src="assets/js/pages/project-create.init.js"></script>
+    <script src="assets/js/app.js"></script>
     <script>
         $(document).ready(function() {
             $('.tags-select2').select2({

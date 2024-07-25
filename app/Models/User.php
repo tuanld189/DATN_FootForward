@@ -58,4 +58,9 @@ class User extends Authenticatable
             $user->user_code = Str::random(10); // Tạo chuỗi ngẫu nhiên độ dài 10 ký tự
         });
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

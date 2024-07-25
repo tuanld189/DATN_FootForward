@@ -42,7 +42,7 @@ class BrandController extends Controller
 
         Brand::query()->create($data);
 
-        return redirect()->route('admin.brands.index');
+        return redirect()->route('admin.brands.index')->with('success','Thêm brand thành công');
     }
 
     /**

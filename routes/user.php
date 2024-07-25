@@ -71,8 +71,8 @@ Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('
 Route::get('/post/{id}', [UserPostController::class, 'show'])->name('client.post');
 
 
-// Route để hiển thị form chỉnh sửa thông tin người dùng
+//Profile
 Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('client.profile.edit');
-// Route để xử lý việc cập nhật thông tin người dùng
 Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
-
+Route::put('/order/{id}/cancel', [UserProfileController::class, 'cancel'])->name('order.cancel');
+Route::get('/profile/order/{id}', [UserProfileController::class, 'show'])->name('client.profile.order');

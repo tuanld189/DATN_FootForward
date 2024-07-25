@@ -3,7 +3,8 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
+use App\Http\Middleware\CheckRole;
+use \App\Http\Middleware\CheckPermission;
 class Kernel extends HttpKernel
 {
     /**
