@@ -73,17 +73,17 @@
 
                             <div class="product-filter">
                                 <h3 style="font-weight: bold">Filters</h3>
-                                {{-- <h5 style="font-weight: bold">Price</h5>
+                                <h5 style="font-weight: bold">Price</h5>
                                 <div id="price_range"></div>
                                 <div class="price-range-values">
                                     <input type="text" id="min_price" readonly>
                                     <input type="text" id="max_price" readonly>
-                                </div> --}}
+                                </div>
                                 <h5 style="font-weight: bold">Categories</h5>
                                 <form id="category_filter_form">
                                     {{-- <div>
                                         <input type="checkbox" id="category_all" name="category_filter[]" value="" onclick="applyFilters()">
-<label for="category_all">All Categories</label>
+                                        <label for="category_all">All Categories</label>
                                     </div> --}}
                                     @foreach ($categories as $category)
                                         <div>
@@ -127,7 +127,7 @@
                                     </select>
                                 </div>
                                 <div class="row" id="product_list">
-@foreach ($products as $product)
+                                    @foreach ($products as $product)
                                         <div class="col-lg-4 col-md-4 col-sm-6 mt-30">
                                             <div class="single-product-wrap">
                                                 <div class="product-image">
@@ -162,7 +162,7 @@
                                                     <div class="price-box">
                                                         @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
                                                             <span
-class="old-price">{{ number_format($product->price, 0, ',', '.') }}
+                                                                class="old-price">{{ number_format($product->price, 0, ',', '.') }}
                                                                 VNĐ</span>
                                                             <span
                                                                 class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
@@ -204,18 +204,19 @@ class="old-price">{{ number_format($product->price, 0, ',', '.') }}
         </div>
     </div>
 @endsection
+
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // const minPrice = localStorage.getItem('min_price');
-            // const maxPrice = localStorage.getItem('max_price');
+            const minPrice = localStorage.getItem('min_price');
+            const maxPrice = localStorage.getItem('max_price');
             const sortBy = localStorage.getItem('sort_by');
             const categoryFilters = JSON.parse(localStorage.getItem('category_filters') || '[]');
             const brandFilters = JSON.parse(localStorage.getItem('brand_filters') || '[]');
 
-            // if (minPrice) document.getElementById('min_price').value = minPrice;
-            // if (maxPrice) document.getElementById('max_price').value = maxPrice;
+            if (minPrice) document.getElementById('min_price').value = minPrice;
+            if (maxPrice) document.getElementById('max_price').value = maxPrice;
             if (sortBy) document.getElementById('sort_by').value = sortBy;
 
             categoryFilters.forEach(category => {
@@ -228,25 +229,25 @@ class="old-price">{{ number_format($product->price, 0, ',', '.') }}
 
             var priceRangeSlider = document.getElementById('price_range');
 
-            // noUiSlider.create(priceRangeSlider, {
-            //     start: [minPrice, maxPrice],
-            //     connect: true,
-            //     range: {
-            //         'min': 0,
-            //         'max': 1000000
-            //     }
-            // });
+            noUiSlider.create(priceRangeSlider, {
+                start: [minPrice, maxPrice],
+                connect: true,
+                range: {
+                    'min': 0,
+                    'max': 1000000
+                }
+            });
 
-            // var minPriceInput = document.getElementById('min_price');
-            // var maxPriceInput = document.getElementById('max_price');
+            var minPriceInput = document.getElementById('min_price');
+            var maxPriceInput = document.getElementById('max_price');
 
-            // priceRangeSlider.noUiSlider.on('update', function(values, handle) {
-            //     if (handle) {
-            //         maxPriceInput.value = values[handle];
-            //     } else {
-            //         minPriceInput.value = values[handle];
-            //     }
-            // });
+            priceRangeSlider.noUiSlider.on('update', function(values, handle) {
+                if (handle) {
+                    maxPriceInput.value = values[handle];
+                } else {
+                    minPriceInput.value = values[handle];
+                }
+            });
 
             priceRangeSlider.noUiSlider.on('change', function() {
                 applyFilters();
@@ -273,7 +274,7 @@ class="old-price">{{ number_format($product->price, 0, ',', '.') }}
             localStorage.setItem('max_price', maxPrice);
             localStorage.setItem('sort_by', sortBy);
             localStorage.setItem('category_filters', JSON.stringify(selectedCategories));
-localStorage.setItem('brand_filters', JSON.stringify(selectedBrands));
+            localStorage.setItem('brand_filters', JSON.stringify(selectedBrands));
 
             var params = new URLSearchParams();
             if (minPrice) params.append('min_price', minPrice);

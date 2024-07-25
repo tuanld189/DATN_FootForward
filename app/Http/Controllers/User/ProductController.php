@@ -104,8 +104,7 @@ public function deleteComment($commentId)
         $comment->created_by = Auth::id();
         $comment->updated_by = Auth::id();
         $comment->save();
-
-        // Liên kết comment với sản phẩm
+// Liên kết comment với sản phẩm
         $product = Product::findOrFail($productId);
         $product->comments()->attach($comment->id);
 

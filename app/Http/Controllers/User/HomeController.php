@@ -26,7 +26,7 @@ class HomeController extends Controller
                   });
         }])->get();
         $categories = Category::all();
-        $brands = Brand::all(); 
+        $brands = Brand::all();
         $posts = Post::all();
 
         return view('client.home', compact('products', 'categories', 'brands', 'posts'));
