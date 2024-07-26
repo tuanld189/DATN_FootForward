@@ -211,6 +211,7 @@
                                         @csrf
                                         @method('PUT')
 
+
                                         <label for="status_order">Trạng thái đơn hàng:</label>
                                         <select name="status_order" class="status-order form-control"
                                             data-id="{{ $order->id }}">

@@ -30,4 +30,6 @@
     </table>
     <br>
     <a href="{{ route('admin.posts.index') }}" class="btn btn-warning">Back to list</a>
+
+
 @endsection

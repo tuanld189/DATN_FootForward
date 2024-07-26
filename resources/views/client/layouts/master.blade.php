@@ -202,6 +202,14 @@
             <script src="{{ asset('assets/js/main.js') }}"></script>
             <!-- Modernizr JS -->
             <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js') }}"></script>
+
+            <script>
+                CKEDITOR.replace('ckeditor-classic');
+            </script>
+            <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+            <script src="assets/libs/dropzone/dropzone-min.js"></script>
+            <script src="assets/js/pages/project-create.init.js"></script>
+            <script src="assets/js/app.js"></script>
             @yield('scripts')
 </body>
 

@@ -71,7 +71,14 @@
                                             </li>
 
                                             <li><a href="checkout.html">Checkout</a></li>
+                                            @if (Auth::check())
+                                                    <li><a href="{{route('admin.dashboard')}}">Admin</a></li>
+
+                                            @endif
                                             <li><a href="{{route('login')}}">Login</a></li>
+
+
+
                                         </ul>
                                     </div>
                                 </div>

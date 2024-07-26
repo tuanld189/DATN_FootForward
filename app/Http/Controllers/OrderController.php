@@ -224,7 +224,6 @@ class OrderController extends Controller
 
 
 
-
     // public function vnpay_return(Request $request)
     // {
     //     $orderId = $request->input('order_id');
@@ -280,27 +279,6 @@ class OrderController extends Controller
         return response()->json($orderDetails);
         // return response()->json($orderDetails);
     }
-
-
-    // public function cancel($id)
-    // {
-    //     $order = Order::find($id);
-
-    //     // Kiểm tra nếu đơn hàng tồn tại
-    //     if (!$order) {
-    //         return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
-    //     }
-
-    //     // Kiểm tra trạng thái đơn hàng và trạng thái thanh toán
-    //     if ($order->status_order == 'pending' && $order->status_payment == 'unpaid') {
-    //         $order->status_order = 'canceled';
-    //         $order->save();
-    //         return redirect()->back()->with('success', 'Đơn hàng đã được hủy.');
-    //     }
-
-    //     // Nếu đơn hàng đã thanh toán hoặc không ở trạng thái 'pending'
-    //     return redirect()->back()->with('error', 'Không thể hủy đơn hàng đã thanh toán này.');
-    // }
 
 
     public function updateOrderStatus(Request $request, $id)

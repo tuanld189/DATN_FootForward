@@ -76,8 +76,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mb-3">Orders Status</h4>
-
-                    <form action="{{ route('admin.orders.update_multiple') }}" method="POST">
+<form action="{{ route('admin.orders.update_multiple') }}" method="POST">
                         @csrf
                         <input type="hidden" name="status_order" value="{{ request('status_order') }}">
                         <div class="table-responsive">
@@ -122,7 +121,7 @@
 
                                                     $statusText =
                                                         \App\Models\Order::STATUS_ORDER[$order->status_order] ?? '-';
-                                                @endphp
+@endphp
                                                 <span class="badge {{ $statusClasses[$order->status_order] }}">
                                                     <i class="{{ $statusIcons[$order->status_order] }} me-1"></i>
                                                     {{ $statusText }}
@@ -160,7 +159,7 @@
                                                     <div class="mt-1">
                                                         <span class="ml-1 ">
                                                             <i class="{{ $statusIconClass }} {{ $statusIcon }}"></i>
-                                                        </span>
+</span>
                                                         <br>
                                                         <small class="text-gray-600">{{ $statusText }}</small>
                                                     </div>
