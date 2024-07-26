@@ -42,5 +42,9 @@ Cảm ơn bạn đã đặt hàng tại FootForward. Đây là thông tin đơn 
 Cảm ơn bạn đã mua sắm cùng chúng tôi!
 
 Trân trọng,
+
 FootForward Shoes
+
+FootForward Shoes!
+
 @endcomponent

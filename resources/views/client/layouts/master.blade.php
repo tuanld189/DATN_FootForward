@@ -97,7 +97,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <div class="modal-inner-area row">
-<div class="col-lg-5 col-md-6 col-sm-6">
+                            <div class="col-lg-5 col-md-6 col-sm-6">
                                 <!-- Product Details Left -->
                                 <div class="product-details-left">
                                     <div class="product-details-images slider-navigation-1">
@@ -138,7 +138,7 @@
                                             <span class="discount discount-percentage">Save 5%</span>
                                         </div>
                                         <p>100% cotton double printed dress. Black and white striped top and orange
-high waisted skater skirt bottom. Lorem ipsum dolor sit amet,
+                                            high waisted skater skirt bottom. Lorem ipsum dolor sit amet,
                                             consectetur adipisicing elit. quibusdam corporis, earum facilis et
                                             nostrum dolorum accusamus similique eveniet quia pariatur.</p>
                                         <div class="product-variants">
@@ -178,7 +178,7 @@ high waisted skater skirt bottom. Lorem ipsum dolor sit amet,
                                     </div>
                                 </div>
                             </div>
-</div>
+                        </div>
                     </div>
                 </div>
             </div>

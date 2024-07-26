@@ -165,7 +165,17 @@
                             @endforeach
                         </tbody>
                         <tfoot>
-                           
+                            {{-- <span class="amount"
+                                id="total-order-amount">{{ number_format($totalAmount + $discount, 0, ',', '.') }}
+                                VNĐ</span> --}}
+
+
+                            {{-- <tr class="total_payment">
+                                <td colspan="3"><span>Tổng tiền sản phẩm</span></td>
+
+                                <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
+                            </tr> --}}
+
                             <tr>
                                 <td colspan="3"><span><b>Tổng tiền sản phẩm</b></span></td>
                                 <td><b>
@@ -201,6 +211,7 @@
                 </div>
 
                 <div class="checkout-box-right ml-2">
+
                     <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
                     <div class="order-date">
                         Cảm ơn bạn vì đã đặt hàng!

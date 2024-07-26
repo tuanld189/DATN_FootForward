@@ -214,7 +214,7 @@
                                         <tfoot>
                                             <!-- Total Order Amount -->
                                             <tr class="order-total">
-                                                <th><b>Tổng tiền sản phẩm</b></th>
+                                                <th><b>Tổng số tiền đặt hàng</b></th>
                                                 <td></td>
                                                 <td>
                                                     <strong>
@@ -246,6 +246,9 @@
                                                 <td></td>
                                                 <td>
                                                     <strong>
+                                                        {{-- <span class="amount"
+                                                            id="total-payment-amount">{{ number_format($totalAmount - $discount, 0, ',', '.') }}
+                                                            VNĐ</span> --}}
                                                         <span class="amount"
                                                             id="total-payment-amount">{{ number_format($totalAmount, 0, ',', '.') }}
                                                             VNĐ</span>
@@ -258,7 +261,7 @@
                                 </div>
 
                                 <!-- Nhập mã giảm giá -->
-
+                                {{-- <div class="coupon-container d-flex flex-column align-items-center m-2"> --}}
                                 <div class="coupon-container m-4">
                                     @if (session('message'))
                                         <div class="alert alert-{{ session('status') }} mb-2">
@@ -277,6 +280,27 @@
                                         <button class="btn btn-primary w-100" type="submit">Apply coupon</button>
                                     </form>
                                 </div>
+
+                                {{-- <div class="coupon-container m-4">
+                                    @if (session('message'))
+                                        <div class="alert alert-{{ session('status') }} mb-2" id="coupon-message">
+                                            {{ session('message') }}
+                                        </div>
+                                    @endif
+                                    <h4 class="coupon-title">Coupon</h4>
+                                    <form id="coupon-form" action="{{ route('cart.applyVoucher') }}" method="POST"
+                                        class="coupon-form">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input id="voucher_code" class="input-text form-control" name="voucher_code"
+                                                value="" placeholder="Enter your coupon code" type="text">
+                                        </div>
+                                        <button class="btn btn-primary w-100" type="submit">Apply coupon</button>
+                                    </form>
+                                    <div id="ajax-message" class="mt-3"></div>
+                                </div> --}}
+
+
 
                                 <!-- Phần thanh toán -->
                                 {{-- <div class="panel-foot d-flex flex-column align-items-center m-2 p-2" style="margin-left: 35px"> --}}
@@ -312,4 +336,5 @@
 @endsection
 
 @section('scripts')
+  
 @endsection

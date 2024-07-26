@@ -42,6 +42,13 @@ return [
             'encryption' => 'tls',
             'username' => 'thanhtmph44057@fpt.edu.vn',
             'password' => 'sjrm fqms rosi yojt',
+
+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+            'port' => env('MAIL_PORT', 587),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
+
             'timeout' => null,
             'local_domain' => null,
         ],
@@ -108,8 +115,13 @@ return [
     */
 
     'from' => [
+
         'address' => 'thanhtmph44057@fpt.edu.vn',
         'name' => 'FootForward Shoes',
+
+        'address' => env('MAIL_FROM_ADDRESS', 'example@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
+
     ],
 
     /*
