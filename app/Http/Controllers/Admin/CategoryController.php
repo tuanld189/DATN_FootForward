@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     const PATH_VIEW = 'admin.categories.';
-    const PATH_UPLOAD = 'categories';
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data=Category::query()->latest('id')->paginate(5);
+        $data = Category::query()->latest('id')->paginate(5);
         return view(self::PATH_VIEW . 'index', compact('data'));
     }
 
@@ -34,14 +32,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $data['is_active'] ??= 0;
-
-
-
         $data = $request->except('image');
+        $data['is_active'] ??= 0;
 
-        if ($request->hasFile('image')) {
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+        if ($request->has('image')) {
+            $data['image'] = $request->input('image');
         }
 
         Category::create($data);
@@ -74,14 +69,11 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $model = Category::findOrFail($id);
-        // $data['is_active'] ??= 0;
         $data = $request->except('image');
+        $data['is_active'] ??= 0;
 
-        if ($request->hasFile('image')) {
-            if ($model->image && Storage::exists($model->image)) {
-                Storage::delete($model->image);
-            }
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+        if ($request->has('image')) {
+            $data['image'] = $request->input('image');
         }
 
         $model->update($data);
@@ -90,17 +82,14 @@ class CategoryController extends Controller
                          ->with('success', 'Cập nhật thành công');
     }
 
-
-
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
-        $model=Category::query()->findOrFail($id);
+        $model = Category::query()->findOrFail($id);
 
         $model->delete();
-
-        if($model->image && Storage::exists($model->image)){
-            Storage::delete($model->image);
-        }
 
         return back();
     }

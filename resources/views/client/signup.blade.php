@@ -1,4 +1,5 @@
-@extends('client.layout.inheritance')
+@extends('client.layouts.master')
+@section('title', 'Đăng ký')
 @section('styles')
         <style>
             .signup-container {
@@ -32,7 +33,7 @@
 
     @endsection
 
-@endsection
+
 
     @section('content')
         <div class="signup-container">

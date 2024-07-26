@@ -117,7 +117,7 @@
             <div class="mt-3">
                 <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
                 <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
-                <img src="{{ Storage::url($product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
+                <img src="{{ asset('storage/' . $product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
             </div>
 
             <div class="mt-3">
@@ -240,17 +240,18 @@
                         <div class="live-preview">
                             <div class="row gy-4">
                                 <div class="mb-3">
-                                    <label for="product_galleries" class="form-label"> Add Product Galleries: {{ count($product->galleries) }}</label>
+                                    <label for="product_galleries" class="form-label"> Add Product Galleries: </label>
                                     <input type="file" class="form-control" id="product_galleries"
                                            name="product_galleries[]" multiple>
                                     <div class="gallery-container">
                                         @foreach ($product->galleries as $gallery)
                                             <div class="gallery-item" data-gallery-id="{{ $gallery->id }}">
-                                                <img src="{{ Storage::url($gallery->image) }}" alt="Gallery Image">
-                                                <button type="button" class="delete-gallery"
-                                                        data-gallery-id="{{ $gallery->id }}" data-image-url="{{ Storage::url($gallery->image) }}">
-                                                    X
-                                                </button>
+                                                <img src="{{ asset('storage/' . $gallery->image) }}" alt="Gallery Image">
+                                    <button type="button" class="delete-gallery" data-gallery-id="{{ $gallery->id }}" data-image-url="{{ asset('storage/' . $gallery->image) }}">
+                                        X
+                                    </button>
+
+
                                             </div>
                                         @endforeach
                                     </div>

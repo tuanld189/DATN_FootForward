@@ -19,7 +19,7 @@
                 <div class="mb-3 mt-3">
                     <label for="image" class="form-label">Image:</label>
                     <input type="file" class="form-control" id="image" name="image">
-                    <img src="{{\Storage::url($model->image)}}" alt="" width="100px">
+                    <img src="{{$model->image}}" alt="" width="100px">
                 </div>
             </div>
             <div class="col-md-6">
@@ -29,7 +29,7 @@
                         @if ($model->is_active)
                             checked
                         @endif
-                        checked name="is_active">Is Active
+                        checked name="is_active">Active
                     </label>
                 </div>
             </div>

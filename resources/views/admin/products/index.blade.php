@@ -26,13 +26,9 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                {{-- test --}}
 
 
-
-
-
-                <div class="container mt-3">
+                {{-- <div class="container mt-3"> --}}
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Products</h5>
@@ -56,6 +52,19 @@
                                         @endforeach
                                     </ul>
                                 </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-2 col-sm-4">
+<div>
+                                    <select class="form-control" data-choices data-choices-search-false
+                                        name="status_payment" id="status_payment">
+                                        <option value="">All</option>
+                                        @foreach (\App\Models\Order::STATUS_PAYMENT as $key => $value)
+                                            <option value="{{ $key }}"
+                                                {{ request('status_payment') == $key ? 'selected' : '' }}>
+                                                {{ $value }}</option>
+                                        @endforeach
+                                    </select>
                             @endif
 
                             <div class="row">
@@ -98,79 +107,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                {{-- test --}}
+                {{-- </div> --}}
 
 
 
-                {{-- <div class="card-header d-flex justify-content-between align-items-center">
-
-                <div class="card-header d-flex justify-content-between align-items-center">
-
-                    <h5 class="card-title mb-0">Products</h5>
-                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
-                </div> --}}
-
-
-                {{-- test --}}
-                {{-- <div class="container mt-2"> --}}
-                <div class="container-fluid  mt-3">
-                    <div class="row justify-content-center">
-                        {{-- code của phần import và export --}}
-                        {{-- <div class="col-md-8">
-                            @if ($message = Session::get('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ $message }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            @endif
-
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
-                            <div class="card">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <form action="{{ route('admin.products.import') }}" method="POST"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="file_excel">Choose Excel File (XLSX, CSV)</label>
-                                            <input type="file" name="file_excel"
-                                                class="form-control-file @error('file_excel') is-invalid @enderror"
-                                                id="file_excel">
-                                            @error('file_excel')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Import Products</button>
-                                    </form>
-                                    <div class="mt-3">
-                                        <a href="{{ route('admin.products.export') }}" class="btn btn-success">Export
-                                            Products</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        {{-- end code của phần import và export --}}
-                    </div>
-                </div>
-
-                {{-- test --}}
 
                 <div class="card-body">
-                    <div class="container">
+                    {{-- <div class="container"> --}}
                         <form action="{{ route('admin.products.index') }}" method="GET" class="my-4">
                             <div class="row">
                                 <div class="col-md-2 mb-0">
@@ -189,7 +132,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
+</div>
 
                                 <div class="col-md-2 mb-0">
 
@@ -222,7 +165,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    {{-- </div> --}}
                     <table class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead class="text-muted table-light gap-3">
@@ -240,15 +183,27 @@
                                 <th>HOT_DEAL</th>
                                 <th>NEW</th>
                                 <th>SHOW_HOME</th>
-                                <th>ACTION</th>
+                                {{-- <th>CREATE AT</th>
+                            <th>UPDATE AT</th> --}}
+                            <th>ACTION</th>
+
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
                             @foreach ($data as $item)
                                 <tr>
-                                </td> --}}
+                                </td>
                                     <td>{{ $item->id }}</td>
                                     <td>
+                                        {{-- @php
+                                            $imageUrl = $item->img_thumbnail;
+                                            if (!Str::contains($imageUrl, 'http')) {
+                                                $imageUrl = asset('storage/' . $imageUrl);
+                                            }
+                                        @endphp
+
+                                        {{-- <img src="{{ $imageUrl }}" alt="{{ $item->name }}" width="100px"> --}}
+
                                         @php
                                             $url = $item->img_thumbnail;
                                             if (!Str::contains($url, 'http')) {
@@ -256,7 +211,9 @@
                                             }
                                         @endphp
 
-                                        <img src="{{ $url }}" alt="" width="80px">
+                                        <img src="{{ $url }}" alt="" width="100px">
+                                        {{-- <img src="{{ $item->image }}" alt="" width="100px"> --}}
+
                                     </td>
 
                                     <td>{{ $item->name }}</td>
@@ -264,6 +221,10 @@
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->category->name }}</td>
                                     <td>{{ $item->brand->name }}</td>
+                                    {{-- <td>{{ $item->price }}</td> --}}
+                                    {{-- <td>{{$item->content}}</td>
+                                <td>{{$item->description}}</td> --}}
+
                                     <td> {{ number_format( $item->price , 0, ',', '.') }}</td>
                                     <td>
                                         @foreach ($item->tags as $tag)
@@ -330,7 +291,7 @@
 
 @section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">

@@ -763,7 +763,7 @@
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                                src="{{ asset('assets/images/logo-shoes.png') }}" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Xin chào</span>
                                 <span

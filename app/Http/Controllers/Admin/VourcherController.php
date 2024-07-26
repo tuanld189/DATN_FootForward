@@ -97,8 +97,10 @@ class VourcherController extends Controller
             'discount_type' => 'required|in:percentage,amount',
             'discount_value' => [
                 'required',
-'numeric',
-function ($attribute, $value, $fail) use ($request) {
+                'numeric',
+
+                function ($attribute, $value, $fail) use ($request) {
+
                     if ($request->discount_type === 'percentage' && ($value < 0 || $value > 100)) {
                         $fail('The discount value must be between 0 and 100 for percentage discounts.');
                     }
@@ -136,20 +138,44 @@ function ($attribute, $value, $fail) use ($request) {
         return back();
     }
 
-    public function redeemVoucher($id)
+    // public function redeemVoucher($id)
+    // {
+    //     $voucher = Vourcher::findOrFail($id);
+
+    //     // Kiểm tra xem mã voucher có thể sử dụng không
+    //     if (!$voucher->canBeRedeemed()) {
+    //         return response()->json(['message' => 'Mã voucher không khả dụng để sử dụng.'], 400);
+    //     }
+
+    //     // Thực hiện hành động sử dụng mã voucher (ví dụ: áp dụng giảm giá cho đơn hàng)
+
+    //     // Sau khi sử dụng thành công, giảm số lượng voucher
+    //     $voucher->redeem();
+
+    //     return response()->json(['message' => 'Sử dụng mã voucher thành công.'], 200);
+    // }
+
+    public function redeemVoucher(Request $request)
     {
-        $voucher = Vourcher::findOrFail($id);
+        $voucherCode = $request->input('voucher_code');
+        $voucher = Vourcher::where('code', $voucherCode)->first();
+
+        if (!$voucher) {
+            return response()->json(['message' => 'Mã voucher không tồn tại.'], 400);
+        }
 
         // Kiểm tra xem mã voucher có thể sử dụng không
         if (!$voucher->canBeRedeemed()) {
             return response()->json(['message' => 'Mã voucher không khả dụng để sử dụng.'], 400);
         }
 
-        // Thực hiện hành động sử dụng mã voucher (ví dụ: áp dụng giảm giá cho đơn hàng)
-
-        // Sau khi sử dụng thành công, giảm số lượng voucher
+        // Giảm số lượng voucher
         $voucher->redeem();
 
-        return response()->json(['message' => 'Sử dụng mã voucher thành công.'], 200);
+        return response()->json([
+            'message' => 'Sử dụng mã voucher thành công.',
+            'discount_value' => $voucher->discount_value,
+            'discount_type' => $voucher->discount_type,
+        ], 200);
     }
 }

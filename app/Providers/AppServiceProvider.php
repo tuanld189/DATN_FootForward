@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use UniSharp\LaravelFilemanager\Lfm;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapThree();
+
     }
 }

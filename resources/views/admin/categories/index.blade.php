@@ -44,9 +44,9 @@
                                 <th data-ordering="false">ID</th>
                                 <th>NAME</th>
                                 <th>IMAGE</th>
-                                <th>Is Active</th>
-                                <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th>
+                                <th>Active</th>
+                                {{-- <th>CREATE_AT</th>
+                                <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -62,13 +62,14 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
-                                            height="">
-
+                                        {{-- <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
+                                        height=""> --}}
+                                        <img src="{{$item->image }}" alt="" width="100px">
+                                        {{-- <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="100px"> --}}
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
+                                    {{-- <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->updated_at }}</td> --}}
                                     <td>
                                         {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
@@ -127,15 +128,15 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>

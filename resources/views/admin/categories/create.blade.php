@@ -1,6 +1,10 @@
 @extends('admin.layout.master')
 
 @section('title', 'Create New Category')
+@section('style-libs')
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/cropper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/lfm.css') }}">
+@endsection
 
 @section('content')
     <div class="row mb-4">
@@ -36,24 +40,47 @@
                                     <label for="name" class="form-label">Name:</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
                                 </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="image" class="form-label">Image:</label>
-                                    <input type="file" class="form-control" id="image" name="image" required>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                                <i class="fa fa-picture-o"></i> Choose
+                                            </a>
+                                        </span>
+                                        <input id="thumbnail" class="form-control" type="text" name="image">
+                                    </div>
+                                    <img id="holder" style="margin-top:15px;max-height:100px;">
                                 </div>
                             </div>
-                            <div class="col-md-6 d-flex align-items-center">
-                                <div class="form-group form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" id="is_active" value="1" checked name="is_active">
-                                    <label for="is_active" class="form-check-label">Is Active</label>
+
+                            <div class="col-12">
+                                <div class="form-group form-check mb-4">
+                                    <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" checked>
+                                    <label for="is_active" class="form-check-label">Active</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#lfm').filemanager('image');
+        });
+    </script>
 @endsection
