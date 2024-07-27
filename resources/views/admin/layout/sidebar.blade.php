@@ -64,10 +64,10 @@
                                     data-key="t-horizontal">Products</a>
                             </li>
                             {{-- Product Clusters--}}
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('admin.product-clusters.index') }}" class="nav-link"
                                     data-key="t-horizontal">Product clusters</a>
-                            </li>
+                            </li> --}}
                             {{-- Up sells --}}
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">Up
