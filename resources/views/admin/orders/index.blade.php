@@ -3,38 +3,22 @@
     List Orders
 @endsection
 @section('content')
-
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Orders</h4>
+                <h4 class="mb-sm-0">Datatables</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item active">Datatables</li>
                         <li class="breadcrumb-item active">Orders</li>
-                        <li class="breadcrumb-item active">List Orders</li>
                     </ol>
                 </div>
 
             </div>
         </div>
     </div>
-
     <!-- end page title -->
         {{-- trang thái đơn hàng --}}
         {{-- <div class="order-status">
@@ -72,7 +56,6 @@
     @endif
 
 
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -82,7 +65,7 @@
                             <div class="card-header border-0">
                                 <div class="row align-items-center gy-3 ">
                                     <div class="col-sm d-flex justify-content-between">
-                                        <h5 class="card-title mb-0">Add Order</h5>
+                                        <h5 class="card-title mb-0">Order History</h5>
                                         <div class="d-flex justify-content-between mb-3">
                                             <div class="m-2">
                                                 <a href="{{ route('admin.orders.export') }}" class="btn btn-success">Export
@@ -93,13 +76,6 @@
                                                     mới</a>
                                             </div>
                                         </div>
-
-
-{{--
-                                        <a href="{{ route('admin.orders.create') }}" class="btn btn-primary mb-2">Thêm
-                                            mới</a> --}}
-
-
                                     </div>
                                 </div>
                             </div>
@@ -235,18 +211,11 @@
                                                         <td class="date">
                                                             {{ $order->created_at->format('d-m-Y H:i:s') }}
                                                         </td>
-
-
                                                         <td class="amount">
                                                             {{ number_format($order->total_price, 0, ',', '.') }}
 
-
-                                                        <td class="amount"> {{ number_format($order->total_price, 0, ',', '.') }}
-
-
                                                         </td>
                                                         <td class="payment">
-
                                                             @php
                                                                 $paymentIcons = [
                                                                     'paid' => 'fas fa-check-circle',
@@ -263,15 +232,10 @@
                                                             @endphp
                                                             <span class="badge {{ $paymentClasses[$order->status_payment] }} text-uppercase">
                                                                 <i class="{{ $paymentIcons[$order->status_payment] }} me-1"></i>
-
-                                                            <span
-                                                                class="badge bg-success-subtle text-primary text-uppercase">
-
                                                                 {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
                                                             </span>
                                                         </td>
                                                         <td class="status">
-
                                                             @php
                                                                $statusIcons = [
                                                                     'pending' => 'fas fa-hourglass-start',
@@ -293,10 +257,6 @@
                                                             @endphp
                                                             <span class="badge {{ $statusClasses[$order->status_order] }} text-uppercase">
                                                                 <i class="{{ $statusIcons[$order->status_order] }} me-1"></i>
-
-                                                            <span
-                                                                class="badge bg-success-subtle text-primary text-uppercase">
-
                                                                 {{ \App\Models\Order::STATUS_ORDER[$order->status_order] }}
                                                             </span>
                                                         </td>
@@ -318,7 +278,7 @@
                                                                         <i class="ri-pencil-fill fs-16"></i>
                                                                     </a>
                                                                 </li>
-                                                                <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                                {{-- <li class="list-inline-item" data-bs-toggle="tooltip"
                                                                     data-bs-trigger="hover" data-bs-placement="top"
                                                                     title="Remove">
                                                                     <form id="delete-form-{{ $order->id }}"
@@ -331,7 +291,7 @@
                                                                         onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $order->id }}').submit();">
                                                                         <i class="ri-delete-bin-5-fill fs-16"></i>
                                                                     </a>
-                                                                </li>
+                                                                </li> --}}
 
                                                             </ul>
                                                         </td>
@@ -366,7 +326,9 @@
                                 <!--end modal -->
                             </div>
                         </div>
-
+                        <div class="d-flex justify-content-end">
+                            {{ $orders->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                     <!--end col-->
                 </div>
@@ -383,17 +345,9 @@
     <!--datatable css-->
     <link rel="stylesheet" href="{{ asset('https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css') }}" />
     <!--datatable responsive css-->
-
     <link rel="stylesheet"
         href="{{ asset('https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css') }}">
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-    <style>
-        border-radius: 3px;
-    </style>
-
 @endsection
 
 @section('script-libs')

@@ -63,6 +63,7 @@
             <div class="container-fluid">
 
                 @yield('content')
+
             </div>
             <!-- container-fluid -->
         </div>
@@ -121,12 +122,10 @@
 
     <script src="{{ asset('assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
-    <!-- dropzone js -->
     <script src="{{ asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
-    <!-- project-create init -->
     <script src="{{ asset('assets/js/pages/project-create.init.js') }}"></script>
 
-
+    
 </body>
 
 </html>

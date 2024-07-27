@@ -44,32 +44,14 @@
                                 <th data-ordering="false">ID</th>
                                 <th>IMAGE</th>
                                 <th>NAME</th>
-                                <th>DESCRIPTION</th>
+                                <th>DESCRIPION</th>
                                 <th>CONTENT</th>
                                 <th>IS ACTIVE</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            {{-- @foreach ($model->toArray() as $key => $value)
-                                <tr>
-                                    <td>{{ $key }}</td>
-                                    <td>
-                                        @php
-                                            if ($key == 'image') {
-                                                $url = \Storage::url($value);
-                                                echo "<img src=\"$url\" alt=\"$url\" width=\"100px\">";
-                                            } elseif (Str::contains($key, 'is_')) {
-                                                echo $value
-                                                    ? '<span class="badge bg-success">Yes</span>'
-                                                    : '<span class="badge bg-danger">No</span>';
-                                            } else {
-                                                echo $value;
-                                            }
-                                        @endphp
-                                    </td>
-                                </tr>
-                            @endforeach --}}
+
                             @foreach ($posts as $item)
                                 <tr>
                                     <td scope="row">

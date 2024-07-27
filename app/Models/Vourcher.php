@@ -15,6 +15,20 @@ class Vourcher extends Model
         'start_date', 'end_date', 'is_active', 'quantity'
     ];
 
+    // protected $fillable = ['code', 'description', 'discount_type', 'discount_value', 'start_date', 'end_date', 'is_active', 'quantity'];
+
+    public function canBeRedeemed()
+    {
+        return $this->is_active && $this->quantity > 0 && Carbon::now()->between($this->start_date, $this->end_date);
+    }
+
+    public function redeem()
+    {
+        if ($this->quantity > 0) {
+            $this->quantity--;
+            $this->save();
+        }
+    }
     protected $dates = [
         'start_date',
         'end_date',
@@ -27,17 +41,17 @@ class Vourcher extends Model
         return Carbon::now()->isAfter($this->end_date);
     }
 
-    public function canBeRedeemed()
-    {
-        return $this->is_active && $this->quantity > 0;
-    }
+    // public function canBeRedeemed()
+    // {
+    //     return $this->is_active && $this->quantity > 0;
+    // }
 
-    public function redeem()
-    {
-        if ($this->canBeRedeemed()) {
-            $this->decrement('quantity');
-        }
-    }
+    // public function redeem()
+    // {
+    //     if ($this->canBeRedeemed()) {
+    //         $this->decrement('quantity');
+    //     }
+    // }
 
     //
     public function getFormattedDiscountAttribute()
@@ -70,4 +84,5 @@ class Vourcher extends Model
             ->where('end_date', '>=', Carbon::now())
             ->first();
     }
+
 }

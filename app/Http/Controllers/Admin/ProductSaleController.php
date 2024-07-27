@@ -43,7 +43,9 @@ public function store(Request $request)
 
     // Attach products
     if ($request->has('product_id')) {
-        $sale->products()->attach($request->product_id, ['sale_price' => $request->sale_price]);
+        foreach ($request->product_id as $productId) {
+            $sale->products()->attach($productId, ['sale_price' => $request->sale_price]);
+        }
     }
 
     return redirect()->route('admin.sales.index')->with('success', 'Sale created successfully.');
@@ -60,45 +62,44 @@ public function store(Request $request)
     }
 
     public function update(Request $request, ProductSale $sale)
-{
-    try {
-        // Validate input data
-        $request->validate([
-            'product_id' => 'required|array',
-            'product_id.*' => 'exists:products,id',
-            'sale_price' => 'required|numeric|min:0',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'required|boolean',
-        ]);
+    {
+        try {
+            // Validate input data
+            $request->validate([
+                'product_id' => 'required|array',
+                'product_id.*' => 'exists:products,id',
+                'sale_price' => 'required|numeric|min:0',
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date|after_or_equal:start_date',
+                'status' => 'required|boolean',
+            ]);
 
-        // Update sale attributes
-        $sale->sale_price = $request->sale_price;
-        $sale->start_date = $request->start_date;
-        $sale->end_date = $request->end_date;
-        $sale->status = (bool) $request->status;
+            // Update sale attributes
+            $sale->update([
+                'sale_price' => $request->sale_price,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'status' => (bool) $request->status,
+            ]);
 
-        // Save the updated sale
-        $sale->save();
+            // Sync products with updated sale price
+            $products = [];
+            foreach ($request->product_id as $productId) {
+                $products[$productId] = ['sale_price' => $request->sale_price];
+            }
+            $sale->products()->sync($products);
 
-        // Sync products
-        $sale->products()->sync($request->product_id);
-
-        // Redirect with success message
-        return redirect()->route('admin.sales.index');
-
-    } catch (ValidationException $e) {
-        return back()->withErrors($e->validator->errors())->withInput();
-
-    } catch (ModelNotFoundException $e) {
-        Log::error('ProductSale not found: ' . $e->getMessage());
-        return redirect()->route('admin.sales.index');
-
-    } catch (\Exception $e) {
-        Log::error('Error updating sale: ' . $e->getMessage());
-return redirect()->route('admin.sales.index');
+            return redirect()->route('admin.sales.index')->with('success', 'Sale updated successfully.');
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->validator->errors())->withInput();
+        } catch (ModelNotFoundException $e) {
+            Log::error('ProductSale not found: ' . $e->getMessage());
+            return redirect()->route('admin.sales.index');
+        } catch (\Exception $e) {
+            Log::error('Error updating sale: ' . $e->getMessage());
+            return redirect()->route('admin.sales.index');
+        }
     }
-}
     public function destroy(ProductSale $sale)
     {
         $sale->delete();
