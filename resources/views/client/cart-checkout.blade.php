@@ -228,7 +228,7 @@
                                             <!-- Voucher Discount -->
                                             @if ($discount > 0)
                                                 <tr class="order-total">
-                                                    <th><b>Giảm giá</b></th>
+                                                    <th><b>Mã giảm giá</b></th>
                                                     <td></td>
                                                     <td>
                                                         <strong>
@@ -336,5 +336,5 @@
 @endsection
 
 @section('scripts')
-  
+
 @endsection

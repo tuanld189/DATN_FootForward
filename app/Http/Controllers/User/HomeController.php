@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\User;
 
-use App\Models\Post;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Banner;
+use App\Models\Post;
 use App\Models\ProductColor;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
@@ -15,14 +17,80 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $query = Product::query();
-        $products = $query->with('sales')->get();
+        $query = $this->applyFilters($request, $query);
+        $products = $query->with(['sales' => function ($query) {
+            $query->where('status', true)
+                ->where(function ($query) {
+                    $query->where('start_date', '<=', now())
+                        ->orWhereNull('start_date');
+                })
+                ->where(function ($query) {
+                    $query->where('end_date', '>=', now())
+                        ->orWhereNull('end_date');
+                });
+        }])->get();
+
+        $productsOnSale = $products->filter(function ($product) {
+            return $product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status;
+        });
+
+        $productsNoSale = $products->filter(function ($product) {
+            return $product->sales->isEmpty() || !$product->sales->first()->pivot || !$product->sales->first()->status;
+        });
+
         $categories = Category::all();
         $brands = Brand::all();
         $posts = Post::all();
-
-        return view('client.home', compact('products', 'categories', 'brands', 'posts'));
+        $banners = Banner::where('is_active', true)->get();
+        return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
     }
 
+    public function info(Request $request)
+    {
+        return view('client.info');
+    }
+
+    private function applyFilters(Request $request, $query)
+    {
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $query->whereBetween('price', [(float)$request->min_price, (float)$request->max_price]);
+        }
+
+        if ($request->filled('category_filter')) {
+            $query->whereIn('category_id', $request->category_filter);
+        }
+
+        if ($request->filled('brand_filter')) {
+            $query->whereIn('brand_id', $request->brand_filter);
+        }
+
+        if ($request->filled('sort_by')) {
+            switch ($request->sort_by) {
+                case 'name_asc':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'rating_asc':
+                    $query->orderBy('rating', 'asc');
+                    break;
+                case 'rating_desc':
+                    $query->orderBy('rating', 'desc');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return $query;
+    }
     public function shop(Request $request)
     {
         $sizes = ProductSize::query()->pluck('name', 'id')->all();
@@ -90,7 +158,7 @@ class HomeController extends Controller
         try {
             $products = $query->with('sales')->paginate(9);
         } catch (\Exception $e) {
-            \Log::error('Error fetching products', ['error' => $e->getMessage()]);
+            // \Log::error('Error fetching products', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Unable to load products'], 500);
         }
 

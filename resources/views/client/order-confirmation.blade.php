@@ -191,7 +191,7 @@
 
                             @if (session('discount') > 0)
                                 <tr class="total_payment">
-                                    <td colspan="3"><span>Giảm giá</span></td>
+                                    <td colspan="3"><span>Mã giảm giá</span></td>
                                     <td><span class="amount">-{{ number_format(session('discount'), 0, ',', '.') }}
                                             VNĐ</span></td>
                                 </tr>

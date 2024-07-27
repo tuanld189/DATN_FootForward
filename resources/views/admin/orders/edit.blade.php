@@ -158,7 +158,7 @@
                                                 'canceled' => 'fas fa-times-circle',
                                             ];
                                         @endphp
-                    
+
                                         @foreach (\App\Models\Order::STATUS_ORDER as $statusKey => $statusValue)
                                             <div class="col-4 col-sm-3 col-md-2 mb-4 mt-2">
                                                 <i
@@ -197,7 +197,7 @@
                         </div>
                         <!--end card-body-->
                     </div>
-                    
+
                     <!--end card-body-->
 
 

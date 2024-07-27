@@ -192,7 +192,6 @@ class ProductController extends Controller
 
         $salePrice = $sale ? $sale->sale_price : null;
         return view(self::PATH_VIEW . __FUNCTION__, compact('model', 'salePrice'));
-
     }
 
     public function edit($id)
@@ -307,7 +306,6 @@ class ProductController extends Controller
             return back()->withErrors(['error' => 'Something went wrong!']);
         }
     }
-
     public function destroy(Product $product)
     {
         try {
@@ -363,5 +361,4 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
-
 }
