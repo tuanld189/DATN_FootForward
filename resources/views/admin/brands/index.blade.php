@@ -2,7 +2,9 @@
 @section('title')
     List Brand's Product
 @endsection
+
 @section('content')
+
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -19,6 +21,7 @@
             </div>
         </div>
     </div>
+
     <!-- end page title -->
 
     <div class="row">
@@ -79,7 +82,7 @@
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
-                                   
+
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Remove">
                                             <form id="delete-form-{{ $item->id }}"

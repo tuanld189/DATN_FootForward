@@ -1,82 +1,210 @@
 @extends('client.layouts.master')
 @section('title', 'Trang chủ')
+@section('styles')
+    <style>
+        .single-slide {
+            height: 680px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slider-text-info {
+            margin-left: -150px;
+            margin-top: 300px;
+            color: #fff;
+        }
+
+        .single-banner img {
+            width: 546px;
+            height: 270px;
+            border-radius: 5px;
+        }
+
+        .banner-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-image img {
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .banner-image:hover .banner-overlay {
+            opacity: 1;
+        }
+
+        .banner-overlay h5 {
+            font-size: 24px;
+            margin: 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            width: 3%;
+            /* Thay đổi chiều rộng để điều chỉnh khoảng cách */
+        }
+
+        .slide:hover .carousel-control-prev,
+        .slide:hover .carousel-control-next {
+            opacity: 1;
+        }
+
+        .carousel-control-prev {
+            left: 20px;
+        }
+
+        .carousel-control-next {
+            right: 20px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: rgb(167, 160, 160);
+            opcity: 50%;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 0.1px;
+        }
+
+        .carousel-control-prev-icon:after,
+        .carousel-control-next-icon:after {
+            color: white;
+        }
+    </style>
+
+
+@endsection
+
 @section('content')
+    {{-- BANNER --}}
     <div class="hero-slider-box">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                    <div class="hero-slider hero-slider-one">
-                        <div class="single-slide" style="background-image: url(assets/images/slider/slider-home5-1.jpg)">
-                            <!-- Hero Content One Start -->
-                            <div class="hero-content-one container">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="slider-text-info text-black">
-                                            <h1>Classic Leather Accessories </h1>
-                                            <h1>Amazing For Men's</h1>
-                                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                                                eu fugiat nulla pariatur. Excepteur sint occaecat</p>
-                                            <a href="shop.html" class="btn slider-btn uppercase"><span><i
-                                                        class="fa fa-plus"></i> Shop Now</span></a>
+            <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <div class="carousel-inner">
+                    @foreach ($banners as $key => $banner)
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <div class="single-slide" style="background-image: url('{{ Storage::url($banner->image) }}')">
+                                <div class="hero-content-one container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="slider-text-info text-black">
+                                                {{-- <h1>Giày Classic </h1>
+                                                <h1>Phù hợp với mọi độ tuổi, giới tính</h1>
+                                                <p>Những đôi giày được thiết kế tinh tế và chất lượng cao, mang lại sự thoải mái và <br> phong cách cho người sử dụng. Hãy khám phá bộ sưu tập của chúng tôi.</p>
+<a href="{{route('shop')}}" class="btn slider-btn uppercase"><span><i class="fa fa-plus"></i> Mua Ngay</span></a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Hero Content One End -->
                         </div>
-                        <div class="single-slide" style="background-image: url(assets/images/slider/slider-home5-2.jpg)">
-                            <!-- Hero Content One Start -->
-                            <div class="hero-content-one container">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="slider-text-info text-black">
-                                            <h1>Spring Men's T-Shirt</h1>
-                                            <h1>Amazing Men's</h1>
-                                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                                                eu fugiat nulla pariatur. Excepteur sint occaecat</p>
-                                            <a href="shop.html" class="btn slider-btn uppercase"><span><i
-                                                        class="fa fa-plus"></i> SHOP NOW</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Hero Content One End -->
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
+                <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>
-    <!-- Hero Slider end -->
 
+    {{-- SALE --}}
     <div class="slider-bottom-inner">
-<!-- Banner area start -->
         <div class="banner-area ">
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <div class="banner-area-inner-tp">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4">
-                                    <!-- single-banner start -->
-                                    <div class="single-banner mt--30">
-                                        <a href="shop.html"><img src="assets/images/banner/1.jpg" alt=""></a>
+                                <div class="product-wrapper-tab-panel mt-3">
+                                    <div class="product-slider">
+                                        @foreach ($productsOnSale as $product)
+                                            <div class="single-product-wrap">
+                                                <div class="product-image">
+                                                    <a href="{{ route('client.show', $product->id) }}">
+                                                        <img class="img-fluid"
+                                                            src="{{ asset('storage/' . $product->img_thumbnail) }}" style="width: 300px; height: 250px;">
+                                                    </a>
+                                                    <span class="label-product label-new">new</span>
+
+                                                    @php
+                                                        $discountPercentage =
+                                                            (($product->price -
+                                                                $product->sales->first()->pivot->sale_price) /
+                                                                $product->price) *
+                                                            100;
+                                                    @endphp
+                                                    <span
+                                                        class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
+
+                                                    <div class="quick_view">
+                                                        <a href="#" title="quick view" class="quick-view-btn"
+                                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                                            <i class="fa fa-search"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <h3><a
+                                                            href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a>
+                                                    </h3>
+                                                    <div class="price-box">
+                                                        <span
+                                                            class="old-price">{{ number_format($product->price, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                        <span
+                                                            class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                    </div>
+                                                    <div class="product-action">
+                                                        <button class="add-to-cart" title="Add to cart"><i
+                                                                class="fa fa-plus"></i> Add to cart</button>
+                                                        <div class="star_content">
+                                                            <ul class="d-flex">
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star-o" href="#"><i
+                                                                            class="fa fa-star-o"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                    <!-- single-banner end -->
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <!-- single-banner start -->
-                                    <div class="single-banner mt--30">
-                                        <a href="shop.html"><img src="assets/images/banner/2.jpg" alt=""></a>
-                                    </div>
-                                    <!-- single-banner end -->
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <!-- single-banner start -->
-                                    <div class="single-banner mt--30">
-                                        <a href="shop.html"><img src="assets/images/banner/3.jpg" alt=""></a>
-                                    </div>
-                                    <!-- single-banner end -->
                                 </div>
                             </div>
                         </div>
@@ -84,126 +212,86 @@
                 </div>
             </div>
         </div>
-        <!-- Banner area end -->
     </div>
-
-    <!-- Our Services Area Start -->
+    {{-- SERVICE --}}
     <div class="our-services-area pt--60 pb--30">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- section-title start -->
                     <div class="section-title section-bg-3">
-                        <h2>Service</h2>
-                        {{-- <p>There are latest blog posts</p> --}}
+                        <h2>DỊCH VỤ</h2>
+                        <p>Các dịch vụ tiện ích tại FootForward</p>
                     </div>
-                    <!-- section-title end -->
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <!-- single-service-item start -->
                     <div class="single-service-item">
                         <div class="our-service-icon">
                             <i class="fa fa-truck"></i>
                         </div>
                         <div class="our-service-info">
                             <h3>Free Shipping</h3>
-                            <p>Free shipping on all US order or order above $200</p>
+                            <p>Miễn phí vận chuyển các đơn trong nội thành hoặc tổng đơn trên 500k</p>
                         </div>
                     </div>
-                    <!-- single-service-item end -->
-</div>
+                </div>
                 <div class="col-lg-3 col-md-6">
-                    <!-- single-service-item start -->
                     <div class="single-service-item">
                         <div class="our-service-icon">
                             <i class="fa fa-support"></i>
                         </div>
                         <div class="our-service-info">
                             <h3>Support 24/7</h3>
-                            <p>Contact us 24 hours a day, 7 days a week</p>
+                            <p>Liên hệ tới chúng tôi 24/7 mọi lúc mọi nơi</p>
                         </div>
                     </div>
-                    <!-- single-service-item end -->
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <!-- single-service-item start -->
                     <div class="single-service-item">
                         <div class="our-service-icon">
                             <i class="fa fa-undo"></i>
                         </div>
                         <div class="our-service-info">
-                            <h3>30 Days Return</h3>
-                            <p>Simply return it within 30 days for an exchange</p>
+                            <h3>15 Days Return</h3>
+                            <p>Hoàn trả hàng đơn giản trong vòng 15 ngày</p>
                         </div>
                     </div>
-                    <!-- single-service-item end -->
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <!-- single-service-item start -->
                     <div class="single-service-item">
                         <div class="our-service-icon">
                             <i class="fa fa-credit-card"></i>
                         </div>
                         <div class="our-service-info">
                             <h3>100% Payment Secure</h3>
-                            <p>We ensure secure payment with PEV</p>
+                            <p>Chúng tôi đảm bảo với các phương thức thanh toán an toàn</p>
                         </div>
                     </div>
-                    <!-- single-service-item end -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Our Services Area End -->
-
-    <!-- Product Area Start -->
+    {{-- NEW PRODUCT --}}
     <div class="product-area pb--30">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <!-- section-title start -->
-                    <div class="section-title-two pt--60 border-t-one text-center">
-                        <h2>New Products</h2>
-                        <p class="mb-4">Most Trendy 2024 Clother</p>
+                <div class="col-lg-12 ">
+                    <div class="section-title section-bg-3 pt--60 border-t-one text-center ">
+                        <h2>SẢN PHẨM MỚI NHẤT</h2>
+                        <p>Giày xu hướng mới thời trang 2024 tại FootForward</p>
                     </div>
-                    <!-- section-title end -->
                 </div>
-                {{-- <div class="col-12">
-                    <div class="tabs-categorys-list">
-                        <ul class="nav justify-content-center" role="tablist">
-                            <li class="active"><a class="active" href="#arrival" role="tab" data-bs-toggle="tab">New
-                                    Arrival</a></li>
-                            <li><a href="#onsale" role="tab" data-bs-toggle="tab">OnSale</a></li>
-<li><a href="#featured" role="tab" data-bs-toggle="tab">Featured Products</a></li>
-                        </ul>
-                    </div>
-                </div> --}}
             </div>
-            <!-- product-wrapper start -->
-            <div class="product-wrapper-tab-panel">
-                <!-- tab-contnt start -->
+            <div class="product-wrapper-tab-panel mt-3">
                 <div class="product-slider">
-                    <!-- single-product-wrap start -->
-                    @foreach ($products as $product)
+                    @foreach ($productsNoSale as $product)
                         <div class="single-product-wrap">
                             <div class="product-image">
-                                <a href="{{ route('client.show', $product->id) }}">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}"
-                                        style="width: 350px; height: 180px;">
+                                <a href="{{ route('client.show', $product->id) }}" >
+                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}" style="width: 300px; height: 250px;">
                                 </a>
                                 <span class="label-product label-new">new</span>
-
-                                @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
-                                    @php
-                                        $discountPercentage =
-                                            (($product->price - $product->sales->first()->pivot->sale_price) /
-                                                $product->price) *
-                                            100;
-                                    @endphp
-                                    <span class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
-                                @endif
 
                                 <div class="quick_view">
                                     <a href="#" title="quick view" class="quick-view-btn" data-bs-toggle="modal"
@@ -215,16 +303,7 @@
                             <div class="product-content">
                                 <h3><a href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a></h3>
                                 <div class="price-box">
-                                    @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
-                                        <span class="old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                            VNĐ</span>
-                                        <span
-                                            class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
-                                            VNĐ</span>
-                                    @else
-<span class="new-price">{{ number_format($product->price, 0, ',', '.') }}
-                                            VNĐ</span>
-                                    @endif
+                                    <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
                                 </div>
                                 <div class="product-action">
                                     <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to
@@ -243,86 +322,68 @@
                         </div>
                     @endforeach
 
-                    <!-- single-product-wrap end -->
-                </div>
-
-
-                <!-- tab-contnt end -->
-            </div>
-            <!-- product-wrapper end -->
-        </div>
-    </div>
-    <!-- Product Area End -->
-
-    <!-- Banner area start -->
-    <div class="banner-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <!-- single-banner start -->
-                    <div class="single-banner mt--30">
-                        <a href="shop.html"><img src="assets/images/banner/bg4.jpg" alt=""></a>
-                    </div>
-                    <!-- single-banner end -->
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <!-- single-banner start -->
-                    <div class="single-banner mt--30">
-                        <a href="shop.html"><img src="assets/images/banner/bg11.jpg" alt=""></a>
-                    </div>
-                    <!-- single-banner end -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Banner area end -->
-
-
-
-    {{-- Category --}}
-
+    {{-- CATEGORY --}}
     <div class="our-brand-area mb--30 mt--40">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- section-title start -->
                     <div class="section-title section-bg-3">
-                        <h2 class="mt-2">Categories</h2>
-                        <p>Most Category 2024 Clother</p>
+                        <h2>CHUYÊN MỤC GIÀY</h2>
+                        <p>Gồm các thể loại giày xu hướng tại FootForward</p>
                     </div>
-                    <!-- section-title end -->
                 </div>
-            </div>
-            <div class="row our-brand-active text-center">
-@foreach ($categories as $cate)
-                    <div class="col-12">
-                        <div class="single-brand ">
-                            {{-- <img style="width='300ox;height=400px" class="img-fluid" src="{{ $cate->image }}" alt="" width="300px"
-                                height="400px"> --}}
-                            <img style="width: 350px; height: 300px;" class="img-fluid" src="{{ $cate->image }}"
-                                alt="" width="300px">
-                        </div>
+                <div id="categoryCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                    <div class="carousel-inner">
+                        @foreach ($categories->chunk(2) as $key => $chunk)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                <div class="row">
+                                    @foreach ($chunk as $category)
+                                        <div class="col-lg-6 col-md-12">
+                                            <!-- single-banner start -->
+                                            <div class="single-banner mt--30">
+                                                <a href="{{ $category->link }}">
+                                                    <div class="banner-image">
+                                                        <img src="{{ $category->image }}" alt=""
+                                                            style="width: 100%; height: 270px; object-fit: cover;">
+                                                        <div class="banner-overlay">
+                                                            <h5>{{ $category->name }}</h5>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
-
+                    <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#categoryCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    {{-- End Cate --}}
-
-    <!-- Latest Blog Posts Area start -->
+    {{-- POST --}}
     <div class="latest-blog-post-area section-ptb">
         <div class="container">
 
             <div class="row">
 
                 <div class="col-lg-12">
-                    <!-- section-title start -->
                     <div class="section-title section-bg-3">
-                        <h2>Latest Blog Posts </h2>
-                        <p>There are latest blog posts</p>
+                        <h2>BÀI VIẾT ĐÁNG CHÚ Ý </h2>
+                        <p>Những bài viết được đề xuất tại FootForward</p>
                     </div>
-                    <!-- section-title end -->
                 </div>
 
             </div>
@@ -333,7 +394,7 @@
                         <div class="latest-blog-image">
                             <a href="{{ route('client.post', $item->id) }}">
                                 <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
-                                    style="width: 330px; height: 200px;">
+                                    style="width: 330px; height: 250px;">
                             </a>
                         </div>
                         <div class="latest-blog-content">
@@ -350,34 +411,25 @@
                             <p style="height: 100px; width: 330px;">{{ $item->description }}</p>
                         </div>
                     </div>
-                    <!-- single-latest-blog end -->
                 @endforeach
             </div>
         </div>
     </div>
-    <!-- Latest Blog Posts Area End -->
-
-
-    <!-- Latest Blog Posts Area End -->
-
-
-    <!-- Our Brand Area Start -->
-    <div class="our-brand-area mb--30">
-        <div class="container">
+    {{-- BRAND --}}
+    <div class="hero-slider-box">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-<!-- section-title start -->
                     <div class="section-title section-bg-3">
-                        <h2>Brands</h2>
-                        {{-- <p>There are latest blog posts</p> --}}
+                        <h2>THƯƠNG HIỆU</h2>
+                        <p>Những thương hiệu có mặt tại FootForward</p>
                     </div>
-                    <!-- section-title end -->
                 </div>
             </div>
-            <div class="row our-brand-active text-center">
+            <div class="row our-brand-active text-center col-1g-12" style="padding-left:200px;">
                 @foreach ($brands as $brand)
-                    <div class="col-12">
-                        <div class="single-brand d-flex justify-center ">
+                    <div class="col-lg-2">
+                        <div class="single-brand ">
                             <img class="img-fluid" src="{{ $brand->image }}" alt="" width="100px"
                                 height="100px">
                         </div>
@@ -387,12 +439,33 @@
             </div>
         </div>
     </div>
-    {{-- End brand --}}
-
-
-
-    <!-- Our Brand Area End -->
     </div>
+
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var $slides = $('.single-slide');
+            var currentIndex = 0;
+            var slideCount = $slides.length;
+
+            function showSlide(index) {
+                $slides.removeClass('active').eq(index).addClass('active');
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slideCount;
+                showSlide(currentIndex);
+            }
+
+            setInterval(nextSlide, 3000); // Chuyển slide mỗi 3 giây
+        });
+    </script>
 
 
 @endsection

@@ -182,7 +182,7 @@
                     </div>
                 </div>
         </div> --}}
-            <div class="row single-product-area" >
+            <div class="row single-product-area">
                 <div class="col-lg-5 col-md-6">
                     <!-- Product Details Left -->
                     <div class="product-details-left">
@@ -304,12 +304,15 @@
 
 
                                     <div class="abc mt-2">
-                                        <div class="col-lg-3 col-sm-6" style="display: flex; justify-content: space-between;">
+                                        <div class="col-lg-3 col-sm-6"
+                                            style="display: flex; justify-content: space-between;">
                                             <div class="p-2 border border-dashed rounded" style="margin-right: 20px;">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
                                                         <p class="mb-1" style="color: black;"><b>Quantity:</b></p>
-                                                        <input type="number" class="form-control" id="quantity_add" name="quantity_add" min="1" value="1" style="width: 100px; text-align: center;">
+                                                        <input type="number" class="form-control" id="quantity_add"
+                                                            name="quantity_add" min="1" value="1"
+                                                            style="width: 100px; text-align: center;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,7 +320,9 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
                                                         <p class="mb-1" style="color: black;"><b>Available Stocks:</b></p>
-                                                        <input type="text" class="form-control" id="available_quantity" name="available_quantity" readonly style="width: 150px; text-align: center;">
+                                                        <input type="text" class="form-control" id="available_quantity"
+                                                            name="available_quantity" readonly
+                                                            style="width: 150px; text-align: center;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -412,10 +417,10 @@
                                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                     Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
                                     mollit anim id.</p> --}}
-                                    <p class="mt-2">{{ $product->description }}</p>
+                                    <p class="mt-2">{!! $product->description !!}</p>
 
                                 </div>
-                                <div class="pro_feature">
+                                {{-- <div class="pro_feature">
                                     <h2 class="title_3">Features</h2>
                                     <ul class="feature_list">
                                         <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in
@@ -423,17 +428,19 @@
                                         <li><a href="#"><i class="fa fa-play"></i>Irure dolor in reprehenderit in
                                                 voluptate velit esse</a></li>
                                         <li><a href="#"><i class="fa fa-play"></i>Sed do eiusmod tempor incididunt
-                                                ut labore et </a></li>
+ut labore et </a></li>
                                         <li><a href="#"><i class="fa fa-play"></i>Nisi ut aliquip ex ea commodo
                                                 consequat.</a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!-- End Single Content -->
                         <!-- Start Single Content -->
                         <div class="product_tab_content tab-pane" id="sheet" role="tabpanel">
                             <div class="pro_feature">
+                                <h2 class="title_3">Chi tiết mua hàng:</h2>
+                                <p class="mt-2">{!! $product->description !!}</p>
                                 <h2 class="title_3">Data sheet</h2>
                                 <ul class="feature_list">
                                     <li><a href="#"><i class="fa fa-play"></i>Duis aute irure dolor in reprehenderit
@@ -486,8 +493,8 @@
                                                     <div class="review_thumb"
                                                         style="margin-right: 15px; margin-top:70px; margin-left:20px;">
                                                         <img alt="user avatar"
-                                                            src="{{ Storage::url(Auth::check() ? Auth::user()->photo_thumbs : '') }}" width="50px"
-                                                            height="20px" style="border-radius: 100%;">
+                                                            src="{{ Storage::url(Auth::check() ? Auth::user()->photo_thumbs : '') }}"
+                                                            width="50px" height="20px" style="border-radius: 100%;">
                                                     </div>
                                                     <div style="flex-grow: 1; margin-right: 15px;">
                                                         <h4><i>{{ Auth::check() ? Auth::user()->name : '' }}</i></h4>
@@ -513,7 +520,8 @@
                                             <div class="pro_review"
                                                 style="display: flex; align-items: center; margin-bottom: 20px;">
                                                 <div class="review_thumb" style="margin-right: 15px;">
-                                                    <img alt="review images" src="{{ Storage::url(Auth::check() ? Auth::user()->photo_thumbs : '') }}"
+                                                    <img alt="review images"
+                                                        src="{{ Storage::url(Auth::check() ? Auth::user()->photo_thumbs : '') }}"
                                                         width="50px" height="20px" style="border-radius: 100%;">
                                                 </div>
                                                 <div class="review_details" style="flex-grow: 1;">
@@ -755,7 +763,7 @@
                             <p style="margin-bottom: 10px;">${data.comment.content}</p>
                             <div>
                                 <span class="review_date">${data.comment.created_at}</span>
-                            </div>
+</div>
                         </div>
                     </div>`;
 
@@ -788,4 +796,5 @@
                 .catch(error => console.error('Error deleting comment:', error));
         }
     </script>
+
 @endsection

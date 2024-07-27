@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="sale_price">Sale Price</label>
-                                    <input type="text" name="sale_price" id="sale_price" class="form-control" value="{{ number_format($sale->sale_price, 0, ',', '.') }}" required>
+                                    <input type="text" name="sale_price" id="sale_price" class="form-control" value="{{ number_format($sale->sale_price, 0, '', '') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="start_date">Start Date</label>

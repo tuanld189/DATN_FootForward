@@ -1,413 +1,311 @@
 @extends('client.layouts.master')
 @section('title', 'Shop')
+@section('styles')
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        #priceMenu {
+            padding: 15px;
+            background-color: #f8f9fa;
+            /* Light background for contrast */
+            border: 1px solid #ddd;
+            /* Border for definition */
+            border-radius: 5px;
+            /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+        }
+
+        #price_filter_form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-slider {
+            margin-bottom: 15px;
+        }
+
+        .price-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .price-input-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .price-input-group:last-child {
+            margin-right: 0;
+        }
+
+        .price-input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .price-input-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .price-input-wrapper input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        .currency-symbol {
+            font-size: 16px;
+            color: #333;
+        }
+
+        #apply_price_filter {
+            align-self: flex-end;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            /* Primary color */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #apply_price_filter:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+        }
+    </style>
+@endsection
 @section('content')
-    <!-- content-wraper start -->
     <div class="content-wraper">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <!-- shop-top-bar start -->
-                    <div class="shop-top-bar">
-                        <div class="shop-bar-inner">
-                            <div class="product-view-mode">
-                                <!-- shop-item-filter-list start -->
-                                <ul class="nav shop-item-filter-list" role="tablist">
-                                    <li class="active"><a class="active" data-bs-toggle="tab" href="#grid-view"><i
-                                                class="fa fa-th"></i></a></li>
-                                    <li><a data-bs-toggle="tab" href="#list-view"><i class="fa fa-th-list"></i></a></li>
-                                </ul>
-                                <!-- shop-item-filter-list end -->
-                            </div>
-                            <div class="toolbar-amount">
-                                <span>Showing 1 to 9 of 15</span>
-                            </div>
+                <div class="col-lg-3">
+                    <div class="row">
+                        <!-- Tìm kiếm -->
+                        <div class="col-md-12 mb-3">
+                            <form id="searchForm" action="{{ route('shop') }}" method="GET">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control"
+                                        value="{{ request('search') }}" placeholder="Tìm kiếm...">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </div>
+                            </form>
                         </div>
-                        <!-- product-select-box start -->
-                        <div class="product-select-box">
-                            <div class="product-short">
-                                <p>Sort By:</p>
-                                <select class="nice-select">
-                                    <option value="trending">Relevance</option>
-                                    <option value="sales">Name (A - Z)</option>
-                                    <option value="sales">Name (Z - A)</option>
-                                    <option value="rating">Price (Low &gt; High)</option>
-                                    <option value="date">Rating (Lowest)</option>
-                                    <option value="price-asc">Model (A - Z)</option>
-                                    <option value="price-asc">Model (Z - A)</option>
-                                </select>
-                            </div>
+
+                        <!-- Category Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#categoryMenu" role="button"
+                                aria-expanded="false" aria-controls="categoryMenu">
+                                Categories
+                            </a>
+                        </h5>
+                        <div class="collapse" id="categoryMenu">
+                            <form id="category_filter_form">
+                                @foreach ($categories as $category)
+                                    <div>
+                                        <input type="checkbox" id="category_{{ $category->id }}" name="category_filter[]"
+                                            value="{{ $category->id }}" onclick="applyFilters()">
+                                        <label for="category_{{ $category->id }}">{{ $category->name }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
                         </div>
-                        <!-- product-select-box end -->
+
+                        <!-- Brand Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#brandMenu" role="button"
+                                aria-expanded="false" aria-controls="brandMenu">
+                                Brands
+                            </a>
+                        </h5>
+                        <div class="collapse" id="brandMenu">
+                            <form id="brand_filter_form">
+                                @foreach ($brands as $brand)
+                                    <div>
+                                        <input type="checkbox" id="brand_{{ $brand->id }}" name="brand_filter[]"
+                                            value="{{ $brand->id }}" onclick="applyFilters()">
+                                        <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+
+                        {{-- <!-- Size Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#sizeMenu" role="button"
+                                aria-expanded="false" aria-controls="sizeMenu">
+                                Sizes
+                            </a>
+                        </h5>
+                        <div class="collapse" id="sizeMenu">
+                            <form id="size_filter_form">
+                                @foreach ($sizes as $id => $size)
+                                    <div>
+                                        <input type="checkbox" id="size_{{ $id }}" name="size_filter[]"
+                                            value="{{ $id }}" onclick="applyFilters()">
+                                        <label for="size_{{ $id }}">{{ $size }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div> --}}
+
+                        {{-- <!-- Color Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#colorMenu" role="button"
+                                aria-expanded="false" aria-controls="colorMenu">
+                                Colors
+                            </a>
+                        </h5>
+                        <div class="collapse" id="colorMenu">
+                            <form id="color_filter_form">
+                                @foreach ($colors as $id => $color)
+                                    <div>
+                                        <input type="checkbox" id="color_{{ $id }}" name="color_filter[]"
+                                            value="{{ $id }}" onclick="applyFilters()">
+                                        <label for="color_{{ $id }}">{{ $color }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div> --}}
+                        <!-- Price Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#priceMenu" role="button"
+                                aria-expanded="false" aria-controls="priceMenu">
+                                Price
+                            </a>
+                        </h5>
+                        <div class="collapse" id="priceMenu">
+                            <form id="price_filter_form" action="{{ route('shop') }}" method="GET">
+                                <div id="price_slider" class="price-slider"></div>
+                                <div class="price-inputs">
+                                    <div class="price-input-group">
+                                        <label for="price_min">Min Price:</label>
+                                        <div class="price-input-wrapper">
+                                            <input type="text" id="price_min" name="price_min" readonly>
+                                            <span class="currency-symbol">đ-</span>
+                                        </div>
+                                    </div>
+                                    <div class="price-input-group">
+                                        <label for="price_max">Max Price:</label>
+                                        <div class="price-input-wrapper">
+                                            <input type="text" id="price_max" name="price_max" readonly>
+                                            <span class="currency-symbol">đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <!-- shop-top-bar end -->
+                </div>
 
-                    <!-- shop-products-wrapper start -->
-                    <div class="shop-wrapper-tab-panel">
-                        <div class="shop-slider">
-                            {{-- <div id="flex-box" class="tab-pane active"> --}}
-                                <div class="shop-product-area">
-                                    @foreach ($products as $product)
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-6 mt-30">
-                                            <!-- single-product-wrap start -->
-                                            <div class="single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="{{ route('client.show', $product->id) }}"> <img class="img-fluid" src="{{ Storage::url($product->img_thumbnail) }}" alt=""></a>
-                                                    <span class="label-product label-new">new</span>
-
-                                                    @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
-                                                        @php
-                                                            $discountPercentage =
-                                                                (($product->price - $product->sales->first()->pivot->sale_price) /
-                                                                    $product->price) *
-                                                                100;
-                                                        @endphp
-                                                        <span class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
-                                                    @endif
-
-                                                    <div class="quick_view">
-                                                        <a href="#" title="quick view" class="quick-view-btn" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModalCenter">
-                                                            <i class="fa fa-search"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="quick_view">
-                                                        <a href="#" title="quick view" class="quick-view-btn"
-                                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i
-                                                                class="fa fa-search"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3><a href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a></h3>
-                                                    <div class="price-box">
-                                                        @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
-                                                            <span class="old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                                VNĐ</span>
-                                                            <span
-                                                                class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
-                                                                VNĐ</span>
-                                                        @else
-                                                            <span class="new-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                                VNĐ</span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="product-action">
-                                                        <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to
-                                                            cart</button>
-                                                        <div class="star_content">
-                                                            <ul class="d-flex">
-                                                                <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- single-product-wrap end -->
-                                        </div>
-
-                                    </div>
-                                    @endforeach
-                                </div>
-                                 {{-- <div id="list-view" class="tab-pane">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row product-layout-list">
-                                                <div class="col-lg-4 col-md-5">
-                                                    <!-- single-product-wrap start -->
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a href="product-details.html"><img
-                                                                    src="assets/images/product/5.jpg" alt=""></a>
-                                                            <span class="label-product label-new">new</span>
-                                                            <span class="label-product label-sale">-7%</span>
-                                                            <div class="quick_view">
-                                                                <a href="#" title="quick view" class="quick-view-btn"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter"><i
-                                                                        class="fa fa-search"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- single-product-wrap end -->
-                                                </div>
-                                                <div class="col-lg-8 col-md-7">
-                                                    <div class="product_desc">
-                                                        <!-- single-product-wrap start -->
-                                                        <div class="product-content-list">
-                                                            <h3><a href="product-details.html">New Printed Summer</a></h3>
-                                                            <div class="star_content">
-                                                                <ul class="d-flex">
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star-o" href="#"><i
-                                                                                class="fa fa-star-o"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="price-box">
-                                                                <span class="new-price">$55.27</span>
-                                                                <span class="old-price">$58.49</span>
-                                                            </div>
-                                                            <button class="add-to-cart" title="Add to cart"><i
-                                                                    class="fa fa-plus"></i> Add to cart</button>
-                                                            <p>Faded short sleeves t-shirt with high neckline. Soft and
-                                                                stretchy material for a comfortable fit. Accessorize with a
-                                                                straw hat and you're ready for summer!</p>
-                                                        </div>
-                                                        <!-- single-product-wrap end -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row product-layout-list">
-                                                <div class="col-lg-4 col-md-5">
-                                                    <!-- single-product-wrap start -->
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a href="product-details.html"><img
-                                                                    src="assets/images/product/4.jpg" alt=""></a>
-                                                            <span class="label-product label-new">new</span>
-                                                            <span class="label-product label-sale">-7%</span>
-                                                            <div class="quick_view">
-                                                                <a href="#" title="quick view"
-                                                                    class="quick-view-btn" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter"><i
-                                                                        class="fa fa-search"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- single-product-wrap end -->
-                                                </div>
-                                                <div class="col-lg-8 col-md-7">
-                                                    <div class="product_desc">
-                                                        <!-- single-product-wrap start -->
-                                                        <div class="product-content-list">
-                                                            <h3><a href="product-details.html">Summer Printed </a></h3>
-                                                            <div class="star_content">
-                                                                <ul class="d-flex">
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star-o" href="#"><i
-                                                                                class="fa fa-star-o"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="price-box">
-                                                                <span class="new-price">$51.27</span>
-                                                                <span class="old-price">$54.49</span>
-                                                            </div>
-                                                            <button class="add-to-cart" title="Add to cart"><i
-                                                                    class="fa fa-plus"></i> Add to cart</button>
-                                                            <p>Faded short sleeves t-shirt with high neckline. Soft and
-                                                                stretchy material for a comfortable fit. Accessorize with a
-                                                                straw hat and you're ready for summer!</p>
-                                                        </div>
-                                                        <!-- single-product-wrap end -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row product-layout-list">
-                                                <div class="col-lg-4 col-md-5">
-                                                    <!-- single-product-wrap start -->
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a href="product-details.html"><img
-                                                                    src="assets/images/product/8.jpg" alt=""></a>
-                                                            <span class="label-product label-new">new</span>
-                                                            <span class="label-product label-sale">-7%</span>
-                                                            <div class="quick_view">
-                                                                <a href="#" title="quick view"
-                                                                    class="quick-view-btn" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter"><i
-                                                                        class="fa fa-search"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- single-product-wrap end -->
-                                                </div>
-                                                <div class="col-lg-8 col-md-7">
-                                                    <div class="product_desc">
-                                                        <!-- single-product-wrap start -->
-                                                        <div class="product-content-list">
-                                                            <h3><a href="product-details.html">New product Summer</a></h3>
-                                                            <div class="star_content">
-                                                                <ul class="d-flex">
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star-o" href="#"><i
-                                                                                class="fa fa-star-o"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="price-box">
-                                                                <span class="new-price">$41.27</span>
-                                                                <span class="old-price">$54.49</span>
-                                                            </div>
-                                                            <button class="add-to-cart" title="Add to cart"><i
-                                                                    class="fa fa-plus"></i> Add to cart</button>
-                                                            <p>Faded short sleeves t-shirt with high neckline. Soft and
-                                                                stretchy material for a comfortable fit. Accessorize with a
-                                                                straw hat and you're ready for summer!</p>
-                                                        </div>
-                                                        <!-- single-product-wrap end -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row product-layout-list">
-                                                <div class="col-lg-4 col-md-5">
-                                                    <!-- single-product-wrap start -->
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a href="product-details.html"><img
-                                                                    src="assets/images/product/6.jpg" alt=""></a>
-                                                            <span class="label-product label-new">new</span>
-                                                            <span class="label-product label-sale">-7%</span>
-                                                            <div class="quick_view">
-                                                                <a href="#" title="quick view"
-                                                                    class="quick-view-btn" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter"><i
-                                                                        class="fa fa-search"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- single-product-wrap end -->
-                                                </div>
-                                                <div class="col-lg-8 col-md-7">
-                                                    <div class="product_desc">
-                                                        <!-- single-product-wrap start -->
-                                                        <div class="product-content-list">
-                                                            <h3><a href="product-details.html">Printed Summer</a></h3>
-                                                            <div class="star_content">
-                                                                <ul class="d-flex">
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star-o" href="#"><i
-                                                                                class="fa fa-star-o"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="price-box">
-                                                                <span class="new-price">$41.27</span>
-                                                                <span class="old-price">$54.49</span>
-                                                            </div>
-                                                            <button class="add-to-cart" title="Add to cart"><i
-                                                                    class="fa fa-plus"></i> Add to cart</button>
-                                                            <p>Faded short sleeves t-shirt with high neckline. Soft and
-                                                                stretchy material for a comfortable fit. Accessorize with a
-                                                                straw hat and you're ready for summer!</p>
-                                                        </div>
-                                                        <!-- single-product-wrap end -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row product-layout-list">
-                                                <div class="col-lg-4 col-md-5">
-                                                    <!-- single-product-wrap start -->
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a href="product-details.html"><img
-                                                                    src="assets/images/product/2.jpg" alt=""></a>
-                                                            <span class="label-product label-new">new</span>
-                                                            <span class="label-product label-sale">-7%</span>
-                                                            <div class="quick_view">
-                                                                <a href="#" title="quick view"
-                                                                    class="quick-view-btn" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalCenter"><i
-                                                                        class="fa fa-search"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- single-product-wrap end -->
-                                                </div>
-                                                <div class="col-lg-8 col-md-7">
-                                                    <div class="product_desc">
-                                                        <!-- single-product-wrap start -->
-                                                        <div class="product-content-list">
-                                                            <h3><a href="product-details.html">Printed Summer</a></h3>
-                                                            <div class="star_content">
-                                                                <ul class="d-flex">
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star" href="#"><i
-                                                                                class="fa fa-star"></i></a></li>
-                                                                    <li><a class="star-o" href="#"><i
-                                                                                class="fa fa-star-o"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="price-box">
-                                                                <span class="new-price">$31.27</span>
-                                                                <span class="old-price">$44.49</span>
-                                                            </div>
-                                                            <button class="add-to-cart" title="Add to cart"><i
-                                                                    class="fa fa-plus"></i> Add to cart</button>
-                                                            <p>Faded short sleeves t-shirt with high neckline. Soft and
-                                                                stretchy material for a comfortable fit. Accessorize with a
-                                                                straw hat and you're ready for summer!</p>
-                                                        </div>
-                                                        <!-- single-product-wrap end -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                <!-- paginatoin-area start -->
-                                <div class="paginatoin-area">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <p>Showing 1-12 of 13 item(s)</p>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <ul class="pagination-box">
-                                                <li><a href="#" class="Previous"><i class="fa fa-chevron-left"></i>
-                                                        Previous</a>
-                                                </li>
-                                                <li class="active"><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li>
-                                                    <a href="#" class="Next"> Next <i
-                                                            class="fa fa-chevron-right"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- paginatoin-area end -->
-                            {{-- </div> --}}
-                        </div>
-                        <!-- shop-products-wrapper end -->
+                <div class="col-lg-9">
+                    <div class="row" id="product_list">
+                        @include('client.product-list') <!-- Load initial product list -->
                     </div>
                 </div>
             </div>
+            {{ $products->links() }}
         </div>
-        <!-- content-wraper end -->
+    </div>
+@endsection
+@section('scripts')
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Khởi tạo thanh trượt giá
+            $("#price_slider").slider({
+                range: true,
+                min: 0,
+                max: 1000000, // Set maximum value as needed
+                step: 1000,
+                values: [
+                    parseFloat($('#price_min').val()) || 0,
+                    parseFloat($('#price_max').val()) || 1000
+                ],
+                slide: function(event, ui) {
+                    $("#price_min").val(ui.values[0]);
+                    $("#price_max").val(ui.values[1]);
+                },
+                change: function(event, ui) {
+                    // Trigger price filter on change
+                    applyPriceFilter();
+                }
+            });
 
-    @endsection
+            // Xử lý sự kiện apply price filter
+            document.getElementById('apply_price_filter').addEventListener('click', function() {
+                // Gửi yêu cầu AJAX để áp dụng bộ lọc giá
+                applyPriceFilter();
+            });
+
+            // Xử lý sự kiện thay đổi bộ lọc chung (như category, brand, size, color)
+            document.querySelectorAll(
+                '#category_filter_form input[type=checkbox], #brand_filter_form input[type=checkbox], #size_filter_form input[type=checkbox], #color_filter_form input[type=checkbox]'
+            ).forEach(item => {
+                item.addEventListener('change', applyFilters);
+            });
+        });
+
+        function applyFilters() {
+            // Xử lý các bộ lọc chung
+            let categoryFilters = $('#category_filter_form').serialize();
+            let brandFilters = $('#brand_filter_form').serialize();
+            let sizeFilters = $('#size_filter_form').serialize();
+            let colorFilters = $('#color_filter_form').serialize();
+
+            // Kết hợp các bộ lọc chung
+            let generalFilters = [categoryFilters, brandFilters, sizeFilters, colorFilters].join('&');
+
+            // Gửi yêu cầu AJAX với các bộ lọc chung
+            $.ajax({
+                url: '{{ route('shop') }}',
+                type: 'GET',
+                data: generalFilters,
+                beforeSend: function() {
+                    // Optional loading animation
+                },
+                success: function(data) {
+                    $('#product_list').html(data.product_list);
+                    // $('#pagination').html(data.pagination);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', xhr.responseText);
+                    alert('Không thể tải sản phẩm.');
+                }
+            });
+        }
+
+        function applyPriceFilter() {
+            // Lấy dữ liệu bộ lọc giá từ form
+            let priceFilters = $('#price_filter_form').serialize();
+
+            // Gửi yêu cầu AJAX để lọc sản phẩm theo giá
+            $.ajax({
+                url: '{{ route('shop') }}',
+                type: 'GET',
+                data: priceFilters,
+                beforeSend: function() {
+                    // Optional loading animation
+                },
+                success: function(data) {
+                    $('#product_list').html(data.product_list);
+                    // $('#pagination').html(data.pagination);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', xhr.responseText);
+                    alert('Không thể tải sản phẩm.');
+                }
+            });
+        }
+    </script>
+@endsection

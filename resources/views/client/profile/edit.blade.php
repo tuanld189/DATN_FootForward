@@ -289,6 +289,8 @@
 
     <div class="product-content mt-2 " style="margin-bottom:50px;">
         <div class="container">
+
+            <h2 class="text-center">THÔNG TIN HỒ SƠ CỦA TÔI</h2>
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -300,7 +302,6 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <h2 class="text-center">Profile</h2>
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -310,11 +311,11 @@
                 <ul class="nav nav-tabs nav-tabs-custom nav-success" id="nav-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="nav-additional-tab" data-bs-toggle="tab" href="#nav-additional"
-                            role="tab" aria-controls="nav-additional" aria-selected="true">Edit Profile</a>
+                            role="tab" aria-controls="nav-additional" aria-selected="true">Hồ sơ của tôi</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" href="#nav-detail" role="tab"
-                            aria-controls="nav-detail" aria-selected="false">Details</a>
+                            aria-controls="nav-detail" aria-selected="false">Chi tiết</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="nav-order-tab" data-bs-toggle="tab" href="#nav-order" role="tab"
@@ -434,7 +435,7 @@
                                             {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
                                         </td>
                                         <td>
-                                            <a href="#" class="view-details"
+                                            <a href="#" class="view-details "
                                                 data-order-id="{{ $order->id }}">Chi Tiết</a>
                                             <!-- Existing buttons -->
                                             @if ($order->status_order === 'pending')
@@ -442,7 +443,7 @@
                                                     onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn mt-2 b-cancle">Hủy Đơn</button>
+                                                    <button type="submit" class="btn mt-2 b-cancle">Hủy</button>
                                                 </form>
                                             @endif
                                         </td>

@@ -72,6 +72,16 @@ Route::put('/comment/{id}', [ProductController::class, 'updateComment'])->name('
 Route::get('/post/{id}', [UserPostController::class, 'show'])->name('client.post');
 
 
+// Route để hiển thị form chỉnh sửa thông tin người dùng
+// Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('client.profile.edit');
+// // Route để xử lý việc cập nhật thông tin người dùng
+// Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
+
+// Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+
+
+// Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
 //Profile
 Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('client.profile.edit');
@@ -80,8 +90,11 @@ Route::put('/order/{id}/cancel', [UserProfileController::class, 'cancel'])->name
 Route::get('/profile/order/{id}', [UserProfileController::class, 'show'])->name('client.profile.order');
 
 
-
+// Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
 
 Route::post('/voucher/redeem', [VourcherController::class, 'redeemVoucher'])->name('voucher.redeem');
 
-
+//Blog
+Route::get('/new', [UserPostController::class, 'new'])->name('client.new');
+//Info
+Route::get('/info', [HomeController::class, 'info'])->name('client.info');

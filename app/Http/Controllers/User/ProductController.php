@@ -23,9 +23,19 @@ class ProductController extends Controller
             },
             'variants.color',
             'variants.size',
-            'comments.user' // Eager load comments and associated users
+            'comments.user', 
+            'sales' => function ($query) {
+            $query->where('status', true)
+                  ->where(function($query) {
+                      $query->where('start_date', '<=', now())
+                            ->orWhereNull('start_date');
+                  })
+                  ->where(function($query) {
+                      $query->where('end_date', '>=', now())
+                            ->orWhereNull('end_date');
+                  });
+         }
         ])->findOrFail($id);
-
         $categories = Category::all();
         $brands = Brand::all();
         $relateproduct = Product::with('sales')->get();
@@ -94,8 +104,7 @@ public function deleteComment($commentId)
         $comment->created_by = Auth::id();
         $comment->updated_by = Auth::id();
         $comment->save();
-
-        // Liên kết comment với sản phẩm
+// Liên kết comment với sản phẩm
         $product = Product::findOrFail($productId);
         $product->comments()->attach($comment->id);
 
