@@ -72,4 +72,13 @@ class Product extends Model
                     ->withPivot('sale_price')
                     ->withTimestamps();
     }
+    public function sizes()
+    {
+        return $this->belongsToMany(ProductSize::class, 'product_size_product');
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(ProductColor::class, 'product_color_product');
+    }
 }

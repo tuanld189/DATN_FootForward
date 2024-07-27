@@ -15,9 +15,9 @@ class User extends Authenticatable
         'name',
         'fullname',
         'phone',
-        'province_id',
-        'district_id',
-        'wand_id',
+        'province_code',
+        'district_code',
+        'wand_code',
         'address',
         'birthday',
         'photo_thumbs',
@@ -25,13 +25,27 @@ class User extends Authenticatable
         'email',
         'user_code',
         'password',
+        'is_active',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'province_code', 'code');
+    }
 
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_code', 'code');
+    }
+
+    public function wand()
+    {
+        return $this->belongsTo(Ward::class, 'ward_code', 'code');
+    }
 
     public function roles()
     {
