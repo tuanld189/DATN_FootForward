@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ProductController;
+use App\Http\Controllers\User\ShopController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Services\Payment;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 //shop
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 
+// Route::get('/shop', [ShopController::class, 'shop'])->name('client.shop');
 // login
 Route::get('/login',[UserController::class, 'login'])->name('login');
 Route::post('/login',[UserController::class, 'postLogin']);
@@ -43,6 +45,9 @@ Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('car
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
+Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
+Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
+
 
 Route::post('cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
 Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])->name('cart.update-multiple');
@@ -56,6 +61,7 @@ Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])-
 Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
 Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
 Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+
 //comment
 Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
 Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
@@ -70,3 +76,7 @@ Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('
 Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
 Route::put('/order/{id}/cancel', [UserProfileController::class, 'cancel'])->name('order.cancel');
 Route::get('/profile/order/{id}', [UserProfileController::class, 'show'])->name('client.profile.order');
+//Blog
+Route::get('/new', [UserPostController::class, 'new'])->name('client.new');
+//Info
+Route::get('/info', [HomeController::class, 'info'])->name('client.info');

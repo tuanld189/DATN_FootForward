@@ -67,6 +67,22 @@
         .logo{
             padding-left:20px;
         }
+        .main-navigation ul li a {
+            font-size: 16px;
+        }
+
+        .block-search .trigger-search span {
+            font-size: 16px;
+        }
+
+        .shoping-cart .dropdown-toggle {
+            font-size: 16px;
+        }
+        .main-menu-area .mega-menu > li a {
+            font-size: 14px;
+            font-weight: normal;
+            text-transform: capitalize;
+        }
     </style>
 
 </head>

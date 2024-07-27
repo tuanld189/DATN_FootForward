@@ -105,18 +105,6 @@
                 </div>
             </div>
         </div>
-
-
-        <div class="checkout-details-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Cart Checkout</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
 
 
@@ -158,7 +146,7 @@
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>Number phone <span class="required">*</span></label>
-                                        <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại" value="0904143512"
+                                        <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại" value="{{ Auth::check() ? Auth::user()->phone : '' }}"
                                             class="form-control">
                                         <span class="placeholder" data-placeholder="Phone number"></span>
                                     </p>
@@ -166,7 +154,7 @@
                                 <div class="col-lg-6">
                                     <p class="single-form-row">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text" name="user_address" id="user_address" class="form-control" value="HH, HN ">
+                                        <input type="text" name="user_address" id="user_address" class="form-control" value="{{ Auth::check() ? Auth::user()->address : '' }}">
                                         <span class="placeholder" data-placeholder="Address"></span>
                                     </p>
                                 </div>

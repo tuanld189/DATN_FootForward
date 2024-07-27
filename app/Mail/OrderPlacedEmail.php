@@ -2,10 +2,11 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Order;
 
 class OrderPlacedEmail extends Mailable
 {
@@ -23,7 +24,7 @@ class OrderPlacedEmail extends Mailable
         $orderItems = $this->order->orderItems;
 
         return $this->subject('Xác nhận đặt thành công từ FootForward')
-                    ->markdown('emails.orders.placed')
-                    ->with('orderItems', $orderItems);
+                    ->markdown('emails.orders.placed') // Sử dụng markdown thay vì view
+                    ->with('orderItems', $orderItems); // Truyền dữ liệu vào view
     }
 }

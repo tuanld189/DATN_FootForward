@@ -25,5 +25,14 @@ class PostController extends Controller
             return redirect()->route('client.posts.index')->with('error', 'Post not found');
         }
     }
+
+
+    public function new(Request $request)
+    {
+
+        $posts = Post::all();
+
+        return view('client.new', compact('posts'));
+    }
 }
 

@@ -1,289 +1,310 @@
 @extends('client.layouts.master')
 @section('title', 'Shop')
 @section('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
-        /* Đặt giá trị mặc định cho các phần tử đầu vào */
-        .price-range-values input {
-            border: none;
-            background: none;
-            width: 70px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
+        #priceMenu {
+            padding: 15px;
+            background-color: #f8f9fa;
+            /* Light background for contrast */
             border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 5px 10px;
+            /* Border for definition */
+            border-radius: 5px;
+            /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
         }
 
-        /* Đặt khoảng cách và hiển thị linh hoạt */
-        .price-range-values {
+        #price_filter_form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-slider {
+            margin-bottom: 15px;
+        }
+
+        .price-inputs {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
-        /* Đặt phong cách cho tiêu đề và thanh trượt */
-        .product-filter h5 {
-            margin-top: 20px;
+        .price-input-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .price-input-group:last-child {
+            margin-right: 0;
+        }
+
+        .price-input-group label {
+            display: block;
             font-weight: bold;
-            color: #000;
+            margin-bottom: 5px;
         }
 
-        /* Đặt phong cách cho noUiSlider */
-        .noUi-target {
-            background: #f2f2f2;
-            border: 1px solid #ddd;
+        .price-input-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .price-input-wrapper input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
             border-radius: 4px;
-            height: 8px;
-            /* Giảm chiều cao của thanh trượt */
+            margin-right: 5px;
         }
 
-        .noUi-horizontal .noUi-handle {
+        .currency-symbol {
+            font-size: 16px;
+            color: #333;
+        }
+
+        #apply_price_filter {
+            align-self: flex-end;
+            padding: 10px 20px;
+            font-size: 16px;
             border: none;
-            background: #000;
-            /* Đổi màu nút tròn thành màu đen */
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            top: -4px;
-            /* Điều chỉnh vị trí nút tròn */
+            border-radius: 4px;
+            background-color: #007bff;
+            /* Primary color */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .noUi-connect {
-            background: #000;
-            /* Đổi màu thanh trượt thành màu đen */
-            height: 8px;
-            /* Giảm chiều cao của thanh trượt */
+        #apply_price_filter:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
         }
     </style>
 @endsection
 @section('content')
-    <div class="content-wraper">
-        <div class="container">
+    <div class="content-wraper" >
+        <div class="container" >
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="shop-sidebar">
-                        <div class="product-select-box">
+                <div class="col-lg-3 "  style="background-color: rgb(228, 231, 198); padding-top:10px;">
+                    <div class="row">
+                        <!-- Tìm kiếm -->
+                        <div class="col-md-12 mb-3">
+                            <form id="searchForm" action="{{ route('shop') }}" method="GET">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control"
+                                        value="{{ request('search') }}" placeholder="Tìm kiếm...">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </div>
+<!-- Category Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#categoryMenu" role="button"
+                                aria-expanded="false" aria-controls="categoryMenu">
+                                Categories
+                            </a>
+                        </h5>
+                        <div class="collapse" id="categoryMenu">
+                            <form id="category_filter_form">
+                                @foreach ($categories as $category)
+                                    <div>
+                                        <input type="checkbox" id="category_{{ $category->id }}" name="category_filter[]"
+                                            value="{{ $category->id }}" onclick="applyFilters()">
+                                        <label for="category_{{ $category->id }}">{{ $category->name }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
 
-                            <div class="product-filter">
-                                <h3 style="font-weight: bold">Filters</h3>
-                                {{-- <h5 style="font-weight: bold">Price</h5>
-                                <div id="price_range"></div>
-                                <div class="price-range-values">
-                                    <input type="text" id="min_price" readonly>
-                                    <input type="text" id="max_price" readonly>
-                                </div> --}}
-                                <h5 style="font-weight: bold">Categories</h5>
-                                <form id="category_filter_form">
-                                    {{-- <div>
-                                        <input type="checkbox" id="category_all" name="category_filter[]" value="" onclick="applyFilters()">
-<label for="category_all">All Categories</label>
-                                    </div> --}}
-                                    @foreach ($categories as $category)
-                                        <div>
-                                            <input type="checkbox" id="category_{{ $category->id }}"
-                                                name="category_filter[]" value="{{ $category->id }}"
-                                                onclick="applyFilters()">
-                                            <label for="category_{{ $category->id }}">{{ $category->name }}</label>
+                        <!-- Brand Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#brandMenu" role="button"
+                                aria-expanded="false" aria-controls="brandMenu">
+                                Brands
+                            </a>
+                        </h5>
+                        <div class="collapse" id="brandMenu">
+                            <form id="brand_filter_form">
+                                @foreach ($brands as $brand)
+                                    <div>
+                                        <input type="checkbox" id="brand_{{ $brand->id }}" name="brand_filter[]"
+                                            value="{{ $brand->id }}" onclick="applyFilters()">
+                                        <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+
+                        {{-- <!-- Size Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#sizeMenu" role="button"
+                                aria-expanded="false" aria-controls="sizeMenu">
+                                Sizes
+                            </a>
+                        </h5>
+                        <div class="collapse" id="sizeMenu">
+                            <form id="size_filter_form">
+                                @foreach ($sizes as $id => $size)
+                                    <div>
+                                        <input type="checkbox" id="size_{{ $id }}" name="size_filter[]"
+value="{{ $id }}" onclick="applyFilters()">
+                                        <label for="size_{{ $id }}">{{ $size }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div> --}}
+
+                        {{-- <!-- Color Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#colorMenu" role="button"
+                                aria-expanded="false" aria-controls="colorMenu">
+                                Colors
+                            </a>
+                        </h5>
+                        <div class="collapse" id="colorMenu">
+                            <form id="color_filter_form">
+                                @foreach ($colors as $id => $color)
+                                    <div>
+                                        <input type="checkbox" id="color_{{ $id }}" name="color_filter[]"
+                                            value="{{ $id }}" onclick="applyFilters()">
+                                        <label for="color_{{ $id }}">{{ $color }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div> --}}
+                        <!-- Price Filter Form -->
+                        <h5 style="font-weight: bold">
+                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#priceMenu" role="button"
+                                aria-expanded="false" aria-controls="priceMenu">
+                                Price
+                            </a>
+                        </h5>
+                        <div class="collapse" id="priceMenu">
+                            <form id="price_filter_form" action="{{ route('shop') }}" method="GET">
+                                <div id="price_slider" class="price-slider"></div>
+                                <div class="price-inputs">
+                                    <div class="price-input-group">
+                                        <label for="price_min">Min Price:</label>
+                                        <div class="price-input-wrapper">
+                                            <input type="text" id="price_min" name="price_min" readonly>
+                                            <span class="currency-symbol">đ-</span>
                                         </div>
-                                    @endforeach
-                                </form>
-                                <h5 style="font-weight: bold">Brands</h5>
-                                <form id="brand_filter_form">
-                                    @foreach ($brands as $brand)
-                                        <div>
-                                            <input type="checkbox" id="brand_{{ $brand->id }}" name="brand_filter[]"
-                                                value="{{ $brand->id }}" onclick="applyFilters()">
-                                            <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
+                                    </div>
+                                    <div class="price-input-group">
+                                        <label for="price_max">Max Price:</label>
+                                        <div class="price-input-wrapper">
+                                            <input type="text" id="price_max" name="price_max" readonly>
+<span class="currency-symbol">đ</span>
                                         </div>
-                                    @endforeach
-                                </form>
-                                <h5 style="font-weight: bold">Colors</h5>
-                                <h5 style="font-weight: bold">Sizes</h5>
-                            </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-9">
-                    <div class="shop-wrapper-tab-panel">
-                        <div class="shop-slider">
-                            <div class="shop-product-area">
-                                <div class="product-short">
-                                    <select style="border-radius: 10px;" class="nice-select" id="sort_by" name="sort_by"
-                                        onchange="applyFilters()">
-                                        <option value="relevance">Lọc theo sản phẩm</option>
-                                        <option value="name_asc">Name (A - Z)</option>
-                                        <option value="name_desc">Name (Z - A)</option>
-                                        <option value="price_asc">Price (Low > High)</option>
-                                        <option value="price_desc">Price (High > Low)</option>
-                                        <option value="rating_asc">Rating (Lowest)</option>
-                                        <option value="rating_desc">Rating (Highest)</option>
-                                    </select>
-                                </div>
-                                <div class="row" id="product_list">
-@foreach ($products as $product)
-                                        <div class="col-lg-4 col-md-4 col-sm-6 mt-30">
-                                            <div class="single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="{{ route('client.show', $product->id) }}">
-                                                        <img class="img-fluid"
-                                                            src="{{ Storage::url($product->img_thumbnail) }}"
-                                                            alt="">
-                                                    </a>
-                                                    <span class="label-product label-new">new</span>
-                                                    @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
-                                                        @php
-                                                            $discountPercentage =
-                                                                (($product->price -
-                                                                    $product->sales->first()->pivot->sale_price) /
-                                                                    $product->price) *
-                                                                100;
-                                                        @endphp
-                                                        <span
-                                                            class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
-                                                    @endif
-                                                    <div class="quick_view">
-                                                        <a href="#" title="quick view" class="quick-view-btn"
-                                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                                                            <i class="fa fa-search"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3><a
-                                                            href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a>
-                                                    </h3>
-                                                    <div class="price-box">
-                                                        @if ($product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status)
-                                                            <span
-class="old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                                VNĐ</span>
-                                                            <span
-                                                                class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
-                                                                VNĐ</span>
-                                                        @else
-                                                            <span
-                                                                class="new-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                                VNĐ</span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="product-action">
-                                                        <button class="add-to-cart" title="Add to cart"><i
-                                                                class="fa fa-plus"></i> Add to cart</button>
-                                                        <div class="star_content">
-                                                            <ul class="d-flex">
-                                                                <li><a class="star" href="#"><i
-                                                                            class="fa fa-star"></i></a></li>
-                                                                <li><a class="star" href="#"><i
-                                                                            class="fa fa-star"></i></a></li>
-                                                                <li><a class="star" href="#"><i
-                                                                            class="fa fa-star"></i></a></li>
-                                                                <li><a class="star" href="#"><i
-                                                                            class="fa fa-star"></i></a></li>
-                                                                <li><a class="star-o" href="#"><i
-                                                                            class="fa fa-star-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row" id="product_list">
+                        @include('client.product-list') <!-- Load initial product list -->
                     </div>
                 </div>
             </div>
+            {{ $products->links() }}
         </div>
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // const minPrice = localStorage.getItem('min_price');
-            // const maxPrice = localStorage.getItem('max_price');
-            const sortBy = localStorage.getItem('sort_by');
-            const categoryFilters = JSON.parse(localStorage.getItem('category_filters') || '[]');
-            const brandFilters = JSON.parse(localStorage.getItem('brand_filters') || '[]');
-
-            // if (minPrice) document.getElementById('min_price').value = minPrice;
-            // if (maxPrice) document.getElementById('max_price').value = maxPrice;
-            if (sortBy) document.getElementById('sort_by').value = sortBy;
-
-            categoryFilters.forEach(category => {
-                document.getElementById('category_' + category).checked = true;
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Khởi tạo thanh trượt giá
+            $("#price_slider").slider({
+                range: true,
+                min: 0,
+                max: 1000000, // Set maximum value as needed
+                step: 1000,
+                values: [
+                    parseFloat($('#price_min').val()) || 0,
+                    parseFloat($('#price_max').val()) || 1000
+                ],
+                slide: function(event, ui) {
+                    $("#price_min").val(ui.values[0]);
+                    $("#price_max").val(ui.values[1]);
+                },
+                change: function(event, ui) {
+                    // Trigger price filter on change
+                    applyPriceFilter();
+                }
             });
 
-            brandFilters.forEach(brand => {
-                document.getElementById('brand_' + brand).checked = true;
+            // Xử lý sự kiện apply price filter
+            document.getElementById('apply_price_filter').addEventListener('click', function() {
+                // Gửi yêu cầu AJAX để áp dụng bộ lọc giá
+                applyPriceFilter();
             });
 
-            var priceRangeSlider = document.getElementById('price_range');
-
-            // noUiSlider.create(priceRangeSlider, {
-            //     start: [minPrice, maxPrice],
-            //     connect: true,
-            //     range: {
-            //         'min': 0,
-            //         'max': 1000000
-            //     }
-            // });
-
-            // var minPriceInput = document.getElementById('min_price');
-            // var maxPriceInput = document.getElementById('max_price');
-
-            // priceRangeSlider.noUiSlider.on('update', function(values, handle) {
-            //     if (handle) {
-            //         maxPriceInput.value = values[handle];
-            //     } else {
-            //         minPriceInput.value = values[handle];
-            //     }
-            // });
-
-            priceRangeSlider.noUiSlider.on('change', function() {
-                applyFilters();
+            // Xử lý sự kiện thay đổi bộ lọc chung (như category, brand, size, color)
+            document.querySelectorAll(
+                '#category_filter_form input[type=checkbox], #brand_filter_form input[type=checkbox], #size_filter_form input[type=checkbox], #color_filter_form input[type=checkbox]'
+            ).forEach(item => {
+                item.addEventListener('change', applyFilters);
             });
         });
 
         function applyFilters() {
-            var minPrice = document.getElementById('min_price').value;
-            var maxPrice = document.getElementById('max_price').value;
-            var sortBy = document.getElementById('sort_by').value;
+            // Xử lý các bộ lọc chung
+            let categoryFilters = $('#category_filter_form').serialize();
+            let brandFilters = $('#brand_filter_form').serialize();
+            let sizeFilters = $('#size_filter_form').serialize();
+            let colorFilters = $('#color_filter_form').serialize();
 
-            var selectedCategories = [];
-            var selectedBrands = [];
+            // Kết hợp các bộ lọc chung
+            let generalFilters = [categoryFilters, brandFilters, sizeFilters, colorFilters].join('&');
 
-            document.querySelectorAll('#category_filter_form input[type="checkbox"]:checked').forEach(function(checkbox) {
-                selectedCategories.push(checkbox.value);
+            // Gửi yêu cầu AJAX với các bộ lọc chung
+            $.ajax({
+url: '{{ route('shop') }}',
+                type: 'GET',
+                data: generalFilters,
+                beforeSend: function() {
+                    // Optional loading animation
+                },
+                success: function(data) {
+                    $('#product_list').html(data.product_list);
+                    // $('#pagination').html(data.pagination);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', xhr.responseText);
+                    alert('Không thể tải sản phẩm.');
+                }
             });
+        }
 
-            document.querySelectorAll('#brand_filter_form input[type="checkbox"]:checked').forEach(function(checkbox) {
-                selectedBrands.push(checkbox.value);
+        function applyPriceFilter() {
+            // Lấy dữ liệu bộ lọc giá từ form
+            let priceFilters = $('#price_filter_form').serialize();
+
+            // Gửi yêu cầu AJAX để lọc sản phẩm theo giá
+            $.ajax({
+                url: '{{ route('shop') }}',
+                type: 'GET',
+                data: priceFilters,
+                beforeSend: function() {
+                    // Optional loading animation
+                },
+                success: function(data) {
+                    $('#product_list').html(data.product_list);
+                    // $('#pagination').html(data.pagination);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', xhr.responseText);
+                    alert('Không thể tải sản phẩm.');
+                }
             });
-
-            localStorage.setItem('min_price', minPrice);
-            localStorage.setItem('max_price', maxPrice);
-            localStorage.setItem('sort_by', sortBy);
-            localStorage.setItem('category_filters', JSON.stringify(selectedCategories));
-localStorage.setItem('brand_filters', JSON.stringify(selectedBrands));
-
-            var params = new URLSearchParams();
-            if (minPrice) params.append('min_price', minPrice);
-            if (maxPrice) params.append('max_price', maxPrice);
-            if (sortBy) params.append('sort_by', sortBy);
-            selectedCategories.forEach(category => params.append('category_filter[]', category));
-            selectedBrands.forEach(brand => params.append('brand_filter[]', brand));
-
-            var url = '{{ route('shop') }}?' + params.toString();
-            window.location.href = url;
         }
     </script>
 @endsection

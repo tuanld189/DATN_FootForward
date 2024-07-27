@@ -295,7 +295,7 @@ td {
         {{ session('error') }}
     </div>
 @endif
-        <h2 class="text-center">Profile</h2>
+        <h2 class="text-center">THÔNG TIN HỒ SƠ CỦA TÔI</h2>
         @if(session('status'))
             <div class="alert alert-success">
                 {{ session('status') }}
@@ -304,10 +304,10 @@ td {
         <nav>
             <ul class="nav nav-tabs nav-tabs-custom nav-success" id="nav-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="nav-additional-tab" data-bs-toggle="tab" href="#nav-additional" role="tab" aria-controls="nav-additional" aria-selected="true">Edit Profile</a>
+                    <a class="nav-link active" id="nav-additional-tab" data-bs-toggle="tab" href="#nav-additional" role="tab" aria-controls="nav-additional" aria-selected="true">Hồ sơ của tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">Details</a>
+                    <a class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">Chi tiết</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="nav-order-tab" data-bs-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-order" aria-selected="false">Trạng thái đơn hàng</a>
