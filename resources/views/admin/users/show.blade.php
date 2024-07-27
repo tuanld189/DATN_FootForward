@@ -16,7 +16,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Name:</strong> {{ $user->name }}</p>
+                    <p><strong>Name:</strong> {{ $user->fullname }}</p>
                     <p><strong>Email:</strong> {{ $user->email }}</p>
                     <p><strong>Phone:</strong> {{ $user->phone }}</p>
                     <p><strong>User Code:</strong> {{ $user->user_code }}</p>

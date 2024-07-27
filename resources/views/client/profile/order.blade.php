@@ -1,4 +1,3 @@
-
 <div class="row mb-2">
     <div class="col-md-6">
         <p class="text-center"><strong>Thông tin đơn hàng</strong></p>
@@ -47,7 +46,7 @@
                 <div class="icon mb-2 p-2 rounded-circle {{ $statusClass }}">
                     <i class="bi
                         {{ $key == 'pending' ? 'bi-hourglass' : '' }}
-                        {{ $key == 'confirmed' ? 'bi-check-circle' : '' }}
+{{ $key == 'confirmed' ? 'bi-check-circle' : '' }}
                         {{ $key == 'preparing_goods' ? 'bi-box' : '' }}
                         {{ $key == 'shipping' ? 'bi-truck' : '' }}
                         {{ $key == 'delivered' ? 'bi-check2-circle' : '' }}

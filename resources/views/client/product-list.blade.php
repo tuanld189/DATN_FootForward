@@ -1,9 +1,9 @@
 <div class="shop-wrapper-tab-panel">
-    <div class="shop-slider" style="border-right: 1px solid rgb(182, 181, 181); padding-right:10px;">
-        <div class="shop-product-area" >
-            <div class="row" >
+    <div class="shop-slider">
+        <div class="shop-product-area">
+            <div class="row">
                 <!-- Sắp xếp -->
-                <div class="col-md-12 mb-3" style="padding-top:10px;">
+                <div class="col-md-12 mb-3">
                     <div class="col-md-3 mr-4">
                         <form id="sortForm" method="GET" action="{{ route('shop') }}">
                             <select name="sort" id="sort" class="form-control" onchange="submitSortForm()">
@@ -45,7 +45,7 @@
                                         data-bs-target="#exampleModalCenter">
                                         <i class="fa fa-search"></i>
                                     </a>
-                            </div>
+                                </div>
                             </div>
                             <div class="product-content">
                                 <h3><a href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a></h3>
@@ -102,7 +102,7 @@
                 beforeSend: function() {
                     // Optional loading animation
                 },
-success: function(data) {
+                success: function(data) {
                     $('#product_list').html($(data).find('#product_list').html());
                     // Update pagination if necessary
                     $('#pagination').html($(data).find('#pagination').html());

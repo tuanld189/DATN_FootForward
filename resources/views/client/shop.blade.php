@@ -86,7 +86,7 @@
     <div class="content-wraper" >
         <div class="container" >
             <div class="row">
-                <div class="col-lg-3 "  style="background-color: rgb(228, 231, 198); padding-top:10px;">
+                <div class="col-lg-3">
                     <div class="row">
                         <!-- Tìm kiếm -->
                         <div class="col-md-12 mb-3">
@@ -98,7 +98,8 @@
                                 </div>
                             </form>
                         </div>
-<!-- Category Filter Form -->
+
+                        <!-- Category Filter Form -->
                         <h5 style="font-weight: bold">
                             <a class="text-decoration-none" data-bs-toggle="collapse" href="#categoryMenu" role="button"
                                 aria-expanded="false" aria-controls="categoryMenu">
@@ -148,7 +149,7 @@
                                 @foreach ($sizes as $id => $size)
                                     <div>
                                         <input type="checkbox" id="size_{{ $id }}" name="size_filter[]"
-value="{{ $id }}" onclick="applyFilters()">
+                                            value="{{ $id }}" onclick="applyFilters()">
                                         <label for="size_{{ $id }}">{{ $size }}</label>
                                     </div>
                                 @endforeach
@@ -195,7 +196,7 @@ value="{{ $id }}" onclick="applyFilters()">
                                         <label for="price_max">Max Price:</label>
                                         <div class="price-input-wrapper">
                                             <input type="text" id="price_max" name="price_max" readonly>
-<span class="currency-symbol">đ</span>
+                                            <span class="currency-symbol">đ</span>
                                         </div>
                                     </div>
                                 </div>
@@ -267,7 +268,7 @@ value="{{ $id }}" onclick="applyFilters()">
 
             // Gửi yêu cầu AJAX với các bộ lọc chung
             $.ajax({
-url: '{{ route('shop') }}',
+                url: '{{ route('shop') }}',
                 type: 'GET',
                 data: generalFilters,
                 beforeSend: function() {

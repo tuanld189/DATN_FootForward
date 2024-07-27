@@ -1,4 +1,3 @@
-
 <div class="header-area">
     <div class="header-top bg-black">
         <div class="container">
@@ -6,8 +5,8 @@
                 <div class="col-lg-8 order-2 order-lg-1">
                     <div class="top-left-wrap">
                         <ul class="phone-email-wrap">
-                            <li><i class="fa fa-phone"></i> (+84)0987 456 321</li>
-                            <li><i class="fa fa-envelope-open-o"></i>  wk@footforward.vn</li>
+                            <li><i class="fa fa-phone"></i> (+84)0968888888</li>
+                            <li><i class="fa fa-envelope-open-o"></i> wk@footforward.vn</li>
                         </ul>
                         <ul class="link-top">
                             <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a></li>
@@ -35,8 +34,9 @@
                             </li>
                             <li class="language list-inline-item">
                                 <div class="btn-group">
-                                    <button class="dropdown-toggle"><img src="assets/images/icon/vn.png" width="20px" height="20px"
-                                            alt=""> Tiếng Việt <i class="fa fa-angle-down"></i></button>
+                                    <button class="dropdown-toggle"><img src="assets/images/icon/vn.png" width="20px"
+                                            height="20px" alt=""> Tiếng Việt <i
+                                            class="fa fa-angle-down"></i></button>
                                     <div class="dropdown-menu">
                                         <ul>
                                             <li><a href="#"><img src="assets/images/icon/la-1.jpg" alt="">
@@ -52,28 +52,32 @@
                                     <button class="dropdown-toggle">
                                         <i class="">
                                             <img alt="user avatar"
-                                            src="{{ Auth::check() ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
-                                            style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->name: 'Setting' }} <i class="fa fa-angle-down">
+                                                src="{{ Auth::check() ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
+                                                style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->name : 'Setting' }}
+                                        <i class="fa fa-angle-down">
                                         </i>
                                     </button>
 
                                     <div class="dropdown-menu">
                                         <ul>
                                             @if (Auth::check())
-
-                                            <li>
-                                                <a href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Tài khoản của tôi</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn mua</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{route('admin.dashboard')}}">Quản lý</a>
-                                            </li>
+                                                <li>
+                                                    <a
+                                                        href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Tài
+                                                        khoản</a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn
+                                                        mua</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('admin.dashboard') }}">Quản lý</a>
+                                                </li>
                                             @else
-                                            <li>
-                                                <a href="{{route('login')}}">Đăng kí</a>
-                                            </li>
+                                                <li>
+                                                    <a href="{{ route('login') }}">Đăng kí</a>
+                                                </li>
                                             @endif
 
 
@@ -96,13 +100,13 @@
                             height="80px">
                     </a>
                 </div>
-                <div class="main-menu-area" >
+                <div class="main-menu-area">
                     <nav class="main-navigation">
                         <ul class="d-flex justify-content-center">
                             <li class="active"><a href="{{ route('index') }}">Trang chủ</a></li>
-                            <li><a href="{{route('shop')}}">Sản phẩm
-                                {{-- <i class="fa fa-angle-down"></i> --}}
-                            </a>
+                            <li><a href="{{ route('shop') }}">Sản phẩm
+                                    {{-- <i class="fa fa-angle-down"></i> --}}
+                                </a>
                                 {{-- <ul class="mega-menu">
                                     <li><a href="#"><b>THỂ LOẠI</b></a>
                                         <ul>
@@ -124,9 +128,9 @@
                                     </li>
                                 </ul> --}}
                             </li>
-                            <li><a href="{{route('client.new')}}">Bài viết</i></a></li>
-                            <li><a href="{{route('client.info')}}">Thông tin </a></li>
-                            <li><a href="{{route('client.info')}}">Liên hệ</a></li>
+                            <li><a href="{{ route('client.new') }}">Bài viết</i></a></li>
+                            <li><a href="{{ route('client.info') }}">Thông tin </a></li>
+                            <li><a href="{{ route('client.info') }}">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -150,9 +154,11 @@
                                 @php
                                     $totalItems = count(session('cart', []));
                                 @endphp
-                                <a href="{{route('cart.list')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a> ({{$totalItems}})
+                                <a href="{{ route('cart.list') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a>
+                                ({{ $totalItems }})
                             </button>
-                            <div class="dropdown-menu mini-cart-wrap mt-4" style="overflow-y:scroll; width:350px; height: 350px; background-color: white;">
+                            <div class="dropdown-menu mini-cart-wrap mt-4"
+                                style="overflow-y:scroll; width:350px; height: 350px; background-color: white;">
                                 <div class="shopping-cart-content">
                                     <ul class="mini-cart-content">
                                         @php
@@ -160,32 +166,44 @@
                                         @endphp
                                         @forelse(session('cart', []) as $item)
                                             @php
-                                                $itemTotal = $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+                                                $itemTotal =
+                                                    $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
                                                 $totalAmount += $itemTotal;
                                             @endphp
                                             <li class="mini-cart-item">
-                                                <div class="mini-cart-product-img" >
-                                                    <a href="#"> <img src="{{ asset('storage/' . $item['image']) }}" alt="" width="70px"></a>
+                                                <div class="mini-cart-product-img">
+                                                    <a href="#"> <img
+                                                            src="{{ asset('storage/' . $item['image']) }}"
+                                                            alt="" width="70px"></a>
                                                     <span class="product-quantity">x{{ $item['quantity_add'] }}</span>
                                                 </div>
-                                                <div class="mini-cart-product-desc " >
+                                                <div class="mini-cart-product-desc ">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
                                                     <div class="price-box" >
                                                         @if ($item['sale_price'])
-                                                            <span class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
-                                                            <span class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }} VNĐ</span>
+                                                            <span
+                                                                class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }}
+                                                                VNĐ</span>
                                                         @else
-                                                            <span class="amount">{{ number_format($item['price'], 0, ',', '.') }} VNĐ</span>
+                                                            <span
+                                                                class="amount">{{ number_format($item['price'], 0, ',', '.') }}
+                                                                VNĐ</span>
                                                         @endif
                                                     </div>
                                                     <div class="size">Size: {{ $item['size']['name'] }}</div>
                                                     <div class="color">Color: {{ $item['color']['name'] }}</div>
                                                 </div>
                                                 <div class="remove-from-cart " style="margin-left:30px;">
-                                                    <form action="{{ route('cart.remove', ['id' => $item['id']]) }}" method="POST" style="display:inline;">
+                                                    <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"
+                                                        method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" onclick="return confirm('Are you sure?')" title="Remove" style="background:none; border:none; color: inherit;">
+                                                        <button type="submit"
+                                                            onclick="return confirm('Are you sure?')" title="Remove"
+                                                            style="background:none; border:none; color: inherit;">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -193,16 +211,19 @@
                                             </li>
                                         @empty
                                             <li>
-                                                <div class="shopping-cart-content text-center" colspan="8" style="height:150px;" >No items in the cart</div>
+                                                <div class="shopping-cart-content text-center" colspan="8"
+                                                    style="height:150px;">No items in the cart</div>
                                             </li>
                                         @endforelse
 
                                         <li>
                                             <div class="shopping-cart-total">
-                                                <h4>Sub-Total : <span>{{ number_format($totalAmount, 0, ',', '.') }} VNĐ</span></h4>
+                                                <h4>Sub-Total : <span>{{ number_format($totalAmount, 0, ',', '.') }}
+                                                        VNĐ</span></h4>
                                             </div>
                                             <div class="shopping-cart-total">
-                                                <h4>Total : <span>{{ number_format($totalAmount, 0, ',', '.') }} VNĐ</span></h4>
+                                                <h4>Total : <span>{{ number_format($totalAmount, 0, ',', '.') }}
+                                                        VNĐ</span></h4>
                                             </div>
                                             <div class="shopping-cart-btn">
                                                 <a href="{{ route('cart.list') }}">Chi tiết</a>

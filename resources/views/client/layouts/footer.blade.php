@@ -48,7 +48,7 @@
                          <div class="col-lg-6 col-md-6">
                              <!-- footer-info-area start -->
                              <div class="footer-info-area">
-                                 <div class="footer-title">
+<div class="footer-title">
                                      <h3>Về chúng tôi</h3>
                                  </div>
                                  <div class="desc_footer">
@@ -105,4 +105,3 @@
      </div>
      <!-- footer-buttom start -->
  </footer>
-

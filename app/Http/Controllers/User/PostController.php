@@ -35,4 +35,3 @@ class PostController extends Controller
         return view('client.new', compact('posts'));
     }
 }
-

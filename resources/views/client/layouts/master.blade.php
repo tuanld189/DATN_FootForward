@@ -107,7 +107,7 @@
         <!-- Modal Algemeen Uitgelicht start -->
         <div class="modal fade modal-wrapper" id="exampleModalCenter">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+<div class="modal-content">
                     <div class="modal-body">
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -150,7 +150,7 @@
                                         <h2>Healthy Melt</h2>
                                         <div class="price-box">
                                             <span class="old-price">$70.00</span>
-                                            <span class="new-price">$76.00</span>
+<span class="new-price">$76.00</span>
                                             <span class="discount discount-percentage">Save 5%</span>
                                         </div>
                                         <p>100% cotton double printed dress. Black and white striped top and orange
@@ -188,7 +188,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button class="add-to-cart" type="submit">Add to cart</button>
+<button class="add-to-cart" type="submit">Add to cart</button>
                                             </form>
                                         </div>
                                     </div>

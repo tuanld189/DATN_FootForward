@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -14,16 +15,29 @@ use Illuminate\Support\Facades\Log;
 class UserProfileController extends Controller
 {
 
+    // public function edit($id)
+    // {
+    //     $user = User::with('orders')->findOrFail($id);
+    //     $orders = Order::where('user_id', $id)->get();
+
+    //     return view('client.profile.edit', [
+    //         'user' => $user,
+    //         'orders' => $orders
+    //     ]);
+    // }
     public function edit($id)
     {
         $user = User::with('orders')->findOrFail($id);
-        $orders = Order::where('user_id', $id)->get();
+        $orders = Order::where('user_id', $id)
+            ->orderBy('created_at', 'desc') // Sort orders by creation date, newest first
+            ->get();
 
         return view('client.profile.edit', [
             'user' => $user,
             'orders' => $orders
         ]);
     }
+
 
     public function show($id)
     {

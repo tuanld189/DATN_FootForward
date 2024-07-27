@@ -1,95 +1,99 @@
 @extends('client.layouts.master')
 @section('title', 'Trang chủ')
 @section('styles')
-<style>
-    .single-slide {
-    height: 680px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.slider-text-info {
-    margin-left:-150px;
-    margin-top:300px;
-    color: #fff;
-}
-.single-banner img {
-    width: 546px;
-    height: 270px;
-    border-radius: 5px;
-}
+    <style>
+        .single-slide {
+            height: 680px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-.banner-image {
-    position: relative;
-    overflow: hidden;
-}
+        .slider-text-info {
+            margin-left: -150px;
+            margin-top: 300px;
+            color: #fff;
+        }
 
-.banner-image img {
-    width: 100%;
-    height: 270px;
-    object-fit: cover;
-    display: block;
-}
+        .single-banner img {
+            width: 546px;
+            height: 270px;
+            border-radius: 5px;
+        }
 
-.banner-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        .banner-image {
+            position: relative;
+            overflow: hidden;
+        }
 
-.banner-image:hover .banner-overlay {
-    opacity: 1;
-}
+        .banner-image img {
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+            display: block;
+        }
 
-.banner-overlay h5 {
-    font-size: 24px;
-    margin: 0;
-    text-align: center;
-    color: #fff;
-}
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-.carousel-control-prev,
-.carousel-control-next {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    width: 3%; /* Thay đổi chiều rộng để điều chỉnh khoảng cách */
-}
+        .banner-image:hover .banner-overlay {
+            opacity: 1;
+        }
 
-.slide:hover .carousel-control-prev,
-.slide:hover .carousel-control-next {
-    opacity: 1;
-}
+        .banner-overlay h5 {
+            font-size: 24px;
+            margin: 0;
+            text-align: center;
+            color: #fff;
+        }
 
-.carousel-control-prev {
-    left: 20px;
-}
-.carousel-control-next {
-    right: 20px;
-}
+        .carousel-control-prev,
+        .carousel-control-next {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            width: 3%;
+            /* Thay đổi chiều rộng để điều chỉnh khoảng cách */
+        }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: rgb(167, 160, 160);
-    opcity:50%;
-    padding:15px;
-    border-radius:5px;
-    font-size: 0.1px;
-}
+        .slide:hover .carousel-control-prev,
+        .slide:hover .carousel-control-next {
+            opacity: 1;
+        }
 
-.carousel-control-prev-icon:after,
-.carousel-control-next-icon:after {
-    color: white;
-}
-</style>
+        .carousel-control-prev {
+            left: 20px;
+        }
+
+        .carousel-control-next {
+            right: 20px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: rgb(167, 160, 160);
+            opcity: 50%;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 0.1px;
+        }
+
+        .carousel-control-prev-icon:after,
+        .carousel-control-next-icon:after {
+            color: white;
+        }
+    </style>
 
 
 @endsection
@@ -100,7 +104,7 @@
         <div class="container-fluid">
             <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
                 <div class="carousel-inner">
-                    @foreach($banners as $key => $banner)
+                    @foreach ($banners as $key => $banner)
                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                             <div class="single-slide" style="background-image: url('{{ Storage::url($banner->image) }}')">
                                 <div class="hero-content-one container">
@@ -110,7 +114,7 @@
                                                 {{-- <h1>Giày Classic </h1>
                                                 <h1>Phù hợp với mọi độ tuổi, giới tính</h1>
                                                 <p>Những đôi giày được thiết kế tinh tế và chất lượng cao, mang lại sự thoải mái và <br> phong cách cho người sử dụng. Hãy khám phá bộ sưu tập của chúng tôi.</p>
-                                                <a href="{{route('shop')}}" class="btn slider-btn uppercase"><span><i class="fa fa-plus"></i> Mua Ngay</span></a> --}}
+<a href="{{route('shop')}}" class="btn slider-btn uppercase"><span><i class="fa fa-plus"></i> Mua Ngay</span></a> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -141,49 +145,65 @@
                             <div class="row">
                                 <div class="product-wrapper-tab-panel mt-3">
                                     <div class="product-slider">
-                                    @foreach ($productsOnSale as $product)
-                                        <div class="single-product-wrap">
-                                            <div class="product-image">
-                                                <a href="{{ route('client.show', $product->id) }}">
-                                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}">
-                                                </a>
-                                                <span class="label-product label-new">new</span>
-
-                                                @php
-                                                    $discountPercentage =
-                                                        (($product->price - $product->sales->first()->pivot->sale_price) /
-                                                            $product->price) * 100;
-                                                @endphp
-                                                <span class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
-
-                                                <div class="quick_view">
-                                                    <a href="#" title="quick view" class="quick-view-btn" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModalCenter">
-                                                        <i class="fa fa-search"></i>
+                                        @foreach ($productsOnSale as $product)
+                                            <div class="single-product-wrap">
+                                                <div class="product-image">
+                                                    <a href="{{ route('client.show', $product->id) }}">
+                                                        <img class="img-fluid"
+                                                            src="{{ asset('storage/' . $product->img_thumbnail) }}" style="width: 300px; height: 250px;">
                                                     </a>
+                                                    <span class="label-product label-new">new</span>
+
+                                                    @php
+                                                        $discountPercentage =
+                                                            (($product->price -
+                                                                $product->sales->first()->pivot->sale_price) /
+                                                                $product->price) *
+                                                            100;
+                                                    @endphp
+                                                    <span
+                                                        class="label-product label-sale">-{{ round($discountPercentage, 0) }}%</span>
+
+                                                    <div class="quick_view">
+                                                        <a href="#" title="quick view" class="quick-view-btn"
+                                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                                            <i class="fa fa-search"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a></h3>
-                                                <div class="price-box">
-                                                    <span class="old-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
-                                                    <span class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }} VNĐ</span>
-                                                </div>
-                                                <div class="product-action">
-                                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to cart</button>
-                                                    <div class="star_content">
-                                                        <ul class="d-flex">
-                                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                                            <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a></li>
-                                                        </ul>
+                                                <div class="product-content">
+                                                    <h3><a
+                                                            href="{{ route('client.show', $product->id) }}">{{ $product->name }}</a>
+                                                    </h3>
+                                                    <div class="price-box">
+                                                        <span
+                                                            class="old-price">{{ number_format($product->price, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                        <span
+                                                            class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                    </div>
+                                                    <div class="product-action">
+                                                        <button class="add-to-cart" title="Add to cart"><i
+                                                                class="fa fa-plus"></i> Add to cart</button>
+                                                        <div class="star_content">
+                                                            <ul class="d-flex">
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star" href="#"><i
+                                                                            class="fa fa-star"></i></a></li>
+                                                                <li><a class="star-o" href="#"><i
+                                                                            class="fa fa-star-o"></i></a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -268,8 +288,8 @@
                     @foreach ($productsNoSale as $product)
                         <div class="single-product-wrap">
                             <div class="product-image">
-                                <a href="{{ route('client.show', $product->id) }}">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}">
+                                <a href="{{ route('client.show', $product->id) }}" >
+                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}" style="width: 300px; height: 250px;">
                                 </a>
                                 <span class="label-product label-new">new</span>
 
@@ -317,16 +337,17 @@
                 </div>
                 <div id="categoryCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
                     <div class="carousel-inner">
-                        @foreach($categories->chunk(2) as $key => $chunk)
+                        @foreach ($categories->chunk(2) as $key => $chunk)
                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                 <div class="row">
-                                    @foreach($chunk as $category)
+                                    @foreach ($chunk as $category)
                                         <div class="col-lg-6 col-md-12">
                                             <!-- single-banner start -->
                                             <div class="single-banner mt--30">
                                                 <a href="{{ $category->link }}">
                                                     <div class="banner-image">
-                                                        <img src="{{ $category->image }}" alt="" style="width: 100%; height: 270px; object-fit: cover;">
+                                                        <img src="{{ $category->image }}" alt=""
+                                                            style="width: 100%; height: 270px; object-fit: cover;">
                                                         <div class="banner-overlay">
                                                             <h5>{{ $category->name }}</h5>
                                                         </div>
@@ -372,7 +393,7 @@
                         <div class="latest-blog-image">
                             <a href="{{ route('client.post', $item->id) }}">
                                 <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
-                                    style="width: 330px; height: 370px;">
+                                    style="width: 330px; height: 250px;">
                             </a>
                         </div>
                         <div class="latest-blog-content">
@@ -406,7 +427,7 @@
             </div>
             <div class="row our-brand-active text-center col-1g-12" style="padding-left:200px;">
                 @foreach ($brands as $brand)
-                    <div class="col-lg-2" >
+                    <div class="col-lg-2">
                         <div class="single-brand ">
                             <img class="img-fluid" src="{{ $brand->image }}" alt="" width="100px"
                                 height="100px">

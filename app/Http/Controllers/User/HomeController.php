@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\User;
 
 use App\Models\Product;
@@ -19,21 +20,22 @@ class HomeController extends Controller
         $query = $this->applyFilters($request, $query);
         $products = $query->with(['sales' => function ($query) {
             $query->where('status', true)
-                  ->where(function($query) {
-                      $query->where('start_date', '<=', now())
-                            ->orWhereNull('start_date');
-                  })
-                  ->where(function($query) {
-                      $query->where('end_date', '>=', now())
-                            ->orWhereNull('end_date');
-                  });
+                ->where(function ($query) {
+                    $query->where('start_date', '<=', now())
+                        ->orWhereNull('start_date');
+                })
+                ->where(function ($query) {
+                    $query->where('end_date', '>=', now())
+                        ->orWhereNull('end_date');
+                });
         }])->get();
 
-        $productsOnSale = $products->filter(function($product) {
+
+        $productsOnSale = $products->filter(function ($product) {
             return $product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status;
         });
 
-        $productsNoSale = $products->filter(function($product) {
+        $productsNoSale = $products->filter(function ($product) {
             return $product->sales->isEmpty() || !$product->sales->first()->pivot || !$product->sales->first()->status;
         });
 
