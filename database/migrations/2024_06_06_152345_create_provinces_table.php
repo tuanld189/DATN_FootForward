@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->index('administrative_region_id', 'idx_provinces_region');
             $table->index('administrative_unit_id', 'idx_provinces_unit');
+            $table->timestamps();
         });
     }
 
