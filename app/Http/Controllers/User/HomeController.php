@@ -30,6 +30,7 @@ class HomeController extends Controller
                 });
         }])->get();
 
+
         $productsOnSale = $products->filter(function ($product) {
             return $product->sales->isNotEmpty() && $product->sales->first()->pivot && $product->sales->first()->status;
         });

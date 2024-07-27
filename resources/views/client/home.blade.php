@@ -306,8 +306,7 @@
                                     <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
                                 </div>
                                 <div class="product-action">
-                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to
-                                        cart</button>
+                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to cart</button>
                                     <div class="star_content">
                                         <ul class="d-flex">
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>

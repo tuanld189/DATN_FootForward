@@ -179,7 +179,7 @@
                                                 </div>
                                                 <div class="mini-cart-product-desc ">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
-                                                    <div class="price-box">
+                                                    <div class="price-box" >
                                                         @if ($item['sale_price'])
                                                             <span
                                                                 class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
