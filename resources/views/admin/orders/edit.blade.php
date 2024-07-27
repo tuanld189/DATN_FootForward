@@ -1,22 +1,6 @@
 @extends('admin.layout.master')
 @section('title', 'Edit Order')
-@if (session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
 
-@if (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
-
-@if (session('info'))
-<div class="alert alert-info">
-    {{ session('info') }}
-</div>
-@endif
 @section('content')
 
     <!-- Error and Success Messages -->
@@ -33,9 +17,20 @@
             </div>
         </div>
     </div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
     {{-- trang thái đơn hàng --}}
-    <div class="order-status">
+    {{-- <div class="order-status">
         <div class="progress" style="height: 35px">
             @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
                 <div class="progress-bar {{ $order->status_order === $key ? 'bg-success' : 'bg-secondary' }}"
@@ -47,7 +42,7 @@
             @endforeach
         </div>
 
-    </div>
+    </div> --}}
 
     <!-- End Error and Success Messages -->
     <!-- End page title -->
@@ -151,21 +146,21 @@
                         <div class="card-body p-4 border-top border-top-dashed">
                             <div class="row g-3">
                                 <div class="col-12">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Order Status</p>
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Trạng Thái Đơn Hàng</p>
                                     <div class="row text-center">
-
+                                        @php
+                                            $icons = [
+                                                'pending' => 'fas fa-clock',
+                                                'confirmed' => 'fas fa-check-circle',
+                                                'preparing_goods' => 'fas fa-box-open',
+                                                'shipping' => 'fas fa-shipping-fast',
+                                                'delivered' => 'fas fa-truck',
+                                                'canceled' => 'fas fa-times-circle',
+                                            ];
+                                        @endphp
+                    
                                         @foreach (\App\Models\Order::STATUS_ORDER as $statusKey => $statusValue)
                                             <div class="col-4 col-sm-3 col-md-2 mb-4 mt-2">
-                                                @php
-                                                    $icons = [
-                                                        'pending' => 'fas fa-clock',
-                                                        'confirmed' => 'fas fa-check-circle',
-                                                        'preparing_goods' => 'fas fa-cogs',
-                                                        'shipping' => 'fas fa-truck',
-                                                        'delivered' => 'fas fa-box-open',
-                                                        'canceled' => 'fas fa-times-circle',
-                                                    ];
-                                                @endphp
                                                 <i
                                                     class="{{ $icons[$statusKey] }} fa-2x mb-2 {{ $order->status_order == $statusKey ? 'text-primary' : 'text-muted' }}"></i>
                                                 <span
@@ -179,23 +174,18 @@
                                                 @endif
                                             </div>
                                         @endforeach
-
-
                                     </div>
                                 </div>
                                 <!--end col-->
                                 <div class="col-12">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
-                                    {{-- <span class="badge bg-success-subtle text-success fs-11" id="payment-status">
-                                        {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
-                                    </span> --}}
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Trạng Thái Thanh Toán</p>
                                     <span class="badge bg-primary text-white fs-6" id="payment-status">
                                         {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
                                     </span>
                                 </div>
                                 @if (!empty($order->user_note))
                                     <div class="col-12">
-                                        <h6 class="text-muted text-uppercase fw-semibold mb-3">Order Note</h6>
+                                        <h6 class="text-muted text-uppercase fw-semibold mb-3">Ghi Chú Đơn Hàng</h6>
                                         <h3 class="badge bg-success-subtle text-black fs-15" id="order-status">
                                             {{ $order->user_note }}
                                         </h3>
@@ -207,6 +197,7 @@
                         </div>
                         <!--end card-body-->
                     </div>
+                    
                     <!--end card-body-->
 
 

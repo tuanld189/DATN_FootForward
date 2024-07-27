@@ -14,19 +14,10 @@ class HomeController extends Controller
     {
         $query = Product::query();
         $query = $this->applyFilters($request, $query);
-        $products = $query->with(['sales' => function ($query) {
-            $query->where('status', true)
-                  ->where(function($query) {
-                      $query->where('start_date', '<=', now())
-                            ->orWhereNull('start_date');
-                  })
-                  ->where(function($query) {
-                      $query->where('end_date', '>=', now())
-                            ->orWhereNull('end_date');
-                  });
-        }])->get();
-        $categories = Category::all();
-        $brands = Brand::all();
+
+        $products = $query->with('sales')->get();
+        $categories = Category::all(); // Lấy tất cả danh mục
+        $brands = Brand::all(); // Lấy tất cả thương hiệu
         $posts = Post::all();
 
         return view('client.home', compact('products', 'categories', 'brands', 'posts'));

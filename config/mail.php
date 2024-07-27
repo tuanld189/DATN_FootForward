@@ -37,7 +37,6 @@ return [
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
-
             'host' => 'smtp.gmail.com',
             'port' =>  '587',
             'encryption' => 'tls',

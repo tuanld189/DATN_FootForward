@@ -4,22 +4,23 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Admin\VourcherController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ProductController;
-use App\Http\Controllers\User\ShopController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Services\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\VoucherController;
+use App\Models\Vourcher;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 //shop
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 
-// Route::get('/shop', [ShopController::class, 'shop'])->name('client.shop');
 // login
 Route::get('/login',[UserController::class, 'login'])->name('login');
 Route::post('/login',[UserController::class, 'postLogin']);
@@ -76,3 +77,11 @@ Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('
 Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
 Route::put('/order/{id}/cancel', [UserProfileController::class, 'cancel'])->name('order.cancel');
 Route::get('/profile/order/{id}', [UserProfileController::class, 'show'])->name('client.profile.order');
+
+
+
+
+Route::post('/voucher/redeem', [VourcherController::class, 'redeemVoucher'])->name('voucher.redeem');
+
+
+

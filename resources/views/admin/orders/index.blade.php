@@ -2,25 +2,6 @@
 @section('title')
     List Orders
 @endsection
-
-    <!-- Thông báo -->
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -55,7 +36,24 @@
 
         </div> --}}
     <!-- end page title -->
+    <!-- Thông báo -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if (session('info'))
+        <div class="alert alert-info">
+            {{ session('info') }}
+        </div>
+    @endif
 
 
     <div class="row">
@@ -74,7 +72,7 @@
                                                     Orders</a>
                                             </div>
                                             <div class="m-2">
-<a href="{{ route('admin.orders.create') }}" class="btn btn-primary">Thêm
+                                                <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">Thêm
                                                     mới</a>
                                             </div>
                                         </div>
@@ -120,7 +118,7 @@
                                                 </select>
                                             </div>
                                         </div>
-<!--end col-->
+                                        <!--end col-->
                                         <div class="col-xxl-2 col-sm-4">
                                             <div>
                                                 <select class="form-control" data-choices data-choices-search-false
@@ -166,7 +164,7 @@
 
                                     <div class="table-responsive table-card mb-1">
                                         <table class="table table-nowrap align-middle" id="orderTable">
-                                                <thead class="text-muted table-light">
+                                            <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     {{-- <th scope="col" style="width: 25px;">
                                                         <div class="form-check">
@@ -202,7 +200,7 @@
                                                         </th> --}}
                                                         <th scope="row">
                                                             <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
+                                                                <input class="form-check-input" type="checkbox"
                                                                     name="checkAll" value="option1">
                                                             </div>
                                                         </th>
@@ -270,7 +268,7 @@
                                                                     <a href="{{ route('admin.orders.show', $order->id) }}"
                                                                         class="text-primary d-inline-block">
                                                                         <i class="ri-eye-fill fs-16"></i>
-</a>
+                                                                    </a>
                                                                 </li>
                                                                 <li class="list-inline-item" data-bs-toggle="tooltip"
                                                                     data-bs-trigger="hover" data-bs-placement="top"
@@ -303,7 +301,7 @@
                                         </table>
                                         <div class="noresult" style="display: none">
                                             <div class="text-center">
-                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
                                                     colors="primary:#405189,secondary:#0ab39c"
                                                     style="width:75px;height:75px"></lord-icon>
                                                 <h5 class="mt-2">Sorry! No Result Found</h5>
@@ -312,10 +310,8 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="d-flex justify-content-end">
-                                        {{ $orders->links('pagination::bootstrap-4') }}
-                                    </div>
-                                    {{-- <div class="d-flex justify-content-end">
                                         <div class="pagination-wrap hstack gap-2">
                                             <a class="page-item pagination-prev disabled" href="#">
                                                 Previous
@@ -325,12 +321,14 @@
                                                 Next
                                             </a>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                                 <!--end modal -->
                             </div>
                         </div>
-
+                        <div class="d-flex justify-content-end">
+                            {{ $orders->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                     <!--end col-->
                 </div>
@@ -361,7 +359,7 @@
     <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
     <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
@@ -430,7 +428,7 @@
                 $.ajax({
                     url: '/admin/orders/update-status/' + id,
                     type: 'PATCH',
-data: {
+                    data: {
                         status_order: statusOrder,
                         status_payment: statusPayment,
                         _token: '{{ csrf_token() }}'

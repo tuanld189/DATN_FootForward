@@ -50,7 +50,7 @@
     <!-- Hero Slider end -->
 
     <div class="slider-bottom-inner">
-        <!-- Banner area start -->
+<!-- Banner area start -->
         <div class="banner-area ">
             <div class="container">
                 <div class="row">
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     <!-- single-service-item end -->
-                </div>
+</div>
                 <div class="col-lg-3 col-md-6">
                     <!-- single-service-item start -->
                     <div class="single-service-item">
@@ -166,7 +166,7 @@
                     <!-- section-title start -->
                     <div class="section-title-two pt--60 border-t-one text-center">
                         <h2>New Products</h2>
-                        <p>Most Trendy 2024 Clother</p>
+                        <p class="mb-4">Most Trendy 2024 Clother</p>
                     </div>
                     <!-- section-title end -->
                 </div>
@@ -176,7 +176,7 @@
                             <li class="active"><a class="active" href="#arrival" role="tab" data-bs-toggle="tab">New
                                     Arrival</a></li>
                             <li><a href="#onsale" role="tab" data-bs-toggle="tab">OnSale</a></li>
-                            <li><a href="#featured" role="tab" data-bs-toggle="tab">Featured Products</a></li>
+<li><a href="#featured" role="tab" data-bs-toggle="tab">Featured Products</a></li>
                         </ul>
                     </div>
                 </div> --}}
@@ -190,7 +190,8 @@
                         <div class="single-product-wrap">
                             <div class="product-image">
                                 <a href="{{ route('client.show', $product->id) }}">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}">
+                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}"
+                                        style="width: 350px; height: 180px;">
                                 </a>
                                 <span class="label-product label-new">new</span>
 
@@ -221,7 +222,7 @@
                                             class="new-price">{{ number_format($product->sales->first()->pivot->sale_price, 0, ',', '.') }}
                                             VNĐ</span>
                                     @else
-                                        <span class="new-price">{{ number_format($product->price, 0, ',', '.') }}
+<span class="new-price">{{ number_format($product->price, 0, ',', '.') }}
                                             VNĐ</span>
                                     @endif
                                 </div>
@@ -286,17 +287,20 @@
                 <div class="col-lg-12">
                     <!-- section-title start -->
                     <div class="section-title section-bg-3">
-                        <h2>Categories</h2>
+                        <h2 class="mt-2">Categories</h2>
+                        <p>Most Category 2024 Clother</p>
                     </div>
                     <!-- section-title end -->
                 </div>
             </div>
             <div class="row our-brand-active text-center">
-                @foreach ($categories as $cate)
+@foreach ($categories as $cate)
                     <div class="col-12">
                         <div class="single-brand ">
-                            <img class="img-fluid" src="{{ $cate->image }}" alt="" width="300px"
-                                height="400px">
+                            {{-- <img style="width='300ox;height=400px" class="img-fluid" src="{{ $cate->image }}" alt="" width="300px"
+                                height="400px"> --}}
+                            <img style="width: 350px; height: 300px;" class="img-fluid" src="{{ $cate->image }}"
+                                alt="" width="300px">
                         </div>
                     </div>
                 @endforeach
@@ -329,7 +333,7 @@
                         <div class="latest-blog-image">
                             <a href="{{ route('client.post', $item->id) }}">
                                 <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
-                                    style="width: 330px; height: 370px;">
+                                    style="width: 330px; height: 200px;">
                             </a>
                         </div>
                         <div class="latest-blog-content">
@@ -362,7 +366,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- section-title start -->
+<!-- section-title start -->
                     <div class="section-title section-bg-3">
                         <h2>Brands</h2>
                         {{-- <p>There are latest blog posts</p> --}}
@@ -373,7 +377,7 @@
             <div class="row our-brand-active text-center">
                 @foreach ($brands as $brand)
                     <div class="col-12">
-                        <div class="single-brand ">
+                        <div class="single-brand d-flex justify-center ">
                             <img class="img-fluid" src="{{ $brand->image }}" alt="" width="100px"
                                 height="100px">
                         </div>

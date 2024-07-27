@@ -12,78 +12,30 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Mail\OrderPlacedEmail;
-use Illuminate\Support\Facades\Mail;
-
-use App\Events\OrderShipped;
-
+use App\Models\Vourcher;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
     {
         try {
-
-            // Start a database transaction
             DB::beginTransaction();
 
-            // Check if the user is authenticated
             if (!Auth::check()) {
-                // Generate random user_code and username for a new user
                 $userCode = Str::random(10);
                 $username = Str::random(8);
 
-                // Create a new user
                 $user = User::create([
                     'name' => $username,
                     'email' => $request->input('user_email'),
-                    'password' => bcrypt($request->input('user_email')), // Note: Password should be set securely
+                    'password' => bcrypt($request->input('user_email')),
+                    'username' => $request->input('user_name'),
+                    'user_code' => $userCode,
+                    'status' => null,
                 ]);
-                DB::beginTransaction();
-
-                if (!Auth::check()) {
-                    $userCode = Str::random(10);
-                    $username = Str::random(8);
-
-                    $user = User::create([
-                        'name' => $username,
-                        'email' => $request->input('user_email'),
-                        'password' => bcrypt($request->input('user_email')),
-
-                        'username' => $request->input('user_name'),
-                        'user_code' => $userCode,
-                        'status' => null,
-                    ]);
-                } else {
-
-                    // User is authenticated, use the logged-in user
-                    $user = Auth::user();
-                }
-
-                // Calculate total amount and prepare order items
-                $totalAmount = 0;
-                $orderItems = [];
-
-                foreach (session('cart') as $variantID => $item) {
-                    $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-
-                    $orderItems[] = [
-                        'product_variant_id' => $variantID,
-                        'quantity_add' => $item['quantity_add'],
-                        'product_name' => $item['name'],
-                        'product_sku' => $item['sku'],
-                        'product_image' => $item['image'],
-                        'product_price' => $item['price'],
-                        'product_sale_price' => $item['sale_price'],
-                        'variant_size_name' => $item['size']['name'],
-                        'variant_color_name' => $item['color']['name'],
-                    ];
-                }
-
-                // Create the order
-                $order = new Order();
-                $order->user_id = Auth::check() ? $user->id : null; // Set user_id only if authenticated
-
+            } else {
                 $user = Auth::user();
             }
 
@@ -108,7 +60,6 @@ class OrderController extends Controller
 
             $order = new Order();
             $order->user_id = Auth::check() ? $user->id : null;
-
             $order->user_name = $request->input('user_name');
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
@@ -123,7 +74,6 @@ class OrderController extends Controller
             $order->save();
 
 
-
             foreach ($orderItems as $item) {
                 $item['order_id'] = $order->id;
                 OrderItem::create($item);
@@ -133,55 +83,50 @@ class OrderController extends Controller
                 $productVariant->save();
             }
 
-
-            // Commit the database transaction
-            DB::commit();
-
-            // Send email notification for the placed order
-            Mail::to($user->email)->send(new OrderPlacedEmail($order)); // Pass order items to the email
-
             DB::commit();
 
 
-
-            event(new OrderShipped($order));
+            // event(new OrderShipped($order));
 
             session()->forget('cart');
             return $this->vnpay_payment($request, $order->id);
-
         } catch (\Exception $exception) {
-
-            // Rollback the database transaction on error
-            DB::rollBack();
-
-            // Log the exception (consider using Laravel logging facilities)
-            Log::error('Error placing order: ' . $exception->getMessage());
-
-            // Handle the exception gracefully (display user-friendly message or redirect back)
-
             DB::rollBack();
             Log::error('Error placing order: ' . $exception->getMessage());
-
             return back()->with('error', 'Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại sau.');
         }
     }
 
+
+
+
     public function vnpay_payment(Request $request, $orderId)
     {
+
         $order = Order::findOrFail($orderId);
-        $totalAmount = $order->total_price;
+
+
+        $totalAmount = session()->get('total_amount', $order->total_price);
+
+        Log::info('Total amount for payment: ' . $totalAmount);
+
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+
+
         $vnp_Returnurl = route('order.vnpay_return', ['order_id' => $orderId]);
+
+
         $vnp_TmnCode = "XBZGT2AU";
         $vnp_HashSecret = "4GA17SQ9XWMQNJCCNJ6Y8P4IT7O4OW81";
-        $vnp_TxnRef = Str::random(10); // Mã đơn hàng
+        $vnp_TxnRef = Str::random(10);
         $vnp_OrderInfo = "Thanh toán đơn hàng";
-        $vnp_OrderType = "FootForward";
+        $vnp_OrderType = "billpayment";
         $vnp_Amount = $totalAmount * 100;
         $vnp_Locale = "vn";
         $vnp_BankCode = $request->input('bank_code');
         $vnp_IpAddr = $request->ip();
+
 
         $inputData = [
             "vnp_Version" => "2.1.0",
@@ -198,11 +143,15 @@ class OrderController extends Controller
             "vnp_TxnRef" => $vnp_TxnRef,
         ];
 
+
         if ($vnp_BankCode) {
             $inputData['vnp_BankCode'] = $vnp_BankCode;
         }
 
+
         ksort($inputData);
+
+
         $query = "";
         $i = 0;
         $hashdata = "";
@@ -215,15 +164,39 @@ class OrderController extends Controller
             }
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
         }
+        $query = rtrim($query, '&');
 
-        $vnp_Url = $vnp_Url . "?" . $query;
-        if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-        }
+
+        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+
+
+        $vnp_Url .= "?" . $query . '&vnp_SecureHash=' . $vnpSecureHash;
+
+        Log::info('VNPAY payment URL: ' . $vnp_Url);
 
         return redirect($vnp_Url);
     }
+
+
+
+
+    // Hàm tính toán số tiền giảm giá
+    private function calculateDiscount($voucher, $orderTotal)
+    {
+        $discountAmount = 0;
+
+        if ($voucher->discount_type === 'percent') {
+            $discountAmount = ($voucher->discount_value / 100) * $orderTotal;
+        } elseif ($voucher->discount_type === 'fixed') {
+            $discountAmount = $voucher->discount_value;
+        }
+
+        return $discountAmount;
+    }
+
+
+
+
 
     public function vnpay_return(Request $request)
     {
@@ -232,14 +205,40 @@ class OrderController extends Controller
 
         if ($request->input('vnp_ResponseCode') == '00') {
             $order->status_payment = Order::STATUS_PAYMENT_PAID;
+
+            // Cập nhật giá trị của đơn hàng sau khi áp dụng mã giảm giá
+            $order->total_price = session()->get('total_amount', $order->total_price);
             $order->save();
         } else {
             $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
             $order->save();
         }
 
+        // Xóa mã giảm giá sau khi thanh toán nếu cần
+        // session()->forget('voucher_code');
+
         return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     }
+
+
+
+
+
+    // public function vnpay_return(Request $request)
+    // {
+    //     $orderId = $request->input('order_id');
+    //     $order = Order::findOrFail($orderId);
+
+    //     if ($request->input('vnp_ResponseCode') == '00') {
+    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
+    //         $order->save();
+    //     } else {
+    //         // $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
+    //         // $order->save();
+    //     }
+
+    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
+    // }
 
     public function confirmation($order_id)
     {
@@ -251,7 +250,43 @@ class OrderController extends Controller
 
 
 
+    public function show($id)
+    {
+        $order = Order::with('orderItems')->findOrFail($id);
+        $orderDetails = [
+            'order_code' => $order->id,
+            'order_date' => $order->created_at->format('d M, Y'),
+            'order_status' => Order::STATUS_ORDER[$order->status_order],
+            'payment_status' => Order::STATUS_PAYMENT[$order->status_payment],
+            'total_amount' => number_format($order->total_price + 0, 0, ',', '.') . 'VNĐ',
+            'customer_name' => $order->user_name,
+            'customer_address' => $order->user_address,
+            'customer_phone' => $order->user_phone,
+            'user_note' => $order->user_note,
+            'products' => $order->orderItems->map(function ($item) {
+                return [
+                    'name' => $item->product_name,
+                    'price' => number_format($item->product_price, 0, ',', '.') . ' VNĐ',
+                    'color' => $item->variant_color_name,
+                    'size' => $item->variant_size_name,
+                    'quantity' => $item->quantity_add,
+                    'amount' => number_format($item->product_price * $item->quantity_add, 0, ',', '.') . ' VNĐ',
+                ];
+            }),
+        ];
+
+        Log::info('Order Details:', $orderDetails);
+        return response()->json($orderDetails);
+        // return response()->json($orderDetails);
+    }
 
 
+    public function updateOrderStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status_order = $request->input('status_order');
+        $order->save();
 
+        return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
 }

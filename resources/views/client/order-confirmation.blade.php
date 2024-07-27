@@ -46,7 +46,8 @@
             margin-top: 20px;
         }
 
-        .checkout-box-left, .checkout-box-right {
+        .checkout-box-left,
+        .checkout-box-right {
             padding: 20px;
         }
 
@@ -69,7 +70,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 10px;
             text-align: left;
             border-bottom: 1px solid #e6e6e6;
@@ -123,228 +125,129 @@
             margin: 0;
             padding-left: 10px;
         }
-
-        .customer-info {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-            padding: 20px;
-        }
-
-        .customer-info table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .customer-info th,
-        .customer-info td {
-            padding: 12px 10px;
-            text-align: left;
-            border-bottom: 1px solid #e6e6e6;
-            height: auto; /* Đổi chiều cao từ 40px thành auto */
-            vertical-align: middle; /* Căn giữa nội dung */
-        }
-
-        .customer-info th {
-            background-color: white;
-            font-weight: bold;
-            padding-left:25px;
-            color: #333;
-        }
-
-        .customer-info .info-row {
-            display: table-row;
-        }
-
-        .customer-info .info-row span {
-            font-weight: bold;
-            width: 120px;
-            display: table-cell;
-        }
-
-        .customer-info .info-row p {
-            display: table-cell;
-            padding-left: 10px;
-        }
     </style>
 @endsection
 
-
 @section('content')
-
-        <div class="container">
-            <div class="panel-head">
-                <h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG</span></h2>
-            </div>
-
-            <div class="panel-body">
-                <div class="checkout-box">
-                    <div class="checkout-box-left">
-                        <div class="order-title">
-                            ĐƠN HÀNG
-                        </div>
-                        <div class="order-date">
-                            Ngày đặt hàng: {{ $order->created_at->format('d-m-Y') }}
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Số lượng</th>
-                                    <th>Giá bán</th>
-                                    <th>Thành tiền</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($orderItems as $item)
-                                    <tr>
-                                        <td>{{ $item->product_name }}</td>
-                                        <td>{{ $item->quantity_add }}</td>
-                                        <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }} VNĐ</td>
-                                        <td>{{ number_format($item->quantity_add * ($item->product_sale_price ?: $item->product_price), 0, ',', '.') }} VNĐ</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr class="total_payment">
-                                    <td colspan="3"><span>Tổng tiền sản phẩm</span></td>
-                                    <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"><span>Phí vận chuyển</span></td>
-                                    <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"><span><b>Tổng cộng thanh toán</b></span></td>
-                                    <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <div class="checkout-box-right ml-2">
-
-                            <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
-                            <div class="order-date">
-                           Cảm ơn bạn vì đã đặt hàng!
-                            </div>
-                            <div class="info-row mt-5">
-                                <span>Tên:</span>
-                                <p>{{ $order->user_name }}</p>
-                            </div>
-                            <hr>
-                            <div class="info-row">
-                                <span>Email:</span>
-                                <p>{{ $order->user_email }}</p>
-                            </div>
-                            <hr>
-                            <div class="info-row">
-                                <span>Điện thoại:</span>
-                                <p>{{ $order->user_phone }}</p>
-                            </div>
-                            <hr>
-                            <div class="info-row">
-                                <span>Địa chỉ:</span>
-                                <p>{{ $order->user_address }}</p>
-                            </div>
-                            <hr>
-                            @if ($order->user_note)
-                                <div class="info-row">
-                                    <span>Ghi chú:</span>
-                                    <p>{{ $order->user_note }}</p>
-                                </div>
-                            @endif
-
-                    </div>
-
-<div class="container">
-    <div class="panel-head">
-        <h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG</span></h2>
-    </div>
-
-    <div class="panel-body">
-        <div class="checkout-box">
-            <div class="checkout-box-left">
-                <div class="order-title">
-                    ĐƠN HÀNG
-                </div>
-                <div class="order-date">
-                    Ngày đặt hàng: {{ $order->created_at->format('d-m-Y') }}
-
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Giá bán</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orderItems as $item)
-                        <tr>
-                            <td>{{ $item->product_name }}</td>
-                            <td>{{ $item->quantity_add }}</td>
-                            <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }} VNĐ</td>
-                            <td>{{ number_format($item->quantity_add * ($item->product_sale_price ?: $item->product_price), 0, ',', '.') }} VNĐ</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr class="total_payment">
-                            <td colspan="3"><span>Tổng tiền sản phẩm</span></td>
-                            <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3"><span>Phí vận chuyển</span></td>
-                            <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3"><span><b>Tổng cộng thanh toán</b></span></td>
-                            <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-
-            <div class="checkout-box-right ml-2 customer-info">
-                <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
-                <div class="order-date">
-               Cảm ơn bạn vì đã đặt hàng!
-                </div>
-                <table>
-                    <tr class="info-row">
-                        <th>Tên:</th>
-                        <td>{{ $order->user_name }}</td>
-                    </tr>
-                    <tr class="info-row">
-                        <th>Email:</th>
-                        <td>{{ $order->user_email }}</td>
-                    </tr>
-                    <tr class="info-row">
-                        <th>Điện thoại:</th>
-                        <td>{{ $order->user_phone }}</td>
-                    </tr>
-                    <tr class="info-row">
-                        <th>Địa chỉ:</th>
-                        <td>{{ $order->user_address }}</td>
-                    </tr>
-                    @if ($order->user_note)
-                    <tr class="info-row">
-                        <th>Ghi chú:</th>
-                        <td>{{ $order->user_note }}</td>
-                    </tr>
-                    @endif
-                </table>
-            </div>
+    <div class="container">
+        <div class="panel-head">
+            <h2 class="product_detail_title"><span>ĐẶT HÀNG THÀNH CÔNG</span></h2>
         </div>
 
-    </div>
-    <div class="panel-foot mb-4 mt-3 ">
-        <a href="{{ route('index') }}" class="btn btn-warning">Tiếp tục mua hàng</a>
-    </div>
-</div>
+        <div class="panel-body">
+            <div class="checkout-box">
+                <div class="checkout-box-left">
+                    <div class="order-title">
+                        ĐƠN HÀNG
+                    </div>
+                    <div class="order-date">
+                        Ngày đặt hàng: {{ $order->created_at->format('d-m-Y') }}
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Giá bán</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orderItems as $item)
+                                <tr>
+                                    <td>{{ $item->product_name }}</td>
+                                    <td>{{ $item->quantity_add }}</td>
+                                    <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }}
+                                        VNĐ</td>
+                                    <td>{{ number_format($item->quantity_add * ($item->product_sale_price ?: $item->product_price), 0, ',', '.') }}
+                                        VNĐ</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            {{-- <span class="amount"
+                                id="total-order-amount">{{ number_format($totalAmount + $discount, 0, ',', '.') }}
+                                VNĐ</span> --}}
 
+
+                            {{-- <tr class="total_payment">
+                                <td colspan="3"><span>Tổng tiền sản phẩm</span></td>
+
+                                <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
+                            </tr> --}}
+
+                            <tr>
+                                <td colspan="3"><span><b>Tổng tiền sản phẩm</b></span></td>
+                                <td><b>
+                                    @php
+                                        $discount = session('discount', 0);
+                                        $totalPrice = $order->total_price;
+                                        $shippingFee = 0; // Adjust as needed
+                                        $totalPayable = $totalPrice + $discount;
+                                    @endphp
+                                    {{ number_format($totalPayable, 0, ',', '.') }} VNĐ
+                                </b></td>
+                            </tr>
+
+                            @if (session('discount') > 0)
+                                <tr class="total_payment">
+                                    <td colspan="3"><span>Giảm giá</span></td>
+                                    <td><span class="amount">-{{ number_format(session('discount'), 0, ',', '.') }}
+                                            VNĐ</span></td>
+                                </tr>
+                            @endif
+                            <tr>
+                                <td colspan="3"><span>Phí vận chuyển</span></td>
+                                {{-- <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td> --}}
+                                <td>{{ number_format(0, 0, ',', '.') }} VNĐ</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><span><b>Tổng cộng thanh toán</b></span></td>
+                                {{-- <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td> --}}
+                                <td><b>{{ number_format($order->total_price + 0, 0, ',', '.') }} VNĐ</b></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="checkout-box-right ml-2">
+
+                    <div class="order-title ">THÔNG TIN NGƯỜI ĐẶT HÀNG:</div>
+                    <div class="order-date">
+                        Cảm ơn bạn vì đã đặt hàng!
+                    </div>
+                    <div class="info-row mt-5">
+                        <span>Tên:</span>
+                        <p>{{ $order->user_name }}</p>
+                    </div>
+                    <hr>
+                    <div class="info-row">
+                        <span>Email:</span>
+                        <p>{{ $order->user_email }}</p>
+                    </div>
+                    <hr>
+                    <div class="info-row">
+                        <span>Điện thoại:</span>
+                        <p>{{ $order->user_phone }}</p>
+                    </div>
+                    <hr>
+                    <div class="info-row">
+                        <span>Địa chỉ:</span>
+                        <p>{{ $order->user_address }}</p>
+                    </div>
+                    <hr>
+                    @if ($order->user_note)
+                        <div class="info-row">
+                            <span>Ghi chú:</span>
+                            <p>{{ $order->user_note }}</p>
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+        <div class="panel-foot mt-3">
+            <a href="{{ route('index') }}" class="btn btn-warning">Tiếp tục mua hàng</a>
+        </div>
+    </div>
 @endsection
