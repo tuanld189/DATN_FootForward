@@ -53,9 +53,8 @@
                                         <i class="">
                                             <img alt="user avatar"
                                                 src="{{ Auth::check() ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
-                                                style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->name : 'Setting' }}
-                                        <i class="fa fa-angle-down">
-                                        </i>
+                                                style="border-radius: 100%; height:25px; width:25px;"></i>{{ Auth::check() ? Auth::user()->name : 'Setting' }}
+                                        <i class="fa fa-angle-down"></i>
                                     </button>
 
                                     <div class="dropdown-menu">
@@ -71,16 +70,19 @@
                                                         href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn
                                                         mua</a>
                                                 </li>
+                                                @if (Auth::user()->hasRole('superadmin'))
+                                                    <li>
+                                                        <a href="{{ route('admin.dashboard') }}">Admin</a>
+                                                    </li>
+                                                @endif
                                                 <li>
-                                                    <a href="{{ route('admin.dashboard') }}">Quản lý</a>
+                                                    <a href="{{ route('logout') }}">Đăng xuất</a>
                                                 </li>
                                             @else
                                                 <li>
-                                                    <a href="{{ route('login') }}">Đăng kí</a>
+                                                    <a href="{{ route('login') }}">Đăng nhập</a>
                                                 </li>
                                             @endif
-
-
                                         </ul>
                                     </div>
                                 </div>
@@ -179,7 +181,7 @@
                                                 </div>
                                                 <div class="mini-cart-product-desc ">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
-                                                    <div class="price-box" >
+                                                    <div class="price-box">
                                                         @if ($item['sale_price'])
                                                             <span
                                                                 class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
