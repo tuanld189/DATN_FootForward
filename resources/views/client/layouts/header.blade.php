@@ -71,8 +71,13 @@
                                                         href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn
                                                         mua</a>
                                                 </li>
+                                                @if (Auth::user()->hasRole('superadmin'))
+                                                    <li>
+                                                        <a href="{{ route('admin.dashboard') }}">Admin</a>
+                                                    </li>
+                                                @endif
                                                 <li>
-                                                    <a href="{{ route('admin.dashboard') }}">Quản lý</a>
+                                                    <a href="{{ route('logout') }}">Đăng xuất</a>
                                                 </li>
                                             @else
                                                 <li>
@@ -82,8 +87,6 @@
                                                     <a href="{{ route('login') }}">Đăng nhập</a>
                                                 </li>
                                             @endif
-
-
                                         </ul>
                                     </div>
                                 </div>
@@ -159,36 +162,32 @@
                                 @php
                                     use App\Models\Order;
                                     use Carbon\Carbon;
-                                    $unreadNotifications = auth()->check() ? auth()->user()->unreadNotifications->count() : 0;
+                                    $unreadNotifications = auth()->check() && auth()->user()->unreadNotifications ? auth()->user()->unreadNotifications->count() : 0;
                                 @endphp
                                 @if($unreadNotifications > 0)
                                     <span class="notification-count">({{ $unreadNotifications }})</span>
                                 @endif
                             </button>
                             @if(auth()->check())
-                            <div class="dropdown-menu notifications-menu mt-4"
-                                style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
-
-                                    @if(auth()->user()->notifications->count() > 0)
-                                        <ul class="notification-list">
-                                            @foreach(auth()->user()->notifications as $notification)
-                                                <li class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
-                                                    <strong style="color:blue;">Đơn hàng của bạn đã được cập nhật:</strong><br>
-                                                    <strong>Mã đơn hàng:</strong> {{ $notification->data['order_code'] }} <br>
-                                                    <strong>Trạng thái đơn hàng:</strong> {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
-                                                    <strong>Thời gian cập nhật:</strong> {{ isset($notification->data['status_time']) ? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') : 'Chưa có thời gian' }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang không có thông báo nào.</p>
-                                    @endif
+                            <div class="dropdown-menu notifications-menu mt-4" style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
+                                @if(auth()->user()->notifications && auth()->user()->notifications->count() > 0)
+                                    <ul class="notification-list">
+                                        @foreach(auth()->user()->notifications as $notification)
+                                            <li class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
+                                                <strong style="color:blue;">Đơn hàng của bạn đã được cập nhật:</strong><br>
+                                                <strong>Mã đơn hàng:</strong> {{ $notification->data['order_code'] }} <br>
+                                                <strong>Trạng thái đơn hàng:</strong> {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
+                                                <strong>Thời gian cập nhật:</strong> {{ isset($notification->data['status_time']) ? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') : 'Chưa có thời gian' }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang không có thông báo nào.</p>
+                                @endif
                             </div>
                             @else
-
-                            <div class="dropdown-menu notifications-menu mt-4"
-                                style=" width:370px; background-color: white;">
-                                <p class="text-center " style="color:blue; font-weight:560; ">Vui lòng đăng nhập để xem thông báo !!!</p>
+                            <div class="dropdown-menu notifications-menu mt-4" style="width:370px; background-color: white;">
+                                <p class="text-center" style="color:blue; font-weight:560;">Vui lòng đăng nhập để xem thông báo !!!</p>
                             </div>
                             @endif
                         </div>
@@ -227,7 +226,7 @@
                                                 </div>
                                                 <div class="mini-cart-product-desc ">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
-                                                    <div class="price-box" >
+                                                    <div class="price-box">
                                                         @if ($item['sale_price'])
                                                             <span
                                                                 class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
