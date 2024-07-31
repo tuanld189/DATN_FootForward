@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Str;
 class CartController extends Controller
 {
     public function home()
@@ -187,59 +187,11 @@ class CartController extends Controller
         return 0;
     }
 
-    // private function calculateDiscount($voucher, $orderTotal)
-    // {
-    //     $discountAmount = 0;
-
-    //     if ($voucher->discount_type === 'percent') {
-    //         $discountAmount = ($voucher->discount_value / 100) * $orderTotal;
-    //     } elseif ($voucher->discount_type === 'fixed') {
-    //         $discountAmount = $voucher->discount_value;
-    //     }
-
-    //     return $discountAmount;
-    // }
-
-    // public function checkout(Request $request)
-    // {
-    //     $cart = session()->get('cart', []);
-    //     $totalAmount = 0;
-
-    //     foreach ($cart as $item) {
-    //         $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-    //     }
-
-    //     $voucherCode = session()->get('voucher_code');
-    //     $discount = 0;
-
-    //     if ($voucherCode) {
-    //         $voucher = Vourcher::validateVoucher($voucherCode);
-
-    //         if ($voucher) {
-    //             $discount = $this->calculateDiscount($voucher, $totalAmount);
-
-    //             // Xóa mã giảm giá khỏi session sau khi áp dụng
-    //             session()->forget(['voucher_code', 'discount', 'total_amount']);
-    //         }
-    //     }
-
-    //     // Giả sử bạn có thông tin về khu vực trong request hoặc session
-    //     // Bạn có thể thay đổi logic này để lấy thông tin từ request hoặc cơ sở dữ liệu
-    //     $location = $request->input('location', 'noi_thanh'); // 'noi_thanh' hoặc 'ngoai_thanh'
-    //     $shippingFee = $location === 'noi_thanh' ? 0 : 50000;
-
-    //     // Lưu thông tin giảm giá và tổng số tiền vào session
-    //     session()->put('total_amount', $totalAmount);
-    //     session()->put('discount', $discount);
-    //     session()->put('shipping_fee', $shippingFee);
-
-    //     return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'shippingFee', 'voucherCode'));
-    // }
 
 
-    // cái nay dung ok
     public function checkout(Request $request)
     {
+        $orderCode = 'FF' . Str::random(10);
         $cart = session()->get('cart', []);
         $totalAmount = 0;
 
@@ -255,52 +207,17 @@ class CartController extends Controller
 
             if ($voucher) {
                 $discount = $this->calculateDiscount($voucher, $totalAmount);
-                $totalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
+                $totalAmount = max(0, $totalAmount - $discount);
 
-                // Xóa mã giảm giá khỏi session sau khi áp dụng
                 session()->forget(['voucher_code', 'discount', 'total_amount']);
             }
         }
 
-        // Lưu thông tin giảm giá và tổng số tiền vào session
         session()->put('total_amount', $totalAmount);
         session()->put('discount', $discount);
-        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode','orderCode'));
     }
-    // cái nay dung ok
 
-
-
-    // public function checkout(Request $request)
-    // {
-    //     $cart = session()->get('cart', []);
-    //     $totalAmount = 0;
-
-    //     foreach ($cart as $item) {
-    //         $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-    //     }
-
-    //     $voucherCode = session()->get('voucher_code');
-    //     $discount = 0;
-
-    //     if ($voucherCode) {
-    //         $voucher = Vourcher::validateVoucher($voucherCode);
-
-    //         if ($voucher) {
-    //             if ($voucher->discount_type === 'percentage') {
-    //                 $discount = ($voucher->discount_value / 100) * $totalAmount;
-    //             } elseif ($voucher->discount_type === 'amount') {
-    //                 $discount = $voucher->discount_value;
-    //             }
-    //             $totalAmount -= $discount;
-    //         }
-    //     }
-
-    //     // Lưu thông tin giảm giá và tổng số tiền vào session
-    //     session()->put('total_amount', $totalAmount);
-    //     session()->put('discount', $discount);
-    //     return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
-    // }
 
 
     public function add(Request $request)
@@ -403,24 +320,6 @@ class CartController extends Controller
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
 
-    // public function confirmation() {
-    //     // Retrieve order data from the session or database
 
-    //     $cart = session()->get('cart');
-    //     $discountCode = 'MGD062024';
-    //     $totalValue = 1000; // Example value
-    //     $totalDiscount = 500; // Example value
-    //     $shippingFee = 500; // Example value
-    //     $totalPayment = 1000; // Example value
-    //     $customerName = 'John Doe';
-    //     $customerEmail = 'john.doe@example.com';
-    //     $customerAddress = '123 Main St, City, Country';
-    //     $customerPhone = '123-456-7890';
-    //     $paymentMethod = 'Credit Card';
-
-    //     return view('client.cart-confirmation', compact(
-    //         'cart', 'discountCode', 'totalValue', 'totalDiscount', 'shippingFee', 'totalPayment', 'customerName', 'customerEmail', 'customerAddress', 'customerPhone', 'paymentMethod'
-    //     ));
-    // }
 
 }

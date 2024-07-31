@@ -747,7 +747,7 @@ ut labore et </a></li>
                         <div class="review_details" style="flex-grow: 1;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <div>
-                                    <h4><a href="#">{{ Auth::user()->name }}</a></h4>
+                                    <h4><a href="#">{{ Auth::check() ? Auth::user()->name : '' }}</a></h4>
                                     <ul class="product-rating d-flex" style="margin-right: 10px;">
                                         <li><span class="fa fa-star"></span></li>
                                         <li><span class="fa fa-star"></span></li>

@@ -70,6 +70,9 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+        .old-price {
+            text-decoration: line-through;
+        }
     </style>
 @endsection
 
@@ -115,9 +118,20 @@
                                 @csrf
                                 <div class="row">
                                     <!-- Thông tin người dùng -->
-                                    <div class="col-12">
+
+                                    @if(Auth::check())
+                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                        <input type="hidden" name="user_password" value="">
+                                        <input type="hidden" name="order_code" value="{{ $orderCode }}">
+                                    @else
+                                        <input type="hidden" name="user_id" value="{{ Str::random(10) }}">
+                                        <input type="hidden" name="user_password" value="{{ Str::random(15) }}">
+                                        <input type="hidden" name="order_code" value="{{ $orderCode }}">
+                                    @endif
+
+                                        <div class="col-12">
                                         <p class="single-form-row">
-                                            <label>User name<span class="required">*</span></label>
+                                            <label>Name<span class="required">*</span></label>
                                             <input type="text" class="form-control" name="user_name"
                                                 placeholder="Nhập vào tên người dùng"
                                                 value="{{ Auth::check() ? Auth::user()->name : '' }}">
@@ -134,20 +148,20 @@
                                         <p class="single-form-row">
                                             <label>Number phone <span class="required">*</span></label>
                                             <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại"
-                                                value="0904143512" class="form-control">
+                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}" class="form-control">
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row">
                                             <label>Address <span class="required">*</span></label>
-                                            <input type="text" name="user_address" id="user_address" class="form-control"
-                                                value="HH, HN ">
+                                            <input type="text" name="user_address" id="user_address" class="form-control" placeholder="Nhập địa chỉ"
+                                               value="{{ Auth::check() ? Auth::user()->address : '' }}">
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row m-0">
                                             <label>Order notes</label>
-                                            <textarea placeholder="Notes about your order, e.g. special notes for delivery." class="checkout-mess" rows="2"
+                                            <textarea placeholder="Ghi chú về đơn hàng của hàng cho bên vận chuyển............................." class="checkout-mess" rows="8"
                                                 cols="5" name="user_note"></textarea>
                                         </p>
                                     </div>

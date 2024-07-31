@@ -30,6 +30,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     @yield('styles')
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
         .header-bottom-area {
             background: #fff;
             border-bottom: 1px solid #ddd;
@@ -83,6 +87,21 @@
             font-weight: normal;
             text-transform: capitalize;
         }
+        .old-price {
+            text-decoration: line-through;
+        }
+        .notification-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .header-area .dropdown-menu.open {
+            max-height: 350px;
+        }
+
     </style>
 
 </head>
@@ -227,6 +246,24 @@
             <script src="assets/js/pages/project-create.init.js"></script>
             <script src="assets/js/app.js"></script>
             @yield('scripts')
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.dropdown-toggle').on('click', function() {
+                        $.ajax({
+                            url: '{{ route('notifications.markAsRead') }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                $('.notification-count').text('(0)');
+                            }
+                        });
+                    });
+                });
+            </script>
 </body>
 
 </html>

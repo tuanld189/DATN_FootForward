@@ -15,6 +15,7 @@ class User extends Authenticatable
         'name',
         'fullname',
         'phone',
+        'address',
         'province_code',
         'district_code',
         'wand_code',

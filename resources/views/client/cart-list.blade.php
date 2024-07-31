@@ -84,7 +84,17 @@
                                                     <input type="number" name="quantity_add" id="sst-{{ $item['id'] }}" value="{{ $item['quantity_add'] }}" title="Quantity:" class="input-text qty" min="1" onchange="this.form.submit()">
                                                 </form>
                                             </td>
-                                            <td class="product-subtotal"><span id="total-{{ $item['id'] }}" data-price="{{ $item['sale_price'] ?: $item['price'] }}">{{ number_format($itemTotal, 0, ',', '.') }} VNĐ</span></td>
+                                            <td class="product-subtotal">
+                                                @if ($item['sale_price'])
+                                                    <span class="amount old-price" id="total-{{ $item['id'] }}" >{{ number_format($item['price'] * $item['quantity_add'] , 0, ',', '.') }} VNĐ</span>
+                                                    <span class="amount new-price" id="total-{{ $item['id'] }}" data-price="{{ $item['sale_price'] ?: $item['price'] }}">{{ number_format($itemTotal, 0, ',', '.') }} VNĐ</span>
+                                                @else
+                                                <span class="amount" id="total-{{ $item['id'] }}" >{{ number_format($item['price'] * $item['quantity_add'] , 0, ',', '.') }} VNĐ</span>
+                                                @endif
+
+
+
+                                            </td>
                                             <td class="plantmore-product-remove">
                                                 <form action="{{ route('cart.remove', ['id' => $item['id']]) }}" method="POST">
                                                     @csrf

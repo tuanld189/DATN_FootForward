@@ -15,6 +15,7 @@ use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Vourcher;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
@@ -98,3 +99,5 @@ Route::post('/voucher/redeem', [VourcherController::class, 'redeemVoucher'])->na
 Route::get('/new', [UserPostController::class, 'new'])->name('client.new');
 //Info
 Route::get('/info', [HomeController::class, 'info'])->name('client.info');
+
+Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
