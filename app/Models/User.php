@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasRoles;
 
     protected $fillable = [
         'name',
@@ -42,14 +42,15 @@ class User extends Authenticatable
         return $this->belongsTo(District::class, 'district_code', 'code');
     }
 
-    public function wand()
+    public function ward()
     {
         return $this->belongsTo(Ward::class, 'ward_code', 'code');
     }
 
+
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_role');
+        return $this->belongsToMany(Role::class, 'role_user');
     }
 
     public function hasRole($role)

@@ -90,6 +90,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+
                                             <a href="#" class="text-danger d-inline-block"
                                                 onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $permission->id }}').submit();">
                                                 <i class="ri-delete-bin-5-fill fs-16"></i>

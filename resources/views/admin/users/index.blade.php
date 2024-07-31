@@ -3,6 +3,11 @@
 
 @section('content')
     <!-- start page title -->
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -60,6 +65,7 @@
                                 <th>ID</th>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <th>Roles</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -75,6 +81,7 @@
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->fullname }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->roles->implode('name', ', ') }}</td>
                                     <td>
                                         <a href="{{ route('admin.users.show', $user->id) }}"
                                             class="btn btn-sm btn-info" data-bs-toggle="tooltip"
