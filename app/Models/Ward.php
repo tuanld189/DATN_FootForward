@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Ward extends Model
 {
     use HasFactory;
-    protected $fillable=[
 
-        'name',
-        'code',
-        'district_id',
-        'created_at',
-        'updated_at',
-    ];
-    protected $table='wards';
+    protected $primaryKey = 'code';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected $fillable = ['code', 'name'];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'ward_code', 'code');
+    }
 }

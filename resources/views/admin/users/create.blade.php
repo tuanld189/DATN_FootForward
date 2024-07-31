@@ -92,7 +92,38 @@
                                         <textarea name="status" class="form-control" id="" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
+                                  <!-- New fields for Province, District, and Ward -->
+                                  <div class="mb-3 mt-3">
+                                    <label for="province_code">Province</label>
+                                    <select name="province_code" id="province_code" class="form-control" required>
+                                        <option value="">Select Province</option>
+                                        @foreach ($provinces as $province)
+                                            <option value="{{ $province->code }}">{{ $province->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="district_code">District</label>
+                                    <select name="district_code" id="district_code" class="form-control" required>
+                                        <option value="">Select District</option>
+                                        @foreach ($districts as $district)
+                                            <option value="{{ $district->code }}">{{ $district->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="wand_code">Ward</label>
+                                    <select name="wand_code" id="wand_code" class="form-control" required>
+                                        <option value="">Select Ward</option>
+                                        @foreach ($wards as $ward)
+                                            <option value="{{ $ward->code }}">{{ $ward->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="mb-3 mt-3">
                                     <div class="form-group form-check">

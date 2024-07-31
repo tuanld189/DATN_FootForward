@@ -22,9 +22,10 @@ class OrderPlacedEmail extends Mailable
     public function build()
     {
         $orderItems = $this->order->orderItems;
-
+        
         return $this->subject('Xác nhận đặt thành công từ FootForward')
                     ->markdown('emails.orders.placed') // Sử dụng markdown thay vì view
                     ->with('orderItems', $orderItems); // Truyền dữ liệu vào view
     }
 }
+

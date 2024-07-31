@@ -78,7 +78,7 @@ class OrderController extends Controller
         // Cập nhật trạng thái đơn hàng
         if ($statusOrder && array_key_exists($statusOrder, Order::STATUS_ORDER)) {
             $currentIndex = array_search($order->status_order, array_keys(Order::STATUS_ORDER));
-$newIndex = array_search($statusOrder, array_keys(Order::STATUS_ORDER));
+            $newIndex = array_search($statusOrder, array_keys(Order::STATUS_ORDER));
 
             // Không cho phép hủy đơn hàng đã thanh toán hoặc đã giao
             if ($order->status_payment === 'paid' || $order->status_order === 'delivered') {
@@ -148,7 +148,7 @@ $newIndex = array_search($statusOrder, array_keys(Order::STATUS_ORDER));
                 // Update order status and timestamp
                 $order->status_order = $newStatusOrder;
                 $timestampField = $newStatusOrder . '_at';
-$order->$timestampField = Carbon::now('Asia/Ho_Chi_Minh');
+                $order->$timestampField = Carbon::now('Asia/Ho_Chi_Minh');
                 $order->save();
             }
         }
@@ -234,7 +234,7 @@ $order->$timestampField = Carbon::now('Asia/Ho_Chi_Minh');
             'user_id' => 'required|integer',
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email|max:255',
-'user_phone' => 'required|string|max:20',
+            'user_phone' => 'required|string|max:20',
             'user_address' => 'required|string|max:255',
             'user_note' => 'nullable|string',
             'is_ship_user_same_user' => 'required|boolean',

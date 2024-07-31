@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
     ->as('admin.')
-    ->middleware(['web', 'auth'])
+    ->middleware('auth')
     ->group(function () {
 
         Route::get('/', function () {
@@ -38,6 +38,18 @@ Route::prefix('admin')
         //PRODUCT
         // Route::resource('products', ProductController::class);
 
+        //ORDER
+        // Route::prefix('orders')
+        //     ->as('orders.')
+        //     ->group(function () {
+        //         Route::get('/', [OrderController::class, 'index'])->name('index');
+        //         Route::get('create', [OrderController::class, 'create'])->name('create');
+        //         Route::post('store', [OrderController::class, 'store'])->name('store');
+        //         Route::get('show/{id}', [OrderController::class, 'show'])->name('show');
+        //         Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
+        //         Route::put('{id}/update', [OrderController::class, 'update'])->name('update');
+        //         Route::get('{id}/destroy', [OrderController::class, 'destroy'])->name('destroy');
+        //     });
 
         //BRAND
         Route::prefix('brands')
@@ -66,7 +78,7 @@ Route::prefix('admin')
                 Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
             });
 
-      // product
+        // product
         Route::resource('products', ProductController::class);
         // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
         // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
@@ -83,7 +95,7 @@ Route::prefix('admin')
 
 
         // PRODUCT-SALE
-         Route::prefix('sales')->as('sales.')->group(function () {
+        Route::prefix('sales')->as('sales.')->group(function () {
             Route::get('/', [ProductSaleController::class, 'index'])->name('index');
             Route::get('create', [ProductSaleController::class, 'create'])->name('create');
             Route::post('store', [ProductSaleController::class, 'store'])->name('store');
@@ -196,19 +208,34 @@ Route::prefix('admin')
 
         // COMMENT
         Route::prefix('comments')
-        ->as('comments.')
-        ->group(function () {
-            Route::get('/', [CommentController::class, 'index'])->name('index');
-            Route::get('create', [CommentController::class, 'create'])->name('create');
-            Route::post('store', [CommentController::class, 'store'])->name('store');
-            Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
-            Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
-        });
+            ->as('comments.')
+            ->group(function () {
+                Route::get('/', [CommentController::class, 'index'])->name('index');
+                Route::get('create', [CommentController::class, 'create'])->name('create');
+                Route::post('store', [CommentController::class, 'store'])->name('store');
+                Route::get('show/{id}', [CommentController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [CommentController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [CommentController::class, 'update'])->name('update');
+                Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+            });
 
 
+        // order
 
+        // ORDER
+        // Route::prefix('orders')
+        //     ->as('orders.')
+        //     ->group(function () {
+        //         Route::get('/', [AdminOrderController::class, 'index'])->name('index');
+        //         Route::get('create', [AdminOrderController::class, 'create'])->name('create');
+        //         Route::post('store', [AdminOrderController::class, 'store'])->name('store');
+        //         Route::get('show/{id}', [AdminOrderController::class, 'show'])->name('show');
+        //         Route::get('{id}/edit', [AdminOrderController::class, 'edit'])->name('edit');
+        //         Route::put('{id}/update', [AdminOrderController::class, 'update'])->name('update');
+        //         Route::delete('{id}/destroy', [AdminOrderController::class, 'destroy'])->name('destroy');
+        //         Route::patch('/admin/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        //     });
+        // ORDER
         // ORDER
         Route::prefix('orders')
             ->as('orders.')
@@ -221,55 +248,25 @@ Route::prefix('admin')
                 Route::put('{id}/update', [AdminOrderController::class, 'update'])->name('update');
                 Route::delete('{id}/destroy', [AdminOrderController::class, 'destroy'])->name('destroy');
                 Route::get('status', [AdminOrderController::class, 'status'])->name('status');
-                Route::get('status', [AdminOrderController::class, 'status'])->name('status');
+                Route::put('status/update', [AdminOrderController::class, 'updateStatus'])->name('status.update'); // Corrected route for updating status
                 Route::post('update-multiple', [AdminOrderController::class, 'updateMultiple'])->name('update_multiple');
-
             });
 
-
-        Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
+        // Route::resource('orders', AdminOrderController::class);
 
 
         // PRODUCT CLUSTER
         Route::prefix('product-clusters')
-        ->as('product-clusters.')
-        ->group(function () {
-            Route::get('/', [ProductClusterController::class, 'index'])->name('index');
-            Route::get('create', [ProductClusterController::class, 'create'])->name('create');
-            Route::post('store', [ProductClusterController::class, 'store'])->name('store');
-            Route::get('show/{id}', [ProductClusterController::class, 'show'])->name('show');
-            Route::get('{id}/edit', [ProductClusterController::class, 'edit'])->name('edit');
-            Route::put('{id}/update', [ProductClusterController::class, 'update'])->name('update');
-            Route::delete('{id}/destroy', [ProductClusterController::class, 'destroy'])->name('destroy');
-        });
+            ->as('product-clusters.')
+            ->group(function () {
+                Route::get('/', [ProductClusterController::class, 'index'])->name('index');
+                Route::get('create', [ProductClusterController::class, 'create'])->name('create');
+                Route::post('store', [ProductClusterController::class, 'store'])->name('store');
+                Route::get('show/{id}', [ProductClusterController::class, 'show'])->name('show');
+                Route::get('{id}/edit', [ProductClusterController::class, 'edit'])->name('edit');
+                Route::put('{id}/update', [ProductClusterController::class, 'update'])->name('update');
+                Route::delete('{id}/destroy', [ProductClusterController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

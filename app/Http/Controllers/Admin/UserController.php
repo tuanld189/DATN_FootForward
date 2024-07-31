@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
+use App\Models\Province;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Ward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -52,7 +55,11 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        $provinces = Province::all();
+        $districts = District::all();
+        $wards = Ward::all();
+
+        return view('admin.users.create', compact('roles', 'provinces', 'districts', 'wards'));
     }
 
     public function store(Request $request)
@@ -65,22 +72,32 @@ class UserController extends Controller
             'photo_thumbs' => 'required|image',
             'status' => 'required|string|max:255',
             'roles' => 'required|array', // Validate roles as an array
+            'province_code' => 'required|string|max:20',
+            'district_code' => 'required|string|max:20',
+            'wand_code' => 'required|string|max:20',
         ]);
 
+        // Lấy tất cả dữ liệu từ request ngoại trừ 'photo_thumbs'
         $data = $request->except('photo_thumbs');
-        $data['is_active'] ??= 0;
 
+        // Thiết lập giá trị mặc định cho 'is_active' nếu không có
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        // Xử lý upload ảnh
         if ($request->hasFile('photo_thumbs')) {
             $data['photo_thumbs'] = Storage::put(self::PATH_UPLOAD, $request->file('photo_thumbs'));
         }
 
+        // Hash mật khẩu
         $data['password'] = Hash::make($request->password);
 
+        // Tạo người dùng
         $user = User::create($data);
 
-        // Assign roles to the user
+        // Gán roles cho người dùng
         $user->roles()->sync($request->roles);
 
+        // Điều hướng quay lại trang danh sách người dùng với thông báo thành công
         return redirect()->route('admin.users.index')->with('status', 'User Created Successfully');
     }
 
