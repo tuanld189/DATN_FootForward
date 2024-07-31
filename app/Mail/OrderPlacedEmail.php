@@ -22,10 +22,20 @@ class OrderPlacedEmail extends Mailable
     public function build()
     {
         $orderItems = $this->order->orderItems;
-        
-        return $this->subject('Xác nhận đặt thành công từ FootForward')
-                    ->markdown('emails.orders.placed') // Sử dụng markdown thay vì view
-                    ->with('orderItems', $orderItems); // Truyền dữ liệu vào view
+
+        // Đính kèm ảnh và sử dụng CID
+        $logoPath = public_path('assets/images/logo-shoes.png');
+        $this->attach($logoPath, [
+            'as' => 'logo-shoes.png',
+            'mime' => 'image/png',
+        ]);
+
+        return $this->subject('Xác nhận đặt hàng thành công từ FootForward')
+                    ->markdown('emails.orders.placed')
+                    ->with([
+                        'logo' => 'cid:logo-shoes.png',
+                        'orderItems' => $orderItems
+                    ]);
     }
 }
 

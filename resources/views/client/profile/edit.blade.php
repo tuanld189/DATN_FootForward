@@ -374,7 +374,7 @@
                         <div class="col-md-4 text-center">
                             <div class="profile-pic text-center">
                                 <img id="profileImage"
-                                    src="{{ $user->photo_thumbs ? Storage::url($user->photo_thumbs) : asset('images/banner/Avatardf.jpg') }}"
+                                    src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
                                     class="img-fluid rounded-circle shadow" alt="Profile Picture">
                                 <h3 class="font-weight-bold mt-3 ">{{ old('fullname', $user->fullname) }}</h3>
                                 <h5 class="text-muted">{{ old('email', $user->email) }}</h5>
@@ -481,7 +481,7 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Mã Order</th>
+                                    <th>MÃ ĐƠN HÀNG</th>
                                     <th>NGÀY TẠO</th>
                                     {{-- <th>KHÁCH HÀNG</th>
                         <th>SDT</th> --}}
@@ -495,7 +495,7 @@
                                 @foreach ($orders as $index => $order)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $order->id }}</td>
+                                        <td>{{ $order->order_code }}</td>
                                         <td>{{ $order->created_at->format('d-m-Y H:i:s') }}</td>
                                         {{-- <td>{{ $order->user_name }}</td>
                             <td>{{ $order->user_phone }}</td> --}}

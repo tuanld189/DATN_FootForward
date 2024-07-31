@@ -43,7 +43,14 @@ class HomeController extends Controller
         $brands = Brand::all();
         $posts = Post::all();
         $banners = Banner::where('is_active', true)->get();
-        return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
+        if($user = auth()->user()){
+            $notifications = $user->notifications;
+            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners','notifications'));
+
+        }else{
+            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
+
+        }
     }
 
     public function info(Request $request)

@@ -135,18 +135,20 @@
         </div>
 
         <div class="panel-body">
-            <div class="checkout-box">
+            <div style="border:1px solid rgb(209, 208, 208); padding:20px;">
                 <div class="checkout-box-left">
                     <div class="order-title">
                         ĐƠN HÀNG
                     </div>
                     <div class="order-date">
-                        Ngày đặt hàng: {{ $order->created_at->format('d-m-Y') }}
+                        Ngày đặt hàng: {{ $order->created_at->format('d-m-Y') }} <br>
+                        Mã đơn hàng: {{ $order->order_code }}
                     </div>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Tên sản phẩm</th>
+                                <th>Ảnh</th>
                                 <th>Số lượng</th>
                                 <th>Giá bán</th>
                                 <th>Thành tiền</th>
@@ -156,6 +158,9 @@
                             @foreach ($orderItems as $item)
                                 <tr>
                                     <td>{{ $item->product_name }}</td>
+                                    <td>
+                                        <img src="{{ asset('storage/' .  $item->product_image ) }}" alt="" width="70px">
+                                    </td>
                                     <td>{{ $item->quantity_add }}</td>
                                     <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }}
                                         VNĐ</td>
@@ -177,7 +182,7 @@
                             </tr> --}}
 
                             <tr>
-                                <td colspan="3"><span><b>Tổng tiền sản phẩm</b></span></td>
+                                <td colspan="4"><span><b>Tổng tiền sản phẩm</b></span></td>
                                 <td><b>
                                     @php
                                         $discount = session('discount', 0);
@@ -191,18 +196,18 @@
 
                             @if (session('discount') > 0)
                                 <tr class="total_payment">
-                                    <td colspan="3"><span>Mã giảm giá</span></td>
+                                    <td colspan="4"><span>Mã giảm giá</span></td>
                                     <td><span class="amount">-{{ number_format(session('discount'), 0, ',', '.') }}
                                             VNĐ</span></td>
                                 </tr>
                             @endif
                             <tr>
-                                <td colspan="3"><span>Phí vận chuyển</span></td>
+                                <td colspan="4"><span>Phí vận chuyển</span></td>
                                 {{-- <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td> --}}
                                 <td>{{ number_format(0, 0, ',', '.') }} VNĐ</td>
                             </tr>
                             <tr>
-                                <td colspan="3"><span><b>Tổng cộng thanh toán</b></span></td>
+                                <td colspan="4"><span><b>Tổng cộng thanh toán</b></span></td>
                                 {{-- <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td> --}}
                                 <td><b>{{ number_format($order->total_price + 0, 0, ',', '.') }} VNĐ</b></td>
                             </tr>
@@ -244,10 +249,64 @@
                     @endif
 
                 </div>
+                <div style="padding-left:20px;">
+                    <div>
+                        @php
+                            $paymentIcons = [
+                                'paid' => 'fas fa-check-circle',
+                                'unpaid' => 'fas fa-times-circle',
+                                'pending' => 'fas fa-clock',
+                            ];
+
+                            $paymentClasses = [
+                                'paid' => 'bg-success text-white',
+                                'unpaid' => 'bg-danger text-white',
+                                'pending' => 'bg-warning text-dark',
+                            ];
+
+                        @endphp
+                        Tình trạng thanh toán: <span class="badge {{ $paymentClasses[$order->status_payment] }} text-uppercase">
+
+                            {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
+                        </span>
+                    </div>
+                    <div>
+                        @php
+                           $statusIcons = [
+                                'pending' => 'fas fa-hourglass-start',
+                                'confirmed' => 'fas fa-check-circle',
+                                'preparing_goods' => 'fas fa-cogs',
+                                'shipping' => 'fas fa-truck',
+                                'delivered' => 'fas fa-box-open',
+                                'canceled' => 'fas fa-times-circle',
+                            ];
+
+                            $statusClasses = [
+                                'pending' => 'bg-warning text-dark',
+                                'confirmed' => 'bg-success text-white',
+                                'preparing_goods' => 'bg-info text-white',
+                                'shipping' => 'bg-primary text-white',
+                                'delivered' => 'bg-secondary text-white',
+                                'canceled' => 'bg-danger text-white',
+                            ];
+                        @endphp
+                        Tình trạng đơn hàng: <span class="badge {{ $statusClasses[$order->status_order] }} text-uppercase">
+                            {{ \App\Models\Order::STATUS_ORDER[$order->status_order] }}
+                        </span>
+                    </div>
+                </div>
             </div>
+
         </div>
+
         <div class="panel-foot mt-3">
             <a href="{{ route('index') }}" class="btn btn-warning">Tiếp tục mua hàng</a>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+
+</script>
 @endsection

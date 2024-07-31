@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasRoles;
 
+    use Notifiable;
     protected $fillable = [
         'name',
         'fullname',
