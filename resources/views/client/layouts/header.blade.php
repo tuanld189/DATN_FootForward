@@ -34,7 +34,7 @@
                             </li>
                             <li class="language list-inline-item">
                                 <div class="btn-group">
-                                    <button class="dropdown-toggle"><img src="assets/images/icon/vn.png" width="20px"
+                                    <button class="dropdown-toggle"><img src="{{asset('assets/images/icon/vn.png')}}" width="20px"
                                             height="20px" alt=""> Tiếng Việt <i
                                             class="fa fa-angle-down"></i></button>
                                     <div class="dropdown-menu">
@@ -52,7 +52,7 @@
                                     <button class="dropdown-toggle">
                                         <i class="">
                                             <img alt="user avatar"
-                                                src="{{ Auth::check() ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
+                                                src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
                                                 style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->name : 'Setting' }}
                                         <i class="fa fa-angle-down">
                                         </i>
@@ -71,16 +71,22 @@
                                                         href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn
                                                         mua</a>
                                                 </li>
+                                                @if (Auth::user()->hasRole('superadmin'))
+                                                    <li>
+                                                        <a href="{{ route('admin.dashboard') }}">Admin</a>
+                                                    </li>
+                                                @endif
                                                 <li>
-                                                    <a href="{{ route('admin.dashboard') }}">Quản lý</a>
+                                                    <a href="{{ route('logout') }}">Đăng xuất</a>
                                                 </li>
                                             @else
                                                 <li>
-                                                    <a href="{{ route('login') }}">Đăng kí</a>
+                                                    <a href="{{ route('signup') }}">Đăng kí</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('login') }}">Đăng nhập</a>
                                                 </li>
                                             @endif
-
-
                                         </ul>
                                     </div>
                                 </div>
@@ -148,14 +154,55 @@
                             </form>
                         </div>
                     </div>
+                     {{-- Noti --}}
+                     <div class="notifications">
+                        <div class="btn-group">
+                            <button class="dropdown-toggle" style="background-color:white; border:none">
+                                <i class="fa fa-bell"></i> Thông báo
+                                @php
+                                    use App\Models\Order;
+                                    use Carbon\Carbon;
+                                    $unreadNotifications = auth()->check() && auth()->user()->unreadNotifications ? auth()->user()->unreadNotifications->count() : 0;
+                                @endphp
+                                @if($unreadNotifications > 0)
+                                    <span class="notification-count">({{ $unreadNotifications }})</span>
+                                @endif
+                            </button>
+                            @if(auth()->check())
+                            <div class="dropdown-menu notifications-menu mt-4" style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
+                                @if(auth()->user()->notifications && auth()->user()->notifications->count() > 0)
+                                    <ul class="notification-list">
+                                        @foreach(auth()->user()->notifications as $notification)
+                                            <li class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
+                                                <strong style="color:blue;">Đơn hàng của bạn đã được cập nhật:</strong><br>
+                                                <strong>Mã đơn hàng:</strong> {{ $notification->data['order_code'] }} <br>
+                                                <strong>Trạng thái đơn hàng:</strong> {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
+                                                <strong>Thời gian cập nhật:</strong> {{ isset($notification->data['status_time']) ? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') : 'Chưa có thời gian' }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang không có thông báo nào.</p>
+                                @endif
+                            </div>
+                            @else
+                            <div class="dropdown-menu notifications-menu mt-4" style="width:370px; background-color: white;">
+                                <p class="text-center" style="color:blue; font-weight:560;">Vui lòng đăng nhập để xem thông báo !!!</p>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    {{-- Noti --}}
                     <div class="shoping-cart">
                         <div class="btn-group">
-                            <button class="dropdown-toggle">
+                            <button class="dropdown-toggle" style="background-color:white; border:none">
                                 @php
                                     $totalItems = count(session('cart', []));
                                 @endphp
-                                <a href="{{ route('cart.list') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a>
-                                ({{ $totalItems }})
+                                <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a>
+                                @if ($totalItems > 0)
+                                    ({{ $totalItems }})
+                                @endif
                             </button>
                             <div class="dropdown-menu mini-cart-wrap mt-4"
                                 style="overflow-y:scroll; width:350px; height: 350px; background-color: white;">
@@ -179,7 +226,7 @@
                                                 </div>
                                                 <div class="mini-cart-product-desc ">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
-                                                    <div class="price-box" >
+                                                    <div class="price-box">
                                                         @if ($item['sale_price'])
                                                             <span
                                                                 class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
@@ -211,8 +258,8 @@
                                             </li>
                                         @empty
                                             <li>
-                                                <div class="shopping-cart-content text-center" colspan="8"
-                                                    style="height:150px;">No items in the cart</div>
+                                                <div class="shopping-cart-content text-center d-flex justify-content-center align-items-center" colspan="8"
+                                                    style="height:150px; color:blue; font-weight:560;">Không có sản phẩm trong giỏ hàng.</div>
                                             </li>
                                         @endforelse
 
@@ -234,6 +281,10 @@
                                 </div>
 
                             </div>
+
+
+
+
                         </div>
                     </div>
                 </div>

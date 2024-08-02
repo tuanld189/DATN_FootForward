@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\District;
+use App\Models\Permission;
 use App\Models\Province;
 use App\Models\Role;
 use App\Models\User;
@@ -14,41 +15,33 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    // public $serviceBindings=[
-    //     'App\Services\Interfaces\UserServicesInterface'=>
-    //     'App\Services\UserService'
-    // ];
     const PATH_UPLOAD = 'users';
 
     public function index(Request $request)
     {
-        $query = User::query(); // Bắt đầu query từ model User
+        $query = User::query();
 
-        // Lọc theo tên người dùng
         if ($request->filled('name')) {
             $query->where('username', 'like', '%' . $request->input('name') . '%');
         }
 
-        // Lọc theo email
         if ($request->filled('email')) {
             $query->where('email', 'like', '%' . $request->input('email') . '%');
         }
 
-        // Lọc theo ngày
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->input('date'));
         }
 
-        // Lấy danh sách người dùng đã lọc và trả về view
         $users = $query->latest()->get();
 
         return view('admin.users.index', compact('users'));
     }
 
-
     public function show($id)
     {
         $user = User::findOrFail($id);
+
         return view('admin.users.show', compact('user'));
     }
 
@@ -56,56 +49,49 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $provinces = Province::all();
-        $districts = District::all();
-        $wards = Ward::all();
 
-        return view('admin.users.create', compact('roles', 'provinces', 'districts', 'wards'));
+        return view('admin.users.create', compact('roles', 'provinces'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'fullname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:20',
-            'phone' => 'required|string|max:10',
-            'photo_thumbs' => 'required|image',
-            'status' => 'required|string|max:255',
-            'roles' => 'required|array', // Validate roles as an array
-            'province_code' => 'required|string|max:20',
-            'district_code' => 'required|string|max:20',
-            'wand_code' => 'required|string|max:20',
+            'phone' => 'required|string|max:10|regex:/^[0-9]{10}$/',
+            'photo_thumbs' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'province_code' => 'required|string|max:20|exists:provinces,code',
+            'district_code' => 'required|string|max:20|exists:districts,code',
+            'ward_code' => 'required|string|max:20|exists:wards,code',
         ]);
 
-        // Lấy tất cả dữ liệu từ request ngoại trừ 'photo_thumbs'
-        $data = $request->except('photo_thumbs');
+        $data = $request->except('photo_thumbs', 'roles', 'permission_ids');
 
-        // Thiết lập giá trị mặc định cho 'is_active' nếu không có
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
-        // Xử lý upload ảnh
         if ($request->hasFile('photo_thumbs')) {
-            $data['photo_thumbs'] = Storage::put(self::PATH_UPLOAD, $request->file('photo_thumbs'));
+            $data['photo_thumbs'] = Storage::put('uploads', $request->file('photo_thumbs'));
         }
 
-        // Hash mật khẩu
         $data['password'] = Hash::make($request->password);
 
-        // Tạo người dùng
         $user = User::create($data);
-
-        // Gán roles cho người dùng
         $user->roles()->sync($request->roles);
 
-        // Điều hướng quay lại trang danh sách người dùng với thông báo thành công
         return redirect()->route('admin.users.index')->with('status', 'User Created Successfully');
     }
 
     public function edit($id)
     {
         $roles = Role::all();
+        $provinces = Province::all();
         $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user', 'roles'));
+        $districts = District::where('province_code', $user->province_code)->get();
+        $wards = Ward::where('district_code', $user->district_code)->get();
+
+        return view('admin.users.edit', compact('user', 'roles', 'provinces', 'districts', 'wards'));
     }
 
     public function update(Request $request, $id)
@@ -118,7 +104,10 @@ class UserController extends Controller
             'phone' => 'required|string|max:10',
             'photo_thumbs' => 'nullable|image',
             'status' => 'required|string|max:255',
-            'roles' => 'required|array', // Validate roles as an array
+            // 'roles' => 'required|array',
+            'province_code' => 'required|string|max:20',
+            'district_code' => 'required|string|max:20',
+            'ward_code' => 'required|string|max:20',
         ]);
 
         $data = $request->except('photo_thumbs');
@@ -136,8 +125,13 @@ class UserController extends Controller
 
         $user->update($data);
 
-        // Update roles
         $user->roles()->sync($request->roles);
+        // Cập nhật role cho người dùng
+        $user->roles()->sync($request->role_id);
+
+        // Cập nhật permissions cho người dùng (nếu cần)
+        $user->permissions()->sync($request->permission_ids);
+
 
         return redirect()->route('admin.users.index')->with('status', 'User Updated Successfully');
     }
@@ -150,5 +144,17 @@ class UserController extends Controller
         }
         $user->delete();
         return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
+    }
+
+    public function getDistricts($province_code)
+    {
+        $districts = District::where('province_code', $province_code)->get();
+        return response()->json($districts);
+    }
+
+    public function getWards($district_code)
+    {
+        $wards = Ward::where('district_code', $district_code)->get();
+        return response()->json($wards);
     }
 }

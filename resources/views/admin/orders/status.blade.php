@@ -85,7 +85,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px;"><input type="checkbox" id="checkAll"></th>
-                                        <th>ID Order</th>
+                                        <th>Mã đơn hàng</th>
                                         <th>Trạng thái đơn hàng</th>
                                         @foreach (\App\Models\Order::STATUS_ORDER as $key => $status)
                                             <th>{{ $status }}</th>
@@ -98,7 +98,7 @@
                                     @foreach ($orders as $order)
                                         <tr class="align-middle">
                                             <td><input type="checkbox" name="order_ids[]" value="{{ $order->id }}"></td>
-                                            <td>{{ $order->id }}</td>
+                                            <td>{{ $order->order_code }}</td>
                                             <td>
                                                 @php
                                                     $statusIcons = [

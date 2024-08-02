@@ -17,7 +17,6 @@
                         <li class="breadcrumb-item active">Brands</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -32,7 +31,7 @@
                     <a href="{{ route('admin.brands.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width: 100%">
                         <thead class="text-muted table-light">
                             <tr>
                                 <th scope="col" style="width: 10px;">
@@ -44,8 +43,6 @@
                                 <th>NAME</th>
                                 <th>IMAGE</th>
                                 <th>Active</th>
-                                {{-- <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th> --}}
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -54,20 +51,16 @@
                                 <tr>
                                     <td scope="col" style="width: 10px;">
                                         <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
-                                                value="option">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                         </div>
                                     </td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img src="{{$item->image }}" alt="" width="100px">
+                                        <img src="{{ $item->image }}" alt="" width="100px">
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    {{-- <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td> --}}
                                     <td>
-                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="View">
                                             <a href="{{ route('admin.brands.show', $item->id) }}"
@@ -82,7 +75,6 @@
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
-
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Remove">
                                             <form id="delete-form-{{ $item->id }}"
@@ -97,19 +89,18 @@
                                             </a>
                                         </li>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $data->links() }}
+                    <div class="d-flex justify-content-end mt-3">
+                        {{ $data->links() }}
+                    </div>
                 </div>
             </div>
-        </div><!--end col-->
-    </div><!--end row-->
+        </div><!-- end col -->
+    </div><!-- end row -->
 @endsection
-
-
 
 @section('style-libs')
     <!--datatable css-->

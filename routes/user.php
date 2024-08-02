@@ -3,31 +3,26 @@
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\VourcherController;
-use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Services\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Vourcher;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 //shop
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 
-// login
-Route::get('/login',[UserController::class, 'login'])->name('login');
-Route::post('/login',[UserController::class, 'postLogin']);
-
-// signup
-Route::get('/signup',[UserController::class, 'signup'])->name('signup');
-Route::post('/signup',[UserController::class, 'postSignup']);
+Route::get('login', [UserController::class, 'login'])->name('login');
+Route::post('login', [UserController::class, 'postLogin']);
+Route::get('signup', [UserController::class, 'signup'])->name('signup');
+Route::post('signup', [UserController::class, 'postSignup']);
 Route::get('/logout',[UserController::class, 'logout'])->name('logout');
 
 // product
@@ -88,7 +83,8 @@ Route::get('/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('
 Route::put('/profile/update/{id}', [UserProfileController::class, 'update'])->name('client.profile.update');
 Route::put('/order/{id}/cancel', [UserProfileController::class, 'cancel'])->name('order.cancel');
 Route::get('/profile/order/{id}', [UserProfileController::class, 'show'])->name('client.profile.order');
-
+Route::get('/profile/{id}/change-password', [UserProfileController::class, 'showChangePasswordForm'])->name('client.profile.change-password');
+Route::post('/profile/{id}/change-password', [UserProfileController::class, 'changePassword'])->name('client.profile.change-password.update');
 
 // Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
 
@@ -98,3 +94,5 @@ Route::post('/voucher/redeem', [VourcherController::class, 'redeemVoucher'])->na
 Route::get('/new', [UserPostController::class, 'new'])->name('client.new');
 //Info
 Route::get('/info', [HomeController::class, 'info'])->name('client.info');
+
+Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

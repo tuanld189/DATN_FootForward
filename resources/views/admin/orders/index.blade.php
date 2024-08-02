@@ -178,7 +178,7 @@
                                                                 value="option">
                                                         </div>
                                                     </th>
-                                                    <th data-sort="id">Order ID</th>
+                                                    <th data-sort="id">Mã đơn hàng</th>
                                                     <th data-sort="customer_name">Khách hàng</th>
                                                     <th data-sort="product_name">SDT</th>
                                                     <th data-sort="product_address">Dịa chỉ</th>
@@ -204,7 +204,7 @@
                                                                     name="checkAll" value="option1">
                                                             </div>
                                                         </th>
-                                                        <td class="id">{{ $order->id }}</td>
+                                                        <td class="id">{{ $order->order_code }}</td>
                                                         <td class="customer_name">{{ $order->user_name }}</td>
                                                         <td class="customer_phone">{{ $order->user_phone }}</< /td>
                                                         <td class="customer_address">{{ $order->user_address }}</td>
