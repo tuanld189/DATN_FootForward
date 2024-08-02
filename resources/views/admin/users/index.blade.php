@@ -73,7 +73,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $user->id }}</td>
-                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->fullname }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <a href="{{ route('admin.users.show', $user->id) }}"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Excel\Imports\ProductsImport as ImportsProductsImport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Brand;
@@ -80,25 +81,57 @@ class ProductController extends Controller
 
 
 
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     // Perform the import
+    //     Excel::import(new ProductsImport, $request->file('file_excel'));
+
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+    // }
+
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,xls,csv'
+    //     ]);
+
+    //     Excel::import(new ProductsImport, $request->file('file'));
+
+    //     // return response()->json(['message' => 'Products imported successfully!'], 200);
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+
+    // }
     public function import(Request $request)
     {
-        $request->validate([
-            'file_excel' => 'required|mimes:xlsx,csv',
-        ]);
+        $file = $request->file('file');
+        $import = new ProductsImport($file);
 
-        // Perform the import
-        Excel::import(new ProductsImport, $request->file('file_excel'));
+        Excel::import($import, $file);
 
-        return redirect()->back()->with('success', 'Products imported successfully.');
+        return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
     }
 
 
 
-
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        $paginate = $request->input('paginate(10)', 'all');
+
+        $export = new ProductsExport($paginate);
+
+        return Excel::download($export, 'products.xlsx');
     }
+
+
+    // public function export()
+    // {
+    //     return Excel::download(new ProductsExport, 'products.xlsx');
+    // }
 
     // end import & export
 

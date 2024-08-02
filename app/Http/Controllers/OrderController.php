@@ -58,6 +58,7 @@ class OrderController extends Controller
                 ];
             }
 
+
             $order = new Order();
             $order->user_id = Auth::check() ? $user->id : null;
             $order->user_name = $request->input('user_name');
@@ -96,7 +97,6 @@ class OrderController extends Controller
             return back()->with('error', 'Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại sau.');
         }
     }
-
 
 
 
@@ -213,32 +213,11 @@ class OrderController extends Controller
             $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
             $order->save();
         }
-
-        // Xóa mã giảm giá sau khi thanh toán nếu cần
-        // session()->forget('voucher_code');
-
         return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     }
 
 
 
-
-
-    // public function vnpay_return(Request $request)
-    // {
-    //     $orderId = $request->input('order_id');
-    //     $order = Order::findOrFail($orderId);
-
-    //     if ($request->input('vnp_ResponseCode') == '00') {
-    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
-    //         $order->save();
-    //     } else {
-    //         // $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
-    //         // $order->save();
-    //     }
-
-    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
-    // }
 
     public function confirmation($order_id)
     {

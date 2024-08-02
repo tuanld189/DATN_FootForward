@@ -11,6 +11,7 @@ use App\Models\ProductColor;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Vourcher;
 
 class HomeController extends Controller
 {
@@ -42,6 +43,7 @@ class HomeController extends Controller
         $brands = Brand::all();
         $posts = Post::all();
         $banners = Banner::where('is_active', true)->get();
+        // $vourchers  = Vourcher::where('is_active', true)->get();
         return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
     }
 
@@ -171,4 +173,12 @@ class HomeController extends Controller
 
         return view('client.shop', compact('products', 'categories', 'brands', 'sizes', 'colors'));
     }
+
+    public function checkout()
+    {
+        $vourchers = Vourcher::where('is_active', true)->get();
+
+        return view('client.checkout', compact('vourchers'));
+    }
+
 }

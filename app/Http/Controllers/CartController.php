@@ -140,6 +140,123 @@ class CartController extends Controller
     //     }
     // }
 
+    // public function applyVoucher(Request $request)
+    // {
+    //     $request->validate([
+    //         'voucher_code' => 'nullable|string',
+    //     ]);
+
+    //     $voucherCode = $request->input('voucher_code');
+    //     $totalAmount = session()->get('total_amount', 0); // Đảm bảo có giá trị mặc định
+
+    //     if ($voucherCode) {
+    //         $voucher = Vourcher::validateVoucher($voucherCode); // Sửa lỗi tên lớp từ `Vourcher` thành `Voucher`
+
+    //         if ($voucher) {
+    //             // Tính toán số tiền giảm
+    //             $discount = $this->calculateDiscount($voucher, $totalAmount); // Sử dụng hàm calculateDiscount để tính toán số tiền giảm
+    //             $newTotalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
+
+    //             // Lưu mã giảm giá và số tiền vào session
+    //             session([
+    //                 'voucher_code' => $voucherCode,
+    //                 'discount' => $discount,
+    //                 'total_amount' => $newTotalAmount
+    //             ]);
+
+    //             Log::info('Voucher applied. New total amount: ' . $newTotalAmount); // Ghi log giá trị mới
+
+    //             return redirect()->route('cart.checkout')->with('success', 'Voucher áp dụng thành công');
+    //         }
+    //     }
+
+    //     Log::warning('Invalid or expired voucher: ' . $voucherCode); // Ghi log khi voucher không hợp lệ
+
+    //     return redirect()->route('cart.checkout')->with('error', 'Voucher không hợp lệ hoặc hết hạn');
+    // }
+
+    // public function applyVoucher(Request $request)
+    // {
+    //     $request->validate([
+    //         'voucher_code' => 'nullable|string',
+    //     ]);
+
+    //     $voucherCode = $request->input('voucher_code');
+    //     $totalAmount = session()->get('total_amount', 0); // Đảm bảo có giá trị mặc định
+
+    //     if ($voucherCode) {
+    //         $voucher = Vourcher::validateVoucher($voucherCode); // Sửa lỗi tên lớp từ `Vourcher` thành `Voucher`
+
+    //         if ($voucher) {
+    //             // Xác định giới hạn giảm giá dựa trên tổng số tiền đơn hàng
+    //             if ($totalAmount >= 3000000) {
+    //                 $minDiscountPercent = 1;
+    //                 $maxDiscountPercent = 25;
+    //                 $minDiscountValue = 10000;
+    //                 $maxDiscountValue = 500000;
+    //             } elseif ($totalAmount >= 2000000) {
+    //                 $minDiscountPercent = 1;
+    //                 $maxDiscountPercent = 15;
+    //                 $minDiscountValue = 10000;
+    //                 $maxDiscountValue = 300000;
+    //             } elseif ($totalAmount >= 1000000) {
+    //                 $minDiscountPercent = 1;
+    //                 $maxDiscountPercent = 10;
+    //                 $minDiscountValue = 10000;
+    //                 $maxDiscountValue = 100000;
+    //             } elseif ($totalAmount >= 500000) {
+    //                 $minDiscountPercent = 1;
+    //                 $maxDiscountPercent = 5;
+    //                 $minDiscountValue = 10000;
+    //                 $maxDiscountValue = 50000;
+    //             } else {
+    //                 Log::warning('Order amount too low for voucher: ' . $totalAmount); // Ghi log khi tổng số tiền không đủ
+    //                 return redirect()->route('cart.checkout')->with('error', 'Tổng số tiền đơn hàng không đủ điều kiện áp dụng mã giảm giá');
+    //             }
+
+    //             // Tính toán số tiền giảm giá từ phần trăm
+    //             $percentDiscount = $totalAmount * ($voucher->discount_value / 100);
+
+    //             // Xác định số tiền giảm giá theo phần trăm và giá tiền
+    //             $discountValue = min(max($percentDiscount, $minDiscountValue), $maxDiscountValue);
+
+    //             // Nếu số tiền giảm theo phần trăm không hợp lệ, tính giảm giá theo giá tiền cố định
+    //             if ($voucher->discount_type == 'percentage') {
+    //                 if ($voucher->discount_value < $minDiscountPercent || $voucher->discount_value > $maxDiscountPercent) {
+    //                     Log::warning('Voucher discount percentage out of range: ' . $voucher->discount_value); // Ghi log khi giảm giá theo phần trăm không nằm trong khoảng hợp lệ
+    //                     return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không hợp lệ với tổng số tiền đơn hàng của bạn');
+    //                 }
+    //             } else {
+    //                 if ($voucher->discount_value < $minDiscountValue || $voucher->discount_value > $maxDiscountValue) {
+    //                     Log::warning('Voucher discount value out of range: ' . $voucher->discount_value); // Ghi log khi giảm giá theo giá tiền không nằm trong khoảng hợp lệ
+    //                     return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không hợp lệ với tổng số tiền đơn hàng của bạn');
+    //                 }
+    //             }
+
+    //             // Tính toán số tiền giảm
+    //             $discount = min($discountValue, $totalAmount); // Đảm bảo số tiền giảm không vượt quá tổng số tiền
+    //             $newTotalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
+
+    //             // Lưu mã giảm giá và số tiền vào session
+    //             session([
+    //                 'voucher_code' => $voucherCode,
+    //                 'discount' => $discount,
+    //                 'total_amount' => $newTotalAmount
+    //             ]);
+
+    //             Log::info('Voucher applied. New total amount: ' . $newTotalAmount); // Ghi log giá trị mới
+
+    //             return redirect()->route('cart.checkout')->with('success', 'Voucher áp dụng thành công');
+    //         }
+    //     }
+
+    //     Log::warning('Invalid or expired voucher: ' . $voucherCode); // Ghi log khi voucher không hợp lệ
+
+    //     return redirect()->route('cart.checkout')->with('error', 'Voucher không hợp lệ hoặc hết hạn');
+    // }
+
+
+
     public function applyVoucher(Request $request)
     {
         $request->validate([
@@ -153,8 +270,53 @@ class CartController extends Controller
             $voucher = Vourcher::validateVoucher($voucherCode); // Sửa lỗi tên lớp từ `Vourcher` thành `Voucher`
 
             if ($voucher) {
+                // Xác định giới hạn giảm giá dựa trên tổng số tiền đơn hàng
+                if ($totalAmount >= 3000000) {
+                    $minDiscountPercent = 1;
+                    $maxDiscountPercent = 25;
+                    $minDiscountValue = 10000;
+                    $maxDiscountValue = 500000;
+                } elseif ($totalAmount >= 2000000) {
+                    $minDiscountPercent = 1;
+                    $maxDiscountPercent = 15;
+                    $minDiscountValue = 10000;
+                    $maxDiscountValue = 300000;
+                } elseif ($totalAmount >= 1000000) {
+                    $minDiscountPercent = 1;
+                    $maxDiscountPercent = 10;
+                    $minDiscountValue = 10000;
+                    $maxDiscountValue = 100000;
+                } elseif ($totalAmount >= 500000) {
+                    $minDiscountPercent = 1;
+                    $maxDiscountPercent = 5;
+                    $minDiscountValue = 10000;
+                    $maxDiscountValue = 50000;
+                } else {
+                    Log::warning('Order amount too low for voucher: ' . $totalAmount); // Ghi log khi tổng số tiền không đủ
+                    return redirect()->route('cart.checkout')->with('error', 'Tổng số tiền đơn hàng không đủ điều kiện áp dụng mã giảm giá');
+                }
+
+                // Tính toán số tiền giảm giá từ phần trăm
+                $percentDiscount = $totalAmount * ($voucher->discount_value / 100);
+
+                // Xác định số tiền giảm giá theo phần trăm và giá tiền
+                $discountValue = min(max($percentDiscount, $minDiscountValue), $maxDiscountValue);
+
+                // Nếu số tiền giảm theo phần trăm không hợp lệ, tính giảm giá theo giá tiền cố định
+                if ($voucher->discount_type == 'percentage') {
+                    if ($voucher->discount_value < $minDiscountPercent || $voucher->discount_value > $maxDiscountPercent) {
+                        Log::warning('Voucher discount percentage out of range: ' . $voucher->discount_value); // Ghi log khi giảm giá theo phần trăm không nằm trong khoảng hợp lệ
+                        return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không hợp lệ với tổng số tiền đơn hàng của bạn');
+                    }
+                } else {
+                    if ($voucher->discount_value < $minDiscountValue || $voucher->discount_value > $maxDiscountValue) {
+                        Log::warning('Voucher discount value out of range: ' . $voucher->discount_value); // Ghi log khi giảm giá theo giá tiền không nằm trong khoảng hợp lệ
+                        return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không hợp lệ với tổng số tiền đơn hàng của bạn');
+                    }
+                }
+
                 // Tính toán số tiền giảm
-                $discount = $this->calculateDiscount($voucher, $totalAmount); // Sử dụng hàm calculateDiscount để tính toán số tiền giảm
+                $discount = min($discountValue, $totalAmount); // Đảm bảo số tiền giảm không vượt quá tổng số tiền
                 $newTotalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
 
                 // Lưu mã giảm giá và số tiền vào session
@@ -163,6 +325,10 @@ class CartController extends Controller
                     'discount' => $discount,
                     'total_amount' => $newTotalAmount
                 ]);
+
+                // Redeem the voucher
+                $voucher->redeem();
+
 
                 Log::info('Voucher applied. New total amount: ' . $newTotalAmount); // Ghi log giá trị mới
 
@@ -174,6 +340,9 @@ class CartController extends Controller
 
         return redirect()->route('cart.checkout')->with('error', 'Voucher không hợp lệ hoặc hết hạn');
     }
+
+
+
 
 
     // Hàm tính toán số tiền giảm giá
@@ -240,6 +409,7 @@ class CartController extends Controller
     // cái nay dung ok
     public function checkout(Request $request)
     {
+        $vourchers = Vourcher::where('is_active', true)->get();
         $cart = session()->get('cart', []);
         $totalAmount = 0;
 
@@ -249,7 +419,6 @@ class CartController extends Controller
 
         $voucherCode = session()->get('voucher_code');
         $discount = 0;
-
         if ($voucherCode) {
             $voucher = Vourcher::validateVoucher($voucherCode);
 
@@ -265,7 +434,7 @@ class CartController extends Controller
         // Lưu thông tin giảm giá và tổng số tiền vào session
         session()->put('total_amount', $totalAmount);
         session()->put('discount', $discount);
-        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode', 'vourchers'));
     }
     // cái nay dung ok
 
@@ -424,3 +593,104 @@ class CartController extends Controller
     // }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// public function applyVoucher(Request $request)
+// {
+//     $request->validate([
+//         'voucher_code' => 'nullable|string',
+//     ]);
+
+//     $voucherCode = $request->input('voucher_code');
+//     $totalAmount = session()->get('total_amount', 0); // Đảm bảo có giá trị mặc định
+//     $cartItems = session()->get('cart_items', []); // Lấy danh sách sản phẩm trong giỏ hàng từ session
+
+//     if ($voucherCode) {
+//         $voucher = Vourcher::validateVoucher($voucherCode); // Sửa lỗi tên lớp từ `Vourcher` thành `Voucher`
+
+//         if ($voucher) {
+//             // Kiểm tra xem voucher có áp dụng cho các danh mục cụ thể không
+//             $applicableCategories = $voucher->categories()->pluck('id')->toArray(); // Lấy danh sách danh mục áp dụng từ voucher
+//             $cartCategoryIds = array_unique(array_column($cartItems, 'category_id')); // Lấy danh sách danh mục của các sản phẩm trong giỏ hàng
+
+//             if ($applicableCategories && !array_intersect($applicableCategories, $cartCategoryIds)) {
+//                 Log::warning('Voucher does not apply to any category in the cart: ' . $voucherCode);
+//                 return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không áp dụng cho các danh mục sản phẩm trong giỏ hàng.');
+//             }
+
+//             // Xác định giới hạn giảm giá dựa trên tổng số tiền đơn hàng
+//             if ($totalAmount >= 3000000) {
+//                 $minDiscountPercent = 1;
+//                 $maxDiscountPercent = 25;
+//                 $minDiscountValue = 10000;
+//                 $maxDiscountValue = 500000;
+//             } elseif ($totalAmount >= 2000000) {
+//                 $minDiscountPercent = 1;
+//                 $maxDiscountPercent = 15;
+//                 $minDiscountValue = 10000;
+//                 $maxDiscountValue = 300000;
+//             } elseif ($totalAmount >= 1000000) {
+//                 $minDiscountPercent = 1;
+//                 $maxDiscountPercent = 10;
+//                 $minDiscountValue = 10000;
+//                 $maxDiscountValue = 100000;
+//             } elseif ($totalAmount >= 500000) {
+//                 $minDiscountPercent = 1;
+//                 $maxDiscountPercent = 5;
+//                 $minDiscountValue = 10000;
+//                 $maxDiscountValue = 50000;
+//             } else {
+//                 Log::warning('Order amount too low for voucher: ' . $totalAmount); // Ghi log khi tổng số tiền không đủ
+//                 return redirect()->route('cart.checkout')->with('error', 'Tổng số tiền đơn hàng không đủ điều kiện áp dụng mã giảm giá');
+//             }
+
+//             // Tính toán số tiền giảm giá từ phần trăm
+//             $percentDiscount = $totalAmount * ($voucher->discount_value / 100);
+
+//             // Xác định số tiền giảm giá theo phần trăm và giá tiền
+//             $discountValue = min(max($percentDiscount, $minDiscountValue), $maxDiscountValue);
+
+//             // Nếu số tiền giảm theo phần trăm không hợp lệ, tính giảm giá theo giá tiền cố định
+//             if ($voucher->discount_type == 'percentage') {
+//                 if ($voucher->discount_value < $minDiscountPercent || $voucher->discount_value > $maxDiscountPercent) {
+//                     Log::warning('Voucher discount percentage out of range: ' . $voucher->discount_value); // Ghi log khi giảm giá theo phần trăm không nằm trong khoảng hợp lệ
+//                     return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không hợp lệ với tổng số tiền đơn hàng của bạn');
+//                 }
+//             } else {
+//                 if ($voucher->discount_value < $minDiscountValue || $voucher->discount_value > $maxDiscountValue) {
+//                     Log::warning('Voucher discount value out of range: ' . $voucher->discount_value); // Ghi log khi giảm giá theo giá tiền không nằm trong khoảng hợp lệ
+//                     return redirect()->route('cart.checkout')->with('error', 'Mã giảm giá không hợp lệ với tổng số tiền đơn hàng của bạn');
+//                 }
+//             }
+
+//             // Tính toán số tiền giảm
+//             $discount = min($discountValue, $totalAmount); // Đảm bảo số tiền giảm không vượt quá tổng số tiền
+//             $newTotalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
+
+//             // Lưu mã giảm giá và số tiền vào session
+//             session([
+//                 'voucher_code' => $voucherCode,
+//                 'discount' => $discount,
+//                 'total_amount' => $newTotalAmount
+//             ]);
+
+//             Log::info('Voucher applied. New total amount: ' . $newTotalAmount); // Ghi log giá trị mới
+
+//             return redirect()->route('cart.checkout')->with('success', 'Voucher áp dụng thành công');
+//         }
+//     }
+
+//     Log::warning('Invalid or expired voucher: ' . $voucherCode); // Ghi log khi voucher không hợp lệ
+
+//     return redirect()->route('cart.checkout')->with('error', 'Voucher không hợp lệ hoặc hết hạn');
+// }

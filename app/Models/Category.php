@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'image',
         'created_at',
@@ -17,6 +17,10 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class,'product_id');
+        return $this->hasMany(Product::class, 'product_id');
+    }
+    public function vouchers()
+    {
+        return $this->belongsToMany(Vourcher::class, 'category_voucher');
     }
 }

@@ -83,8 +83,9 @@ Route::prefix('admin')
         // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
         // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
-
+        Route::get('/import-products', [ProductController::class, 'showImportForm'])->name('import.form');
         Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
+        // Route::post('/products/import', [ProductController::class, 'import']);
         Route::get('/export-products', [ProductController::class, 'export'])->name('products.export');
 
 

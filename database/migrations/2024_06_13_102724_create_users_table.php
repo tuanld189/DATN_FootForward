@@ -15,11 +15,11 @@ return new class extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('fullname',50)->unique();
-            $table->string('phone',20)->nullable();
-            $table->string('province_id',10)->nullable();
-            $table->string('district_id',10)->nullable();
-            $table->string('wand_id',10)->nullable();
+            $table->string('fullname', 50)->unique();
+            $table->string('phone', 20)->nullable();
+            $table->string('province_code', 20)->nullable();
+            $table->string('district_code', 20)->nullable();
+            $table->string('wand_code', 20)->nullable();
             $table->string('address')->nullable();
             $table->dateTime('birthday')->nullable();
             $table->string('photo_thumbs')->nullable();
@@ -29,10 +29,14 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(true);
-            // $table->boolean('is_admin')->default(false);//0=user, 1=admin,2 =manager;
+            // $table->boolean('is_admin')->default(false); // 0=user, 1=admin, 2=manager
             $table->rememberToken();
             $table->timestamps();
-            // Định nghĩa khóa ngoại cho cột role_id
+
+            // Define foreign key constraints
+            $table->foreign('province_code')->references('code')->on('provinces')->onDelete('set null');
+            $table->foreign('district_code')->references('code')->on('districts')->onDelete('set null');
+            $table->foreign('wand_code')->references('code')->on('wards')->onDelete('set null'); // Changed 'wands' to 'wards'
         });
     }
 

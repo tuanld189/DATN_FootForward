@@ -98,3 +98,6 @@ Route::post('/voucher/redeem', [VourcherController::class, 'redeemVoucher'])->na
 Route::get('/new', [UserPostController::class, 'new'])->name('client.new');
 //Info
 Route::get('/info', [HomeController::class, 'info'])->name('client.info');
+
+
+Route::resource('vourchers', VourcherController::class);
