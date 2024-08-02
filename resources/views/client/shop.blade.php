@@ -83,8 +83,8 @@
     </style>
 @endsection
 @section('content')
-    <div class="content-wraper">
-        <div class="container">
+    <div class="content-wraper" >
+        <div class="container" >
             <div class="row">
                 <div class="col-lg-3">
                     <div class="row">

@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('phone', 20)->nullable();
             $table->string('province_code', 20)->nullable();
             $table->string('district_code', 20)->nullable();
-            $table->string('wand_code', 20)->nullable();
+            $table->string('ward_code', 20)->nullable();
             $table->string('address')->nullable();
             $table->dateTime('birthday')->nullable();
             $table->string('photo_thumbs')->nullable();
@@ -36,7 +36,7 @@ return new class extends Migration {
             // Define foreign key constraints
             $table->foreign('province_code')->references('code')->on('provinces')->onDelete('set null');
             $table->foreign('district_code')->references('code')->on('districts')->onDelete('set null');
-            $table->foreign('wand_code')->references('code')->on('wards')->onDelete('set null'); // Changed 'wands' to 'wards'
+            $table->foreign('ward_code')->references('code')->on('wards')->onDelete('set null'); // Changed 'wands' to 'wards'
         });
     }
 

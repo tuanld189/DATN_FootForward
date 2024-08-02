@@ -122,7 +122,7 @@
 
                     <div class="mt-3">
                         <label for="price" class="form-label">Price:</label>
-                        <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, '', '.') }}" >
+                        <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, '', '') }}" >
                     </div>
             </div>
 

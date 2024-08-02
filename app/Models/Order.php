@@ -34,10 +34,11 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'user_name',
+        'order_code',
         'user_email',
         'user_phone',
         'user_address',
+        'user_password',
         'user_note',
         'is_ship_user_same_user',
         'ship_user_name',

@@ -16,13 +16,16 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Name:</strong> {{ $user->fullname }}</p>
+                    <p><strong>Fullname:</strong> {{ $user->fullname }}</p>
                     <p><strong>Email:</strong> {{ $user->email }}</p>
                     <p><strong>Phone:</strong> {{ $user->phone }}</p>
                     <p><strong>User Code:</strong> {{ $user->user_code }}</p>
-                    <p><strong>Username:</strong> {{ $user->username }}</p>
+                    <p><strong>Name:</strong> {{ $user->name }}</p>
                     <p><strong>Status:</strong> {{ $user->status }}</p>
                     <p><strong>Active:</strong> {{ $user->is_active ? 'Yes' : 'No' }}</p>
+                    <p><strong>Province:</strong> {{$user->province->name}}</p>
+                    <p><strong>District:</strong> {{$user->district->name}}</p>
+                    {{-- <<p><strong>Ward:</strong> {{ $user->ward->name }}</p> --}}
                 </div>
                 <div class="col-md-6">
                     <p><strong>Roles:</strong></p>
