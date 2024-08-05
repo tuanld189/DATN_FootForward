@@ -30,4 +30,21 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(ProductColor::class, 'product_color_id');
     }
+
+    // Kiểm tra số lượng còn lại
+    public function hasStock($quantity)
+    {
+        return $this->quantity >= $quantity;
+    }
+
+    // Giảm số lượng tồn kho
+    public function reduceStock($quantity)
+    {
+        if ($this->hasStock($quantity)) {
+            $this->quantity -= $quantity;
+            $this->save();
+            return true;
+        }
+        return false;
+    }
 }

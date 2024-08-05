@@ -40,12 +40,7 @@ class ProductController extends Controller
 
     const PATH_VIEW = 'admin.products.';
     const PATH_UPLOAD = 'products';
-    // public function index()
-    // {
-    //     $data = Product::query()->with(['category', 'tags'])->latest('id')->get();
 
-    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
-    // }
 
     public function index(Request $request)
     {
@@ -74,10 +69,45 @@ class ProductController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        $data = $query->with(['category', 'tags', 'brand'])->latest('id')->get();
+        // Set the number of items per page to 10
+        $perPage = 6;
+        $data = $query->with(['category', 'tags', 'brand'])->latest('id')->paginate($perPage);
 
         return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
     }
+
+
+    // public function index(Request $request)
+    // {
+    //     $categories = Category::pluck('name', 'id')->all();
+    //     $brands = Brand::pluck('name', 'id')->all();
+
+    //     $query = Product::query();
+
+    //     if ($request->has('category_id') && $request->category_id != '') {
+    //         $query->where('category_id', $request->category_id);
+    //     }
+
+    //     if ($request->has('brand_id') && $request->brand_id != '') {
+    //         $query->where('brand_id', $request->brand_id);
+    //     }
+
+    //     if ($request->has('name') && $request->name != '') {
+    //         $query->where('name', 'like', '%' . $request->name . '%');
+    //     }
+
+    //     if ($request->has('date_from') && $request->date_from != '') {
+    //         $query->whereDate('created_at', '>=', $request->date_from);
+    //     }
+
+    //     if ($request->has('date_to') && $request->date_to != '') {
+    //         $query->whereDate('created_at', '<=', $request->date_to);
+    //     }
+
+    //     $data = $query->with(['category', 'tags', 'brand'])->latest('id')->get();
+
+    //     return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
+    // }
 
 
 
@@ -395,3 +425,21 @@ class ProductController extends Controller
         return response()->json($products);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

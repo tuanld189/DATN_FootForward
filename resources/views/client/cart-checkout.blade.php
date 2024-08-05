@@ -70,9 +70,6 @@
             background-color: #f8d7da;
             color: #721c24;
         }
-        .old-price {
-            text-decoration: line-through;
-        }
     </style>
     <!-- CSS -->
     <style>
@@ -307,6 +304,37 @@
             box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5);
             /* Tạo viền focus tùy chỉnh */
         }
+
+        .table th.col-small {
+            width: 15%;
+            /* Độ rộng của cột nhỏ */
+        }
+
+        .table th.col-large {
+            width: 45%;
+            /* Độ rộng của cột lớn */
+        }
+
+        .table td.col-small {
+            width: 15%;
+            /* Độ rộng của cột nhỏ trong ô dữ liệu */
+        }
+
+        .table td.col-large {
+            width: 45%;
+            /* Độ rộng của cột lớn trong ô dữ liệu */
+        }
+
+        /* Nếu bạn muốn các cột nhỏ hơn nữa */
+        .table th.col-smaller {
+            width: 10%;
+            /* Độ rộng của cột cực nhỏ */
+        }
+
+        .table td.col-smaller {
+            width: 10%;
+            /* Độ rộng của cột cực nhỏ trong ô dữ liệu */
+        }
     </style>
 @endsection
 
@@ -317,12 +345,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Home</h4>
+                        <h4 class="mb-sm-0">Thanh toán</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                                <li class="breadcrumb-item active">Cart</li>
-                                <li class="breadcrumb-item active">Checkout</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Trang chủ</a></li>
+                                <li class="breadcrumb-item active">Thanh toán</li>
+                                <li class="breadcrumb-item active">Thủ tục thanh toán</li>
                             </ol>
                         </div>
                     </div>
@@ -350,22 +378,20 @@
                             <h3 class="shoping-checkboxt-title">Thông tin đặt hàng</h3>
                             <form action="{{ route('order.place') }}" method="POST">
                                 @csrf
+                                @if (Auth::check())
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    <input type="hidden" name="user_password" value="">
+                                    <input type="hidden" name="order_code" value="{{ $orderCode }}">
+                                @else
+                                    <input type="hidden" name="user_id" value="{{ Str::random(10) }}">
+                                    <input type="hidden" name="user_password" value="{{ Str::random(15) }}">
+                                    <input type="hidden" name="order_code" value="{{ $orderCode }}">
+                                @endif
                                 <div class="row">
                                     <!-- Thông tin người dùng -->
-
-                                    @if(Auth::check())
-                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                        <input type="hidden" name="user_password" value="">
-                                        <input type="hidden" name="order_code" value="{{ $orderCode }}">
-                                    @else
-                                        <input type="hidden" name="user_id" value="{{ Str::random(10) }}">
-                                        <input type="hidden" name="user_password" value="{{ Str::random(15) }}">
-                                        <input type="hidden" name="order_code" value="{{ $orderCode }}">
-                                    @endif
-
-                                        <div class="col-12">
+                                    <div class="col-12">
                                         <p class="single-form-row">
-                                            <label>Name<span class="required">*</span></label>
+                                            <label>Họ và tên<span class="required">*</span></label>
                                             <input type="text" class="form-control" name="user_name"
                                                 placeholder="Nhập vào tên người dùng"
                                                 value="{{ Auth::check() ? Auth::user()->name : '' }}">
@@ -373,29 +399,31 @@
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row">
-                                            <label>Email <span class="required">*</span></label>
+                                            <label>Email<span class="required">*</span></label>
                                             <input type="text" name="user_email" placeholder="Nhập vào email"
                                                 class="form-control" value="{{ Auth::check() ? Auth::user()->email : '' }}">
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row">
-                                            <label>Number phone <span class="required">*</span></label>
+                                            <label>SĐT<span class="required">*</span></label>
                                             <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại"
-                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}" class="form-control">
+                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}"
+                                                class="form-control">
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row">
-                                            <label>Address <span class="required">*</span></label>
-                                            <input type="text" name="user_address" id="user_address" class="form-control" placeholder="Nhập địa chỉ"
-                                               value="{{ Auth::check() ? Auth::user()->address : '' }}">
+                                            <label>Địa chỉ <span class="required">*</span></label>
+                                            <input type="text" name="user_address" id="user_address" class="form-control"
+                                                placeholder="Nhập vào địa chỉ"
+                                                value="{{ Auth::check() ? Auth::user()->address : '' }}">
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row m-0">
-                                            <label>Order notes</label>
-                                            <textarea placeholder="Ghi chú về đơn hàng của hàng cho bên vận chuyển............................." class="checkout-mess" rows="8"
+                                            <label>Ghi chú</label>
+                                            <textarea placeholder="Ghi chú về đơn đặt hàng của bạn, ví dụ: mua giày theo cân." class="checkout-mess" rows="2"
                                                 cols="5" name="user_note"></textarea>
                                         </p>
                                     </div>
@@ -404,99 +432,6 @@
                                     <button type="submit" class="btn btn-primary w-100">Đặt hàng</button>
                                 </div>
                             </form>
-
-
-
-                            {{-- <!-- Nút để hiện/ẩn overlay -->
-                            <button id="toggle-vouchers">Hiện mã giảm giá</button>
-
-                            <!-- Overlay chứa bảng mã giảm giá -->
-                            <div id="coupon-overlay" class="coupon-overlay">
-                                <div class="coupon-container">
-                                    <!-- Nút tắt -->
-                                    <button id="close-voucher" class="close-btn">&times;</button>
-
-                                    <h4 class="m-2 text-center">FootForWard Voucher</h4>
-                                    <!-- Hiển thị bảng các mã giảm giá -->
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Mã giảm giá</th>
-                                                    <th>Giá trị</th>
-                                                    <th>Điều kiện áp dụng</th>
-                                                    <th>Chức năng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($vourchers as $voucher)
-                                                    <tr>
-                                                        <td>{{ $voucher->code }}</td>
-                                                        <td>
-                                                            {{ $voucher->discount_value }}
-                                                            {{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
-                                                        </td>
-                                                        <td class="marquee-container">
-                                                            <div class="marquee-text">
-                                                                @if ($voucher->discount_type == 'percentage')
-                                                                    @if ($voucher->discount_value == 5)
-                                                                        Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên: Giảm
-                                                                        tối đa 5%
-                                                                    @elseif ($voucher->discount_value == 10)
-                                                                        Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên: Giảm
-                                                                        tối đa 10%
-                                                                    @elseif ($voucher->discount_value == 15)
-                                                                        Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên: Giảm
-                                                                        tối đa 15%
-                                                                    @elseif ($voucher->discount_value == 25)
-                                                                        Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên: Giảm
-                                                                        tối đa 25%
-                                                                    @endif
-                                                                @else
-                                                                    @if ($voucher->discount_value == 500000)
-                                                                        Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên: Giảm
-                                                                        500,000 VNĐ
-                                                                    @elseif ($voucher->discount_value == 300000)
-                                                                        Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên: Giảm
-                                                                        300,000 VNĐ
-                                                                    @elseif ($voucher->discount_value == 200000)
-                                                                        Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên: Giảm
-                                                                        200,000 VNĐ
-                                                                    @elseif ($voucher->discount_value == 100000)
-                                                                        Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên: Giảm
-                                                                        100,000 VNĐ
-                                                                    @elseif ($voucher->discount_value == 50000)
-                                                                        Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên: Giảm
-                                                                        50,000 VNĐ
-                                                                    @elseif ($voucher->discount_value == 20000)
-                                                                        Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên: Giảm
-                                                                        20,000 VNĐ
-                                                                    @endif
-                                                                @endif
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <form action="{{ route('cart.applyVoucher') }}" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="voucher_code"
-                                                                    value="{{ $voucher->code }}">
-                                                                <button class="btn btn-primary" type="submit">Áp
-                                                                    dụng</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div> --}}
-
-
-
-
-
-
                         </div>
                     </div>
 
@@ -509,9 +444,9 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="product-name">Product Name</th>
-                                                <th class="product-name">Price</th>
-                                                <th class="product-name">Total</th>
+                                                <th class="product-name">Tên sản phẩm</th>
+                                                <th class="product-name">Giá</th>
+                                                <th class="product-name">Tổng cộng</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -644,10 +579,14 @@
                                             <table class="table table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th>Mã giảm giá</th>
+                                                        {{-- <th>Mã giảm giá</th>
                                                         <th>Giá trị</th>
                                                         <th>Điều kiện áp dụng</th>
-                                                        <th>Chức năng</th>
+                                                        <th>Chức năng</th> --}}
+                                                        <th class="col-small">Mã giảm giá</th>
+                                                        <th class="col-small">Giá trị</th>
+                                                        <th class="col-large">Điều kiện áp dụng</th>
+                                                        <th class="col-small">Chức năng</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -658,8 +597,10 @@
                                                                 {{ $voucher->discount_value }}
                                                                 {{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
                                                             </td>
-                                                            <td class="marquee-container">
-                                                                <div class="marquee-text">
+                                                            <td class="">
+                                                                {{-- <td class="marquee-container"> --}}
+                                                                <div class="">
+                                                                    {{-- <div class="marquee-text"> --}}
                                                                     @if ($voucher->discount_type == 'percentage')
                                                                         @if ($voucher->discount_value == 5)
                                                                             Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:

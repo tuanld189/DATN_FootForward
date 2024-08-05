@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Str;
 
 class CartController extends Controller
 {
@@ -135,59 +136,11 @@ class CartController extends Controller
         return 0;
     }
 
-    // private function calculateDiscount($voucher, $orderTotal)
-    // {
-    //     $discountAmount = 0;
-
-    //     if ($voucher->discount_type === 'percent') {
-    //         $discountAmount = ($voucher->discount_value / 100) * $orderTotal;
-    //     } elseif ($voucher->discount_type === 'fixed') {
-    //         $discountAmount = $voucher->discount_value;
-    //     }
-
-    //     return $discountAmount;
-    // }
-
-    // public function checkout(Request $request)
-    // {
-    //     $cart = session()->get('cart', []);
-    //     $totalAmount = 0;
-
-    //     foreach ($cart as $item) {
-    //         $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-    //     }
-
-    //     $voucherCode = session()->get('voucher_code');
-    //     $discount = 0;
-
-    //     if ($voucherCode) {
-    //         $voucher = Vourcher::validateVoucher($voucherCode);
-
-    //         if ($voucher) {
-    //             $discount = $this->calculateDiscount($voucher, $totalAmount);
-
-    //             // Xóa mã giảm giá khỏi session sau khi áp dụng
-    //             session()->forget(['voucher_code', 'discount', 'total_amount']);
-    //         }
-    //     }
-
-    //     // Giả sử bạn có thông tin về khu vực trong request hoặc session
-    //     // Bạn có thể thay đổi logic này để lấy thông tin từ request hoặc cơ sở dữ liệu
-    //     $location = $request->input('location', 'noi_thanh'); // 'noi_thanh' hoặc 'ngoai_thanh'
-    //     $shippingFee = $location === 'noi_thanh' ? 0 : 50000;
-
-    //     // Lưu thông tin giảm giá và tổng số tiền vào session
-    //     session()->put('total_amount', $totalAmount);
-    //     session()->put('discount', $discount);
-    //     session()->put('shipping_fee', $shippingFee);
-
-    //     return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'shippingFee', 'voucherCode'));
-    // }
-
 
     // cái nay dung ok
     public function checkout(Request $request)
     {
+        $orderCode = 'FF-' . strtoupper(Str::random(10));
         $vourchers = Vourcher::where('is_active', true)->get();
         $cart = session()->get('cart', []);
         $totalAmount = 0;
@@ -213,42 +166,10 @@ class CartController extends Controller
         // Lưu thông tin giảm giá và tổng số tiền vào session
         session()->put('total_amount', $totalAmount);
         session()->put('discount', $discount);
-        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode', 'vourchers'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode', 'vourchers', 'orderCode'));
     }
     // cái nay dung ok
 
-
-
-    // public function checkout(Request $request)
-    // {
-    //     $cart = session()->get('cart', []);
-    //     $totalAmount = 0;
-
-    //     foreach ($cart as $item) {
-    //         $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-    //     }
-
-    //     $voucherCode = session()->get('voucher_code');
-    //     $discount = 0;
-
-    //     if ($voucherCode) {
-    //         $voucher = Vourcher::validateVoucher($voucherCode);
-
-    //         if ($voucher) {
-    //             if ($voucher->discount_type === 'percentage') {
-    //                 $discount = ($voucher->discount_value / 100) * $totalAmount;
-    //             } elseif ($voucher->discount_type === 'amount') {
-    //                 $discount = $voucher->discount_value;
-    //             }
-    //             $totalAmount -= $discount;
-    //         }
-    //     }
-
-    //     // Lưu thông tin giảm giá và tổng số tiền vào session
-    //     session()->put('total_amount', $totalAmount);
-    //     session()->put('discount', $discount);
-    //     return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode'));
-    // }
 
 
     public function add(Request $request)
@@ -257,7 +178,7 @@ class CartController extends Controller
             'product_id' => 'required|exists:products,id',
             'product_size_id' => 'required|exists:product_variants,product_size_id',
             'product_color_id' => 'required|exists:product_variants,product_color_id',
-            'quantity_add' => 'required|integer|min:1',
+            'quantity_add' => 'required|integer|min:1', // Đảm bảo số lượng phải lớn hơn 0
         ]);
 
         $product = Product::findOrFail($request->product_id);
@@ -267,6 +188,13 @@ class CartController extends Controller
             'product_color_id' => $request->product_color_id,
         ])->firstOrFail();
 
+        $quantityAdd = $request->quantity_add;
+
+        // Kiểm tra số lượng trong kho
+        if ($productVariant->quantity <= 0) {
+            return redirect()->back()->withErrors(['quantity_add' => 'Sản phẩm hiện không còn hàng.']);
+        }
+
         $cart = session()->get('cart', []);
 
         $sale = ProductSale::whereHas('products', function ($query) use ($request) {
@@ -275,9 +203,8 @@ class CartController extends Controller
 
         $salePrice = $sale ? $sale->sale_price : null;
 
-
         if (isset($cart[$productVariant->id])) {
-            $cart[$productVariant->id]['quantity_add'] += $request->quantity_add;
+            $cart[$productVariant->id]['quantity_add'] += $quantityAdd;
         } else {
             $cart[$productVariant->id] = [
                 'id' => $productVariant->id,
@@ -292,11 +219,11 @@ class CartController extends Controller
                 'description' => $product->description,
                 'color' => $productVariant->color,
                 'size' => $productVariant->size,
-                'quantity_add' => $request->quantity_add,
+                'quantity_add' => $quantityAdd,
             ];
         }
         session()->put('cart', $cart);
-        // dd(session('cart'));
+
         return redirect()->route('cart.list');
     }
 
@@ -304,13 +231,18 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'quantity_add' => 'required|integer|min:1',
+            'quantity_add' => 'required|integer|min:1', // Đảm bảo số lượng phải lớn hơn 0
         ]);
 
+        $quantityAdd = $request->input('quantity_add');
         $cart = session('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity_add'] = $request->input('quantity_add');
+            if ($quantityAdd <= 0) {
+                return redirect()->route('cart.list')->withErrors(['quantity_add' => 'Số lượng phải lớn hơn 0.']);
+            }
+
+            $cart[$id]['quantity_add'] = $quantityAdd;
             session(['cart' => $cart]);
             return redirect()->route('cart.list')->with('success', 'Cart updated successfully');
         }
@@ -318,17 +250,31 @@ class CartController extends Controller
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
 
+
+
     public function updateMultiple(Request $request)
     {
         $updatedCart = $request->input('updated_cart');
-
         $cart = session()->get('cart', []);
+
+        $errors = [];
 
         foreach ($updatedCart as $item) {
             $id = $item['id'];
-            if (isset($cart[$id])) {
-                $cart[$id]['quantity_add'] = $item['quantity_add'];
+            $quantityAdd = $item['quantity_add'];
+
+            if ($quantityAdd <= 0) {
+                $errors[] = "Số lượng phải lớn hơn 0 cho sản phẩm ID $id.";
+                continue;
             }
+
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity_add'] = $quantityAdd;
+            }
+        }
+
+        if ($errors) {
+            return response()->json(['success' => false, 'errors' => $errors]);
         }
 
         session()->put('cart', $cart);
@@ -339,7 +285,6 @@ class CartController extends Controller
 
     public function remove($id)
     {
-
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
@@ -351,35 +296,4 @@ class CartController extends Controller
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
 
-    // public function confirmation() {
-    //     // Retrieve order data from the session or database
-
-    //     $cart = session()->get('cart');
-    //     $discountCode = 'MGD062024';
-    //     $totalValue = 1000; // Example value
-    //     $totalDiscount = 500; // Example value
-    //     $shippingFee = 500; // Example value
-    //     $totalPayment = 1000; // Example value
-    //     $customerName = 'John Doe';
-    //     $customerEmail = 'john.doe@example.com';
-    //     $customerAddress = '123 Main St, City, Country';
-    //     $customerPhone = '123-456-7890';
-    //     $paymentMethod = 'Credit Card';
-
-    //     return view('client.cart-confirmation', compact(
-    //         'cart', 'discountCode', 'totalValue', 'totalDiscount', 'shippingFee', 'totalPayment', 'customerName', 'customerEmail', 'customerAddress', 'customerPhone', 'paymentMethod'
-    //     ));
-    // }
-
 }
-
-
-
-
-
-
-
-
-
-
-

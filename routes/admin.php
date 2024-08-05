@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')
     ->as('admin.')
     ->middleware(['auth', 'admin.access'])
+    // ->middleware(['auth'])
     ->group(function () {
 
         Route::get('/', function () {
@@ -276,4 +278,10 @@ Route::prefix('admin')
         });
 
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
+
+
+       
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
+    
+

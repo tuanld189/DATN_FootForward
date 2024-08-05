@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Quản lý</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Sales</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
+                        <li class="breadcrumb-item active">Giảm giá</li>
+                        <li class="breadcrumb-item active">Danh sách giảm giá</li>
                     </ol>
                 </div>
 
@@ -20,9 +20,9 @@
     <!-- end page title -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">List of Sales</h3>
+            <h3 class="card-title">Danh sách bán hàng</h3>
             <div class="card-tools">
-                <a href="{{ route('admin.sales.create') }}" class="btn btn-primary">Add New Sale</a>
+                <a href="{{ route('admin.sales.create') }}" class="btn btn-primary">Thêm giảm giá mới</a>
             </div>
         </div>
         <div class="card-body">
@@ -37,12 +37,12 @@
                 <thead class="text-muted table-light">
                     <tr>
                         <th>#</th>
-                        <th>Products</th>
-                        <th>Sale Price</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Sản phẩm</th>
+                        <th>Sale giá</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
+                        <th>Chức năng</th>
                     </tr>
                 </thead>
                 <tbody class="list form-check-all">

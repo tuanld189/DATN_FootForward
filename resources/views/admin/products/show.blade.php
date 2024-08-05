@@ -7,12 +7,12 @@
    <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Product Detail</h4>
+            <h4 class="mb-sm-0">Chi tiết sản phẩm</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Products</a></li>
-                    <li class="breadcrumb-item active">Detail</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Sản phẩm</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
                 </ol>
             </div>
 
@@ -25,8 +25,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Product Detail</h5>
-                    <a href="{{ route('admin.products.index') }}" class="btn btn-primary mb-2">Back to List</a>
+                    <h5 class="card-title mb-0">Chi tiết sản phẩm</h5>
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-primary mb-2">Trở lại danh sách</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -35,7 +35,7 @@
                             <td>{{ $model->id }}</td>
                         </tr>
                         <tr>
-                            <th>Thumbnail</th>
+                            <th>Ảnh</th>
                             <td>
                                 @php
                                     $url = $model->img_thumbnail;
@@ -47,7 +47,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Name</th>
+                            <th>Tên</th>
                             <td>{{ $model->name }}</td>
                         </tr>
                         <tr>
@@ -59,27 +59,27 @@
                             <td>{{ $model->slug }}</td>
                         </tr>
                         <tr>
-                            <th>Category</th>
+                            <th>Danh mục</th>
                             <td>{{ $model->category->name }}</td>
                         </tr>
                         <tr>
-                            <th>Brand</th>
+                            <th>hãng</th>
                             <td>{{ $model->brand->name }}</td>
                         </tr>
                         <tr>
-                            <th>Price</th>
+                            <th>Giá</th>
                             <td>{{ number_format($model->price, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <th>Content</th>
+                            <th>Nội dung</th>
                             <td>{{ $model->content }}</td>
                         </tr>
                         <tr>
-                            <th>Description</th>
+                            <th>Mô tả</th>
                             <td>{{ $model->description }}</td>
                         </tr>
                         <tr>
-                            <th>Tags</th>
+                            <th>Nhãn</th>
                             <td>
                                 @foreach ($model->tags as $tag)
                                     <span class="badge bg-info">{{ $tag->name }}</span>
@@ -87,19 +87,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Active</th>
+                            <th>Trạng thái</th>
                             <td>{!! $model->is_active ? '<span class="badge bg-warning">ON</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                         </tr>
                         <tr>
-                            <th>Hot Deal</th>
+                            <th>Sản phẩm hot</th>
                             <td>{!! $model->is_hot_deal ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                         </tr>
                         <tr>
-                            <th>New</th>
+                            <th>Sản phẩm mới</th>
                             <td>{!! $model->is_new ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                         </tr>
                         <tr>
-                            <th>Show Home</th>
+                            <th>Hiển thị</th>
                             <td>{!! $model->is_show_home ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                         </tr>
                         <tr>

@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Order Details</h4>
+                    <h4 class="mb-sm-0">Chi tiết đơn hàng</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Orders</a></li>
-                            <li class="breadcrumb-item active">Invoice Details</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn hàng</a></li>
+                            <li class="breadcrumb-item active">Chi tiết đơn hàng</li>
                         </ol>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
                                             <div class="col-12">
                                                 <div class="card shadow-lg">
                                                     <div class="card-header bg-white border-bottom">
-                                                        <h4 class="card-title mb-0 text-primary">Order Status</h4>
+                                                        <h4 class="card-title mb-0 text-primary">Trạng thái đơn hàng</h4>
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="row text-center">
@@ -225,7 +225,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
+                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Trạng thái thanh toán</p>
                                         {{-- <span class="badge bg-success-subtle text-success fs-11" id="payment-status">
                                             {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
                                         </span> --}}
@@ -260,12 +260,12 @@
                                     <thead>
                                         <tr class="table-active">
                                             <th scope="col" style="width: 50px;">#</th>
-                                            <th scope="col">Product Details</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Color</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col" class="text-end">Amount</th>
+                                            <th scope="col">Thông tin chi tiết sản phẩm</th>
+                                            <th scope="col">Giá</th>
+                                            <th scope="col">Màu</th>
+                                            <th scope="col">Kích cỡ</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col" class="text-end">Giá tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody id="products-list">
