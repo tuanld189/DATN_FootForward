@@ -17,12 +17,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Orders Status</h4>
+                <h4 class="mb-sm-0">Trạng thái đơn hàng</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Orders Status</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Trạng thái đơn hàng</a></li>
+                        <li class="breadcrumb-item active">Đơn hàng</li>
+                        <li class="breadcrumb-item active">Trạng thái đơn hàng</li>
                     </ol>
                 </div>
             </div>
@@ -75,8 +75,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mb-3">Orders Status</h4>
-<form action="{{ route('admin.orders.update_multiple') }}" method="POST">
+                    <h4 class="header-title mb-3">Trạng thái đươn hàng</h4>
+                    <form action="{{ route('admin.orders.update_multiple') }}" method="POST">
                         @csrf
                         <input type="hidden" name="status_order" value="{{ request('status_order') }}">
                         <div class="table-responsive">
@@ -85,7 +85,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px;"><input type="checkbox" id="checkAll"></th>
-                                        <th>ID Order</th>
+                                        <th>Mã đơn hàng</th>
                                         <th>Trạng thái đơn hàng</th>
                                         @foreach (\App\Models\Order::STATUS_ORDER as $key => $status)
                                             <th>{{ $status }}</th>
@@ -98,7 +98,7 @@
                                     @foreach ($orders as $order)
                                         <tr class="align-middle">
                                             <td><input type="checkbox" name="order_ids[]" value="{{ $order->id }}"></td>
-                                            <td>{{ $order->id }}</td>
+                                            <td>{{ $order->order_code }}</td>
                                             <td>
                                                 @php
                                                     $statusIcons = [
@@ -121,7 +121,7 @@
 
                                                     $statusText =
                                                         \App\Models\Order::STATUS_ORDER[$order->status_order] ?? '-';
-@endphp
+                                                @endphp
                                                 <span class="badge {{ $statusClasses[$order->status_order] }}">
                                                     <i class="{{ $statusIcons[$order->status_order] }} me-1"></i>
                                                     {{ $statusText }}
@@ -159,7 +159,7 @@
                                                     <div class="mt-1">
                                                         <span class="ml-1 ">
                                                             <i class="{{ $statusIconClass }} {{ $statusIcon }}"></i>
-</span>
+                                                        </span>
                                                         <br>
                                                         <small class="text-gray-600">{{ $statusText }}</small>
                                                     </div>

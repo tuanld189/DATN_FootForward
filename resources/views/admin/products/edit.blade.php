@@ -56,12 +56,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Edit Product: {{ $product->name }}</h4>
+                    <h4 class="mb-sm-0">Chỉnh sửa sản phẩm: {{ $product->name }}</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Products</a></li>
-                            <li class="breadcrumb-item active">Edit Product</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Sản phẩm</a></li>
+                            <li class="breadcrumb-item active">Chỉnh sửa sản phẩm</li>
                         </ol>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">INFORMATION</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">THÔNG TIN</h4>
                         </div>
                         <div class="card-body">
                             <div class="live-preview">
@@ -84,12 +84,12 @@
 
                 <div class="col-md-5">
                     <div class="mt-3">
-                        <label for="name" class="form-label">Product Name:</label>
+                        <label for="name" class="form-label">Tên sản phẩm:</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
                             placeholder="Enter name...">
                     </div>
                     <div class="mt-3">
-                        <label for="category_id" class="form-label">Categories:</label>
+                        <label for="category_id" class="form-label">Danh mục:</label>
                         <select name="category_id" id="category_id" class="form-select">
                             @foreach ($categories as $id => $value)
                                 <option value="{{ $id }}" {{ $product->category_id == $id ? 'selected' : '' }}>
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <label for="brand_id" class="form-label">Brand:</label>
+                        <label for="brand_id" class="form-label">Hãng:</label>
                         <select name="brand_id" id="brand_id" class="form-select">
                             @foreach ($brands as $id => $value)
                                 <option value="{{ $id }}" {{ $product->brand_id == $id ? 'selected' : '' }}>
@@ -115,14 +115,14 @@
                     </div>
 
                     <div class="mt-3">
-                        <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                        <label for="img_thumbnail" class="form-label">Ảnh:</label>
                         <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
                         <img src="{{ asset('storage/' . $product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
                     </div>
 
                     <div class="mt-3">
-                        <label for="price" class="form-label">Price:</label>
-                        <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, '', '.') }}" >
+                        <label for="price" class="form-label">Giá:</label>
+                        <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, '', '') }}" >
                     </div>
             </div>
 
@@ -133,34 +133,34 @@
                         <div class="form-check form-switch form-switch-primary">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_active" id="is_active"
                                 {{ $product->is_active ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">Active</label>
+                            <label class="form-check-label" for="is_active">Trạng thái</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch form-switch-warning">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_hot_deal"
                                 id="is_hot_deal" {{ $product->is_hot_deal ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_hot_deal">Hot Deal</label>
+                            <label class="form-check-label" for="is_hot_deal">Sản phẩm hot</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch form-switch-success">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_new" id="is_new"
                                 {{ $product->is_new ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_new">New</label>
+                            <label class="form-check-label" for="is_new">Sản phẩm mới</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch form-switch-danger">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_show_home"
                                 id="is_show_home" {{ $product->is_show_home ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_show_home">Show Home</label>
+                            <label class="form-check-label" for="is_show_home">Hiển thị</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-3">
-                    <label for="content" class="form-label">Short Content:</label>
+                    <label for="content" class="form-label">Nội dung ngắn:</label>
                     <textarea class="form-control" id="content" name="content" rows="3" placeholder="Enter short content...">{{ $product->content }}</textarea>
                 </div>
 
@@ -170,7 +170,7 @@
                     {{-- <textarea class="form-control" id="ckeditor-classic" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
                 </div> --}}
                 <div class="mt-3">
-                    <label for="description" class="form-label">Description:</label>
+                    <label for="description" class="form-label">Mô tả chi tiết:</label>
                     <textarea class="form-control" id="ckeditor-classic" name="description" rows="7">{{ $product->description }}</textarea>
                 </div>
             </div>
@@ -185,7 +185,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">VARIANTS</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Biến thể</h4>
                     </div>
                     <div class="card-body " style="height:400px; overflow: scroll;">
                         <div class="live-preview">
@@ -193,10 +193,10 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Size</th>
-                                            <th>Color</th>
-                                            <th>Quantity</th>
-                                            <th>Image</th>
+                                            <th>Kích cỡ</th>
+                                            <th>Màu</th>
+                                            <th>Số lượng</th>
+                                            <th>Ảnh</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -236,14 +236,14 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">GALLERIES</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">ẢNh chưng bày</h4>
                     </div>
 
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
                                 <div class="mb-3">
-                                    <label for="product_galleries" class="form-label"> Add Product Galleries: </label>
+                                    <label for="product_galleries" class="form-label"> Thêm ảnh chưng bày: </label>
                                     <input type="file" class="form-control" id="product_galleries"
                                            name="product_galleries[]" multiple>
                                     <div class="gallery-container">
@@ -272,13 +272,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">TAGS</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Nhãn</h4>
                     </div>
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
                                 <div class="mb-3">
-                                    <label for="tags" class="form-label">Add Information:</label>
+                                    <label for="tags" class="form-label">Thêm thông tin:</label>
                                     <select class="form-select tags-select2" id="tags" name="tags[]" multiple>
                                         @foreach ($product->tags as $tag)
                                             <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
@@ -296,7 +296,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <button type="submit" class="btn btn-success">Update Product</button>
+                        <button type="submit" class="btn btn-success">Cập nhật sản phẩm</button>
                     </div>
                 </div>
             </div>

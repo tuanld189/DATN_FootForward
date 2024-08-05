@@ -36,21 +36,12 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => 'smtp.gmail.com',
-            'port' =>  '587',
-            'encryption' => 'tls',
-            'username' => 'thanhtmph44057@fpt.edu.vn',
-            'password' => 'sjrm fqms rosi yojt',
-
             'host' => env('MAIL_HOST', 'smtp.gmail.com'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-
             'timeout' => null,
-            'local_domain' => null,
         ],
 
         'ses' => [
@@ -108,17 +99,13 @@ return [
     | Global "From" Address
     |--------------------------------------------------------------------------
     |
-    | You may wish for all e-mails sent by your application to be sent from
+| You may wish for all e-mails sent by your application to be sent from
     | the same address. Here, you may specify a name and address that is
     | used globally for all e-mails that are sent by your application.
     |
     */
 
     'from' => [
-
-        'address' => 'thanhtmph44057@fpt.edu.vn',
-        'name' => 'FootForward Shoes',
-
         'address' => env('MAIL_FROM_ADDRESS', 'example@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
 
@@ -142,5 +129,4 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
 ];

@@ -8,16 +8,15 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Quản lý</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Brands</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
+                        <li class="breadcrumb-item active">Hãng</li>
+                        <li class="breadcrumb-item active">Danh sách hãng</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -28,11 +27,11 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Brands</h5>
+                    <h5 class="card-title mb-0">Hãng</h5>
                     <a href="{{ route('admin.brands.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="100%">
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width: 100%">
                         <thead class="text-muted table-light">
                             <tr>
                                 <th scope="col" style="width: 10px;">
@@ -41,12 +40,10 @@
                                     </div>
                                 </th>
                                 <th>ID</th>
-                                <th>NAME</th>
-                                <th>IMAGE</th>
-                                <th>Active</th>
-                                {{-- <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th> --}}
-                                <th>ACTION</th>
+                                <th>Tên hãng</th>
+                                <th>Ảnh</th>
+                                <th>Trạng thái</th>
+                                <th>Chức năng</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
@@ -54,20 +51,16 @@
                                 <tr>
                                     <td scope="col" style="width: 10px;">
                                         <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
-                                                value="option">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                         </div>
                                     </td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img src="{{$item->image }}" alt="" width="100px">
+                                        <img src="{{ $item->image }}" alt="" width="100px">
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    {{-- <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td> --}}
                                     <td>
-                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="View">
                                             <a href="{{ route('admin.brands.show', $item->id) }}"
@@ -82,7 +75,6 @@
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
-
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Remove">
                                             <form id="delete-form-{{ $item->id }}"
@@ -97,19 +89,18 @@
                                             </a>
                                         </li>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $data->links() }}
+                    <div class="d-flex justify-content-end mt-3">
+                        {{ $data->links() }}
+                    </div>
                 </div>
             </div>
-        </div><!--end col-->
-    </div><!--end row-->
+        </div><!-- end col -->
+    </div><!-- end row -->
 @endsection
-
-
 
 @section('style-libs')
     <!--datatable css-->

@@ -159,19 +159,34 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Product Detail </h4>
+                        <h4 class="mb-sm-0">Chi tiết sản phẩm </h4>
 
                         <div class="page-title-right ">
                             <ol class="breadcrumb m-0 ">
-                                <li class="m-1"><a href="javascript: void(0);">Home > </a></li>
-                                <li class="active m-1"> Product > </li>
-                                <li class="active m-1"> Product Detail </li>
+                                <li class="m-1"><a href="javascript: void(0);">Trang chủ > </a></li>
+                                <li class="active m-1"> Sản phẩm > </li>
+                                <li class="active m-1"> Chi tiết sản phẩm </li>
                             </ol>
                         </div>
 
                     </div>
                 </div>
             </div>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Hiển thị thông báo lỗi -->
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
             {{-- <div class="breadcrumb-area bg-grey mb-3">
                 <div class="row">
                     <div class="col-lg-12">
@@ -242,7 +257,7 @@
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                                     <div class="form-group">
-                                        <label for="size">Size:</label>
+                                        <label for="size">Kích cỡ:</label>
                                         <div class="d-flex flex-wrap">
                                             @php
                                                 $displayedSizes = [];
@@ -309,9 +324,9 @@
                                             <div class="p-2 border border-dashed rounded" style="margin-right: 20px;">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
-                                                        <p class="mb-1" style="color: black;"><b>Quantity:</b></p>
+                                                        <p class="mb-1" style="color: black;"><b>Số lượng:</b></p>
                                                         <input type="number" class="form-control" id="quantity_add"
-                                                            name="quantity_add" min="1" value="1"
+                                                            name="quantity_add" min="0" value="1"
                                                             style="width: 100px; text-align: center;">
                                                     </div>
                                                 </div>
@@ -319,7 +334,7 @@
                                             <div class="p-2 border border-dashed rounded">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
-                                                        <p class="mb-1" style="color: black;"><b>Available Stocks:</b></p>
+                                                        <p class="mb-1" style="color: black;"><b>Hàng còn sẵn:</b></p>
                                                         <input type="text" class="form-control" id="available_quantity"
                                                             name="available_quantity" readonly
                                                             style="width: 150px; text-align: center;">
@@ -338,7 +353,7 @@
 
 
                                     <div class="card_area d-flex align-items-center">
-                                        <button type="submit" class="add-to-cart">Add to Cart</button>
+                                        <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
                                     </div>
                                 </form>
                             </div>
@@ -347,7 +362,7 @@
                                 <i class="fa fa-check"></i> In stock
                             </div>
                             <div class="product-social-sharing">
-                                <label>Share</label>
+                                <label>Chia sẻ</label>
                                 <ul>
                                     <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -362,7 +377,7 @@
                                             <div class="reassurance-icon">
                                                 <i class="fa fa-check-square-o"></i>
                                             </div>
-                                            <p>Security policy (edit with Customer reassurance module)</p>
+                                            <p>Chính sách bảo mật (chỉnh sửa với mô -đun đảm bảo khách hàng)</p>
                                         </div>
                                     </li>
                                     <li>
@@ -370,7 +385,7 @@
                                             <div class="reassurance-icon">
                                                 <i class="fa fa-truck"></i>
                                             </div>
-                                            <p>Delivery policy (edit with Customer reassurance module)</p>
+                                            <p>Chính sách giao hàng (chỉnh sửa với mô -đun đảm bảo của khách hàng)</p>
                                         </div>
                                     </li>
                                     <li>
@@ -378,7 +393,7 @@
                                             <div class="reassurance-icon">
                                                 <i class="fa fa-exchange"></i>
                                             </div>
-                                            <p> Return policy (edit with Customer reassurance module)</p>
+                                            <p>Chính sách trả lại (Chỉnh sửa với Mô -đun trấn an khách hàng)</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -396,10 +411,10 @@
                                     class="active">Description</a>
                             </li>
                             <li role="presentation">
-                                <a data-bs-toggle="tab" role="tab" href="#sheet">Product Details</a>
+                                <a data-bs-toggle="tab" role="tab" href="#sheet">Thông tin chi tiết sản phẩm</a>
                             </li>
                             <li role="presentation">
-                                <a data-bs-toggle="tab" role="tab" href="#reviews">Comments</a>
+                                <a data-bs-toggle="tab" role="tab" href="#reviews">Bình luận</a>
                             </li>
                         </ul>
                     </div>
@@ -410,7 +425,7 @@
                         <div class="product_tab_content tab-pane active" id="description" role="tabpanel">
                             <div class="product_description_wrap">
                                 <div class="product_desc mb--30">
-                                    <h2 class="title_3">Details</h2>
+                                    <h2 class="title_3">Chi tiết</h2>
                                     {{-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis noexercit
                                     ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
@@ -720,7 +735,19 @@ ut labore et </a></li>
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script>
+        document.getElementById('variantForm').addEventListener('submit', function(event) {
+            var quantityInput = document.getElementById('quantity_add');
+            var availableQuantityInput = document.getElementById('available_quantity');
+            var quantity = parseInt(quantityInput.value);
+            var availableQuantity = parseInt(availableQuantityInput.value);
 
+            if (quantity <= 0 || quantity > availableQuantity) {
+                event.preventDefault(); // Prevent form submission
+                alert('Hết số lượng'); // Display out of stock message
+            }
+        });
+    </script>
     <script>
         // Ajax request for posting a comment
         function postComment(event) {
@@ -747,7 +774,7 @@ ut labore et </a></li>
                         <div class="review_details" style="flex-grow: 1;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <div>
-                                    <h4><a href="#">{{ Auth::user()->name }}</a></h4>
+                                    <h4><a href="#">{{ Auth::check() ? Auth::user()->name : '' }}</a></h4>
                                     <ul class="product-rating d-flex" style="margin-right: 10px;">
                                         <li><span class="fa fa-star"></span></li>
                                         <li><span class="fa fa-star"></span></li>

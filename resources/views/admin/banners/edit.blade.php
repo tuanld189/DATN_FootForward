@@ -34,6 +34,11 @@
                                     <input type="text" class="form-control" id="name" value="{{ $model->name }}"
                                         placeholder="Enter name" name="name">
                                 </div>
+                                <div class="form-group">
+                                    <label for="url">URL</label>
+                                    <input type="text" name="url" class="form-control" id="url"
+                                        value="{{ old('url', $model->url) }}">
+                                </div>
                                 <div class="mb-3 mt-3">
                                     <label for="image" class="form-label">Image:</label>
                                     <input type="file" class="form-control" id="image" name="image">

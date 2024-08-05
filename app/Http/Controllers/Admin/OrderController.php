@@ -12,7 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
-
+use App\Notifications\OrderUpdated;
+use Illuminate\Support\Facades\Notification;
 class OrderController extends Controller
 {
     const PATH_VIEW = 'admin.orders.';
@@ -103,6 +104,8 @@ class OrderController extends Controller
 
         // Lưu thông tin đơn hàng
         $order->save();
+        $user = $order->user;
+        Notification::send($user, new OrderUpdated($order));
 
         return redirect()->route('admin.orders.index')->with('success', 'Cập nhật trạng thái đơn hàng thành công.');
     } catch (\Exception $exception) {
@@ -150,6 +153,8 @@ class OrderController extends Controller
                 $timestampField = $newStatusOrder . '_at';
                 $order->$timestampField = Carbon::now('Asia/Ho_Chi_Minh');
                 $order->save();
+                $user = $order->user; 
+                Notification::send($user, new OrderUpdated($order));
             }
         }
 

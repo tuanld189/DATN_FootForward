@@ -21,10 +21,12 @@ return new class extends Migration {
             $table->foreignId('product_variant_id')->nullable()->constrained();
 
             // Thông tin người dùng
+            $table->string('order_code');
             $table->string('user_name');
             $table->string('user_email');
             $table->string('user_phone');
             $table->string('user_address');
+            $table->string('user_password')->nullable();
             $table->string('user_note')->nullable();
 
             // Thông tin giao hàng

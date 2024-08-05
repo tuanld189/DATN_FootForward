@@ -61,7 +61,6 @@
     .tags-select2 {
         width: 100%;
     }
-
 </style>
 @endsection
 @section('content')
@@ -123,17 +122,21 @@
                                 <input type="text" class="form-control" id="sku" placeholder="Enter sku................." value="{{strtoupper(Str::random(8))}}" name="sku">
                             </div>
 
+                            {{-- <div class="mt-3">
+                                <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                                <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
+                            </div> --}}
                             <div class=" mt-3">
-                                    <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <a id="lfm_thumbnail" data-input="img_thumbnail" data-preview="holder_thumbnail" class="btn btn-primary">
-                                                <i class="fa fa-picture-o"></i> Choose
-                                            </a>
-                                        </span>
-                                        <input id="img_thumbnail" class="form-control" type="text" name="img_thumbnail">
-                                    </div>
-                                        <img id="holder_thumbnail" style="margin-top:15px;max-height:100px;">
+                                <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <a id="lfm_thumbnail" data-input="img_thumbnail" data-preview="holder_thumbnail" class="btn btn-primary">
+                                            <i class="fa fa-picture-o"></i> Chọn
+                                        </a>
+                                    </span>
+                                    <input id="img_thumbnail" class="form-control" type="text" name="img_thumbnail">
+                                </div>
+                                    <img id="holder_thumbnail" style="margin-top:15px;max-height:100px;">
                             </div>
                             <div class="mt-3">
                                 <label for="price" class="form-label">Price:</label>
@@ -177,9 +180,10 @@
                                 </div>
                                 <div class="mt-3">
                                     <label for="description" class="form-label">Description:</label>
-                                    <textarea class="form-control" placeholder="Enter description............................." id="description" name="description" ></textarea>
+                                    <textarea class="form-control" placeholder="Enter description............................." id="ckeditor-classic" name="description" ></textarea>
 
                                 </div>
+
 
                             </div>
                         </div>
@@ -192,15 +196,12 @@
 </div>
 {{-- VARIANT --}}
 
-
-
 <div class="row" style="height:400px; overflow: scroll;">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">VARIANTS</h4>
-
-            </div><!-- end card header -->
+            </div>
             <div class="card-body">
                 <div class="live-preview">
                     <div class="row gy-4">
@@ -225,7 +226,15 @@
                                                 <input type="text" class="form-control" value="30" placeholder="Enter quantity............" name="product_variants[{{ $sizeID . '-' . $colorID }}][quantity]">
                                             </td>
                                             <td>
-                                                <input type="file" class="form-control" name="product_variants[{{ $sizeID . '-' . $colorID }}][image]">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <a id="lfm_variant_{{ $sizeID . '-' . $colorID }}" data-input="variant_image_{{ $sizeID . '-' . $colorID }}" data-preview="holder_variant_{{ $sizeID . '-' . $colorID }}" class="btn btn-primary">
+                                                            <i class="fa fa-picture-o"></i> Chọn
+                                                        </a>
+                                                    </span>
+                                                    <input id="variant_image_{{ $sizeID . '-' . $colorID }}" class="form-control" type="text" name="product_variants[{{ $sizeID . '-' . $colorID }}][image]">
+                                                </div>
+                                                <img id="holder_variant_{{ $sizeID . '-' . $colorID }}" style="margin-top:15px;max-height:100px;">
                                             </td>
                                         </tr>
                                     @endforeach
@@ -239,32 +248,36 @@
     </div>
     <!--end col-->
 </div>
+
+
 {{-- GALLERY --}}
-<div class="row">
+<div class="row" >
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Gallery</h4>
-                <button type="button" class="btn btn-primary" onclick="addImageGallery()">Add Photo</button>
-            </div><!-- end card header -->
+                <h4 class="card-title mb-0 flex-grow-1">GALLERY</h4>
+            </div>
             <div class="card-body">
                 <div class="live-preview">
-                    <div class="row gy-4" id="gallery_list">
-                        <div class="col-md-4" id="gallery_default_item">
-                            <label for="gallery_default" class="form-label">Image:</label>
-                            <div class="d-flex">
-                                <a id="lfm_gallery_default" data-input="gallery_default" data-preview="holder_gallery_default" class="btn btn-primary">
-                                    <i class="fa fa-picture-o"></i> Choose
-                                </a>
-                                <input type="text" class="form-control" name="product_galleries[]" id="gallery_default">
+                    <div class="row gy-4">
+                        <div class="form-group">
+                            <label for="gallery_images" class="form-label">Gallery Images:</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <a id="lfm_gallery" data-input="gallery_images" data-preview="holder_gallery" class="btn btn-primary">
+                                        <i class="fa fa-picture-o"></i> Chọn
+                                    </a>
+                                </span>
+                                <input id="gallery_images" class="form-control" type="text" name="gallery_images">
                             </div>
-                            <img id="holder_gallery_default" style="margin-top:15px;max-height:100px;">
+                            <div id="holder_gallery" style="margin-top:15px;max-height:300px; overflow: auto;"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!--end col-->
 </div>
 
 
@@ -313,31 +326,70 @@
 </form>
 @endsection
 @section('script-libs')
-    <script src="//cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
-
+    {{-- <script src="//cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script> --}}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
+    <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <!-- dropzone js -->
+    <script src="assets/libs/dropzone/dropzone-min.js"></script>
+    <!-- project-create init -->
+    <script src="assets/js/pages/project-create.init.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
 @endsection
 
+
+
 @section('scripts')
-<script>
-    CKEDITOR.replace('description');
+    {{-- CKEDITOR.replace('description'); --}}
+    <script>
+        CKEDITOR.replace('ckeditor-classic');
+    </script>
 
-</script>
-<script>
+    <script>
      $(document).ready(function() {
-
         $('#lfm_thumbnail').filemanager('image');
-        $('#lfm_gallery_default').filemanager('image');
+        $('#lfm_gallery').filemanager('image');
 
+        @foreach ($sizes as $sizeID => $sizeName)
+            @foreach ($colors as $colorID => $colorName)
+                $('#lfm_variant_{{ $sizeID . '-' . $colorID }}').filemanager('image');
+            @endforeach
+        @endforeach
+
+        $('#img_thumbnail').on('change', function () {
+            var url = $(this).val();
+            $('#holder_thumbnail').attr('src', url ? url : '');
+        });
+
+        @foreach ($sizes as $sizeID => $sizeName)
+            @foreach ($colors as $colorID => $colorName)
+                $('#variant_image_{{ $sizeID . '-' . $colorID }}').on('change', function () {
+                    var url = $(this).val();
+                    $('#holder_variant_{{ $sizeID . '-' . $colorID }}').attr('src', url ? url : '');
+                });
+            @endforeach
+        @endforeach
+
+        $('#gallery_images').on('change', function () {
+            var urls = $(this).val().split(',');
+            var html = '';
+            urls.forEach(function (url) {
+                if (url) {
+                    html += '<img src="' + url + '" style="width: 100px; height: 100px; margin: 5px;">';
+                }
+            });
+            $('#holder_gallery').html(html);
+        });
         $('.tags-select2').select2({
             placeholder: '',
             tags: true,
             tokenSeparators: [',', ' '],
             ajax: {
-                url: '/api/tags', // Đường dẫn đến endpoint lấy dữ liệu tags
+                url: '/api/tags',
                 dataType: 'json',
                 delay: 250,
                 processResults: function (data) {
@@ -356,34 +408,29 @@
     });
 
     function addImageGallery() {
-        let id = 'gen' + '_' + Math.random().toString(36).substring(2, 15).toLowerCase();
-        let html = `
-            <div class="col-md-4" id="${id}_item">
-                <label for="${id}" class="form-label">Image</label>
-                <div class="d-flex">
-                    <a id="lfm_${id}" data-input="${id}" data-preview="holder_${id}" class="btn btn-primary">
-                        <i class="fa fa-picture-o"></i> Choose
-                    </a>
-                    <input type="text" class="form-control" name="product_galleries[]" id="${id}">
-                    <button type="button" class="btn btn-danger" onclick="removeImageGallery('${id}_item')">
-                        <span class="bx bx-trash"></span>
-                    </button>
+            let id = 'gen' + '_' + Math.random().toString(36).substring(2, 15).toLowerCase();
+            let html = `
+                <div class="col-md-4" id="${id}_item">
+                    <label for="${id}" class="form-label">Image</label>
+                    <div class="d-flex">
+                        <input type="file" class="form-control" name="product_galleries[]" id="${id}">
+                        <button type="button" class="btn btn-danger" onclick="removeImageGallery('${id}_item')">
+                            <span class="bx bx-trash"></span>
+                        </button>
+                    </div>
                 </div>
-                <img id="holder_${id}" style="margin-top:15px;max-height:100px;">
-            </div>
-        `;
-        $('#gallery_list').append(html);
-        $('#lfm_' + id).filemanager('image');
-    }
+            `;
 
-    function removeImageGallery(id) {
-        if (confirm('Chắc chắn xóa không?')) {
-            $('#' + id).remove();
+            $('#gallery_list').append(html);
         }
-    }
+
+        function removeImageGallery(id) {
+            if (confirm('Chắc chắn xóa không?')) {
+                $('#' + id).remove();
+            }
+        }
     </script>
-    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
-    <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
-</script>
+     <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+     <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
 @endsection
 

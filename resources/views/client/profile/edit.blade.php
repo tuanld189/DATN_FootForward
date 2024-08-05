@@ -4,6 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
     <style>
         .overflow {
             width: 1050px;
@@ -282,6 +283,47 @@
         td {
             background-color: rgba(7, 166, 198, 0.1);
         }
+
+        .custom-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .custom-modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 
 @endsection
@@ -332,7 +374,7 @@
                         <div class="col-md-4 text-center">
                             <div class="profile-pic text-center">
                                 <img id="profileImage"
-                                    src="{{ $user->photo_thumbs ? Storage::url($user->photo_thumbs) : asset('images/banner/Avatardf.jpg') }}"
+                                    src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
                                     class="img-fluid rounded-circle shadow" alt="Profile Picture">
                                 <h3 class="font-weight-bold mt-3 ">{{ old('fullname', $user->fullname) }}</h3>
                                 <h5 class="text-muted">{{ old('email', $user->email) }}</h5>
@@ -350,36 +392,65 @@
                                     <table class="table mb-0">
                                         <tbody>
                                             <tr>
-                                                <th scope="row" style="width: 200px;">Full Name</th>
+                                                <th scope="row" style="width: 200px;">Tên đầy đủ:</th>
                                                 <td><input type="text" class="form-control" id="fullname"
                                                         name="fullname" value="{{ old('fullname', $user->fullname) }}"
                                                         required></td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Email</th>
+                                                <th scope="row">Email:</th>
                                                 <td><input type="email" class="form-control" id="email" name="email"
                                                         value="{{ old('email', $user->email) }}" required></td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Phone</th>
+                                                <th scope="row">Số điện thoại:</th>
                                                 <td><input type="text" class="form-control" id="phone" name="phone"
                                                         value="{{ old('phone', $user->phone) }}" required></td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Address</th>
+                                                <th scope="row">Địa chỉ:</th>
                                                 <td><input type="text" class="form-control" id="address" name="address"
                                                         value="{{ old('address', $user->address) }}" required></td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Photo</th>
+                                                <th scope="row">Ảnh:</th>
                                                 <td><input type="file" class="form-control" id="photoInput"
                                                         name="photo_thumbs"></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <button type="submit" class="btn rounded-5 mt-3">Update Profile</button>
+                                <button type="submit" class="btn rounded-5 mt-3">Sửa hồ sơ</button>
+                                <button type="button" class="btn btn-warning rounded-5 mt-3"
+                                    id="openChangePasswordModal">Thay đổi mật khẩu</button>
                             </form>
+                        </div>
+
+                        <!-- Custom Modal -->
+                        <div id="changePasswordModal" class="custom-modal">
+                            <div class="custom-modal-content">
+                                <span class="close" id="closeChangePasswordModal">&times;</span>
+                                <form id="ajax-change-password-form" method="POST"
+                                    action="{{ route('client.profile.change-password.update', ['id' => $user->id]) }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="current_password">Mật khẩu cũ</label>
+                                        <input type="password" class="form-control" id="current_password"
+                                            name="current_password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new_password">Mật khẩu mới</label>
+                                        <input type="password" class="form-control" id="new_password"
+                                            name="new_password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new_password_confirmation">Xác nhận mật khẩu mới</label>
+                                        <input type="password" class="form-control" id="new_password_confirmation"
+                                            name="new_password_confirmation" required>
+                                    </div>
+                                    <button type="submit" class="btn rounded-5 mt-3">Thay đổi mật khẩu</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -391,7 +462,8 @@
                             repetition of specific visual elements. The dictionary.com definition of "pattern" is: an
                             arrangement of repeated or corresponding parts, decorative motifs, etc.</p>
                         <div>
-                            <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> On digital
+                            <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> On
+                                digital
                                 or printed media</p>
                             <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> For
                                 commercial and personal projects</p>
@@ -409,7 +481,7 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Mã Order</th>
+                                    <th>MÃ ĐƠN HÀNG</th>
                                     <th>NGÀY TẠO</th>
                                     {{-- <th>KHÁCH HÀNG</th>
                         <th>SDT</th> --}}
@@ -423,7 +495,7 @@
                                 @foreach ($orders as $index => $order)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $order->id }}</td>
+                                        <td>{{ $order->order_code }}</td>
                                         <td>{{ $order->created_at->format('d-m-Y H:i:s') }}</td>
                                         {{-- <td>{{ $order->user_name }}</td>
                             <td>{{ $order->user_phone }}</td> --}}
@@ -466,7 +538,55 @@
         @endsection
 
         @section('scripts')
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> --}}
+            {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
             <script>
+                $(document).ready(function() {
+                    // Show the modal
+                    $('#openChangePasswordModal').click(function() {
+                        $('#changePasswordModal').css('display', 'block');
+                    });
+
+                    // Hide the modal
+                    $('#closeChangePasswordModal').click(function() {
+                        $('#changePasswordModal').css('display', 'none');
+                        resetChangePasswordForm();
+                    });
+
+                    // Hide the modal when clicking outside of the modal content
+                    $(window).click(function(event) {
+                        if ($(event.target).is('#changePasswordModal')) {
+                            $('#changePasswordModal').css('display', 'none');
+                            resetChangePasswordForm();
+                        }
+                    });
+
+                    // AJAX form submission for password change
+                    $('#ajax-change-password-form').submit(function(event) {
+                        event.preventDefault();
+
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            method: 'POST',
+                            data: $(this).serialize(),
+                            success: function(response) {
+                                alert('Thay đổi mật khau thành công!');
+                                $('#changePasswordModal').css('display', 'none');
+                                resetChangePasswordForm();
+                            },
+                            error: function(xhr) {
+                                alert('Thay đổi mật khẩu thất bai: ' + xhr.responseText);
+                                resetChangePasswordForm();
+                            }
+                        });
+                    });
+
+                    function resetChangePasswordForm() {
+                        $('#ajax-change-password-form')[0].reset();
+                    }
+                });
                 // Hiển thị ảnh đại diện khi thay đổi
                 document.getElementById('photoInput').onchange = function(evt) {
                     const [file] = evt.target.files;
