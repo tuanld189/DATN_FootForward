@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Mail\OrderPlacedEmail;
 use App\Models\Vourcher;
-use App\Events\OrderShipped;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\OrderUpdated;
-use Illuminate\Support\Facades\Notification;
+
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
@@ -27,24 +25,16 @@ class OrderController extends Controller
 
             if (!Auth::check()) {
                 $userCode = Str::random(10);
-                $name = Str::random(8);
+                $username = Str::random(8);
 
                 $user = User::create([
-                    'name' => $request->input('user_name'),
+                    'name' => $username,
                     'email' => $request->input('user_email'),
-                    'phone' => $request->input('user_phone'),
-                    'address' => $request->input('user_address'),
-                    'password' => bcrypt($request->input('user_password')),
-                    'username' => $name,
+                    'password' => bcrypt($request->input('user_email')),
+                    'username' => $request->input('user_name'),
                     'user_code' => $userCode,
                     'status' => null,
-                    'fullname' => $request->input('user_name')
                 ]);
-                if ($user) {
-                    Log::info('User created successfully: ' . $user->id);
-                } else {
-                    Log::error('Failed to create user');
-                }
             } else {
                 $user = Auth::user();
             }
@@ -68,10 +58,9 @@ class OrderController extends Controller
                 ];
             }
 
+
             $order = new Order();
-            $order->user_id = Auth::check() ?  $request->input('user_id') :  $user->id;
-            $order->user_password = Auth::check() ? null :  $request->input('user_password');
-            $order->order_code = $request->input('order_code');
+            $order->user_id = Auth::check() ? $user->id : null;
             $order->user_name = $request->input('user_name');
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
@@ -97,19 +86,17 @@ class OrderController extends Controller
 
             DB::commit();
 
+
+            // event(new OrderShipped($order));
+
             session()->forget('cart');
             return $this->vnpay_payment($request, $order->id);
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            dd('Database error: ' . $e->getMessage(), $e);
-            return back()->with('error', 'Đã xảy ra lỗi với cơ sở dữ liệu. Vui lòng thử lại sau.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            dd('General error: ' . $e->getMessage(), $e);
-            return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
+            Log::error('Error placing order: ' . $exception->getMessage());
+            return back()->with('error', 'Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại sau.');
         }
     }
-
 
 
 
@@ -219,44 +206,18 @@ class OrderController extends Controller
         if ($request->input('vnp_ResponseCode') == '00') {
             $order->status_payment = Order::STATUS_PAYMENT_PAID;
 
+            // Cập nhật giá trị của đơn hàng sau khi áp dụng mã giảm giá
             $order->total_price = session()->get('total_amount', $order->total_price);
             $order->save();
-
-            event(new OrderShipped($order));
-            $user = $order->user;
-            Notification::send($user, new OrderUpdated($order));
         } else {
             $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
             $order->save();
-            event(new OrderShipped($order));
-            $user = $order->user;
-            Notification::send($user, new OrderUpdated($order));
         }
-        // Xóa mã giảm giá sau khi thanh toán nếu cần
-        // session()->forget('voucher_code');
-
         return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     }
 
 
 
-
-
-    // public function vnpay_return(Request $request)
-    // {
-    //     $orderId = $request->input('order_id');
-    //     $order = Order::findOrFail($orderId);
-
-    //     if ($request->input('vnp_ResponseCode') == '00') {
-    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
-    //         $order->save();
-    //     } else {
-    //         // $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
-    //         // $order->save();
-    //     }
-
-    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
-    // }
 
     public function confirmation($order_id)
     {

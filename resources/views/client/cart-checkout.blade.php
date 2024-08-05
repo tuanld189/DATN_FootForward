@@ -74,6 +74,240 @@
             text-decoration: line-through;
         }
     </style>
+    <!-- CSS -->
+    <style>
+        .coupon-container {
+            margin: 20px;
+        }
+
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            white-space: nowrap;
+            padding: 8px;
+            /* Giảm padding */
+            font-size: 12px;
+            /* Chữ nhỏ hơn */
+        }
+
+        .table td,
+        .table th {
+            padding: 8px;
+            /* Giảm padding */
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            /* Chữ nhỏ hơn */
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
+
+        .marquee-container {
+            position: relative;
+            overflow: hidden;
+            background: #f9f9f9;
+            padding: 5px;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-size: 12px;
+            /* Chữ nhỏ hơn */
+        }
+
+        @keyframes marquee {
+            1000% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        /* Nếu bạn vẫn muốn hiệu ứng marquee cho tiêu đề */
+        th {
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            background: #f9f9f9;
+            padding: 10px;
+            font-size: 12px;
+            /* Chữ nhỏ hơn */
+        }
+
+        .marquee-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .marquee {
+            display: inline-block;
+            padding-left: 100%;
+            white-space: nowrap;
+            position: absolute;
+            left: 0;
+            top: 0;
+            animation: marquee 10s linear infinite;
+            font-size: 13px;
+            /* Chữ nhỏ hơn */
+        }
+
+        /* Overlay style */
+        .coupon-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Nền mờ */
+            display: none;
+            /* Ẩn mặc định */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            /* Đảm bảo nó nằm trên các phần tử khác */
+        }
+
+        /* Container style */
+        .coupon-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            transform: scale(0.8);
+            /* Bắt đầu từ kích thước nhỏ */
+            opacity: 0;
+            /* Bắt đầu từ độ mờ */
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            /* Hiệu ứng chuyển đổi */
+        }
+
+        /* Hiệu ứng khi hiện phần tử */
+        .coupon-overlay.show .coupon-container {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Hiệu ứng khi ẩn phần tử */
+        .coupon-overlay.hide .coupon-container {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        /* Nút tắt */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            color: #000;
+            cursor: pointer;
+            z-index: 1100;
+            /* Đặt z-index cao hơn để luôn nằm trên overlay */
+        }
+
+        /* Thay đổi màu sắc của nút tắt khi hover */
+        .close-btn:hover {
+            color: #f00;
+        }
+
+        .container {
+            /* text-align: center; */
+            /* Căn giữa nội dung bên trong phần tử chứa */
+        }
+
+        /* Nút Hiện mã giảm giá */
+        #toggle-vouchers {
+            background-color: #007bff;
+            /* Màu nền chính của nút */
+            color: #fff;
+            /* Màu chữ */
+            border: none;
+            /* Loại bỏ viền mặc định */
+            border-radius: 5px;
+            /* Bo góc nút */
+            padding: 10px 20px;
+            /* Padding để tăng kích thước nút */
+            font-size: 16px;
+            /* Kích thước chữ */
+            font-weight: bold;
+            /* Đậm chữ */
+            cursor: pointer;
+            /* Con trỏ tay khi di chuột qua nút */
+            transition: background-color 0.3s, transform 0.3s;
+            /* Hiệu ứng chuyển đổi màu nền và hiệu ứng phóng to */
+            display: inline-block;
+            /* Hiển thị nút ở dạng khối nội tuyến */
+            text-align: center;
+            /* Căn giữa chữ trong nút */
+        }
+
+        /* Hiệu ứng khi hover */
+        #toggle-vouchers:hover {
+            background-color: #0056b3;
+            /* Màu nền khi di chuột qua nút */
+            transform: scale(1.05);
+            /* Hiệu ứng phóng to nhẹ */
+        }
+
+        /* Hiệu ứng khi nút được nhấn */
+        #toggle-vouchers:active {
+            background-color: #004494;
+            /* Màu nền khi nhấn nút */
+            transform: scale(0.98);
+            /* Hiệu ứng thu nhỏ nhẹ khi nhấn */
+        }
+
+        /* Hiệu ứng focus */
+        #toggle-vouchers:focus {
+            outline: none;
+            /* Loại bỏ viền focus mặc định */
+            box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5);
+            /* Tạo viền focus tùy chỉnh */
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -170,6 +404,98 @@
                                     <button type="submit" class="btn btn-primary w-100">Đặt hàng</button>
                                 </div>
                             </form>
+
+
+
+                            {{-- <!-- Nút để hiện/ẩn overlay -->
+                            <button id="toggle-vouchers">Hiện mã giảm giá</button>
+
+                            <!-- Overlay chứa bảng mã giảm giá -->
+                            <div id="coupon-overlay" class="coupon-overlay">
+                                <div class="coupon-container">
+                                    <!-- Nút tắt -->
+                                    <button id="close-voucher" class="close-btn">&times;</button>
+
+                                    <h4 class="m-2 text-center">FootForWard Voucher</h4>
+                                    <!-- Hiển thị bảng các mã giảm giá -->
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã giảm giá</th>
+                                                    <th>Giá trị</th>
+                                                    <th>Điều kiện áp dụng</th>
+                                                    <th>Chức năng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($vourchers as $voucher)
+                                                    <tr>
+                                                        <td>{{ $voucher->code }}</td>
+                                                        <td>
+                                                            {{ $voucher->discount_value }}
+                                                            {{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
+                                                        </td>
+                                                        <td class="marquee-container">
+                                                            <div class="marquee-text">
+                                                                @if ($voucher->discount_type == 'percentage')
+                                                                    @if ($voucher->discount_value == 5)
+                                                                        Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên: Giảm
+                                                                        tối đa 5%
+                                                                    @elseif ($voucher->discount_value == 10)
+                                                                        Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên: Giảm
+                                                                        tối đa 10%
+                                                                    @elseif ($voucher->discount_value == 15)
+                                                                        Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên: Giảm
+                                                                        tối đa 15%
+                                                                    @elseif ($voucher->discount_value == 25)
+                                                                        Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên: Giảm
+                                                                        tối đa 25%
+                                                                    @endif
+                                                                @else
+                                                                    @if ($voucher->discount_value == 500000)
+                                                                        Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên: Giảm
+                                                                        500,000 VNĐ
+                                                                    @elseif ($voucher->discount_value == 300000)
+                                                                        Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên: Giảm
+                                                                        300,000 VNĐ
+                                                                    @elseif ($voucher->discount_value == 200000)
+                                                                        Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên: Giảm
+                                                                        200,000 VNĐ
+                                                                    @elseif ($voucher->discount_value == 100000)
+                                                                        Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên: Giảm
+                                                                        100,000 VNĐ
+                                                                    @elseif ($voucher->discount_value == 50000)
+                                                                        Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên: Giảm
+                                                                        50,000 VNĐ
+                                                                    @elseif ($voucher->discount_value == 20000)
+                                                                        Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên: Giảm
+                                                                        20,000 VNĐ
+                                                                    @endif
+                                                                @endif
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <form action="{{ route('cart.applyVoucher') }}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="voucher_code"
+                                                                    value="{{ $voucher->code }}">
+                                                                <button class="btn btn-primary" type="submit">Áp
+                                                                    dụng</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+
+
+
+
 
                         </div>
                     </div>
@@ -273,10 +599,10 @@
 
                                     </table>
                                 </div>
+                                <br>
 
                                 <!-- Nhập mã giảm giá -->
-                                {{-- <div class="coupon-container d-flex flex-column align-items-center m-2"> --}}
-                                <div class="coupon-container m-4">
+                                {{-- <div class="voucher-container m-4">
                                     @if (session('message'))
                                         <div class="alert alert-{{ session('status') }} mb-2">
                                             {{ session('message') }}
@@ -289,32 +615,107 @@
                                         <div class="form-group mb-2">
                                             <input id="voucher_code" class="input-text form-control w-100 no-border-corners"
                                                 style="height: 38px;" name="voucher_code" value=""
-                                                placeholder="Coupon code" type="text">
+                                                placeholder="Voucher code" type="text">
                                         </div>
                                         <button class="btn btn-primary w-100" type="submit">Apply coupon</button>
                                     </form>
-                                </div>
+                                </div> --}}
+                                {{-- end nhap ma voucher --}}
 
-                                {{-- <div class="coupon-container m-4">
-                                    @if (session('message'))
-                                        <div class="alert alert-{{ session('status') }} mb-2" id="coupon-message">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
-                                    <h4 class="coupon-title">Coupon</h4>
-                                    <form id="coupon-form" action="{{ route('cart.applyVoucher') }}" method="POST"
-                                        class="coupon-form">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input id="voucher_code" class="input-text form-control" name="voucher_code"
-                                                value="" placeholder="Enter your coupon code" type="text">
-                                        </div>
-                                        <button class="btn btn-primary w-100" type="submit">Apply coupon</button>
-                                    </form>
-                                    <div id="ajax-message" class="mt-3"></div>
+
+
+                                {{-- testtt --}}
+                                <!-- Nút để hiện/ẩn overlay -->
+                                <button id="toggle-vouchers" class="w-100">FootForward Voucher</button>
+                                {{-- <div class="container">
+                                    <button id="toggle-vouchers">Hiện mã giảm giá</button>
                                 </div> --}}
 
 
+                                <!-- Overlay chứa bảng mã giảm giá -->
+                                <div id="coupon-overlay" class="coupon-overlay">
+                                    <div class="coupon-container">
+                                        <!-- Nút tắt -->
+                                        <button id="close-voucher" class="close-btn">&times;</button>
+
+                                        <h4 class="m-2 text-center">FootForWard Voucher</h4>
+                                        <!-- Hiển thị bảng các mã giảm giá -->
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã giảm giá</th>
+                                                        <th>Giá trị</th>
+                                                        <th>Điều kiện áp dụng</th>
+                                                        <th>Chức năng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($vourchers as $voucher)
+                                                        <tr>
+                                                            <td>{{ $voucher->code }}</td>
+                                                            <td>
+                                                                {{ $voucher->discount_value }}
+                                                                {{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
+                                                            </td>
+                                                            <td class="marquee-container">
+                                                                <div class="marquee-text">
+                                                                    @if ($voucher->discount_type == 'percentage')
+                                                                        @if ($voucher->discount_value == 5)
+                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
+                                                                            Giảm tối đa 5%
+                                                                        @elseif ($voucher->discount_value == 10)
+                                                                            Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên:
+                                                                            Giảm tối đa 10%
+                                                                        @elseif ($voucher->discount_value == 15)
+                                                                            Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên:
+                                                                            Giảm tối đa 15%
+                                                                        @elseif ($voucher->discount_value == 25)
+                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
+                                                                            Giảm tối đa 25%
+                                                                        @endif
+                                                                    @else
+                                                                        @if ($voucher->discount_value == 500000)
+                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
+                                                                            Giảm 500,000 VNĐ
+                                                                        @elseif ($voucher->discount_value == 300000)
+                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
+                                                                            Giảm 300,000 VNĐ
+                                                                        @elseif ($voucher->discount_value == 200000)
+                                                                            Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên:
+                                                                            Giảm 200,000 VNĐ
+                                                                        @elseif ($voucher->discount_value == 100000)
+                                                                            Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên:
+                                                                            Giảm 100,000 VNĐ
+                                                                        @elseif ($voucher->discount_value == 50000)
+                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
+                                                                            Giảm 50,000 VNĐ
+                                                                        @elseif ($voucher->discount_value == 20000)
+                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
+                                                                            Giảm 20,000 VNĐ
+                                                                        @endif
+                                                                    @endif
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <form action="{{ route('cart.applyVoucher') }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="voucher_code"
+                                                                        value="{{ $voucher->code }}">
+                                                                    <button class="btn btn-primary" type="submit">Áp
+                                                                        dụng</button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- testtt --}}
 
                                 <!-- Phần thanh toán -->
                                 {{-- <div class="panel-foot d-flex flex-column align-items-center m-2 p-2" style="margin-left: 35px"> --}}
@@ -350,5 +751,34 @@
 @endsection
 
 @section('scripts')
+    <script>
+        document.getElementById('toggle-vouchers').addEventListener('click', function() {
+            var overlay = document.getElementById('coupon-overlay');
+            var isShowing = overlay.classList.contains('show');
 
+            if (isShowing) {
+                overlay.classList.remove('show');
+                overlay.classList.add('hide');
+                setTimeout(function() {
+                    overlay.style.display = 'none';
+                    overlay.classList.remove('hide');
+                }, 500);
+                this.textContent = 'Chọn mã giảm giá';
+            } else {
+                overlay.style.display = 'flex';
+                overlay.classList.add('show');
+                this.textContent = 'CHọn mã giảm giá';
+            }
+        });
+
+        document.getElementById('close-voucher').addEventListener('click', function() {
+            var overlay = document.getElementById('coupon-overlay');
+            overlay.classList.remove('show');
+            overlay.classList.add('hide');
+            setTimeout(function() {
+                overlay.style.display = 'none';
+                overlay.classList.remove('hide');
+            }, 500);
+        });
+    </script>
 @endsection

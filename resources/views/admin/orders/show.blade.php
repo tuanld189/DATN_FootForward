@@ -38,7 +38,7 @@
         <!-- end page title -->
         <!-- end page title -->
         {{-- trang thái đơn hàng --}}
-        <div class="order-status">
+        {{-- <div class="order-status">
             <div class="progress" style="height: 30px">
                 @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
                     <div class="progress-bar {{ $order->status_order === $key ? 'bg-success' : 'bg-secondary' }}"
@@ -51,7 +51,7 @@
                 @endforeach
             </div>
 
-        </div>
+        </div> --}}
 
 
         <div class="row justify-content-center">
@@ -295,18 +295,35 @@
                                     style="width:250px">
                                     <tbody>
                                         <tr>
-                                            <td>Sub Total</td>
-                                            <td class="text-end" id="sub-total-amount">
-                                                {{ number_format($order->total_price, 0, ',', '.') }} VND</td>
+                                            <td colspan="3"><span><b>Tổng tiền sản phẩm</b></span></td>
+                                            <td><b>
+                                                    @php
+                                                        $discount = session('discount', 0);
+                                                        $totalPrice = $order->total_price;
+                                                        $shippingFee = 0; // Adjust as needed
+                                                        $totalPayable = $totalPrice + $discount;
+                                                    @endphp
+                                                    {{ number_format($totalPayable, 0, ',', '.') }} VNĐ
+                                                </b></td>
+                                        </tr>
+
+                                        @if (session('discount') > 0)
+                                            <tr class="total_payment">
+                                                <td colspan="3"><span>Mã giảm giá</span></td>
+                                                <td><span
+                                                        class="amount">-{{ number_format(session('discount'), 0, ',', '.') }}
+                                                        VNĐ</span></td>
+                                            </tr>
+                                        @endif
+                                        <tr>
+                                            <td colspan="3"><span>Phí vận chuyển</span></td>
+                                            {{-- <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td> --}}
+                                            <td>{{ number_format(0, 0, ',', '.') }} VNĐ</td>
                                         </tr>
                                         <tr>
-                                            <td>Shipping <span class="text-muted"></span></td>
-                                            <td class="text-end">+<span>50.000 VND</span></td>
-                                        </tr>
-                                        <tr class="border-top border-top-dashed fs-15">
-                                            <th scope="row">Total Amount</th>
-                                            <th class="text-end" id="final-amount">
-                                                {{ number_format($order->total_price + 50000, 0, ',', '.') }} VND</th>
+                                            <td colspan="3"><span><b>Tổng hóa đơn</b></span></td>
+                                            {{-- <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td> --}}
+                                            <td><b>{{ number_format($order->total_price + 0, 0, ',', '.') }} VNĐ</b></td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -22,6 +22,12 @@ class VourcherController extends Controller
         return view(self::PATH_VIEW . 'index', compact('vourchers'));
     }
 
+    public function checkout()
+    {
+        $vourchers = Vourcher::where('is_active', true)->get(); // Lấy tất cả các voucher đang hoạt động
+
+        return view('client.checkout', compact('vourchers'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -138,22 +144,6 @@ class VourcherController extends Controller
         return back();
     }
 
-    // public function redeemVoucher($id)
-    // {
-    //     $voucher = Vourcher::findOrFail($id);
-
-    //     // Kiểm tra xem mã voucher có thể sử dụng không
-    //     if (!$voucher->canBeRedeemed()) {
-    //         return response()->json(['message' => 'Mã voucher không khả dụng để sử dụng.'], 400);
-    //     }
-
-    //     // Thực hiện hành động sử dụng mã voucher (ví dụ: áp dụng giảm giá cho đơn hàng)
-
-    //     // Sau khi sử dụng thành công, giảm số lượng voucher
-    //     $voucher->redeem();
-
-    //     return response()->json(['message' => 'Sử dụng mã voucher thành công.'], 200);
-    // }
 
     public function redeemVoucher(Request $request)
     {
