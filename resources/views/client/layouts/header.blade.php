@@ -53,7 +53,7 @@
                                         <i class="">
                                             <img alt="user avatar"
                                                 src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
-                                                style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->name : 'Setting' }}
+                                                style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->fullname : 'Setting' }}
                                         <i class="fa fa-angle-down">
                                         </i>
                                     </button>

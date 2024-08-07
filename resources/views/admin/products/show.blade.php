@@ -37,13 +37,14 @@
                         <tr>
                             <th>Thumbnail</th>
                             <td>
-                                @php
+                                {{-- @php
                                     $url = $model->img_thumbnail;
                                     if(!Str::contains($url, 'http')){
                                         $url = Storage::url($url);
                                     }
                                 @endphp
-                                <img src="{{ $url }}" alt="Product Image" width="100px">
+                                <img src="{{ $url }}" alt="Product Image" width="100px"> --}}
+                                <img src="{{ $item->img_thumbnail }}" alt="" width="100px">
                             </td>
                         </tr>
                         <tr>

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
@@ -79,7 +80,7 @@ Route::prefix('admin')
             });
 
         // product
-        Route::resource('products', ProductController::class);
+        // Route::resource('products', ProductController::class);
         // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
         // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
@@ -275,4 +276,7 @@ Route::prefix('admin')
         });
 
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     });

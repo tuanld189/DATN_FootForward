@@ -102,11 +102,11 @@ class OrderController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             dd('Database error: ' . $e->getMessage(), $e);
-            return back()->with('error', 'Đã xảy ra lỗi với cơ sở dữ liệu. Vui lòng thử lại sau.');
+            // return back()->with('error', 'Đã xảy ra lỗi với cơ sở dữ liệu. Vui lòng thử lại sau.');
         } catch (\Exception $e) {
             DB::rollBack();
             dd('General error: ' . $e->getMessage(), $e);
-            return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
+            // return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
         }
     }
 

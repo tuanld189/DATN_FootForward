@@ -1,6 +1,7 @@
 @extends('client.layouts.master')
 @section('title', 'Đăng nhập')
 @section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .login-container {
             background: white;
@@ -29,6 +30,7 @@
         .fab {
             border-radius: 10px;
         }
+
         a {
             text-decoration: none;
         }
@@ -40,8 +42,12 @@
             <h2 class="text-center">Đăng nhập</h2>
             @if ($message = Session::get('error'))
                 <div class="alert alert-danger alert-block">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>{{ $message }}</strong>
+                    <strong><i class="fas fa-exclamation-circle"></i> {{ $message }}</strong>
+                </div>
+            @endif
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success alert-block">
+                    <strong><i class="fas fa-check-circle"></i> {{ $message }}</strong>
                 </div>
             @endif
             <form action="{{ route('login') }}" method="POST">
@@ -61,15 +67,36 @@
                     </div>
                 </div>
                 <div class="form-group text-right">
-                    <a href="#">Quên mật khẩu?</a>
+                    <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">Quên mật khẩu?</a>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" style="  display: flex;
-
-            margin: 10px auto;">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary btn-block" style="display: flex; margin: 10px auto;">Đăng nhập</button>
             </form>
             <div class="text-left mt-4">
-                <a href="{{ route('signup') }}" style=" border: none;
-            border-radius: 10px; margin: 0 auto;"  class="btn btn-default">Đăng ký</a>
+                <a href="{{ route('signup') }}" style="border: none; border-radius: 10px; margin: 0 auto;" class="btn btn-default">Đăng ký</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Forgot Password -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Quên mật khẩu?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"  style="border:none; ">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm" action="{{ route('forgot.password') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="forgot_email">Nhập email bạn đã đăng kí để nhận lại mật khẩu:</label>
+                            <input type="email" class="form-control" id="forgot_email" name="forgot_email" placeholder="Vui lòng nhập email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3" style="border:none; border-radius: 10px;">Gửi thông tin</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

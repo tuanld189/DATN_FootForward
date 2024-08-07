@@ -85,6 +85,8 @@ Route::put('/order/{id}/cancel', [UserProfileController::class, 'cancel'])->name
 Route::get('/profile/order/{id}', [UserProfileController::class, 'show'])->name('client.profile.order');
 Route::get('/profile/{id}/change-password', [UserProfileController::class, 'showChangePasswordForm'])->name('client.profile.change-password');
 Route::post('/profile/{id}/change-password', [UserProfileController::class, 'changePassword'])->name('client.profile.change-password.update');
+Route::post('/forgot-password', [UserProfileController::class, 'sendResetPassword'])->name('forgot.password');
+
 
 // Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
 

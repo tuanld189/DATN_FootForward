@@ -189,9 +189,39 @@ class CartController extends Controller
 
 
 
+    // public function checkout(Request $request)
+    // {
+    //     $orderCode = 'FF' . Str::random(10);
+    //     $cart = session()->get('cart', []);
+    //     $totalAmount = 0;
+
+    //     foreach ($cart as $item) {
+    //         $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+    //     }
+
+    //     $voucherCode = session()->get('voucher_code');
+    //     $discount = 0;
+
+    //     if ($voucherCode) {
+    //         $voucher = Vourcher::validateVoucher($voucherCode);
+
+    //         if ($voucher) {
+    //             $discount = $this->calculateDiscount($voucher, $totalAmount);
+    //             $totalAmount = max(0, $totalAmount - $discount);
+
+    //             session()->forget(['voucher_code', 'discount', 'total_amount']);
+    //         }
+    //     }
+
+    //     session()->put('total_amount', $totalAmount);
+    //     session()->put('discount', $discount);
+    //     return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode','orderCode'));
+    // }
+
     public function checkout(Request $request)
     {
-        $orderCode = 'FF' . Str::random(10);
+        $orderCode = 'FF-' . strtoupper(Str::random(10));
+        $vourchers = Vourcher::where('is_active', true)->get();
         $cart = session()->get('cart', []);
         $totalAmount = 0;
 
@@ -201,23 +231,23 @@ class CartController extends Controller
 
         $voucherCode = session()->get('voucher_code');
         $discount = 0;
-
         if ($voucherCode) {
             $voucher = Vourcher::validateVoucher($voucherCode);
 
             if ($voucher) {
                 $discount = $this->calculateDiscount($voucher, $totalAmount);
-                $totalAmount = max(0, $totalAmount - $discount);
+                $totalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
 
+                // Xóa mã giảm giá khỏi session sau khi áp dụng
                 session()->forget(['voucher_code', 'discount', 'total_amount']);
             }
         }
 
+        // Lưu thông tin giảm giá và tổng số tiền vào session
         session()->put('total_amount', $totalAmount);
         session()->put('discount', $discount);
-        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode','orderCode'));
+        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode', 'vourchers','orderCode'));
     }
-
 
 
     public function add(Request $request)
