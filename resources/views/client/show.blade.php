@@ -4,17 +4,18 @@
     <style>
         .card_area .add-to-cart {
             color: white;
-            background-color: black;
+            background-color: #8a8f6a;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            border-radius: 10px;
         }
 
         /* CSS for hover effect */
         .card_area .add-to-cart:hover {
-            background-color: gray;
+            background-color: #8a8f6a;
         }
 
         .custom-control-label {
@@ -94,12 +95,12 @@
         }
 
         .custom-control-input:checked+.custom-control-label {
-            border-color: #007bff;
-            background-color: #e7f1ff;
+            border-color: #8a8f6a;
+            background-color: #8a8f6a4a;
         }
 
         .custom-control-input:checked+.custom-control-label img {
-            border: 2px solid #007bff;
+            border: 2px solid #8a8f6a;
         }
 
         .price-box {
@@ -144,6 +145,34 @@
             border-color: #007bff;
             /* Viền khi hover */
         }
+
+
+        .quantity-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #8a8f6a;
+            border-radius: .25rem;
+            overflow: hidden;
+            width: 100px;
+            margin: 0 auto;
+
+        }
+        .quantity-control button {
+            border: none;
+            background-color: #8a8f6a;
+            color:white;
+            font-size: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        .quantity-control input {
+            border: none;
+            width: 50px;
+            text-align: center;
+            outline: none;
+
+        }
     </style>
 @endsection
 
@@ -158,14 +187,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Product Detail </h4>
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between" style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                        <h4 class="mb-sm-0">Chi tiết sản phẩm</h4>
 
                         <div class="page-title-right ">
                             <ol class="breadcrumb m-0 ">
-                                <li class="m-1"><a href="javascript: void(0);">Home > </a></li>
-                                <li class="active m-1"> Product > </li>
-                                <li class="active m-1"> Product Detail </li>
+                                <li class="m-1"><a href="{{ route('index') }}">Trang chủ > </a></li>
+                                <li class="active m-1" href="{{ route('shop') }}"> Sản phẩm > </li>
+                                <li class="active m-1"> Chi tiết sản phẩm </li>
                             </ol>
                         </div>
 
@@ -182,7 +211,7 @@
                     </div>
                 </div>
         </div> --}}
-            <div class="row single-product-area">
+            <div class="row single-product-area" >
                 <div class="col-lg-5 col-md-6">
                     <!-- Product Details Left -->
                     <div class="product-details-left">
@@ -308,37 +337,31 @@
                                             style="display: flex; justify-content: space-between;">
                                             <div class="p-2 border border-dashed rounded" style="margin-right: 20px;">
                                                 <div class="d-flex align-items-center">
-                                                    <div class="flex-grow-1">
-                                                        <p class="mb-1" style="color: black;"><b>Quantity:</b></p>
-                                                        <input type="number" class="form-control" id="quantity_add"
-                                                            name="quantity_add" min="1" value="1"
-                                                            style="width: 100px; text-align: center;">
+                                                    <div class="flex-grow-1 text-center">
+                                                        <p class="mb-1" style="color: black;"><b>Số lượng:</b></p>
+                                                        <div class="quantity-control">
+                                                            <button type="button" id="decrement" style="background-color: #8a8f6a;color:white;">-</button>
+                                                            <input type="number" id="quantity_add" name="quantity_add" min="1" value="1">
+                                                            <button type="button" id="increment" style="background-color: #8a8f6a;color:white;">+</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="p-2 border border-dashed rounded">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
-                                                        <p class="mb-1" style="color: black;"><b>Available Stocks:</b></p>
+                                                        <p class="mb-1" style="color: black;"><b>Hàng Có sẵn:</b></p>
                                                         <input type="text" class="form-control" id="available_quantity"
                                                             name="available_quantity" readonly
-                                                            style="width: 150px; text-align: center;">
+                                                            style="width: 100px; text-align: center; border: 1px solid #8a8f6a;">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
                                     <p class="mt-2">{{ $product->content }}</p>
-
-
-
-
                                     <div class="card_area d-flex align-items-center">
-                                        <button type="submit" class="add-to-cart">Add to Cart</button>
+                                        <button type="submit" class="add-to-cart">+ Thêm vào giỏ hàng</button>
                                     </div>
                                 </form>
                             </div>
@@ -464,8 +487,8 @@ ut labore et </a></li>
                         <!-- Start Single COMMENT -->
 
                         <div class="product_tab_content tab-pane" id="reviews" role="tabpanel"
-                            style="background-color:rgba(251, 249, 249, 0.929); ">
-                            <div class="row">
+                        style="background-color: white;">
+                            <div class="row" >
                                 <!-- Column for posting comment -->
                                 <div class="col-lg-6">
                                     <!-- Start Rating Area -->
@@ -498,8 +521,8 @@ ut labore et </a></li>
                                                     </div>
                                                     <div style="flex-grow: 1; margin-right: 15px;">
                                                         <h4><i>{{ Auth::check() ? Auth::user()->name : '' }}</i></h4>
-                                                        <textarea name="content" class="form-control" placeholder="Write a comment..." required
-                                                            style="width: 400px; height:120px;"></textarea>
+                                                        <textarea name="content" class="form-control" placeholder="Viết bình luận" required
+                                                            style="width: 400px; height:120px;border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></textarea>
                                                         <button type="submit" class="btn btn-primary btn-block mt-3 "
                                                             style="font-weight: bold; "><i class="fa fa-paper-plane"></i>
                                                             Post
@@ -795,6 +818,19 @@ ut labore et </a></li>
                 })
                 .catch(error => console.error('Error deleting comment:', error));
         }
+    </script>
+     <script>
+        document.getElementById('increment').addEventListener('click', function() {
+            var quantityInput = document.getElementById('quantity_add');
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+
+        document.getElementById('decrement').addEventListener('click', function() {
+            var quantityInput = document.getElementById('quantity_add');
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
     </script>
 
 @endsection
