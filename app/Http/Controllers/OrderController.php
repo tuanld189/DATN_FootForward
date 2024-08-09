@@ -77,7 +77,7 @@ class OrderController extends Controller
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
             $order->user_address = $request->input('user_address');
-            $order->user_note = $request->input('user_note');
+$order->user_note = $request->input('user_note');
             $order->total_price = $totalAmount;
 
             $now = Carbon::now('Asia/Ho_Chi_Minh');
@@ -172,7 +172,7 @@ class OrderController extends Controller
             if ($i == 1) {
                 $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
             } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
+$hashdata .= urlencode($key) . "=" . urlencode($value);
                 $i = 1;
             }
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
@@ -271,7 +271,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with('orderItems')->findOrFail($id);
-        $orderDetails = [
+$orderDetails = [
             'order_code' => $order->id,
             'order_date' => $order->created_at->format('d M, Y'),
             'order_status' => Order::STATUS_ORDER[$order->status_order],

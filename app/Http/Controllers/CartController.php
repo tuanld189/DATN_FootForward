@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Str;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -169,7 +169,6 @@ class CartController extends Controller
         return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode', 'vourchers', 'orderCode'));
     }
     // cái nay dung ok
-
 
 
     public function add(Request $request)
