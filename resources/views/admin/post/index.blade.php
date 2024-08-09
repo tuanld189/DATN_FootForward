@@ -8,13 +8,13 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Quản lý</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Posts</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
+                        <li class="breadcrumb-item active">Bài viết</li>
+                        <li class="breadcrumb-item active">Danh sách bài viết</li>
                     </ol>
                 </div>
 
@@ -27,7 +27,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Post</h5>
+                    <h5 class="card-title mb-0">Bài viết</h5>
                     <a href="{{ route('admin.posts.create') }}" class="btn btn-primary mb-2 w-10">Thêm mới</a>
                 </div>
                 <div class="card-body">
@@ -42,12 +42,12 @@
                                 </th>
                                 {{-- <th data-ordering="false">SR No.</th> --}}
                                 <th data-ordering="false">ID</th>
-                                <th>IMAGE</th>
-                                <th>NAME</th>
-                                <th>DESCRIPION</th>
-                                <th>CONTENT</th>
-                                <th>IS ACTIVE</th>
-                                <th>ACTION</th>
+                                <th>Ảnh</th>
+                                <th>Tên bài viết</th>
+                                <th>Mô tả</th>
+                                <th>Nội dung</th>
+                                <th>Trang thái</th>
+                                <th>Chức năng</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">

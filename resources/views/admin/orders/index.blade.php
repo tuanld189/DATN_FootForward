@@ -6,13 +6,13 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Quản lý</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Orders</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
+                        <li class="breadcrumb-item active">Đơn hàng</li>
+                        <li class="breadcrumb-item active">Danh sách đơn hàng</li>
                     </ol>
                 </div>
 
@@ -65,11 +65,10 @@
                             <div class="card-header border-0">
                                 <div class="row align-items-center gy-3 ">
                                     <div class="col-sm d-flex justify-content-between">
-                                        <h5 class="card-title mb-0">Order History</h5>
+                                        <h5 class="card-title mb-0">Đơn hàng</h5>
                                         <div class="d-flex justify-content-between mb-3">
                                             <div class="m-2">
-                                                <a href="{{ route('admin.orders.export') }}" class="btn btn-success">Export
-                                                    Orders</a>
+                                                <a href="{{ route('admin.orders.export') }}" class="btn btn-success">Xuất excel </a>
                                             </div>
                                             <div class="m-2">
                                                 <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">Thêm
@@ -108,7 +107,7 @@
                                             <div>
                                                 <select class="form-control" data-choices data-choices-search-false
                                                     name="status_order" id="status_order">
-                                                    <option value="">All</option>
+                                                    <option value="">Tất cả</option>
                                                     @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
                                                         <option value="{{ $key }}"
                                                             {{ request('status_order') == $key ? 'selected' : '' }}>
@@ -123,7 +122,7 @@
                                             <div>
                                                 <select class="form-control" data-choices data-choices-search-false
                                                     name="status_payment" id="status_payment">
-                                                    <option value="">All</option>
+                                                    <option value="">Tất cả</option>
                                                     @foreach (\App\Models\Order::STATUS_PAYMENT as $key => $value)
                                                         <option value="{{ $key }}"
                                                             {{ request('status_payment') == $key ? 'selected' : '' }}>
@@ -138,7 +137,7 @@
                                                 <button type="submit" class="btn btn-primary w-100"
                                                     onclick="SearchData();"> <i
                                                         class="ri-equalizer-fill me-1 align-bottom"></i>
-                                                    Filters
+                                                    Lọc
                                                 </button>
                                             </div>
                                         </div>
@@ -186,7 +185,7 @@
                                                     <th data-sort="amount">Tổng tiền</th>
                                                     <th data-sort="payment">Trạng thái thanh toán</th>
                                                     <th data-sort="status">Tình trạng đơn hàng</th>
-                                                    <th data-sort="city">Action</th>
+                                                    <th data-sort="city">Chức năng</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">

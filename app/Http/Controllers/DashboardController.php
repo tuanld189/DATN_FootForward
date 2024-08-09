@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+
 use App\Models\OrderItem;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class DashboardController extends Controller
 {
@@ -203,6 +205,5 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.ProductSoldDetail', compact('soldProducts', 'filter', 'data', 'totalProductsWeek', 'totalProductsMonth', 'totalProductsYear', 'totalProductsAll'));
     }
-
 
 }

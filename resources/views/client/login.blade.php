@@ -3,37 +3,47 @@
 @section('styles')
     <style>
         .login-container {
-            background: white;
+            background: #8a8f6a4a;
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px;
-            justify-content: center;
             margin: 40px auto;
         }
 
-        .login-container .btn-primary {
+        .login-container .btn-primary,
+        .login-container .btn-default {
             background: linear-gradient(to right, #000000);
             border: none;
             border-radius: 10px;
-        }
-
-        .login-container .social-btn {
+            color: white;
+            width: 100%;
+            padding: 10px;
             margin-top: 10px;
         }
 
-        .form-control {
-            border-radius: 10px;
+        .login-container .btn-primary:hover,
+        .login-container .btn-default:hover {
+            background: linear-gradient(to right, #444444);
+            color: white;
         }
 
-        .fab {
+        .login-container .form-control {
             border-radius: 10px;
+            border: 1px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
+        .form-check-label {
+            color: black;
+        }
+
         a {
             text-decoration: none;
         }
     </style>
 @endsection
+
 @section('content')
     <div class="text">
         <div class="login-container">
@@ -47,11 +57,11 @@
             <form action="{{ route('login') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="email"><b style="color: black">Email</b></label>
+                    <label for="email">Email</label>
                     <input type="text" class="form-control" id="email" name="email" placeholder="Vui lòng nhập email">
                 </div>
                 <div class="form-group">
-                    <label for="password"><b style="color: black">Mật khẩu</b></label>
+                    <label for="password">Mật khẩu</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Vui lòng nhập mật khẩu">
                 </div>
                 <div class="form-group">
@@ -63,17 +73,15 @@
                 <div class="form-group text-right">
                     <a href="#">Quên mật khẩu?</a>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" style="  display: flex;
-
-            margin: 10px auto;">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
             </form>
-            <div class="text-left mt-4">
-                <a href="{{ route('signup') }}" style=" border: none;
-            border-radius: 10px; margin: 0 auto;"  class="btn btn-default">Đăng ký</a>
+            <div class="text-center ">
+                <a href="{{ route('signup') }}" class="btn btn-default">Đăng ký</a>
             </div>
         </div>
     </div>
 @endsection
+
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

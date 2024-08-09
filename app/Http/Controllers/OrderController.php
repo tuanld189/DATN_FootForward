@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderShipped;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
@@ -13,11 +14,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Mail\OrderPlacedEmail;
 use App\Models\Vourcher;
-use App\Events\OrderShipped;
+use App\Notifications\OrderUpdated;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\OrderUpdated;
-use Illuminate\Support\Facades\Notification;
+use Notification;
+
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
@@ -102,14 +103,13 @@ class OrderController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             dd('Database error: ' . $e->getMessage(), $e);
-            return back()->with('error', 'Đã xảy ra lỗi với cơ sở dữ liệu. Vui lòng thử lại sau.');
+            // return back()->with('error', 'Đã xảy ra lỗi với cơ sở dữ liệu. Vui lòng thử lại sau.');
         } catch (\Exception $e) {
             DB::rollBack();
             dd('General error: ' . $e->getMessage(), $e);
-            return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
+            // return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
         }
     }
-
 
 
 
@@ -211,6 +211,23 @@ class OrderController extends Controller
 
 
 
+    // public function vnpay_return(Request $request)
+    // {
+    //     $orderId = $request->input('order_id');
+    //     $order = Order::findOrFail($orderId);
+
+    //     if ($request->input('vnp_ResponseCode') == '00') {
+    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
+
+    //         // Cập nhật giá trị của đơn hàng sau khi áp dụng mã giảm giá
+    //         $order->total_price = session()->get('total_amount', $order->total_price);
+    //         $order->save();
+    //     } else {
+    //         $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
+    //         $order->save();
+    //     }
+    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
+    // }
     public function vnpay_return(Request $request)
     {
         $orderId = $request->input('order_id');
@@ -240,23 +257,6 @@ class OrderController extends Controller
 
 
 
-
-
-    // public function vnpay_return(Request $request)
-    // {
-    //     $orderId = $request->input('order_id');
-    //     $order = Order::findOrFail($orderId);
-
-    //     if ($request->input('vnp_ResponseCode') == '00') {
-    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
-    //         $order->save();
-    //     } else {
-    //         // $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
-    //         // $order->save();
-    //     }
-
-    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
-    // }
 
     public function confirmation($order_id)
     {

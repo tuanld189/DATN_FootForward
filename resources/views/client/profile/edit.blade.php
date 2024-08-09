@@ -267,7 +267,7 @@
         .view-details {
             padding: 10px;
             border-radius: 10px;
-            background-color: darkblue;
+            background-color:#8a8f6a ;
             color: white;
             font-weight: bold;
         }
@@ -366,7 +366,8 @@
                 </ul>
             </nav>
 
-            <div class="tab-content border border-top-0 p-4 rounded shadow-lg pb-4" style="margin: 30px 10px;"
+            <div class="tab-content border border-top-0 p-4 shadow-lg pb-4" style="margin: 30px 10px;background-color: #8a8f6a4a;
+    border-radius: 10px;"
                 id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-additional" role="tabpanel"
                     aria-labelledby="nav-additional-tab">
@@ -379,7 +380,7 @@
                                 <h3 class="font-weight-bold mt-3 ">{{ old('fullname', $user->fullname) }}</h3>
                                 <h5 class="text-muted">{{ old('email', $user->email) }}</h5>
                                 <div class="overlay">
-                                    <label for="photoInput" class="btn-primary text-white text-xxl">Change Photo</label>
+                                    <label for="photoInput" class="btn-primary text-white text-xxl">Thay đổi ảnh</label>
                                 </div>
                             </div>
                         </div>
@@ -395,27 +396,27 @@
                                                 <th scope="row" style="width: 200px;">Tên đầy đủ:</th>
                                                 <td><input type="text" class="form-control" id="fullname"
                                                         name="fullname" value="{{ old('fullname', $user->fullname) }}"
-                                                        required></td>
+                                                        required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Email:</th>
                                                 <td><input type="email" class="form-control" id="email" name="email"
-                                                        value="{{ old('email', $user->email) }}" required></td>
+                                                        value="{{ old('email', $user->email) }}" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Số điện thoại:</th>
                                                 <td><input type="text" class="form-control" id="phone" name="phone"
-                                                        value="{{ old('phone', $user->phone) }}" required></td>
+                                                        value="{{ old('phone', $user->phone) }}" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Địa chỉ:</th>
                                                 <td><input type="text" class="form-control" id="address" name="address"
-                                                        value="{{ old('address', $user->address) }}" required></td>
+                                                        value="{{ old('address', $user->address) }}" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Ảnh:</th>
                                                 <td><input type="file" class="form-control" id="photoInput"
-                                                        name="photo_thumbs"></td>
+                                                        name="photo_thumbs" style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -436,19 +437,19 @@
                                     <div class="form-group">
                                         <label for="current_password">Mật khẩu cũ</label>
                                         <input type="password" class="form-control" id="current_password"
-                                            name="current_password" required>
+                                            name="current_password" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     </div>
                                     <div class="form-group">
                                         <label for="new_password">Mật khẩu mới</label>
                                         <input type="password" class="form-control" id="new_password"
-                                            name="new_password" required>
+                                            name="new_password" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     </div>
                                     <div class="form-group">
                                         <label for="new_password_confirmation">Xác nhận mật khẩu mới</label>
                                         <input type="password" class="form-control" id="new_password_confirmation"
-                                            name="new_password_confirmation" required>
+                                            name="new_password_confirmation" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     </div>
-                                    <button type="submit" class="btn rounded-5 mt-3">Thay đổi mật khẩu</button>
+                                    <button type="submit" class="btn rounded-5 mt-3" >Thay đổi mật khẩu</button>
                                 </form>
                             </div>
                         </div>
@@ -476,7 +477,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-                    <div class="shadow-sm p-4 overflow">
+                    <div class=" p-4 overflow">
                         <table class="order-table text-center">
                             <thead>
                                 <tr>

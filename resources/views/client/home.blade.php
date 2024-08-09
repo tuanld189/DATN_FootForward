@@ -106,22 +106,23 @@
                 <div class="carousel-inner">
                     @foreach ($banners as $key => $banner)
                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                            <div class="single-slide" style="background-image: url('{{ Storage::url($banner->image) }}')">
-                                <div class="hero-content-one container">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="slider-text-info text-black">
-                                                {{-- <h1>Giày Classic </h1>
-                                                <h1>Phù hợp với mọi độ tuổi, giới tính</h1>
-                                                <p>Những đôi giày được thiết kế tinh tế và chất lượng cao, mang lại sự thoải mái và <br> phong cách cho người sử dụng. Hãy khám phá bộ sưu tập của chúng tôi.</p>
-<a href="{{route('shop')}}" class="btn slider-btn uppercase"><span><i class="fa fa-plus"></i> Mua Ngay</span></a> --}}
+                            <a href="{{ $banner->url }}" class="d-block w-100"
+                                style="background-image: url('{{ Storage::url($banner->image) }}');">
+                                <div class="single-slide">
+                                    <div class="hero-content-one container">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="slider-text-info text-black">
+                                                    {{-- Nếu bạn muốn thêm nội dung khác vào slider-text-info, có thể thêm vào đây --}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
+
                 </div>
                 <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -150,7 +151,8 @@
                                                 <div class="product-image">
                                                     <a href="{{ route('client.show', $product->id) }}">
                                                         <img class="img-fluid"
-                                                            src="{{ asset('storage/' . $product->img_thumbnail) }}" style="width: 300px; height: 250px;">
+                                                            src="{{ asset('storage/' . $product->img_thumbnail) }}"
+                                                            style="width: 300px; height: 250px;">
                                                     </a>
                                                     <span class="label-product label-new">new</span>
 
@@ -185,7 +187,7 @@
                                                     </div>
                                                     <div class="product-action">
                                                         <button class="add-to-cart" title="Add to cart"><i
-                                                                class="fa fa-plus"></i> Add to cart</button>
+                                                                class="fa fa-plus"></i> Thêm vào giỏ hàng</button>
                                                         <div class="star_content">
                                                             <ul class="d-flex">
                                                                 <li><a class="star" href="#"><i
@@ -288,8 +290,9 @@
                     @foreach ($productsNoSale as $product)
                         <div class="single-product-wrap">
                             <div class="product-image">
-                                <a href="{{ route('client.show', $product->id) }}" >
-                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}" style="width: 300px; height: 250px;">
+                                <a href="{{ route('client.show', $product->id) }}">
+                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}"
+                                        style="width: 300px; height: 250px;">
                                 </a>
                                 <span class="label-product label-new">new</span>
 
@@ -306,7 +309,9 @@
                                     <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
                                 </div>
                                 <div class="product-action">
-                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to cart</button>
+
+                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Thêm vào giỏ hàng</button>
+
                                     <div class="star_content">
                                         <ul class="d-flex">
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
@@ -429,8 +434,8 @@
                 @foreach ($brands as $brand)
                     <div class="col-lg-2">
                         <div class="single-brand ">
-                            <img class="img-fluid" src="{{ $brand->image }}" alt="" width="100px"
-                                height="100px">
+                            <img class="img-fluid" src="{{ $brand->image }}" alt="" width="200px"
+                                height="200px">
                         </div>
                     </div>
                 @endforeach

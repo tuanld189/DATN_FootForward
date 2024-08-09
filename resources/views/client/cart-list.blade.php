@@ -3,16 +3,179 @@
 @section('styles')
     <style>
         .plantmore-product-quantity input.qty {
-            width: 60px;
-            height: 30px;
+            width: 50px;
+            height: 40px;
             text-align: center;
             display: inline-block;
             margin: 0 auto;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            
+        }
+
+        .plantmore-product-quantity .quantity-buttons {
+            display: inline-flex;
+            vertical-align: middle;
+        }
+
+        .quantity-buttons button {
+            color:while;
+            border: 1px solid #ccc;
+            background-color: #8a8f6a;
+            padding: 5px 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            
+        }
+
+        .quantity-buttons button:hover {
+            background-color: #000;
         }
 
         .old-price {
             text-decoration: line-through;
+        }
+
+        .cart-table {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            margin: 0 -25px 0;
+        }
+
+        .page-title-box {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .page-title-box h4 {
+            margin: 0;
+        }
+
+        .page-title-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title-right ol.breadcrumb {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .page-title-right ol.breadcrumb li {
+            display: inline;
+            margin-right: 5px;
+        }
+
+        .page-title-right ol.breadcrumb li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .page-title-right ol.breadcrumb li.active {
+            color: #6c757d;
+        }
+
+        .page-title-right ol.breadcrumb li::after {
+            content: '>';
+            margin-left: 5px;
+            color: #6c757d;
+        }
+
+        .page-title-right ol.breadcrumb li:last-child::after {
+            content: '';
+            margin-left: 0;
+        }
+
+        .continue-btn, .proceed-checkout-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .continue-btn:hover, .proceed-checkout-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .cart-page-total {
+            
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            
+        }
+
+        .cart-page-total h2 {
+            margin-top: 0;
+        }
+
+        .cart-page-total ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-page-total ul li {
+            font-size: 16px;
+            
+        }
+
+        .cart-page-total ul li span {
+            font-weight: bold;
+        }
+        .cart-page-total .proceed-checkout-btn{
+            background-color: #8a8f6a
+        }
+        .cart-page-total .proceed-checkout-btn:hover{
+            background-color: #000;
+        }
+        .cart-table .coupon-all .coupon2 .continue-btn{
+            background-color: #8a8f6a
+        }
+        .cart-table .coupon-all .coupon2 .continue-btn:hover{
+            background-color: #000;
+        }
+
+
+        .table {
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-content table {
+            border:1px solid #8a8f6a;
+            border-radius: 5px;
+        }
+
+        .table img {
+            border-radius: 5px;
+        }
+
+        .table thead th {
+            background-color: #8a8f6a;
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .table tfoot td {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+
+        .table .amount {
+            color: red;
         }
     </style>
 @endsection
@@ -26,12 +189,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Cart Detail</h4>
+
+                        <h4 class="mb-sm-0">Chi tiết đơn hàng</h4>
                         <div class="page-title-right ">
                             <ol class="breadcrumb m-0 ">
-                                <li class="m-1"><a href="javascript: void(0);">Home ></a></li>
-                                <li class="active m-1"> Cart ></li>
-                                <li class="active m-1"> Cart Detail</li>
+                                <li class="m-1"><a href="javascript: void(0);">Trang chủ ></a></li>
+                                <li class="active m-1"> Giỏ hàng ></li>
                             </ol>
                         </div>
                     </div>
@@ -41,17 +204,18 @@
                 <div class="col-12">
                     <div class="cart-table">
                         <div class="table-content table-responsive">
-                            <table class="table table-hover">
-                                <thead>
+                            <table class="table table-striped table-hover shadow">
+                                <thead class="thead-dark">
                                     <tr>
-                                        <th class="plantmore-product-thumbnail">Images</th>
-                                        <th class="cart-product-name">Name</th>
-                                        <th class="cart-product-color">Color</th>
-                                        <th class="cart-product-size">Size</th>
-                                        <th class="plantmore-product-price">Unit Price</th>
-                                        <th class="plantmore-product-quantity">Quantity</th>
-                                        <th class="plantmore-product-subtotal">Total</th>
-                                        <th class="plantmore-product-remove">Remove</th>
+
+                                        <th class="plantmore-product-thumbnail">Ảnh</th>
+                                        <th class="cart-product-name">Tên</th>
+                                        <th class="cart-product-color">Màu sắc</th>
+                                        <th class="cart-product-size">Kích cỡ</th>
+                                        <th class="plantmore-product-price">Đơn giá</th>
+                                        <th class="plantmore-product-quantity">Số lượng</th>
+                                        <th class="plantmore-product-subtotal">Tổng cộng</th>
+                                        <th class="plantmore-product-remove">Xóa đơn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,7 +245,11 @@
                                             <td class="plantmore-product-quantity product_count">
                                                 <form action="{{ route('cart.update', ['id' => $item['id']]) }}" method="POST">
                                                     @csrf
-                                                    <input type="number" name="quantity_add" id="sst-{{ $item['id'] }}" value="{{ $item['quantity_add'] }}" title="Quantity:" class="input-text qty" min="1" onchange="this.form.submit()">
+                                                    <div class="quantity-buttons">
+                                                        <button type="button" onclick="changeQuantity('{{ $item['id'] }}', -1)" style="color: white;">-</button>
+                                                        <input type="number" name="quantity_add" id="sst-{{ $item['id'] }}" value="{{ $item['quantity_add'] }}" title="Số lượng:" class="input-text qty" min="1" onchange="this.form.submit()">
+                                                        <button type="button" onclick="changeQuantity('{{ $item['id'] }}', 1)" style="color: white;">+</button>
+                                                    </div>
                                                 </form>
                                             </td>
                                             <td class="product-subtotal">
@@ -91,21 +259,18 @@
                                                 @else
                                                 <span class="amount" id="total-{{ $item['id'] }}" >{{ number_format($item['price'] * $item['quantity_add'] , 0, ',', '.') }} VNĐ</span>
                                                 @endif
-
-
-
                                             </td>
                                             <td class="plantmore-product-remove">
                                                 <form action="{{ route('cart.remove', ['id' => $item['id']]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="remove-btn" onclick="return confirm('Are you sure?')"><i class="fa fa-times"></i></button>
+                                                    <button type="submit" class="remove-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i class="fa fa-times"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="8">No items in the cart</td>
+                                            <td colspan="8">Không có sản phẩm nào trong giỏ hàng</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -116,7 +281,7 @@
                             <div class="col-md-8">
                                 <div class="coupon-all">
                                     <div class="coupon2">
-                                        <a href="{{ route('index') }}" class="btn continue-btn">Continue Shopping</a>
+                                        <a href="{{ route('index') }}" class="btn continue-btn">Tiếp tục mua sắm</a>
                                     </div>
                                     {{-- <div class="coupon-container">
                                         @if (session('message'))
@@ -136,11 +301,11 @@
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
-                                    <h2>Cart totals</h2>
+                                    <h2>Tổng đơn hàng</h2>
                                     <ul>
-                                        <li>Total <span>{{ number_format($totalAmount) }} VNĐ</span></li>
+                                        <li>Tổng cộng <span>{{ number_format($totalAmount) }} VNĐ</span></li>
                                     </ul>
-                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Proceed to checkout</a>
+                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Tiếp tục thanh toán</a>
                                 </div>
                             </div>
                         </div>
@@ -172,11 +337,22 @@
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
-                        $('.coupon-container').prepend('<div class="alert alert-danger">An error occurred</div>');
+                        $('.coupon-container').prepend('<div class="alert alert-danger">Đã xảy ra lỗi</div>');
                     }
                 });
             });
         });
+
+        function changeQuantity(id, change) {
+            var input = document.getElementById('sst-' + id);
+            var quantity = parseInt(input.value);
+            quantity += change;
+            if (quantity < 1) {
+                quantity = 1;
+            }
+            input.value = quantity;
+            input.dispatchEvent(new Event('change'));
+        }
 
         function updateCart() {
             var cartItems = [];
@@ -198,10 +374,10 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        alert('Cart updated successfully!');
+                        alert('Cập nhật giỏ hàng thành công!');
                         location.reload();
                     } else {
-                        alert('Failed to update cart.');
+                        alert('Cập nhật giỏ hàng thất bại.');
                     }
                 })
                 .catch(error => console.error('Error:', error));

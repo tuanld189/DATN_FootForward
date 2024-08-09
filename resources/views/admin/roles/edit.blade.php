@@ -11,13 +11,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3 mt-3">
-                    <label for="name" class="form-label">Name:</label>
+                    <label for="name" class="form-label">Tên:</label>
                     <input type="text" class="form-control" id="name"
                     value="{{$permission->name}}"
                     placeholder="Enter name" name="name">
                 </div>
                 <div class="mb-3 mt-3">
-                    <label for="discription" class="form-label">Discription:</label>
+                    <label for="discription" class="form-label">Mô tả:</label>
                     <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description', $permission->description) }}</textarea>
                 </div>
             </div>
@@ -34,6 +34,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
     </form>
 @endsection

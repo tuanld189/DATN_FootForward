@@ -67,7 +67,7 @@ class UserProfileController extends Controller
         }
 
         // Nếu đơn hàng đã thanh toán hoặc không ở trạng thái 'pending'
-        return redirect()->back()->with('error', 'Không thể hủy đơn hàng đã thanh toán này.');
+        return redirect()->back()->with('error', 'Không thể hủy đơn hàng này.');
     }
     public function update(Request $request, $id)
     {

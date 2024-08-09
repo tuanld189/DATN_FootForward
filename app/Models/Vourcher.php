@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 class Vourcher extends Model
 {
@@ -17,18 +18,24 @@ class Vourcher extends Model
 
     // protected $fillable = ['code', 'description', 'discount_type', 'discount_value', 'start_date', 'end_date', 'is_active', 'quantity'];
 
-    public function canBeRedeemed()
+    public function categories()
     {
-        return $this->is_active && $this->quantity > 0 && Carbon::now()->between($this->start_date, $this->end_date);
+        return $this->belongsToMany(Category::class, 'category_voucher');
     }
 
-    public function redeem()
-    {
-        if ($this->quantity > 0) {
-            $this->quantity--;
-            $this->save();
-        }
-    }
+    // public function canBeRedeemed()
+    // {
+    //     return $this->is_active && $this->quantity > 0 && Carbon::now()->between($this->start_date, $this->end_date);
+    // }
+
+    // public function redeem()
+    // {
+    //     if ($this->quantity > 0) {
+    //         $this->quantity--;
+    //         $this->save();
+    //     }
+    // }
+
     protected $dates = [
         'start_date',
         'end_date',
@@ -85,4 +92,44 @@ class Vourcher extends Model
             ->first();
     }
 
+    // Kiểm tra xem voucher có thể được sử dụng không
+    // public function canBeRedeemed()
+    // {
+    //     return $this->is_active && $this->quantity > 0 &&
+    //         Carbon::now()->between($this->start_date, $this->end_date);
+    // }
+
+    // public function redeem()
+    // {
+    //     if ($this->quantity > 0) {
+    //         // Giảm số lượng voucher còn lại
+    //         $this->decrement('quantity');
+
+    //         // Nếu số lượng còn lại bằng 0, chuyển trạng thái voucher sang không hoạt động
+    //         if ($this->quantity == 0) {
+    //             $this->is_active = false;
+    //             $this->save();
+    //         }
+    //     }
+    // }
+
+    public function canBeRedeemed()
+    {
+        return $this->is_active && $this->quantity > 0 &&
+            Carbon::now()->between($this->start_date, $this->end_date);
+    }
+
+    // Method to redeem the voucher
+    public function redeem()
+    {
+        if ($this->canBeRedeemed()) {
+            $this->decrement('quantity');
+
+            // Deactivate voucher if quantity reaches zero
+            if ($this->quantity <= 0) {
+                $this->is_active = false;
+                $this->save();
+            }
+        }
+    }
 }
