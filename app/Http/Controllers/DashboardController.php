@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $totalRevenue = Order::sum('total_price');
         $totalOrders = Order::count();
         $totalCustomers = User::count();
-
+        // dd(compact('totalRevenue', 'totalOrders', 'totalCustomers'));
         return view('admin.dashboard', compact('totalRevenue', 'totalOrders', 'totalCustomers'));
     }
 

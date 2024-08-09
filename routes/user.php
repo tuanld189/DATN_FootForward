@@ -97,4 +97,6 @@ Route::get('/new', [UserPostController::class, 'new'])->name('client.new');
 //Info
 Route::get('/info', [HomeController::class, 'info'])->name('client.info');
 
+Route::resource('vourchers', VourcherController::class);
+
 Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

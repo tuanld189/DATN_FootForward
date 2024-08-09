@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderShipped;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
@@ -13,11 +14,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Mail\OrderPlacedEmail;
 use App\Models\Vourcher;
-use App\Events\OrderShipped;
+use App\Notifications\OrderUpdated;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\OrderUpdated;
-use Illuminate\Support\Facades\Notification;
+use Notification;
+
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
@@ -76,7 +77,7 @@ class OrderController extends Controller
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
             $order->user_address = $request->input('user_address');
-            $order->user_note = $request->input('user_note');
+$order->user_note = $request->input('user_note');
             $order->total_price = $totalAmount;
 
             $now = Carbon::now('Asia/Ho_Chi_Minh');
@@ -109,7 +110,6 @@ class OrderController extends Controller
             // return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
         }
     }
-
 
 
 
@@ -172,7 +172,7 @@ class OrderController extends Controller
             if ($i == 1) {
                 $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
             } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
+$hashdata .= urlencode($key) . "=" . urlencode($value);
                 $i = 1;
             }
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
@@ -211,6 +211,23 @@ class OrderController extends Controller
 
 
 
+    // public function vnpay_return(Request $request)
+    // {
+    //     $orderId = $request->input('order_id');
+    //     $order = Order::findOrFail($orderId);
+
+    //     if ($request->input('vnp_ResponseCode') == '00') {
+    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
+
+    //         // Cập nhật giá trị của đơn hàng sau khi áp dụng mã giảm giá
+    //         $order->total_price = session()->get('total_amount', $order->total_price);
+    //         $order->save();
+    //     } else {
+    //         $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
+    //         $order->save();
+    //     }
+    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
+    // }
     public function vnpay_return(Request $request)
     {
         $orderId = $request->input('order_id');
@@ -241,23 +258,6 @@ class OrderController extends Controller
 
 
 
-
-    // public function vnpay_return(Request $request)
-    // {
-    //     $orderId = $request->input('order_id');
-    //     $order = Order::findOrFail($orderId);
-
-    //     if ($request->input('vnp_ResponseCode') == '00') {
-    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
-    //         $order->save();
-    //     } else {
-    //         // $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
-    //         // $order->save();
-    //     }
-
-    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
-    // }
-
     public function confirmation($order_id)
     {
         $order = Order::findOrFail($order_id);
@@ -271,7 +271,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with('orderItems')->findOrFail($id);
-        $orderDetails = [
+$orderDetails = [
             'order_code' => $order->id,
             'order_date' => $order->created_at->format('d M, Y'),
             'order_status' => Order::STATUS_ORDER[$order->status_order],

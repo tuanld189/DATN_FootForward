@@ -50,7 +50,7 @@
                     </div>
                     <!--end col-->
                 </div>
-<!--end row-->
+                <!--end row-->
 
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
@@ -98,7 +98,7 @@
                                     </div> --}}
                                 </div>
                                 <div class="d-flex align-items-end justify-content-between mt-4">
-<div>
+                                    <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ number_format($totalOrders, 0, ',', '.') }}</h4>
                                         <a href="" class="text-decoration-underline">Xem chi tiết</a>
@@ -148,7 +148,7 @@
                         <!-- card -->
                         <div class="card card-animate">
                             <div class="card-body">
-<div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 overflow-hidden">
                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Tổng sản phẩm đã bán</p>
                                     </div>
@@ -197,7 +197,7 @@
                             </div><!-- end card header -->
 
                             <div class="card-header p-0 border-0 bg-light-subtle">
-<div class="row g-0 text-center">
+                                <div class="row g-0 text-center">
                                     <div class="col-6 col-sm-3">
                                         <div class="p-3 border border-dashed border-start-0">
                                             <h5 class="mb-1">{{ number_format($totalOrders, 0, ',', '.') }}</h5>
@@ -244,7 +244,8 @@
 
                             <!-- card body -->
                             <div class="card-body">
-<div id="sales-by-locations" data-colors='["--vz-light", "--vz-success", "--vz-primary"]'
+
+                                <div id="sales-by-locations" data-colors='["--vz-light", "--vz-success", "--vz-primary"]'
                                     style="height: 269px" dir="ltr"></div>
 
                                 <div class="px-2 py-2 mt-1">
@@ -289,7 +290,7 @@
                                             aria-haspopup="true" aria-expanded="false">
                                             <span class="fw-semibold text-uppercase fs-12">Sort by:
                                             </span><span class="text-muted">Today<i
-class="mdi mdi-chevron-down ms-1"></i></span>
+                                                    class="mdi mdi-chevron-down ms-1"></i></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a class="dropdown-item" href="#">Today</a>
@@ -329,7 +330,7 @@ class="mdi mdi-chevron-down ms-1"></i></span>
                                                 <td>
                                                     <h5 class="fs-14 my-1 fw-normal">62</h5>
                                                     <span class="text-muted">Orders</span>
-</td>
+                                                </td>
                                                 <td>
                                                     <h5 class="fs-14 my-1 fw-normal">510</h5>
                                                     <span class="text-muted">Stock</span>
@@ -369,7 +370,7 @@ class="mdi mdi-chevron-down ms-1"></i></span>
                                                     <span class="text-muted">Stock</span>
                                                 </td>
                                                 <td>
-<h5 class="fs-14 my-1 fw-normal">$2982</h5>
+                                                    <h5 class="fs-14 my-1 fw-normal">$2982</h5>
                                                     <span class="text-muted">Amount</span>
                                                 </td>
                                             </tr>
@@ -409,7 +410,7 @@ class="mdi mdi-chevron-down ms-1"></i></span>
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-sm bg-light rounded p-1 me-2">
-<img src="assets/images/products/img-4.png" alt=""
+                                                            <img src="assets/images/products/img-4.png" alt=""
                                                                 class="img-fluid d-block" />
                                                         </div>
                                                         <div>
@@ -448,7 +449,7 @@ class="mdi mdi-chevron-down ms-1"></i></span>
                                                         </div>
                                                         <div>
                                                             <h5 class="fs-14 my-1"><a
-href="apps-ecommerce-product-details.html"
+                                                                    href="apps-ecommerce-product-details.html"
                                                                     class="text-reset">Stillbird Helmet</a></h5>
                                                             <span class="text-muted">17 Jan 2021</span>
                                                         </div>
@@ -491,7 +492,7 @@ href="apps-ecommerce-product-details.html"
                                             </li>
                                             <li class="page-item">
                                                 <a href="#" class="page-link">1</a>
-</li>
+                                            </li>
                                             <li class="page-item active">
                                                 <a href="#" class="page-link">2</a>
                                             </li>
@@ -539,7 +540,7 @@ href="apps-ecommerce-product-details.html"
                                                         <div class="flex-shrink-0 me-2">
                                                             <img src="assets/images/companies/img-1.png" alt=""
                                                                 class="avatar-sm p-2" />
-</div>
+                                                        </div>
                                                         <div>
                                                             <h5 class="fs-14 my-1 fw-medium">
                                                                 <a href="apps-ecommerce-seller-details.html"
@@ -578,7 +579,7 @@ href="apps-ecommerce-product-details.html"
                                                                     class="text-reset">Digitech Galaxy</a></h5>
                                                             <span class="text-muted">John Roberts</span>
                                                         </div>
-</div>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <span class="text-muted">Watches</span>
@@ -619,7 +620,7 @@ href="apps-ecommerce-product-details.html"
                                                     <span class="text-muted">Stock</span>
                                                 </td>
                                                 <td>
-<span class="text-muted">$45600</span>
+                                                    <span class="text-muted">$45600</span>
                                                 </td>
                                                 <td>
                                                     <h5 class="fs-14 mb-0">90%<i
@@ -660,7 +661,7 @@ href="apps-ecommerce-product-details.html"
                                             </tr><!-- end -->
                                             <tr>
                                                 <td>
-<div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0 me-2">
                                                             <img src="assets/images/companies/img-5.png" alt=""
                                                                 class="avatar-sm p-2" />
@@ -702,7 +703,7 @@ href="apps-ecommerce-product-details.html"
                                                 class="fw-semibold">25</span> Results
                                         </div>
                                     </div>
-<div class="col-sm-auto  mt-3 mt-sm-0">
+                                    <div class="col-sm-auto  mt-3 mt-sm-0">
                                         <ul
                                             class="pagination pagination-separated pagination-sm mb-0 justify-content-center">
                                             <li class="page-item disabled">
@@ -749,7 +750,8 @@ href="apps-ecommerce-product-details.html"
                                     </div>
                                 </div>
                             </div><!-- end card header -->
-<div class="card-body">
+
+                            <div class="card-body">
                                 <div id="store-visits-source"
                                     data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]'
                                     class="apex-charts" dir="ltr"></div>
@@ -794,7 +796,7 @@ href="apps-ecommerce-product-details.html"
                                                             <img src="assets/images/users/avatar-1.jpg" alt=""
                                                                 class="avatar-xs rounded-circle" />
                                                         </div>
-<div class="flex-grow-1">Alex Smith</div>
+                                                        <div class="flex-grow-1">Alex Smith</div>
                                                     </div>
                                                 </td>
                                                 <td>Clothes</td>
@@ -835,7 +837,7 @@ href="apps-ecommerce-product-details.html"
                                                 <td>
                                                     <h5 class="fs-14 fw-medium mb-0">4.5<span
                                                             class="text-muted fs-11 ms-1">(61 votes)</span></h5>
-</td>
+                                                </td>
                                             </tr><!-- end tr -->
                                             <tr>
                                                 <td>
@@ -875,7 +877,7 @@ href="apps-ecommerce-product-details.html"
                                                             <img src="assets/images/users/avatar-4.jpg" alt=""
                                                                 class="avatar-xs rounded-circle" />
                                                         </div>
-<div class="flex-grow-1">Prezy Mark</div>
+                                                        <div class="flex-grow-1">Prezy Mark</div>
                                                     </div>
                                                 </td>
                                                 <td>Furniture</td>
@@ -916,7 +918,7 @@ href="apps-ecommerce-product-details.html"
                                                 <td>
                                                     <h5 class="fs-14 fw-medium mb-0">4.7<span
                                                             class="text-muted fs-11 ms-1">(161 votes)</span></h5>
-</td>
+                                                </td>
                                             </tr><!-- end tr -->
                                         </tbody><!-- end tbody -->
                                     </table><!-- end table -->

@@ -125,7 +125,7 @@
     <script src="{{ asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/project-create.init.js') }}"></script>
 
-    
+
 </body>
 
 </html>

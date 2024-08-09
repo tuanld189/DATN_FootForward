@@ -26,12 +26,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Cart Detail</h4>
+                        <h4 class="mb-sm-0">Chi tiết đơn hàng</h4>
                         <div class="page-title-right ">
                             <ol class="breadcrumb m-0 ">
-                                <li class="m-1"><a href="javascript: void(0);">Home ></a></li>
-                                <li class="active m-1"> Cart ></li>
-                                <li class="active m-1"> Cart Detail</li>
+                                <li class="m-1"><a href="javascript: void(0);">Trang chủ ></a></li>
+                                <li class="active m-1"> Giỏ hàng ></li>
+                                <li class="active m-1"> chi tiết giỏ hàng</li>
                             </ol>
                         </div>
                     </div>
@@ -44,14 +44,14 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="plantmore-product-thumbnail">Images</th>
-                                        <th class="cart-product-name">Name</th>
-                                        <th class="cart-product-color">Color</th>
-                                        <th class="cart-product-size">Size</th>
-                                        <th class="plantmore-product-price">Unit Price</th>
-                                        <th class="plantmore-product-quantity">Quantity</th>
-                                        <th class="plantmore-product-subtotal">Total</th>
-                                        <th class="plantmore-product-remove">Remove</th>
+                                        <th class="plantmore-product-thumbnail">Ảnh</th>
+                                        <th class="cart-product-name">Tên</th>
+                                        <th class="cart-product-color">Màu sắc</th>
+                                        <th class="cart-product-size">Kích cỡ</th>
+                                        <th class="plantmore-product-price">Đơn giá</th>
+                                        <th class="plantmore-product-quantity">Số lượng</th>
+                                        <th class="plantmore-product-subtotal">Tổng cộng</th>
+                                        <th class="plantmore-product-remove">Xóa đơn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -116,7 +116,7 @@
                             <div class="col-md-8">
                                 <div class="coupon-all">
                                     <div class="coupon2">
-                                        <a href="{{ route('index') }}" class="btn continue-btn">Continue Shopping</a>
+                                        <a href="{{ route('index') }}" class="btn continue-btn">Tiếp tục mua sắm</a>
                                     </div>
                                     {{-- <div class="coupon-container">
                                         @if (session('message'))
@@ -136,11 +136,11 @@
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
-                                    <h2>Cart totals</h2>
+                                    <h2>Tổng đơn hàng</h2>
                                     <ul>
-                                        <li>Total <span>{{ number_format($totalAmount) }} VNĐ</span></li>
+                                        <li>Tổng cộng <span>{{ number_format($totalAmount) }} VNĐ</span></li>
                                     </ul>
-                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Proceed to checkout</a>
+                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Tiếp tục thanh toán</a>
                                 </div>
                             </div>
                         </div>

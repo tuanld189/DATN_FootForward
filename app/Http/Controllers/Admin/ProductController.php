@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Excel\Imports\ProductsImport as ImportsProductsImport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Brand;
@@ -39,12 +40,7 @@ class ProductController extends Controller
 
     const PATH_VIEW = 'admin.products.';
     const PATH_UPLOAD = 'products';
-    // public function index()
-    // {
-    //     $data = Product::query()->with(['category', 'tags'])->latest('id')->get();
 
-    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
-    // }
 
     public function index(Request $request)
     {
@@ -73,32 +69,99 @@ class ProductController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        $data = $query->with(['category', 'tags', 'brand'])->latest('id')->get();
+        // Set the number of items per page to 10
+        $perPage = 6;
+        $data = $query->with(['category', 'tags', 'brand'])->latest('id')->paginate($perPage);
 
         return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
     }
 
 
+    // public function index(Request $request)
+    // {
+    //     $categories = Category::pluck('name', 'id')->all();
+    //     $brands = Brand::pluck('name', 'id')->all();
 
+    //     $query = Product::query();
+
+    //     if ($request->has('category_id') && $request->category_id != '') {
+    //         $query->where('category_id', $request->category_id);
+    //     }
+
+    //     if ($request->has('brand_id') && $request->brand_id != '') {
+    //         $query->where('brand_id', $request->brand_id);
+    //     }
+
+    //     if ($request->has('name') && $request->name != '') {
+    //         $query->where('name', 'like', '%' . $request->name . '%');
+    //     }
+
+    //     if ($request->has('date_from') && $request->date_from != '') {
+    //         $query->whereDate('created_at', '>=', $request->date_from);
+    //     }
+
+    //     if ($request->has('date_to') && $request->date_to != '') {
+    //         $query->whereDate('created_at', '<=', $request->date_to);
+    //     }
+
+    //     $data = $query->with(['category', 'tags', 'brand'])->latest('id')->get();
+
+    //     return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
+    // }
+
+
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file_excel' => 'required|mimes:xlsx,csv',
+    //     ]);
+
+    //     // Perform the import
+    //     Excel::import(new ProductsImport, $request->file('file_excel'));
+
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+    // }
+
+
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,xls,csv'
+    //     ]);
+
+    //     Excel::import(new ProductsImport, $request->file('file'));
+
+    //     // return response()->json(['message' => 'Products imported successfully!'], 200);
+    //     return redirect()->back()->with('success', 'Products imported successfully.');
+
+    // }
     public function import(Request $request)
     {
-        $request->validate([
-            'file_excel' => 'required|mimes:xlsx,csv',
-        ]);
+        $file = $request->file('file');
+        $import = new ProductsImport($file);
 
-        // Perform the import
-        Excel::import(new ProductsImport, $request->file('file_excel'));
+        Excel::import($import, $file);
 
-        return redirect()->back()->with('success', 'Products imported successfully.');
+        return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
     }
 
 
 
-
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        $paginate = $request->input('paginate(10)', 'all');
+
+        $export = new ProductsExport($paginate);
+
+        return Excel::download($export, 'products.xlsx');
     }
+
+
+    // public function export()
+    // {
+    //     return Excel::download(new ProductsExport, 'products.xlsx');
+    // }
 
     // end import & export
 
@@ -362,3 +425,21 @@ class ProductController extends Controller
         return response()->json($products);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

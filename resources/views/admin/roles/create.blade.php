@@ -6,13 +6,12 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-0">Database</h4>
+                <h4 class="mb-0">Quản lý</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Roles</li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
+                        <li class="breadcrumb-item active">Vai trờ</li>
+                        <li class="breadcrumb-item active">Thêm</li>
                     </ol>
                 </div>
             </div>
@@ -32,7 +31,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3 mt-3">
-                                    <label for="role" class="form-label">Role:</label>
+                                    <label for="role" class="form-label">Vai trò:</label>
                                     @foreach ($permissions as $permission)
                                         <div>
                                             <input type="checkbox" id="permission-{{ $permission->id }}"
@@ -42,15 +41,15 @@
                                     @endforeach
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label for="name" class="form-label">Name:</label>
+                                    <label for="name" class="form-label">Tên:</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter name"
                                         name="name">
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label for="description" class="form-label">Description:</label><br>
+                                    <label for="description" class="form-label">Mô tả:</label><br>
                                     <textarea id="description" class="form-control" name="description"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3 mt-3">
