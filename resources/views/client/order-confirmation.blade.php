@@ -416,8 +416,9 @@
                                 </tr>
                             @endif
                             <tr>
-                                <td colspan="4"><span>Phí vận chuyển</span></td>
-                                <td>{{ number_format(0, 0, ',', '.') }} VNĐ</td>
+
+                                {{-- <td colspan="4"><span>Phí vận chuyển</span></td>
+                                <td>{{ number_format(0, 0, ',', '.') }} VNĐ</td> --}}
                             </tr>
                             <tr>
                                 <td colspan="4"><span><b>Tổng cộng thanh toán</b></span></td>

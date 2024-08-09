@@ -189,12 +189,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Chi tiết giỏ hàng</h4>
+
+                        <h4 class="mb-sm-0">Chi tiết đơn hàng</h4>
                         <div class="page-title-right ">
                             <ol class="breadcrumb m-0 ">
-                                <li class="m-1"><a href="javascript: void(0);">Trang chủ </a></li>
-                                <li class="active m-1"> Giỏ hàng </li>
-                                <li class="active m-1"> Chi tiết giỏ hàng</li>
+                                <li class="m-1"><a href="javascript: void(0);">Trang chủ ></a></li>
+                                <li class="active m-1"> Giỏ hàng ></li>
                             </ol>
                         </div>
                     </div>
@@ -207,14 +207,15 @@
                             <table class="table table-striped table-hover shadow">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th class="plantmore-product-thumbnail">Hình ảnh</th>
+
+                                        <th class="plantmore-product-thumbnail">Ảnh</th>
                                         <th class="cart-product-name">Tên</th>
                                         <th class="cart-product-color">Màu sắc</th>
                                         <th class="cart-product-size">Kích cỡ</th>
-                                        <th class="plantmore-product-price">Giá</th>
+                                        <th class="plantmore-product-price">Đơn giá</th>
                                         <th class="plantmore-product-quantity">Số lượng</th>
-                                        <th class="plantmore-product-subtotal">Tổng</th>
-                                        <th class="plantmore-product-remove">Xóa</th>
+                                        <th class="plantmore-product-subtotal">Tổng cộng</th>
+                                        <th class="plantmore-product-remove">Xóa đơn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -300,11 +301,11 @@
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
-                                    <h2>Tổng giỏ hàng</h2>
+                                    <h2>Tổng đơn hàng</h2>
                                     <ul>
-                                        <li>Tổng<span>{{ number_format($totalAmount) }} VNĐ</span></li>
+                                        <li>Tổng cộng <span>{{ number_format($totalAmount) }} VNĐ</span></li>
                                     </ul>
-                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Tiến hành thanh toán</a>
+                                    <a href="{{ route('cart.checkout') }}" class="proceed-checkout-btn">Tiếp tục thanh toán</a>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    Detail Brand's Product: {{$model->name}}
+    Chi tiết mã giảm giá: {{$model->name}}
 @endsection
 @section('content')
     <table class="table">

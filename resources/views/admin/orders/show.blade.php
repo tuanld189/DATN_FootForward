@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Order Details</h4>
+                    <h4 class="mb-sm-0">Chi tiết đơn hàng</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Orders</a></li>
-                            <li class="breadcrumb-item active">Invoice Details</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn hàng</a></li>
+                            <li class="breadcrumb-item active">Chi tiết đơn hàng</li>
                         </ol>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
         <!-- end page title -->
         <!-- end page title -->
         {{-- trang thái đơn hàng --}}
-        <div class="order-status">
+        {{-- <div class="order-status">
             <div class="progress" style="height: 30px">
                 @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
                     <div class="progress-bar {{ $order->status_order === $key ? 'bg-success' : 'bg-secondary' }}"
@@ -51,7 +51,7 @@
                 @endforeach
             </div>
 
-        </div>
+        </div> --}}
 
 
         <div class="row justify-content-center">
@@ -165,7 +165,7 @@
                                             <div class="col-12">
                                                 <div class="card shadow-lg">
                                                     <div class="card-header bg-white border-bottom">
-                                                        <h4 class="card-title mb-0 text-primary">Order Status</h4>
+                                                        <h4 class="card-title mb-0 text-primary">Trạng thái đơn hàng</h4>
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="row text-center">
@@ -225,7 +225,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
+                                        <p class="text-muted mb-2 text-uppercase fw-semibold">Trạng thái thanh toán</p>
                                         {{-- <span class="badge bg-success-subtle text-success fs-11" id="payment-status">
                                             {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
                                         </span> --}}
@@ -260,12 +260,12 @@
                                     <thead>
                                         <tr class="table-active">
                                             <th scope="col" style="width: 50px;">#</th>
-                                            <th scope="col">Product Details</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Color</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col" class="text-end">Amount</th>
+                                            <th scope="col">Thông tin chi tiết sản phẩm</th>
+                                            <th scope="col">Giá</th>
+                                            <th scope="col">Màu</th>
+                                            <th scope="col">Kích cỡ</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col" class="text-end">Giá tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody id="products-list">
@@ -295,18 +295,35 @@
                                     style="width:250px">
                                     <tbody>
                                         <tr>
-                                            <td>Sub Total</td>
-                                            <td class="text-end" id="sub-total-amount">
-                                                {{ number_format($order->total_price, 0, ',', '.') }} VND</td>
+                                            <td colspan="3"><span><b>Tổng tiền sản phẩm</b></span></td>
+                                            <td><b>
+                                                    @php
+                                                        $discount = session('discount', 0);
+                                                        $totalPrice = $order->total_price;
+                                                        $shippingFee = 0; // Adjust as needed
+                                                        $totalPayable = $totalPrice + $discount;
+                                                    @endphp
+                                                    {{ number_format($totalPayable, 0, ',', '.') }} VNĐ
+                                                </b></td>
+                                        </tr>
+
+                                        @if (session('discount') > 0)
+                                            <tr class="total_payment">
+                                                <td colspan="3"><span>Mã giảm giá</span></td>
+                                                <td><span
+                                                        class="amount">-{{ number_format(session('discount'), 0, ',', '.') }}
+                                                        VNĐ</span></td>
+                                            </tr>
+                                        @endif
+                                        <tr>
+                                            <td colspan="3"><span>Phí vận chuyển</span></td>
+                                            {{-- <td>{{ number_format(50000, 0, ',', '.') }} VNĐ</td> --}}
+                                            <td>{{ number_format(0, 0, ',', '.') }} VNĐ</td>
                                         </tr>
                                         <tr>
-                                            <td>Shipping <span class="text-muted"></span></td>
-                                            <td class="text-end">+<span>50.000 VND</span></td>
-                                        </tr>
-                                        <tr class="border-top border-top-dashed fs-15">
-                                            <th scope="row">Total Amount</th>
-                                            <th class="text-end" id="final-amount">
-                                                {{ number_format($order->total_price + 50000, 0, ',', '.') }} VND</th>
+                                            <td colspan="3"><span><b>Tổng hóa đơn</b></span></td>
+                                            {{-- <td><b>{{ number_format($order->total_price + 50000, 0, ',', '.') }} VNĐ</b></td> --}}
+                                            <td><b>{{ number_format($order->total_price + 0, 0, ',', '.') }} VNĐ</b></td>
                                         </tr>
                                     </tbody>
                                 </table>
