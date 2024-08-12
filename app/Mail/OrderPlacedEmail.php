@@ -23,7 +23,6 @@ class OrderPlacedEmail extends Mailable
     {
         $orderItems = $this->order->orderItems;
 
-        // Đính kèm ảnh và sử dụng CID
         $logoPath = public_path('assets/images/logo-shoes.png');
         $this->attach($logoPath, [
             'as' => 'logo-shoes.png',

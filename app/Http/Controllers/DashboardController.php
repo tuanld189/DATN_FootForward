@@ -81,6 +81,7 @@ class DashboardController extends Controller
             $category->percentage = round(($category->total_quantity / $totalProductsSold) * 100, 2);
             return $category;
         });
+
         return view('admin.dashboard.Dashboard',
             compact(
                 'totalRevenue',
@@ -204,5 +205,4 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.ProductSoldDetail', compact('soldProducts', 'filter', 'data', 'totalProductsWeek', 'totalProductsMonth', 'totalProductsYear', 'totalProductsAll'));
     }
-
 }
