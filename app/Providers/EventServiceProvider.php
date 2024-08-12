@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderShipped' => [
             'App\Listeners\SendOrderShippedNotification',
         ],
+        'App\Events\PasswordResetRequested' => [
+            'App\Listeners\SendPasswordResetNotification',
+        ],
     ];
 
     /**
