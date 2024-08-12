@@ -81,8 +81,7 @@ class DashboardController extends Controller
             $category->percentage = round(($category->total_quantity / $totalProductsSold) * 100, 2);
             return $category;
         });
-        return view(
-            'admin.dashboard.dashboard',
+        return view('admin.dashboard.Dashboard',
             compact(
                 'totalRevenue',
                 'totalOrders',

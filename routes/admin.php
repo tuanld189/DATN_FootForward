@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VourcherController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StatisticsController;
 use App\Models\Vourcher;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +30,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')
     ->as('admin.')
     ->middleware(['auth', 'admin.access'])
-    // ->middleware(['auth'])
     ->group(function () {
 
         Route::get('/', function () {
@@ -84,9 +85,8 @@ Route::prefix('admin')
         // Route::delete('products/gallery/delete', [ProductController::class, 'deleteGallery'])->name('products.gallery.delete');
         // Route::get('products/search-products', [ProductController::class, 'searchProducts'])->name('products.search-products');
 
-        Route::get('/import-products', [ProductController::class, 'showImportForm'])->name('import.form');
+
         Route::post('/import-products', [ProductController::class, 'import'])->name('products.import');
-        // Route::post('/products/import', [ProductController::class, 'import']);
         Route::get('/export-products', [ProductController::class, 'export'])->name('products.export');
 
 
@@ -277,6 +277,11 @@ Route::prefix('admin')
         });
 
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
+
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/RevenueDetail', [DashboardController::class, 'RevenueDetail'])->name('dashboard.RevenueDetail');
+        Route::get('/dashboard/OrderDetail', [DashboardController::class, 'OrderDetail'])->name('dashboard.OrderDetail');
+        Route::get('/dashboard/UserDetail', [DashboardController::class, 'UserDetail'])->name('dashboard.UserDetail');
+        Route::get('/dashboard/ProductSoldDetail', [DashboardController::class, 'ProductSoldDetail'])->name('dashboard.ProductSoldDetail');
     });
-
-
