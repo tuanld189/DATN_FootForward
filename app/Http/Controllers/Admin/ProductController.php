@@ -136,15 +136,15 @@ class ProductController extends Controller
     //     return redirect()->back()->with('success', 'Products imported successfully.');
 
     // }
-    public function import(Request $request)
-    {
-        $file = $request->file('file');
-        $import = new ProductsImport($file);
+    // public function import(Request $request)
+    // {
+    //     $file = $request->file('file');
+    //     $import = new ProductsImport($file);
 
-        Excel::import($import, $file);
+    //     Excel::import($import, $file);
 
-        return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
-    }
+    //     return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
+    // }
 
 
 
