@@ -76,23 +76,42 @@
 
                 {{-- <div class="container mt-3"> --}}
                 <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Sản phẩm</h5>
-                        <div class="d-flex">
-                            <!-- Form nhập excel -->
-                            <form action="{{ route('admin.products.import') }}" method="POST" enctype="multipart/form-data" class="d-inline">
-                                @csrf
-                                <input type="file" id="file" name="file" accept=".xlsx, .xls, .csv" required>
-                                <button type="submit" class="btn btn-warning ms-2">Nhập excel</button>
-                            </form>
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Sản phẩm</h5>
+                            <div class="d-flex">
+                                <!-- Form nhập excel -->
+                                <form action="{{ route('admin.products.import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="file" required>
+                                    <button type="submit">Import Products</button>
+                                </form>
 
-                            <!-- Nút xuất excel -->
-                            <a href="{{ route('admin.products.export') }}" class="btn btn-success ms-2">Xuất Excel</a>
 
-                            <!-- Nút thêm mới -->
-                            <a href="{{ route('admin.products.create') }}" class="btn btn-primary ms-2">Thêm mới</a>
+
+
+                                <!-- Nút xuất excel -->
+                                <a href="{{ route('admin.products.export') }}" class="btn btn-success ms-2">Xuất Excel</a>
+
+                                <!-- Nút thêm mới -->
+                                <a href="{{ route('admin.products.create') }}" class="btn btn-primary ms-2">Thêm mới</a>
+                            </div>
                         </div>
+
+                        <!-- Display success or error messages -->
+                        @if (session('success'))
+                            <div class="alert alert-success mt-2">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger mt-2">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                     </div>
+
 
                     <div class="card-body">
                         @if ($message = Session::get('success'))

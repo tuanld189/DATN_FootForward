@@ -13,13 +13,22 @@ class BannerController extends Controller
      * Display a listing of the resource.
      */
 
-     const PATH_VIEW='admin.banners.';
-     const PATH_UPLOAD='banners';
+    const PATH_VIEW = 'admin.banners.';
+    const PATH_UPLOAD = 'banners';
+
     public function index()
     {
-        $data=Banner::query()->latest('id')->paginate(5);
+        $data = Banner::query()->latest('id')->paginate(5);
+
+        // Kiểm tra nếu không có dữ liệu
+        if ($data->isEmpty()) {
+            return view(self::PATH_VIEW . 'index', compact('data'))
+                ->with('status', 'Không có dữ liệu nào.');
+        }
+
         return view(self::PATH_VIEW . 'index', compact('data'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,7 +53,7 @@ class BannerController extends Controller
         Banner::create($data);
 
         return redirect()->route('admin.banners.index')
-                         ->with('success', 'Thêm thành công');
+            ->with('success', 'Thêm thành công');
     }
 
     /**
@@ -52,7 +61,7 @@ class BannerController extends Controller
      */
     public function show(string $id)
     {
-        $model=Banner::query()->findOrFail($id);
+        $model = Banner::query()->findOrFail($id);
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
     }
@@ -62,7 +71,7 @@ class BannerController extends Controller
      */
     public function edit(string $id)
     {
-        $model=Banner::query()->findOrFail($id);
+        $model = Banner::query()->findOrFail($id);
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
     }
@@ -86,7 +95,7 @@ class BannerController extends Controller
         $model->update($data);
 
         return redirect()->route('admin.categories.index')
-                         ->with('success', 'Cập nhật thành công');
+            ->with('success', 'Cập nhật thành công');
     }
 
     /**
@@ -94,11 +103,11 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        $model=Banner::query()->findOrFail($id);
+        $model = Banner::query()->findOrFail($id);
 
         $model->delete();
 
-        if($model->image && Storage::exists($model->image)){
+        if ($model->image && Storage::exists($model->image)) {
             Storage::delete($model->image);
         }
 

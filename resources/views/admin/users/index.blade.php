@@ -83,23 +83,36 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->roles->implode('name', ', ') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.users.show', $user->id) }}"
-                                            class="btn btn-sm btn-info" data-bs-toggle="tooltip"
-                                            title="View"><i class="ri-eye-fill"></i></a>
-                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                            class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
-                                            title="Edit"><i class="ri-pencil-fill"></i></a>
-                                        <form id="delete-form-{{ $user->id }}"
-                                            action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                            style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
-                                                data-bs-toggle="tooltip" title="Delete"><i
-                                                    class="ri-delete-bin-5-fill"></i></button>
-                                        </form>
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="View">
+                                            <a href="{{ route('admin.users.show', $user->id) }}"
+                                                class="text-primary d-inline-block">
+                                                <i class="ri-eye-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                            data-bs-placement="top" title="Remove">
+                                            <form id="delete-form-{{ $user->id }}"
+                                                action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <a href="#" class="text-danger d-inline-block"
+                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không?')) document.getElementById('delete-form-{{ $user->id }}').submit();">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a>
+                                        </li>
                                     </td>
+
+
                                 </tr>
                             @endforeach
                         </tbody>

@@ -144,6 +144,105 @@
             border-color: #007bff;
             /* Viền khi hover */
         }
+
+
+        /* test */
+        .notification-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+            pointer-events: none;
+            /* Không ảnh hưởng đến các phần tử khác */
+        }
+
+        .notification-message {
+            display: none;
+            padding: 20px;
+            border-radius: 12px;
+            /* Bo tròn các góc */
+            position: relative;
+            width: 80%;
+            /* Kích thước thông báo */
+            max-width: 600px;
+            /* Kích thước tối đa */
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease, box-shadow 0.5s ease-in-out;
+            transform: translateY(-20px);
+            /* Hiệu ứng di chuyển lên trên khi xuất hiện */
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            /* Bóng đổ để thông báo nổi bật */
+            position: relative;
+            pointer-events: auto;
+            /* Để cho phép tương tác với thông báo */
+        }
+
+        .notification-message.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            /* Trở về vị trí ban đầu */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            /* Tăng bóng đổ khi xuất hiện */
+        }
+
+        .notification-message .icon-container {
+            margin-bottom: 15px;
+        }
+
+        .notification-message .icon {
+            font-size: 50px;
+            color: #fff;
+            animation: pulse 1.5s infinite;
+            /* Hiệu ứng nhấp nháy cho biểu tượng */
+        }
+
+        .notification-message .message-content {
+            color: #333;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 @endsection
 
@@ -173,20 +272,40 @@
                 </div>
             </div>
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-            <!-- Hiển thị thông báo lỗi -->
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
+            <div id="notification-container" class="notification-container">
+                @if (session('success'))
+                    <div class="alert alert-success notification-message">
+                        <div class="icon-container">
+                            <i class="fas fa-check-circle icon"></i>
+                        </div>
+                        <div class="message-content">
+                            {{ session('success') }}
+                        </div>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger notification-message">
+                        <div class="icon-container">
+                            <i class="fas fa-exclamation-circle icon"></i>
+                        </div>
+                        <div class="message-content">
+                            @foreach ($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+
+
+
+
+
+
             {{-- <div class="breadcrumb-area bg-grey mb-3">
                 <div class="row">
                     <div class="col-lg-12">
@@ -335,8 +454,8 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
                                                         <p class="mb-1" style="color: black;"><b>Hàng còn sẵn:</b></p>
-                                                        <input type="text" class="form-control" id="available_quantity"
-                                                            name="available_quantity" readonly
+                                                        <input type="text" class="form-control"
+                                                            id="available_quantity" name="available_quantity" readonly
                                                             style="width: 150px; text-align: center;">
                                                     </div>
                                                 </div>
@@ -693,6 +812,24 @@ ut labore et </a></li>
 @endsection
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var notifications = document.querySelectorAll('.notification-message');
+            notifications.forEach(function(notification) {
+                notification.classList.add('show');
+                var animationDuration = 5000; // Thay đổi thời gian (5000ms = 5 giây) theo nhu cầu
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                }, animationDuration);
+            });
+        });
+    </script>
+
+
+
+
     <script>
         function updateQuantity() {
             var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
@@ -735,6 +872,8 @@ ut labore et </a></li>
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    {{-- test --}}
+
     <script>
         document.getElementById('variantForm').addEventListener('submit', function(event) {
             var quantityInput = document.getElementById('quantity_add');
@@ -748,6 +887,8 @@ ut labore et </a></li>
             }
         });
     </script>
+
+    {{-- test --}}
     <script>
         // Ajax request for posting a comment
         function postComment(event) {

@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
 // use Excel;
 // use App\Imports\ProductsImport;
 // use App\Exports\ProductsExport;
@@ -109,41 +109,22 @@ class ProductController extends Controller
     //     return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
     // }
 
-
-
     // public function import(Request $request)
     // {
-    //     $request->validate([
-    //         'file_excel' => 'required|mimes:xlsx,csv',
-    //     ]);
+    //     $file = $request->file('file');
+    //     $import = new ProductsImport($file);
 
-    //     // Perform the import
-    //     Excel::import(new ProductsImport, $request->file('file_excel'));
+    //     Excel::import($import, $file);
 
-    //     return redirect()->back()->with('success', 'Products imported successfully.');
+    //     return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
     // }
 
-
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|mimes:xlsx,xls,csv'
-    //     ]);
-
-    //     Excel::import(new ProductsImport, $request->file('file'));
-
-    //     // return response()->json(['message' => 'Products imported successfully!'], 200);
-    //     return redirect()->back()->with('success', 'Products imported successfully.');
-
-    // }
-    public function import(Request $request)
+    public function importProducts(Request $request)
     {
-        $file = $request->file('file');
-        $import = new ProductsImport($file);
+        $import = new ProductsImport();
+        Excel::import($import, $request->file('file'));
 
-        Excel::import($import, $file);
-
-        return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
+        return back()->with('success', 'Products imported successfully!');
     }
 
 
@@ -425,21 +406,3 @@ class ProductController extends Controller
         return response()->json($products);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -280,8 +280,12 @@ Route::prefix('admin')
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
 
 
-       
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+        Route::post('/import-products', [ProductImportController::class, 'import'])->name('products.import');
+
     });
-    
+
 
