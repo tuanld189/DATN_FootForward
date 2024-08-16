@@ -14,12 +14,12 @@
                     <label for="name" class="form-label">Name:</label>
                     <input type="text" class="form-control" id="name"
                     value="{{$model->name}}"
-                    placeholder="Enter name" name="name">
+                    placeholder="Enter name" name="name" required>
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="image" class="form-label">Image:</label>
                     <input type="file" class="form-control" id="image" name="image">
-                    <img src="{{$model->image}}" alt="" width="100px">
+                    <img src="{{$model->image}}" alt="" width="100px" required>
                 </div>
             </div>
             <div class="col-md-6">

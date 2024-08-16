@@ -17,15 +17,118 @@
             </div>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    {{-- <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                /* Bắt đầu từ vị trí trên */
+            }
 
-    @if (session('error'))
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                /* Kết thúc ở vị trí gốc */
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                /* Kết thúc bằng cách di chuyển lên trên */
+            }
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            /* Khoảng cách từ trên cùng của trang */
+            left: 50%;
+            transform: translateX(-50%);
+            /* Đưa phần tử về giữa ngang */
+            width: 90%;
+            /* Độ rộng của thông báo */
+            max-width: 500px;
+            /* Đảm bảo không quá rộng */
+            z-index: 1050;
+            /* Đảm bảo thông báo nằm trên các phần tử khác */
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* Ẩn thông báo mặc định */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            /* Thay đổi hiệu ứng */
+        }
+
+        .alert.show {
+            display: block;
+            /* Hiển thị thông báo khi có lớp show */
+            animation: fadeIn 0.5s forwards;
+            /* Hiệu ứng hiện ra */
+        }
+
+        .alert.hide {
+            animation: fadeOut 0.5s forwards;
+            /* Hiệu ứng biến mất */
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert .alert-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .alert .alert-content {
+            display: flex;
+            align-items: center;
+        }
+    </style> --}}
+    {{-- <div class="alert-container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+    </div> --}}
+    {{-- @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
+        </div>
+    @endif --}}
+    @if (session('error'))
+        <div id="error-alert" class="alert alert-danger show">
+            <div class="alert-content">
+                <i class="ri-close-line alert-icon"></i> <!-- Thay đổi icon tùy theo nhu cầu -->
+                {{ session('error') }}
+            </div>
         </div>
     @endif
 
@@ -253,3 +356,33 @@
     </div>
 
 @endsection
+
+{{-- @section('script-libs')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successAlert = document.getElementById('success-alert');
+            var errorAlert = document.getElementById('error-alert');
+
+            if (successAlert) {
+                successAlert.classList.add('show');
+                setTimeout(function() {
+                    successAlert.classList.add('hide');
+                    setTimeout(function() {
+                        successAlert.remove(); // Xóa hoàn toàn sau khi hiệu ứng hoàn tất
+                    }, 500); // Thời gian trễ để hiệu ứng hoàn tất
+                }, 1000); // Hiển thị trong 2 giây
+            }
+
+            if (errorAlert) {
+                errorAlert.classList.add('show');
+                setTimeout(function() {
+                    errorAlert.classList.add('hide');
+                    setTimeout(function() {
+                        errorAlert.remove(); // Xóa hoàn toàn sau khi hiệu ứng hoàn tất
+                    }, 500); // Thời gian trễ để hiệu ứng hoàn tất
+                }, 1000); // Hiển thị trong 2 giây
+            }
+        });
+    </script>
+@endsection --}}

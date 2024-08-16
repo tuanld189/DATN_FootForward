@@ -47,11 +47,12 @@
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            @foreach ($comments as $comment)
+                            @forelse ($comments as $comment)
                                 <tr>
                                     <td scope="col" style="width: 10px;">
                                         <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll"
+                                                value="option">
                                         </div>
                                     </td>
                                     <td>{{ $comment->id }}</td>
@@ -69,13 +70,15 @@
                                     <td>
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="View">
-                                            <a href="{{ route('admin.comments.show', $comment->id) }}" class="text-primary d-inline-block">
+                                            <a href="{{ route('admin.comments.show', $comment->id) }}"
+                                                class="text-primary d-inline-block">
                                                 <i class="ri-eye-fill fs-16"></i>
                                             </a>
                                         </li>
                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Edit">
-                                            <a href="{{ route('admin.comments.edit', $comment->id) }}" class="text-primary d-inline-block edit-item-btn">
+                                            <a href="{{ route('admin.comments.edit', $comment->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
@@ -94,10 +97,18 @@
                                         </li>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="alert alert-warning text-center m-0">
+                                            Không có dữ liệu nào trong danh sách.
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
-                    {{-- {{ $comments->links() }} --}}
+                    {{ $comments->links() }}
 
                 </div>
             </div>

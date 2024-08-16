@@ -177,7 +177,7 @@ class CartController extends Controller
             'product_id' => 'required|exists:products,id',
             'product_size_id' => 'required|exists:product_variants,product_size_id',
             'product_color_id' => 'required|exists:product_variants,product_color_id',
-            'quantity_add' => 'required|integer|min:1', // Đảm bảo số lượng phải lớn hơn 0
+            'quantity_add' => 'required|integer|min:1|max:5', // Giới hạn số lượng từ 1 đến 5
         ]);
 
         $product = Product::findOrFail($request->product_id);
@@ -203,8 +203,16 @@ class CartController extends Controller
         $salePrice = $sale ? $sale->sale_price : null;
 
         if (isset($cart[$productVariant->id])) {
-            $cart[$productVariant->id]['quantity_add'] += $quantityAdd;
+            // Kiểm tra tổng số lượng trong giỏ hàng
+            $totalQuantity = $cart[$productVariant->id]['quantity_add'] + $quantityAdd;
+            if ($totalQuantity > 5) {
+                return redirect()->back()->withErrors(['quantity_add' => 'Số lượng tối đa là 5 sản phẩm.']);
+            }
+            $cart[$productVariant->id]['quantity_add'] = $totalQuantity;
         } else {
+            if ($quantityAdd > 5) {
+                return redirect()->back()->withErrors(['quantity_add' => 'Số lượng tối đa là 5 sản phẩm.']);
+            }
             $cart[$productVariant->id] = [
                 'id' => $productVariant->id,
                 'name' => $product->name,
@@ -230,7 +238,7 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'quantity_add' => 'required|integer|min:1', // Đảm bảo số lượng phải lớn hơn 0
+            'quantity_add' => 'required|integer|min:1|max:5', // Giới hạn số lượng từ 1 đến 5
         ]);
 
         $quantityAdd = $request->input('quantity_add');
@@ -240,7 +248,6 @@ class CartController extends Controller
             if ($quantityAdd <= 0) {
                 return redirect()->route('cart.list')->withErrors(['quantity_add' => 'Số lượng phải lớn hơn 0.']);
             }
-
             $cart[$id]['quantity_add'] = $quantityAdd;
             session(['cart' => $cart]);
             return redirect()->route('cart.list')->with('success', 'Cart updated successfully');
@@ -248,8 +255,6 @@ class CartController extends Controller
 
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
-
-
 
     public function updateMultiple(Request $request)
     {
@@ -262,8 +267,8 @@ class CartController extends Controller
             $id = $item['id'];
             $quantityAdd = $item['quantity_add'];
 
-            if ($quantityAdd <= 0) {
-                $errors[] = "Số lượng phải lớn hơn 0 cho sản phẩm ID $id.";
+            if ($quantityAdd <= 0 || $quantityAdd > 5) {
+                $errors[] = "Số lượng phải từ 1 đến 5 cho sản phẩm ID $id.";
                 continue;
             }
 
@@ -281,7 +286,6 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
 
-
     public function remove($id)
     {
         $cart = session()->get('cart', []);
@@ -294,5 +298,4 @@ class CartController extends Controller
 
         return redirect()->route('cart.list')->with('error', 'Product not found in cart');
     }
-
 }

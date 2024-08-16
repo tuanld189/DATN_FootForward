@@ -1,7 +1,7 @@
 @extends('admin.layout.master')
 @section('title', 'Orders Status')
 
-@if (session('success') || session('error'))
+{{-- @if (session('success') || session('error'))
     <div class="alert-container">
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -11,7 +11,7 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
     </div>
-@endif
+@endif --}}
 
 @section('content')
     <div class="row">
@@ -28,17 +28,92 @@
             </div>
         </div>
     </div>
-    @if (session('success') || session('error'))
+    {{-- <style>
+        /* Style cho alert-container */
+        .alert-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1050;
+            width: 300px;
+        }
+
+        /* Cơ bản cho các alert */
+        .alert {
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            padding: .75rem 1.25rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .alert.show {
+            opacity: 1;
+        }
+
+        .alert.hide {
+            opacity: 0;
+        }
+
+        /* Alert thành công */
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        /* Alert lỗi */
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        /* Icon trong alert */
+        .alert-icon {
+            font-size: 1.25rem;
+            margin-right: .5rem;
+        }
+
+        /* Thay đổi cho các button trạng thái */
+        .btn-outline-primary.active {
+            background-color: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+    </style> --}}
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    {{-- @if (session('success') || session('error'))
         <div class="alert-container">
             @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                <div id="success-alert" class="alert alert-success show">
+                    <div class="alert-content">
+                        <i class="ri-check-line alert-icon"></i>
+                        {{ session('success') }}
+                    </div>
+                </div>
             @endif
 
             @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
+                <div id="error-alert" class="alert alert-danger show">
+                    <div class="alert-content">
+                        <i class="ri-close-line alert-icon"></i>
+                        {{ session('error') }}
+                    </div>
+                </div>
             @endif
         </div>
-    @endif
+    @endif --}}
+
+
+
 
     <div class="card mb-4">
         <div class="card-body">
@@ -195,7 +270,31 @@
     </div>
 @endsection
 
-@section('script-libs')
+{{-- @section('script-libs')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successAlert = document.getElementById('success-alert');
+            var errorAlert = document.getElementById('error-alert');
+
+            if (successAlert) {
+                setTimeout(function() {
+                    successAlert.classList.add('hide');
+                    setTimeout(function() {
+                        successAlert.remove(); // Xóa hoàn toàn sau khi hiệu ứng hoàn tất
+                    }, 500); // Thời gian trễ để hiệu ứng hoàn tất
+                }, 2000); // Hiển thị trong 2 giây
+            }
+
+            if (errorAlert) {
+                setTimeout(function() {
+                    errorAlert.classList.add('hide');
+                    setTimeout(function() {
+                        errorAlert.remove(); // Xóa hoàn toàn sau khi hiệu ứng hoàn tất
+                    }, 500); // Thời gian trễ để hiệu ứng hoàn tất
+                }, 2000); // Hiển thị trong 2 giây
+            }
+        });
+    </script>
     <script src="{{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
     <script>
@@ -210,4 +309,4 @@
 @section('style-libs')
     <link rel="stylesheet"
         href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css') }}">
-@endsection
+@endsection --}}

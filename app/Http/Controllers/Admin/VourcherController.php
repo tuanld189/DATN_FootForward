@@ -18,9 +18,12 @@ class VourcherController extends Controller
     public function index()
     {
         $vourchers = Vourcher::query()->latest('id')->paginate(5);
+        $status = $vourchers->isEmpty() ? 'Không có dữ liệu nào.' : null;
 
-        return view(self::PATH_VIEW . 'index', compact('vourchers'));
+        return view(self::PATH_VIEW . 'index', compact('vourchers'))
+            ->with('status', $status);
     }
+
 
     public function checkout()
     {
@@ -72,6 +75,38 @@ class VourcherController extends Controller
             ->with('success', 'Vourcher created successfully.');
     }
 
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'code' => 'nullable|max:255|unique:vourchers,code,',
+    //         'description' => 'required',
+    //         'discount_type' => 'required|in:percentage,amount',
+    //         'discount_value' => [
+    //             'required',
+    //             'numeric',
+    //             function ($attribute, $value, $fail) use ($request) {
+    //                 if ($request->discount_type === 'percentage' && ($value < 0 || $value > 100)) {
+    //                     $fail('The discount value must be between 0 and 100 for percentage discounts.');
+    //                 }
+    //             },
+    //         ],
+    //         'start_date' => 'required|date|before:end_date',
+    //         'end_date' => 'required|date|after:start_date',
+    //         'is_active' => 'boolean',
+    //         'quantity' => 'required|integer|min:0',
+    //     ]);
+
+    //     // Kiểm tra nếu end_date đã qua, đặt is_active thành false
+    //     if (Carbon::now()->isAfter($request->end_date)) {
+    //         $request->merge(['is_active' => false]);
+    //     }
+
+    //     Vourcher::create($request->all());
+
+    //     return redirect()->route('admin.vourchers.index')
+    //         ->with('success', 'Thêm thành công.')
+    //         ->with('info', 'Remember to review the voucher details.');
+    // }
 
     /**
      * Display the specified resource.

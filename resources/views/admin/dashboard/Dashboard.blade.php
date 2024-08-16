@@ -238,9 +238,13 @@
                             <div class="card-header align-items-center d-flex">
                                 <h4 class="card-title mb-0 flex-grow-1">THỐNG KÊ DOANH MỤC NỔI BẬT</h4>
                             </div><!-- end card header -->
-
                             <div class="card-body">
-                                <div id="top-categories-pie-chart" class="apex-charts" dir="ltr"></div>
+                                @if ($topCategories->isEmpty())
+                                    <p>Không có dữ liệu để hiển thị biểu đồ.</p>
+                                @else
+                                    <div id="top-categories-pie-chart" class="apex-charts" dir="ltr"></div>
+                                @endif
+
                             </div>
                         </div> <!-- .card-->
 
@@ -258,17 +262,29 @@
                                     <div class="dropdown card-header-dropdown">
                                         <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
-                                            <span class="fw-semibold text-uppercase fs-12">Sort by:
-                                            </span><span class="text-muted">Today<i
-                                                    class="mdi mdi-chevron-down ms-1"></i></span>
+                                            <span class="fw-semibold text-uppercase fs-12">Theo: </span>
+                                            <span class="text-muted">
+                                                @if ($filter === 'today')
+                                                    Hôm nay
+                                                @elseif($filter === '7days')
+                                                    7 ngày
+                                                @elseif($filter === '1month')
+                                                    1 tháng
+                                                @else
+                                                    Tất cả
+                                                @endif
+                                                <i class="mdi mdi-chevron-down ms-1"></i>
+                                            </span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="#">Today</a>
-                                            <a class="dropdown-item" href="#">Yesterday</a>
-                                            <a class="dropdown-item" href="#">Last 7 Days</a>
-                                            <a class="dropdown-item" href="#">Last 30 Days</a>
-                                            <a class="dropdown-item" href="#">This Month</a>
-                                            <a class="dropdown-item" href="#">Last Month</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.dashboard', ['filter' => 'today']) }}">Hôm nay</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.dashboard', ['filter' => '7days']) }}">7 ngày</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.dashboard', ['filter' => '1month']) }}">1 tháng</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.dashboard', ['filter' => 'all']) }}">Tất cả</a>
                                         </div>
                                     </div>
                                 </div>
@@ -276,90 +292,56 @@
 
                             <div class="card-body">
                                 <div class="table-responsive table-card">
-                                    <table class="table table-hover table-centered align-middle table-nowrap mb-0">
-                                        <tbody>
-                                            <tr>
-                                                <th>Tên sản phẩm</th>
-                                                <th>Giá</th>
-                                                <th>Số lượng</th>
-                                                <th>Thuộc tính</th>
-                                            </tr>
-                                            @foreach ($topProducts as $product)
+                                    @if ($topProducts->isNotEmpty())
+                                        <table class="table table-hover table-centered align-middle table-nowrap mb-0">
+                                            <thead>
                                                 <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                                <img src="{{ asset('storage/' . $product->product_image) }}"
-                                                                    alt="" class="img-fluid d-block" />
-                                                            </div>
-                                                            <div>
-                                                                <h5 class="fs-14 my-1">
-                                                                    <a href="{{ route('admin.products.show', $product->product_variant_id) }}"
-                                                                        class="text-reset">
-                                                                        {{ $product->product_name }}
-                                                                    </a>
-                                                                </h5>
-                                                                {{-- <span
-                                                                    class="text-muted">{{ $product->created_at->format('d M Y') }}</span> --}}
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">
-                                                            ${{ number_format($product->product_price, 2) }}</h5>
-
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">{{ $product->total_quantity }}
-                                                        </h5>
-
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">{{ $product->variant_size_name }}
-                                                            / {{ $product->variant_color_name }}</h5>
-                                                    </td>
-                                                    {{-- <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">
-                                                            ${{ number_format($product->total_quantity * $product->product_price, 2) }}
-                                                        </h5>
-                                                        <span class="text-muted">Amount</span>
-                                                    </td> --}}
+                                                    <th>Tên sản phẩm</th>
+                                                    <th>Giá</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Thuộc tính</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($topProducts as $product)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar-sm bg-light rounded p-1 me-2">
+                                                                    <img src="{{ asset('storage/' . $product->product_image) }}"
+                                                                        alt="" class="img-fluid d-block" />
+                                                                </div>
+                                                                <div>
+                                                                    <h5 class="fs-14 my-1">
+                                                                        <a href="{{ route('admin.products.show', $product->product_variant_id) }}"
+                                                                            class="text-reset">
+                                                                            {{ $product->product_name }}
+                                                                        </a>
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <h5 class="fs-14 my-1 fw-normal">
+                                                                ${{ number_format($product->product_price, 2) }}</h5>
+                                                        </td>
+                                                        <td>
+                                                            <h5 class="fs-14 my-1 fw-normal">
+                                                                {{ $product->total_quantity }}</h5>
+                                                        </td>
+                                                        <td>
+                                                            <h5 class="fs-14 my-1 fw-normal">
+                                                                {{ $product->variant_size_name }} /
+                                                                {{ $product->variant_color_name }}</h5>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @else
+                                        <p style="text-align: center">Không có sản phẩm bán chạy nào.</p>
+                                    @endif
                                 </div>
-
-                                <div
-                                    class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
-                                    {{-- <div class="col-sm">
-                                        <div class="text-muted">
-                                            Showing <span class="fw-semibold">5</span> of <span
-                                                class="fw-semibold">25</span> Results
-                                        </div>
-                                    </div> --}}
-                                    {{-- <div class="col-sm-auto  mt-3 mt-sm-0">
-                                        <ul
-                                            class="pagination pagination-separated pagination-sm mb-0 justify-content-center">
-                                            <li class="page-item disabled">
-                                                <a href="#" class="page-link">←</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">1</a>
-                                            </li>
-                                            <li class="page-item active">
-                                                <a href="#" class="page-link">2</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">3</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">→</a>
-                                            </li>
-                                        </ul>
-                                    </div> --}}
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -370,7 +352,7 @@
                                 <h4 class="card-title mb-0 flex-grow-1">ĐƠN HÀNG GẦN ĐÂY</h4>
                                 <div class="flex-shrink-0">
                                     <button type="button" class="btn btn-soft-info btn-sm">
-                                        <i class="ri-file-list-3-line align-middle"></i> Generate Report
+                                        <a href="{{ route('admin.orders.index') }}">Tất cả đơn hàng</a>
                                     </button>
                                 </div>
                             </div><!-- end card header -->
@@ -397,9 +379,10 @@
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0 me-2">
-                                                                <img src="{{ asset('storage/' . $order->user->avatar) }}"
+                                                                <img src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
                                                                     alt="" class="avatar-xs rounded-circle" />
                                                             </div>
+                                                            {{-- <div class="flex-grow-1">{{ $order->user->name }}</div> --}}
                                                             <div class="flex-grow-1">{{ $order->user->name }}</div>
                                                         </div>
                                                     </td>
@@ -430,7 +413,7 @@
                                 <h4 class="card-title mb-0 flex-grow-1">Top Sellers</h4>
                                 <div class="flex-shrink-0">
                                     <div class="dropdown card-header-dropdown">
-                                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
+<a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                             <span class="text-muted">Report<i
                                                     class="mdi mdi-chevron-down ms-1"></i></span>
@@ -471,7 +454,7 @@
                                                     <p class="mb-0">8547</p>
                                                     <span class="text-muted">Stock</span>
                                                 </td>
-                                                <td>
+<td>
                                                     <span class="text-muted">$541200</span>
                                                 </td>
                                                 <td>
@@ -512,7 +495,7 @@
                                                 </td>
                                             </tr><!-- end -->
                                             <tr>
-                                                <td>
+<td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0 me-2">
                                                             <img src="assets/images/companies/img-3.png" alt=""
@@ -551,7 +534,7 @@
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-14 my-1 fw-medium"><a
-                                                                    href="apps-ecommerce-seller-details.html"
+href="apps-ecommerce-seller-details.html"
                                                                     class="text-reset">Zoetic Fashion</a></h5>
                                                             <span class="text-muted">James Bowen</span>
                                                         </div>
@@ -591,7 +574,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="text-muted">Furniture</span>
-                                                </td>
+</td>
                                                 <td>
                                                     <p class="mb-0">4100</p>
                                                     <span class="text-muted">Stock</span>
@@ -637,7 +620,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+</div>
 
                             </div> <!-- .card-body-->
                         </div> <!-- .card--> --}}
@@ -724,12 +707,12 @@
 
             // Top categories pie chart
             var pieChartOptions = {
-                series: [44, 55, 13, 43, 22],
+                series: @json($topCategories->pluck('percentage')),
                 chart: {
                     type: 'pie',
                     height: 350
                 },
-                labels: ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'],
+                labels: @json($topCategories->pluck('name')),
                 colors: ['#556ee6', '#34c38f', '#f46a6a', '#f1b44c', '#50a5f1'],
                 legend: {
                     position: 'bottom'
@@ -744,6 +727,7 @@
 
             var pieChart = new ApexCharts(document.querySelector("#top-categories-pie-chart"), pieChartOptions);
             pieChart.render();
+
         });
     </script>
 @endsection

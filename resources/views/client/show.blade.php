@@ -4,18 +4,17 @@
     <style>
         .card_area .add-to-cart {
             color: white;
-            background-color: #8a8f6a;
+            background-color: black;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            border-radius: 10px;
         }
 
         /* CSS for hover effect */
         .card_area .add-to-cart:hover {
-            background-color: #8a8f6a;
+            background-color: gray;
         }
 
         .custom-control-label {
@@ -95,12 +94,12 @@
         }
 
         .custom-control-input:checked+.custom-control-label {
-            border-color: #8a8f6a;
-            background-color: #8a8f6a4a;
+            border-color: #007bff;
+            background-color: #e7f1ff;
         }
 
         .custom-control-input:checked+.custom-control-label img {
-            border: 2px solid #8a8f6a;
+            border: 2px solid #007bff;
         }
 
         .price-box {
@@ -147,31 +146,102 @@
         }
 
 
-        .quantity-control {
+        /* test */
+        .notification-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #8a8f6a;
-            border-radius: .25rem;
-            overflow: hidden;
-            width: 100px;
-            margin: 0 auto;
+            z-index: 1050;
+            pointer-events: none;
+            /* Không ảnh hưởng đến các phần tử khác */
+        }
 
-        }
-        .quantity-control button {
-            border: none;
-            background-color: #8a8f6a;
-            color:white;
-            font-size: 1rem;
-            width: 2.5rem;
-            height: 2.5rem;
-        }
-        .quantity-control input {
-            border: none;
-            width: 50px;
+        .notification-message {
+            display: none;
+            padding: 20px;
+            border-radius: 12px;
+            /* Bo tròn các góc */
+            position: relative;
+            width: 80%;
+            /* Kích thước thông báo */
+            max-width: 600px;
+            /* Kích thước tối đa */
             text-align: center;
-            outline: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease, box-shadow 0.5s ease-in-out;
+            transform: translateY(-20px);
+            /* Hiệu ứng di chuyển lên trên khi xuất hiện */
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            /* Bóng đổ để thông báo nổi bật */
+            position: relative;
+            pointer-events: auto;
+            /* Để cho phép tương tác với thông báo */
+        }
 
+        .notification-message.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            /* Trở về vị trí ban đầu */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            /* Tăng bóng đổ khi xuất hiện */
+        }
+
+        .notification-message .icon-container {
+            margin-bottom: 15px;
+        }
+
+        .notification-message .icon {
+            font-size: 50px;
+            color: #fff;
+            animation: pulse 1.5s infinite;
+            /* Hiệu ứng nhấp nháy cho biểu tượng */
+        }
+
+        .notification-message .message-content {
+            color: #333;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     </style>
 @endsection
@@ -187,13 +257,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between" style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <h4 class="mb-sm-0">Chi tiết sản phẩm</h4>
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Chi tiết sản phẩm </h4>
 
                         <div class="page-title-right ">
                             <ol class="breadcrumb m-0 ">
-                                <li class="m-1"><a href="{{ route('index') }}">Trang chủ > </a></li>
-                                <li class="active m-1" href="{{ route('shop') }}"> Sản phẩm > </li>
+                                <li class="m-1"><a href="javascript: void(0);">Trang chủ > </a></li>
+                                <li class="active m-1"> Sản phẩm > </li>
                                 <li class="active m-1"> Chi tiết sản phẩm </li>
                             </ol>
                         </div>
@@ -202,20 +272,40 @@
                 </div>
             </div>
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-            <!-- Hiển thị thông báo lỗi -->
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
+            <div id="notification-container" class="notification-container">
+                @if (session('success'))
+                    <div class="alert alert-success notification-message">
+                        <div class="icon-container">
+                            <i class="fas fa-check-circle icon"></i>
+                        </div>
+                        <div class="message-content">
+                            {{ session('success') }}
+                        </div>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger notification-message">
+                        <div class="icon-container">
+                            <i class="fas fa-exclamation-circle icon"></i>
+                        </div>
+                        <div class="message-content">
+                            @foreach ($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+
+
+
+
+
+
             {{-- <div class="breadcrumb-area bg-grey mb-3">
                 <div class="row">
                     <div class="col-lg-12">
@@ -226,7 +316,7 @@
                     </div>
                 </div>
         </div> --}}
-            <div class="row single-product-area" >
+            <div class="row single-product-area">
                 <div class="col-lg-5 col-md-6">
                     <!-- Product Details Left -->
                     <div class="product-details-left">
@@ -352,31 +442,36 @@
                                             style="display: flex; justify-content: space-between;">
                                             <div class="p-2 border border-dashed rounded" style="margin-right: 20px;">
                                                 <div class="d-flex align-items-center">
-                                                    <div class="flex-grow-1 text-center">
+                                                    <div class="flex-grow-1">
                                                         <p class="mb-1" style="color: black;"><b>Số lượng:</b></p>
-                                                        <div class="quantity-control">
-                                                            <button type="button" id="decrement" style="background-color: #8a8f6a;color:white;">-</button>
-                                                            <input type="number" id="quantity_add" name="quantity_add" min="1" value="1">
-                                                            <button type="button" id="increment" style="background-color: #8a8f6a;color:white;">+</button>
-                                                        </div>
+                                                        <input type="number" class="form-control" id="quantity_add"
+                                                            name="quantity_add" min="0" value="1"
+                                                            style="width: 100px; text-align: center;">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="p-2 border border-dashed rounded">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
-                                                        <p class="mb-1" style="color: black;"><b>Hàng Có sẵn:</b></p>
-                                                        <input type="text" class="form-control" id="available_quantity"
-                                                            name="available_quantity" readonly
-                                                            style="width: 100px; text-align: center; border: 1px solid #8a8f6a;">
+                                                        <p class="mb-1" style="color: black;"><b>Hàng còn sẵn:</b></p>
+                                                        <input type="text" class="form-control"
+                                                            id="available_quantity" name="available_quantity" readonly
+                                                            style="width: 150px; text-align: center;">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="mt-2">{{ $product->content }}</p>
-                                    <div class="card_area d-flex align-items-center">
 
+
+
+
+                                    <p class="mt-2">{{ $product->content }}</p>
+
+
+
+
+                                    <div class="card_area d-flex align-items-center">
                                         <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
                                     </div>
                                 </form>
@@ -503,8 +598,8 @@ ut labore et </a></li>
                         <!-- Start Single COMMENT -->
 
                         <div class="product_tab_content tab-pane" id="reviews" role="tabpanel"
-                        style="background-color: white;">
-                            <div class="row" >
+                            style="background-color:rgba(251, 249, 249, 0.929); ">
+                            <div class="row">
                                 <!-- Column for posting comment -->
                                 <div class="col-lg-6">
                                     <!-- Start Rating Area -->
@@ -537,8 +632,8 @@ ut labore et </a></li>
                                                     </div>
                                                     <div style="flex-grow: 1; margin-right: 15px;">
                                                         <h4><i>{{ Auth::check() ? Auth::user()->name : '' }}</i></h4>
-                                                        <textarea name="content" class="form-control" placeholder="Viết bình luận" required
-                                                            style="width: 400px; height:120px;border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></textarea>
+                                                        <textarea name="content" class="form-control" placeholder="Write a comment..." required
+                                                            style="width: 400px; height:120px;"></textarea>
                                                         <button type="submit" class="btn btn-primary btn-block mt-3 "
                                                             style="font-weight: bold; "><i class="fa fa-paper-plane"></i>
                                                             Post
@@ -717,6 +812,24 @@ ut labore et </a></li>
 @endsection
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var notifications = document.querySelectorAll('.notification-message');
+            notifications.forEach(function(notification) {
+                notification.classList.add('show');
+                var animationDuration = 5000; // Thay đổi thời gian (5000ms = 5 giây) theo nhu cầu
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                }, animationDuration);
+            });
+        });
+    </script>
+
+
+
+
     <script>
         function updateQuantity() {
             var colorId = document.querySelector('input[name="product_color_id"]:checked').value;
@@ -759,6 +872,8 @@ ut labore et </a></li>
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    {{-- test --}}
+
     <script>
         document.getElementById('variantForm').addEventListener('submit', function(event) {
             var quantityInput = document.getElementById('quantity_add');
@@ -772,6 +887,8 @@ ut labore et </a></li>
             }
         });
     </script>
+
+    {{-- test --}}
     <script>
         // Ajax request for posting a comment
         function postComment(event) {
@@ -846,19 +963,6 @@ ut labore et </a></li>
                 })
                 .catch(error => console.error('Error deleting comment:', error));
         }
-    </script>
-     <script>
-        document.getElementById('increment').addEventListener('click', function() {
-            var quantityInput = document.getElementById('quantity_add');
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        });
-
-        document.getElementById('decrement').addEventListener('click', function() {
-            var quantityInput = document.getElementById('quantity_add');
-            if (parseInt(quantityInput.value) > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-            }
-        });
     </script>
 
 @endsection

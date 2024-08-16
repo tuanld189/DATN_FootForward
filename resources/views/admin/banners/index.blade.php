@@ -19,7 +19,6 @@
             </div>
         </div>
     </div>
-    <!-- end page title -->
 
     <div class="row">
         <div class="col-lg-12">
@@ -49,27 +48,25 @@
                                     <th class="sort" data-sort="city">Chức năng</th>
                                 </tr>
                             </thead>
-                            <tbody class="list form-check-all">
-                                @foreach ($data as $item)
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="checkAll"
-                                                    value="option1">
-                                            </div>
-                                        </th>
-                                        <td class="id"><a href="apps-ecommerce-order-details.html"
-                                                class="fw-medium link-primary">{{ $item->id }}</a>
-                                        </td>
-                                        <td class="customer_name">{{ $item->name }}</td>
-                                        <td class="customer_phone">
-                                            <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
-                                        </td>
-                                        {{-- <td class="customer_address">{{ $item-> }}</td> --}}
-                                        <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
 
-                                        <td>
-                                            <ul class="list-inline hstack gap-2 mb-0">
+                            <tbody class="list form-check-all">
+                                @if ($data->isNotEmpty())
+                                    @foreach ($data as $item)
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="checkAll"
+                                                        value="option1">
+                                                </div>
+                                            </th>
+                                            <td class="id"><a href="apps-ecommerce-order-details.html"
+                                                    class="fw-medium link-primary">{{ $item->id }}</a></td>
+                                            <td class="customer_name">{{ $item->name }}</td>
+                                            <td class="customer_phone">
+                                                <img src="{{ Storage::url($item->image) }}" alt="" width="100px">
+                                            </td>
+                                            <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                            <td>
                                                 <ul class="list-inline hstack gap-2 mb-0">
                                                     <li class="list-inline-item" data-bs-toggle="tooltip"
                                                         data-bs-trigger="hover" data-bs-placement="top" title="View">
@@ -85,7 +82,6 @@
                                                             <i class="ri-pencil-fill fs-16"></i>
                                                         </a>
                                                     </li>
-
                                                     <li class="list-inline-item" data-bs-toggle="tooltip"
                                                         data-bs-trigger="hover" data-bs-placement="top" title="Remove">
                                                         <form id="delete-form-{{ $item->id }}"
@@ -99,11 +95,19 @@
                                                             <i class="ri-delete-bin-5-fill fs-16"></i>
                                                         </a>
                                                     </li>
-                                                    {{-- </ul> --}}
                                                 </ul>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="alert alert-warning text-center m-0">
+                                                Không có dữ liệu nào trong danh sách.
+                                            </div>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                         <div class="noresult" style="display: none">

@@ -30,16 +30,16 @@
                                 <div class="mb-3 mt-3">
                                     <label for="name" class="form-label">Name:</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter name"
-                                        name="name">
+                                        name="name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="url">URL</label>
                                     <input type="text" name="url" class="form-control" id="url"
-                                        value="{{ old('url') }}">
+                                        value="{{ old('url') }}" required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="image" class="form-label">Image:</label>
-                                    <input type="file" class="form-control" id="image" name="image">
+                                    <input type="file" class="form-control" id="image" name="image" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
