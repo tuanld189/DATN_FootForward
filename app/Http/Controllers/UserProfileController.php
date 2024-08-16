@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PasswordResetRequested;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Str;
 class UserProfileController extends Controller
 {
 
@@ -117,5 +118,26 @@ class UserProfileController extends Controller
         $user->save();
 
         return response()->json(['success' => 'Password updated successfully']);
+    }
+
+    public function sendResetPassword(Request $request)
+    {
+        $request->validate([
+            'forgot_email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->forgot_email)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Không có tài khoản nào được đăng kí bởi email đó');
+        }
+
+        $newPassword = Str::random(15);
+        $user->password = Hash::make($newPassword);
+        $user->save();
+
+        event(new PasswordResetRequested($user, $newPassword));
+
+        return redirect()->back()->with('success', 'Mật khẩu mới đã được gửi qua email.');
     }
 }

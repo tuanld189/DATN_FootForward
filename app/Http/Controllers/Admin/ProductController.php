@@ -77,48 +77,6 @@ class ProductController extends Controller
     }
 
 
-    // public function index(Request $request)
-    // {
-    //     $categories = Category::pluck('name', 'id')->all();
-    //     $brands = Brand::pluck('name', 'id')->all();
-
-    //     $query = Product::query();
-
-    //     if ($request->has('category_id') && $request->category_id != '') {
-    //         $query->where('category_id', $request->category_id);
-    //     }
-
-    //     if ($request->has('brand_id') && $request->brand_id != '') {
-    //         $query->where('brand_id', $request->brand_id);
-    //     }
-
-    //     if ($request->has('name') && $request->name != '') {
-    //         $query->where('name', 'like', '%' . $request->name . '%');
-    //     }
-
-    //     if ($request->has('date_from') && $request->date_from != '') {
-    //         $query->whereDate('created_at', '>=', $request->date_from);
-    //     }
-
-    //     if ($request->has('date_to') && $request->date_to != '') {
-    //         $query->whereDate('created_at', '<=', $request->date_to);
-    //     }
-
-    //     $data = $query->with(['category', 'tags', 'brand'])->latest('id')->get();
-
-    //     return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
-    // }
-
-    // public function import(Request $request)
-    // {
-    //     $file = $request->file('file');
-    //     $import = new ProductsImport($file);
-
-    //     Excel::import($import, $file);
-
-    //     return redirect()->back()->with('created', 'Thêm mới sản phẩm thành công!');
-    // }
-
     public function importProducts(Request $request)
     {
         $import = new ProductsImport();
