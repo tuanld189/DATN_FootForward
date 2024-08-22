@@ -4,7 +4,6 @@ use App\Models\AddressDetail;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Permission\Models\Role;
 
 return new class extends Migration {
     /**
@@ -15,7 +14,7 @@ return new class extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('fullname', 50)->unique();
+            $table->string('fullname', 50)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('province_code', 20)->nullable();
             $table->string('district_code', 20)->nullable();

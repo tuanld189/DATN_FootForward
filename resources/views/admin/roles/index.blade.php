@@ -61,7 +61,7 @@
                                     </td>
                                     <td>{{ $role->id }}</td>
                                     <td>
-                                        @foreach ($role->permissions as $permission)
+                                        @foreach ($role->activePermissions as $permission)
                                             {{ $permission->name }},
                                         @endforeach
                                     </td>

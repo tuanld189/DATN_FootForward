@@ -23,9 +23,9 @@
                     <p><strong>Name:</strong> {{ $user->name }}</p>
                     <p><strong>Status:</strong> {{ $user->status }}</p>
                     <p><strong>Active:</strong> {{ $user->is_active ? 'Yes' : 'No' }}</p>
-                    <p><strong>Province:</strong> {{$user->province->name}}</p>
-                    <p><strong>District:</strong> {{$user->district->name}}</p>
-                    {{-- <<p><strong>Ward:</strong> {{ $user->ward->name }}</p> --}}
+                    <p><strong>Province:</strong> {{ $user->province->name ?? 'Không có giá trị' }}</p>
+                    <p><strong>District:</strong> {{ $user->district->name ?? 'Không có giá trị' }}</p>
+                    <p><strong>Ward:</strong> {{ $user->ward->name ?? 'Không có giá trị' }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Roles:</strong></p>

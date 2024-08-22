@@ -70,8 +70,8 @@ class OrderController extends Controller
             }
 
             $order = new Order();
-            $order->user_id = Auth::check() ?  $request->input('user_id') :  $user->id;
-            $order->user_password = Auth::check() ? null :  $request->input('user_password');
+            $order->user_id = Auth::check() ? $request->input('user_id') : $user->id;
+            $order->user_password = Auth::check() ? null : $request->input('user_password');
             $order->order_code = $request->input('order_code');
             $order->user_name = $request->input('user_name');
             $order->user_email = $request->input('user_email');
@@ -99,7 +99,16 @@ class OrderController extends Controller
             DB::commit();
 
             session()->forget('cart');
-            return $this->vnpay_payment($request, $order->id);
+            // Redirect based on selected payment method
+            if ($request->input('payment_method') == 'COD') {
+                return redirect()->route('order.confirmation', ['order_id' => $order->id]);
+            } elseif ($request->input('payment_method') == 'vnpay') {
+                return $this->vnpay_payment($request, $order->id);
+            }else {
+                // Handle other payment methods or throw an error
+                return redirect()->back()->with('error', 'Invalid payment method selected.');
+            }
+            // return $this->vnpay_payment($request, $order->id);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             dd('Database error: ' . $e->getMessage(), $e);
