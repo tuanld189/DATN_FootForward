@@ -13,7 +13,17 @@ class PermissionController extends Controller
         $permissions = Permission::all();
         return view('admin.permissions.index', compact('permissions'));
     }
-
+    public function toggleStatus(Request $request)
+    {
+        $permission = Permission::find($request->id);
+        if ($permission) {
+            $permission->is_active = $request->is_active;
+            $permission->save();
+            return response()->json(['success' => 'Trạng thái đã được cập nhật.']);
+        } else {
+            return response()->json(['error' => 'Không tìm thấy quyền.'], 404);
+        }
+    }
     public function create()
     {
         return view('admin.permissions.create');

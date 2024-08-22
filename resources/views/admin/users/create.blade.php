@@ -75,7 +75,7 @@
                         <div class="mb-3 mt-3">
                             <div class="form-group">
                                 <label for="photo_thumbs">Ảnh</label>
-                                <input type="file" name="photo_thumbs" id="photo_thumbs" class="form-control" required>
+                                <input type="file" name="photo_thumbs" id="photo_thumbs" class="form-control">
                             </div>
                         </div>
                         {{-- <div class="mb-3 mt-3">
@@ -88,7 +88,7 @@
                         <!-- New fields for Province, District, and Ward -->
                         <div class="mb-3 mt-3">
                             <label for="province_code">Province</label>
-                            <select name="province_code" id="province_code" class="form-control" required>
+                            <select name="province_code" id="province_code" class="form-control" >
                                 <option value="">Select Province</option>
                                 @foreach ($provinces as $province)
                                     <option value="{{ $province->code }}">{{ $province->name }}</option>
@@ -97,13 +97,13 @@
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="district_code">District</label>
-                            <select name="district_code" id="district_code" class="form-control" required>
+                            <select name="district_code" id="district_code" class="form-control" >
                                 <option value="">Select District</option>
                             </select>
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="ward_code">Ward</label>
-                            <select name="ward_code" id="ward_code" class="form-control" required>
+                            <select name="ward_code" id="ward_code" class="form-control" >
                                 <option value="">Select Ward</option>
                             </select>
                         </div>

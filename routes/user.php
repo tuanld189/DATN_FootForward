@@ -58,6 +58,8 @@ Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order
 Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
 Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
+
+
 //comment
 Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
 Route::delete('/product/comment/{comment}', [ProductController::class, 'deleteComment'])->name('product.comment.delete');
@@ -100,3 +102,8 @@ Route::get('/info', [HomeController::class, 'info'])->name('client.info');
 Route::resource('vourchers', VourcherController::class);
 
 Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+// Route để lấy danh sách huyện theo tỉnh
+Route::get('get-districts/{province_code}', [UserProfileController::class, 'getDistricts'])->name('get.districts');
+
+// Route để lấy danh sách xã theo huyện
+Route::get('get-wards/{district_code}', [UserProfileController::class, 'getWards'])->name('get.wards');

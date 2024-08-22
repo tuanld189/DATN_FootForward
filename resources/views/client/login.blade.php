@@ -1,7 +1,7 @@
 @extends('client.layouts.master')
 @section('title', 'Đăng nhập')
 @section('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .login-container {
             background: #8a8f6a4a;
@@ -46,7 +46,9 @@
 @endsection
 
 @section('content')
+
     <div class="text">
+
         <div class="login-container">
             <h2 class="text-center">Đăng nhập</h2>
             @if ($message = Session::get('error'))
@@ -63,11 +65,19 @@
                 @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Vui lòng nhập email">
+                    <input type="text" class="form-control" id="email" name="email"
+                        placeholder="Vui lòng nhập email">
+                    @error('email')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Vui lòng nhập mật khẩu">
+                    <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Vui lòng nhập mật khẩu">
+                    @error('password')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <div class="form-check">
@@ -87,12 +97,13 @@
     </div>
 
     <!-- Modal for Forgot Password -->
-    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
+        aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="forgotPasswordModalLabel">Quên mật khẩu?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"  style="border:none; ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; ">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -101,9 +112,11 @@
                         @csrf
                         <div class="form-group">
                             <label for="forgot_email">Nhập email bạn đã đăng kí để nhận lại mật khẩu:</label>
-                            <input type="email" class="form-control" id="forgot_email" name="forgot_email" placeholder="Vui lòng nhập email" required>
+                            <input type="email" class="form-control" id="forgot_email" name="forgot_email"
+                                placeholder="Vui lòng nhập email" required>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3" style="border:none; border-radius: 10px;">Gửi thông tin</button>
+                        <button type="submit" class="btn btn-primary mt-3" style="border:none; border-radius: 10px;">Gửi
+                            thông tin</button>
                     </form>
                 </div>
             </div>

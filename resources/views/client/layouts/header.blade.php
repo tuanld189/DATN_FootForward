@@ -71,7 +71,7 @@
                                                         href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn
                                                         mua</a>
                                                 </li>
-                                                @if (Auth::user()->hasRole('superadmin'))
+                                                @if (Auth::user()->hasRole('admin','editor'))
                                                     <li>
                                                         <a href="{{ route('admin.dashboard') }}">Admin</a>
                                                     </li>

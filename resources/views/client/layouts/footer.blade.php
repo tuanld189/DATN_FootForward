@@ -6,9 +6,9 @@
                 <div class="col-lg-4 col-md-6">
                      <!-- footer-info-area start -->
                      <div class="footer-info-area">
-                         <div class="footer-logo">
-                             <a href="#"><img src="assets/images/logo/logo_footer.png" alt=""></a>
-                         </div>
+                            {{-- <div class="footer-logo">
+                                <a href="#"><img src="assets/images/logo/logo_footer.png" alt=""></a>
+                            </div> --}}
                          <div class="desc_footer">
                              <p><i class="fa fa-home"></i> <span> Số 1 Trịnh Văn Bô, Nam Từ Liêm, Hà Nội</span> </p>
                              <p><i class="fa fa-phone"></i> <span>  (+84)0987 456 321</span> </p>
