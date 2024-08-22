@@ -383,7 +383,6 @@
                                                                     alt="" class="avatar-xs rounded-circle" />
                                                             </div>
                                                             {{-- <div class="flex-grow-1">{{ $order->user->name }}</div> --}}
-                                                            <div class="flex-grow-1">{{ $order->user->name }}</div>
                                                         </div>
                                                     </td>
                                                     {{-- <td>

@@ -23,7 +23,7 @@ Route::get('login', [UserController::class, 'login'])->name('login');
 Route::post('login', [UserController::class, 'postLogin']);
 Route::get('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('signup', [UserController::class, 'postSignup']);
-Route::get('/logout',[UserController::class, 'logout'])->name('logout');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 // product
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('client.show');
@@ -57,8 +57,6 @@ Route::post('/cart/update-multiple', [CartController::class, 'updateMultiple'])-
 Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
 Route::get('/order/vnpay-return', [OrderController::class, 'vnpay_return'])->name('order.vnpay_return');
 Route::get('/order-confirmation/{order_id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
-
-
 
 //comment
 Route::post('/product/{id}/comment', [ProductController::class, 'storeForProduct'])->name('product.comment');
@@ -102,8 +100,27 @@ Route::get('/info', [HomeController::class, 'info'])->name('client.info');
 Route::resource('vourchers', VourcherController::class);
 
 Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-// Route để lấy danh sách huyện theo tỉnh
-Route::get('get-districts/{province_code}', [UserProfileController::class, 'getDistricts'])->name('get.districts');
 
-// Route để lấy danh sách xã theo huyện
-Route::get('get-wards/{district_code}', [UserProfileController::class, 'getWards'])->name('get.wards');
+
+Route::middleware('auth')->get('/order/search', [App\Http\Controllers\User\HomeController::class, 'searchOrder'])->name('order.search');
+
+Route::get('/order/search', [HomeController::class, 'searchOrder'])->name('order.search');
+
+Route::post('/search-order', [App\Http\Controllers\User\HomeController::class, 'searchOrder'])->name('search.order');
+// Route::get('/order-lookup', [App\Http\Controllers\User\HomeController::class, 'showOrderLookup'])->name('order.lookup');
+// Route::post('/order-lookup', [App\Http\Controllers\User\HomeController::class, 'searchOrder'])->name('order.search');
+
+
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/index', [HomeController::class, 'index'])->name('index');
+Route::get('/search-orders', [OrderController::class, 'searchOrders'])->name('orders.search');
+Route::get('/orders/{id}', [OrderController::class, 'showorders'])->name('orders.showorders');
+Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
+
+
+// Route::get('/order-lookup', [OrderController::class, 'showOrderLookupForm'])->name('orders.lookup');
+Route::get('/order-lookup', [HomeController::class, 'showOrderLookupForm'])->name('orders.lookup');
+
+Route::get('/search-order', [HomeController::class, 'searchOrder'])->name('searchOrder');
+
+Route::get('/search', [HomeController::class, 'search'])->name('products.search');

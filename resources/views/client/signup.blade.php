@@ -52,61 +52,63 @@
             margin-top: 10px;
         }
     </style>
+    <style>
+        .close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            float: right;
+            margin-right: 10px;
+        }
+    </style>
 @endsection
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success alert-show" id="alert">
+            <span class="icon icon-success"></span>
+            {{ session('success') }}
+            <button type="button" class="close" onclick="closeAlert()">&times;</button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-show" id="alert">
+            <span class="icon icon-danger"></span>
+            {{ session('error') }}
+            <button type="button" class="close" onclick="closeAlert()">&times;</button>
+        </div>
+    @endif
 
 
     <div class="signup-container">
         <h2 class="text-center">Đăng Ký</h2>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+
         <form action="" method="POST">
             @csrf
             <div class="form-group">
                 <label for="name">Tên</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Vui lòng nhập tên">
-                @error('name')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
             <div class="form-group">
-                <label for="fullname">Họ và tên</label>
-                <input type="text" class="form-control" id="fullname" name="fullname"
+                <label for="username">Họ và tên</label>
+                <input type="text" class="form-control" id="username" name="fullname"
                     placeholder="Vui lòng nhập họ và tên">
-                @error('fullname')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Vui lòng nhập email">
-                @error('email')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
             <div class="form-group">
                 <label for="password">Mật khẩu</label>
                 <input type="password" class="form-control" id="password" name="password"
                     placeholder="Vui lòng nhập mật khẩu">
-                @error('password')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
             <div class="form-group">
                 <label for="confirm-password">Xác nhận mật khẩu</label>
                 <input type="password" class="form-control" id="confirm-password" name="password_confirmation"
                     placeholder="Xác nhận lại mật khẩu">
-                @error('confirm-password')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
             <button type="submit" class="btn btn-primary btn-block mt-3">Đăng Ký</button>
         </form>
@@ -118,6 +120,24 @@
 @endsection
 
 @section('scripts')
+    <script>
+        window.onload = function() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 3000);
+            }
+        };
+
+        // Hàm ẩn thông báo ngay lập tức khi nhấn nút "Close"
+        function closeAlert() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
