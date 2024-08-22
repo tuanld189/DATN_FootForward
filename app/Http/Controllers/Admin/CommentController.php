@@ -14,10 +14,26 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     // $comments = Comment::with('user', 'post', 'product')->get();
+    //     $comments = Comment::with('user', 'post', 'product')->paginate(10);
+    //     $status = $comments->isEmpty() ? 'Không có bình luận nào.' : null;
+    //     // return view(self::PATH_VIEW . 'index', compact('data'));
+    //     // return view(self::PATH_VIEW . 'index', compact('data'))
+    //     //     ->with('status', $status);
+    //     return view('admin.comments.index', compact('status'));
+    // }
     public function index()
     {
-        $comments = Comment::with('user', 'post', 'product')->get();
-        return view('admin.comments.index', compact('comments'));
+        // Lấy dữ liệu bình luận với thông tin người dùng, bài viết và sản phẩm kèm theo phân trang
+        $comments = Comment::with('user', 'post', 'product')->paginate(10);
+
+        // Kiểm tra nếu không có dữ liệu
+        $status = $comments->isEmpty() ? 'Không có bình luận nào.' : null;
+
+        // Trả về view với dữ liệu bình luận và trạng thái
+        return view('admin.comments.index', compact('comments', 'status'));
     }
 
     /**
@@ -68,6 +84,12 @@ class CommentController extends Controller
         $users = User::all();
         $posts = Post::all();
         return view('admin.comments.edit', compact('comment', 'users', 'posts'));
+    }
+
+    public function show($id)
+    {
+        $comment = Comment::findOrFail($id);
+        return view('admin.comments.show', compact('comment'));
     }
 
     /**

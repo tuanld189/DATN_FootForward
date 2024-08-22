@@ -108,9 +108,9 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Tìm user theo id, nếu không tìm thấy thì trả về lỗi 404
         $user = User::findOrFail($id);
-        // dd($request->all());
-        // Validation
+        // Xác thực dữ liệu đầu vào
         $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
@@ -125,19 +125,23 @@ class UserController extends Controller
         // Lấy dữ liệu từ request trừ 'photo_thumbs' và 'password'
         $data = $request->except('photo_thumbs', 'password');
 
-        // Kiểm tra nếu có file 'photo_thumbs' và xử lý upload
+
+
+        // Lấy dữ liệu từ request ngoại trừ photo_thumbs
+        // $data = $request->except(['photo_thumbs', 'roles', 'permissions']);
+
+        // Nếu có file ảnh được upload thì xử lý việc lưu ảnh
         if ($request->hasFile('photo_thumbs')) {
             $data['photo_thumbs'] = Storage::put(self::PATH_UPLOAD, $request->file('photo_thumbs'));
+
+            // Xóa ảnh cũ nếu có
             if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
                 Storage::delete($user->photo_thumbs);
             }
         }
-
-        // Kiểm tra nếu 'password' không trống, chỉ khi đó mới cập nhật
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
-
         // Cập nhật thông tin người dùng
         $user->update($data);
 
@@ -149,10 +153,16 @@ class UserController extends Controller
         // Cập nhật quyền (nếu có)
         if ($request->has('permission_ids')) {
             $user->permissions()->sync($request->permission_ids);
+
         }
 
+        // Chuyển hướng về trang danh sách người dùng với thông báo thành công
         return redirect()->route('admin.users.index')->with('status', 'User Updated Successfully');
-    }    public function destroy($id)
+
+    }
+   public function destroy($id)
+
+
     {
         $user = User::findOrFail($id);
         if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {

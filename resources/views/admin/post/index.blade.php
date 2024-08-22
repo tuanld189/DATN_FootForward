@@ -1,8 +1,9 @@
-{{-- @extends('admin.layout.master') --}}
 @extends('admin.layout.master')
+
 @section('title')
     List Post
 @endsection
+
 @section('content')
     <!-- start page title -->
     <div class="row">
@@ -17,11 +18,17 @@
                         <li class="breadcrumb-item active">Danh sách bài viết</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- end page title -->
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-lg-12">
@@ -40,8 +47,7 @@
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </th>
-                                {{-- <th data-ordering="false">SR No.</th> --}}
-                                <th data-ordering="false">ID</th>
+                                <th>ID</th>
                                 <th>Ảnh</th>
                                 <th>Tên bài viết</th>
                                 <th>Mô tả</th>
@@ -51,8 +57,7 @@
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-
-                            @foreach ($posts as $item)
+                            @forelse ($posts as $item)
                                 <tr>
                                     <td scope="row">
                                         <div class="form-check">
@@ -60,15 +65,14 @@
                                                 value="{{ $item->id }}">
                                         </div>
                                     </td>
-
                                     <td>{{ $item->id }}</td>
                                     <td>
-                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
-                                            height="">
+                                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
+                                            width="100px">
                                     </td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->description }}</td>
-                                    <td>{!! $item->content !!}</td> <!-- Assuming content contains HTML -->
+                                    <td>{!! $item->content !!}</td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     <td>
                                         <ul class="list-inline">
@@ -102,12 +106,18 @@
                                         </ul>
                                     </td>
                                 </tr>
-                            @endforeach
-
+                            @empty
+                                <tr>
+                                    <td colspan="8">
+                                        <div class="alert alert-warning text-center m-0">
+                                            Không có dữ liệu nào trong danh sách.
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     {{ $posts->links() }}
-
                 </div>
             </div>
         </div><!--end col-->
@@ -119,24 +129,26 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('script-libs')
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
-    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
         new DataTable("#example", {

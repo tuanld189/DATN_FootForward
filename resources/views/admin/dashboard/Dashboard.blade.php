@@ -238,7 +238,6 @@
                             <div class="card-header align-items-center d-flex">
                                 <h4 class="card-title mb-0 flex-grow-1">THỐNG KÊ DOANH MỤC NỔI BẬT</h4>
                             </div><!-- end card header -->
-
                             <div class="card-body">
                                 @if ($topCategories->isEmpty())
                                     <p>Không có dữ liệu để hiển thị biểu đồ.</p>
@@ -383,6 +382,7 @@
                                                                 <img src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
                                                                     alt="" class="avatar-xs rounded-circle" />
                                                             </div>
+                                                            {{-- <div class="flex-grow-1">{{ $order->user->name }}</div> --}}
                                                             <div class="flex-grow-1">{{ $order->user->name }}</div>
                                                         </div>
                                                     </td>
@@ -413,7 +413,7 @@
                                 <h4 class="card-title mb-0 flex-grow-1">Top Sellers</h4>
                                 <div class="flex-shrink-0">
                                     <div class="dropdown card-header-dropdown">
-                                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
+<a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                             <span class="text-muted">Report<i
                                                     class="mdi mdi-chevron-down ms-1"></i></span>
@@ -454,7 +454,7 @@
                                                     <p class="mb-0">8547</p>
                                                     <span class="text-muted">Stock</span>
                                                 </td>
-                                                <td>
+<td>
                                                     <span class="text-muted">$541200</span>
                                                 </td>
                                                 <td>
@@ -495,7 +495,7 @@
                                                 </td>
                                             </tr><!-- end -->
                                             <tr>
-                                                <td>
+<td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0 me-2">
                                                             <img src="assets/images/companies/img-3.png" alt=""
@@ -534,7 +534,7 @@
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-14 my-1 fw-medium"><a
-                                                                    href="apps-ecommerce-seller-details.html"
+href="apps-ecommerce-seller-details.html"
                                                                     class="text-reset">Zoetic Fashion</a></h5>
                                                             <span class="text-muted">James Bowen</span>
                                                         </div>
@@ -574,7 +574,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="text-muted">Furniture</span>
-                                                </td>
+</td>
                                                 <td>
                                                     <p class="mb-0">4100</p>
                                                     <span class="text-muted">Stock</span>
@@ -620,7 +620,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+</div>
 
                             </div> <!-- .card-body-->
                         </div> <!-- .card--> --}}

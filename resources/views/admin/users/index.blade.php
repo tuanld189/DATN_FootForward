@@ -102,7 +102,6 @@
 
                                     <td>{{ $user->roles->implode('name', ', ') }}</td>
                                     <td>
-
                                         <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-sm btn-info"
                                             data-bs-toggle="tooltip" title="View"><i class="ri-eye-fill"></i></a>
                                         <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning"
@@ -117,7 +116,10 @@
                                                 data-bs-toggle="tooltip" title="Delete"><i
                                                     class="ri-delete-bin-5-fill"></i></button>
                                         </form>
+
                                     </td>
+
+
                                 </tr>
                             @endforeach
                         </tbody>

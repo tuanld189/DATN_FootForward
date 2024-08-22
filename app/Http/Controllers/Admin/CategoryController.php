@@ -16,7 +16,10 @@ class CategoryController extends Controller
     public function index()
     {
         $data = Category::query()->latest('id')->paginate(5);
-        return view(self::PATH_VIEW . 'index', compact('data'));
+        $status = $data->isEmpty() ? 'Không có dữ liệu nào.' : null;
+        // return view(self::PATH_VIEW . 'index', compact('data'));
+        return view(self::PATH_VIEW . 'index', compact('data'))
+        ->with('status', $status);
     }
 
     /**

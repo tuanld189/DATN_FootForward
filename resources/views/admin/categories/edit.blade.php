@@ -30,7 +30,7 @@
                             <i class="fa fa-picture-o"></i> Choose
                         </a>
                     </span>
-                    <input id="thumbnail" class="form-control" type="text" name="image" value="{{$model->image}}">
+                    <input id="thumbnail" class="form-control" type="text" name="image" value="{{$model->image}}" required>
                 </div>
                 <img id="holder" style="margin-top:15px;max-height:100px;" src="{{$model->image }}">
             </div>
