@@ -11,6 +11,7 @@ use App\Models\ProductColor;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Vourcher;
 
 class HomeController extends Controller
@@ -44,15 +45,72 @@ class HomeController extends Controller
         $brands = Brand::all();
         $posts = Post::all();
         $banners = Banner::where('is_active', true)->get();
-        if($user = auth()->user()){
+        if ($user = auth()->user()) {
             $notifications = $user->notifications;
-            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners','notifications'));
-
-        }else{
+            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners', 'notifications'));
+        } else {
             return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
-
         }
     }
+
+    public function search(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $searchTerm = $request->input('search');
+
+        // Tìm kiếm sản phẩm theo tên hoặc mô tả
+        $products = Product::where('name', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
+            ->limit(10) // Giới hạn số lượng kết quả trả về
+            ->get(['id', 'name', 'img_thumbnail']); // Lấy danh sách sản phẩm với ID, tên và thumbnail
+
+        // Trả về kết quả dưới dạng JSON
+        return response()->json($products);
+    }
+
+
+
+    public function searchOrder(Request $request)
+    {
+        // Validate the request to ensure 'search' term is provided
+        $request->validate([
+            'search' => 'required|string|max:255',
+        ]);
+
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Initialize an empty collection for orders
+        $orders = collect();
+
+        // If the user is authenticated and search term is provided
+        if ($user) {
+            $searchTerm = $request->input('search');
+
+            // Search for orders related to the user by order code, email, phone, or shipping name
+            $orders = Order::where('user_id', $user->id)
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('order_code', $searchTerm)
+                        ->orWhere('user_email', 'LIKE', "%{$searchTerm}%")
+                        ->orWhere('user_phone', 'LIKE', "%{$searchTerm}%")
+                        ->orWhere('ship_user_name', 'LIKE', "%{$searchTerm}%");
+                })
+                ->get();
+        }
+
+        // Get user notifications if available
+        $notifications = $user ? $user->notifications : null;
+
+        // Return the search results view
+        return view('client.order-lookup', compact('orders', 'notifications'));
+    }
+
+
+    public function showOrderLookupForm()
+    {
+        return view('client.order-lookup'); // Trả về view cho trang tra cứu đơn hàng
+    }
+
 
     public function info(Request $request)
     {
@@ -187,5 +245,34 @@ class HomeController extends Controller
 
         return view('client.checkout', compact('vourchers'));
     }
+
+
+    // public function searchOrder(Request $request)
+    // {
+    //     // Validate the request to ensure 'order_code' is provided
+    //     $request->validate([
+    //         'order_code' => 'required|string|max:255',
+    //     ]);
+
+    //     // Get the logged-in user
+    //     $user = auth()->user();
+
+    //     // Tìm kiếm đơn hàng theo mã và thuộc về người dùng đã đăng nhập
+    //     $order = Order::where('order_code', $request->input('order_code'))
+    //         ->where('user_id', $user->id)
+    //         ->with('orderItems.product') // Eager load order items with their associated products
+    //         ->first();
+
+    //     // If order is found, return the view with order details
+    //     if ($order) {
+    //         // Return JSON response with the rendered view
+    //         return response()->json([
+    //             'html' => view('client.order-details-snippet', compact('order'))->render()
+    //         ]);
+    //     }
+
+    //     // If no order is found, redirect back with an error message
+    //     return redirect()->back()->withErrors(['order_not_found' => 'Order not found with the provided order code.']);
+    // }
 
 }

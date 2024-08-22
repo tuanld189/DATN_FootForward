@@ -59,6 +59,17 @@ class Order extends Model
         'canceled_at',
     ];
 
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -81,4 +92,5 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('price', 'color', 'size', 'quantity');
     }
+
 }

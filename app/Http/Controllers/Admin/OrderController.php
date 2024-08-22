@@ -356,4 +356,19 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.index')
             ->with('success', 'Đã xóa đơn hàng thành công.');
     }
+
+
+    // app/Http/Controllers/OrderController.php
+public function search(Request $request)
+{
+    $query = $request->input('query');
+
+    // Tìm kiếm đơn hàng theo tiêu chí (ví dụ: tên khách hàng, số đơn hàng, v.v.)
+    $orders = Order::where('customer_name', 'LIKE', "%$query%")
+                    ->orWhere('order_number', 'LIKE', "%$query%")
+                    ->get();
+
+    return view('orders.index', compact('orders'));
+}
+
 }

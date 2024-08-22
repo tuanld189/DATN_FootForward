@@ -336,6 +336,76 @@
             /* Độ rộng của cột cực nhỏ trong ô dữ liệu */
         }
     </style>
+
+    <style>
+        .shopee-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            z-index: 9999;
+            padding: 20px 30px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            color: #fff;
+            /* Màu trắng cho nội dung */
+        }
+
+        .shopee-toast.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .shopee-toast-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        #toast-success {
+            background-color: rgba(52, 152, 219, 0.85);
+            /* Màu xanh dương nhạt cho thông báo thành công */
+        }
+
+        #toast-success .shopee-toast-icon {
+            color: #fff;
+            /* Màu trắng cho icon */
+        }
+
+        #toast-error {
+            background-color: rgba(231, 76, 60, 0.85);
+            /* Màu đỏ nhạt cho thông báo lỗi */
+        }
+
+        #toast-error .shopee-toast-icon {
+            color: #fff;
+            /* Màu trắng cho icon */
+        }
+
+        .shopee-toast-content {
+            padding: 8px 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -359,7 +429,7 @@
 
             <!-- Checkout Details -->
             <div class="checkout-details-wrapper">
-                @if (session('success'))
+                {{-- @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
@@ -369,7 +439,33 @@
                     <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
+                @endif --}}
+                @if (session('success'))
+                    <div id="toast-success" class="shopee-toast">
+                        <div class="shopee-toast-icon">
+                            <i class="fas fa-check-circle"></i> <!-- Icon thành công -->
+                        </div>
+                        <div class="shopee-toast-content">
+                            <span class="close-btn" onclick="closeToast('toast-success')">&times;</span>
+                            {{ session('success') }}
+                        </div>
+                    </div>
                 @endif
+
+                @if (session('error'))
+                    <div id="toast-error" class="shopee-toast">
+                        <div class="shopee-toast-icon">
+                            <i class="fas fa-times-circle"></i> <!-- Icon lỗi -->
+                        </div>
+                        <div class="shopee-toast-content">
+                            <span class="close-btn" onclick="closeToast('toast-error')">&times;</span>
+                            {{ session('error') }}
+                        </div>
+                    </div>
+                @endif
+
+
+
 
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
@@ -586,6 +682,7 @@
                                                         <th class="col-small">Mã giảm giá</th>
                                                         <th class="col-small">Giá trị</th>
                                                         <th class="col-large">Điều kiện áp dụng</th>
+                                                        {{-- <th class="col-large">Mô tả</th> --}}
                                                         <th class="col-small">Chức năng</th>
                                                     </tr>
                                                 </thead>
@@ -593,51 +690,54 @@
                                                     @foreach ($vourchers as $voucher)
                                                         <tr>
                                                             <td>{{ $voucher->code }}</td>
-                                                            <td>
-                                                                {{ $voucher->discount_value }}
-                                                                {{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
+                                                            <td>{{ $voucher->discount_value }}{{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
                                                             </td>
-                                                            <td class="">
-                                                                {{-- <td class="marquee-container"> --}}
-                                                                <div class="">
-                                                                    {{-- <div class="marquee-text"> --}}
-                                                                    @if ($voucher->discount_type == 'percentage')
-                                                                        @if ($voucher->discount_value == 5)
-                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
-                                                                            Giảm tối đa 5%
-                                                                        @elseif ($voucher->discount_value == 10)
-                                                                            Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên:
-                                                                            Giảm tối đa 10%
-                                                                        @elseif ($voucher->discount_value == 15)
-                                                                            Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên:
-                                                                            Giảm tối đa 15%
-                                                                        @elseif ($voucher->discount_value == 25)
-                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
-                                                                            Giảm tối đa 25%
-                                                                        @endif
-                                                                    @else
-                                                                        @if ($voucher->discount_value == 500000)
-                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
-                                                                            Giảm 500,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 300000)
-                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
-                                                                            Giảm 300,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 200000)
-                                                                            Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên:
-                                                                            Giảm 200,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 100000)
-                                                                            Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên:
-                                                                            Giảm 100,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 50000)
-                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
-                                                                            Giảm 50,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 20000)
-                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
-                                                                            Giảm 20,000 VNĐ
-                                                                        @endif
-                                                                    @endif
+                                                            <td>{{ $voucher->description }}</td>
+                                                            {{-- <td>
+                                                                <div>
+                                                                    @php
+                                                                    $conditions = [
+                                                                        ['minAmount' => 10000000, 'minPercent' => 1, 'maxPercent' => 18, 'minValue' => 10000, 'maxValue' => 1800000],
+                                                                        ['minAmount' => 5000000,  'minPercent' => 1, 'maxPercent' => 15, 'minValue' => 10000, 'maxValue' => 750000],
+                                                                        ['minAmount' => 3000000,  'minPercent' => 1, 'maxPercent' => 12, 'minValue' => 10000, 'maxValue' => 360000],
+                                                                        ['minAmount' => 2000000,  'minPercent' => 1, 'maxPercent' => 10, 'minValue' => 10000, 'maxValue' => 200000],
+                                                                        ['minAmount' => 1000000,  'minPercent' => 1, 'maxPercent' => 8,  'minValue' => 10000, 'maxValue' => 80000],
+                                                                        ['minAmount' => 500000,   'minPercent' => 1, 'maxPercent' => 5,  'minValue' => 10000, 'maxValue' => 50000],
+                                                                    ];
+
+                                                                    $message = 'Không có thông tin giảm giá phù hợp';
+
+                                                                    foreach ($conditions as $condition) {
+                                                                        if (
+                                                                            $voucher->discount_type == 'percentage' &&
+                                                                            $voucher->discount_value >= $condition['minPercent'] &&
+                                                                            $voucher->discount_value <= $condition['maxPercent']
+                                                                        ) {
+                                                                            $message = 'Áp dụng cho đơn hàng từ ' .
+                                                                                number_format($condition['minAmount'], 0, ',', '.') .
+                                                                                ' VNĐ trở lên: Giảm tối đa ' . $voucher->discount_value . '%';
+                                                                            break;
+                                                                        } elseif (
+                                                                            $voucher->discount_type != 'percentage' &&
+                                                                            $voucher->discount_value >= $condition['minValue'] &&
+                                                                            $voucher->discount_value <= $condition['maxValue']
+                                                                        ) {
+                                                                            $message = 'Áp dụng cho đơn hàng từ ' .
+                                                                                number_format($condition['minAmount'], 0, ',', '.') .
+                                                                                ' VNĐ trở lên: Giảm ' .
+                                                                                number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                @endphp
+
+
+                                                                    <p>{{ $message }}</p>
+
+
+                                                                    {{ $message }}
                                                                 </div>
-                                                            </td>
+                                                            </td> --}}
                                                             <td>
                                                                 <form action="{{ route('cart.applyVoucher') }}"
                                                                     method="POST">
@@ -692,6 +792,40 @@
 @endsection
 
 @section('scripts')
+    {{-- <script>
+        window.onload = function() {
+            var successToast = document.getElementById('toast-success');
+            var errorToast = document.getElementById('toast-error');
+
+            if (successToast) {
+                showToast(successToast);
+            }
+
+            if (errorToast) {
+                showToast(errorToast);
+            }
+        };
+
+        function showToast(toastElement) {
+            toastElement.classList.add('show');
+
+            setTimeout(function() {
+                closeToast(toastElement.id);
+            }, 3000); // Ẩn sau 3 giây
+        }
+
+        function closeToast(toastId) {
+            var toastElement = document.getElementById(toastId);
+            if (toastElement) {
+                toastElement.classList.remove('show');
+                setTimeout(function() {
+                    toastElement.style.display = 'none';
+                }, 500); // Đợi hiệu ứng ẩn hoàn thành trước khi hoàn toàn ẩn thông báo
+            }
+        }
+    </script> --}}
+
+
     <script>
         document.getElementById('toggle-vouchers').addEventListener('click', function() {
             var overlay = document.getElementById('coupon-overlay');
@@ -721,5 +855,38 @@
                 overlay.classList.remove('hide');
             }, 500);
         });
+
+
+        // test
+        window.onload = function() {
+            var successToast = document.getElementById('toast-success');
+            var errorToast = document.getElementById('toast-error');
+
+            if (successToast) {
+                showToast(successToast);
+            }
+
+            if (errorToast) {
+                showToast(errorToast);
+            }
+        };
+
+        function showToast(toastElement) {
+            toastElement.classList.add('show');
+
+            setTimeout(function() {
+                closeToast(toastElement.id);
+            }, 3000); // Ẩn sau 3 giây
+        }
+
+        function closeToast(toastId) {
+            var toastElement = document.getElementById(toastId);
+            if (toastElement) {
+                toastElement.classList.remove('show');
+                setTimeout(function() {
+                    toastElement.style.display = 'none';
+                }, 300); // Đợi hiệu ứng ẩn hoàn thành trước khi hoàn toàn ẩn thông báo
+            }
+        }
     </script>
 @endsection

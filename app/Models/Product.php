@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-     use HasFactory;
-    protected $fillable=[
+    use HasFactory;
+    protected $fillable = [
         'category_id',
         'brand_id',
         'name',
@@ -21,7 +21,7 @@ class Product extends Model
         'content',
 
     ];
-    protected $casts=[
+    protected $casts = [
         'is_active' => 'boolean',
         'is_hot_deal' => 'boolean',
         'is_new' => 'boolean',
@@ -38,12 +38,12 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class,'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class,'brand_id');
+        return $this->belongsTo(Brand::class, 'brand_id');
     }
     public function galleries()
     {
@@ -68,9 +68,9 @@ class Product extends Model
     }
     public function sales()
     {
-         return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
-                    ->withPivot('sale_price')
-                    ->withTimestamps();
+        return $this->belongsToMany(ProductSale::class, 'product_sale_product', 'product_id', 'product_sale_id')
+            ->withPivot('sale_price')
+            ->withTimestamps();
     }
     public function sizes()
     {
@@ -82,4 +82,12 @@ class Product extends Model
         return $this->belongsToMany(ProductColor::class, 'product_color_product');
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class)->withPivot('price', 'color', 'size', 'quantity');
+    }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_products')->withPivot('price', 'color', 'size', 'quantity');
+    }
 }

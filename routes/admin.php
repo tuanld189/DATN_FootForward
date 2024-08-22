@@ -281,4 +281,6 @@ Route::prefix('admin')
         Route::get('/dashboard/OrderDetail', [DashboardController::class, 'OrderDetail'])->name('dashboard.OrderDetail');
         Route::get('/dashboard/UserDetail', [DashboardController::class, 'UserDetail'])->name('dashboard.UserDetail');
         Route::get('/dashboard/ProductSoldDetail', [DashboardController::class, 'ProductSoldDetail'])->name('dashboard.ProductSoldDetail');
+
+        Route::get('/search-orders', [OrderController::class, 'searchOrders'])->name('orders.search');
     });
