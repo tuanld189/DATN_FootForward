@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    Chi tiết đơn hàng
+    Chi tiết thống kê đơn hàng
 @endsection
 
 @section('content')
@@ -28,7 +28,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Chi tiết đơn hàng</h5>
+                    <h5 class="card-title mb-0">Chi tiết thống kê đơn hàng</h5>
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-3 col-md-6">

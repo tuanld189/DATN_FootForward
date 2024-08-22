@@ -70,14 +70,14 @@ class OrderController extends Controller
             }
 
             $order = new Order();
-            $order->user_id = Auth::check() ?  $request->input('user_id') :  $user->id;
-            $order->user_password = Auth::check() ? null :  $request->input('user_password');
+            $order->user_id = Auth::check() ? $request->input('user_id') : $user->id;
+            $order->user_password = Auth::check() ? null : $request->input('user_password');
             $order->order_code = $request->input('order_code');
             $order->user_name = $request->input('user_name');
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
             $order->user_address = $request->input('user_address');
-$order->user_note = $request->input('user_note');
+            $order->user_note = $request->input('user_note');
             $order->total_price = $totalAmount;
 
             $now = Carbon::now('Asia/Ho_Chi_Minh');
@@ -99,7 +99,16 @@ $order->user_note = $request->input('user_note');
             DB::commit();
 
             session()->forget('cart');
-            return $this->vnpay_payment($request, $order->id);
+            // Redirect based on selected payment method
+            if ($request->input('payment_method') == 'COD') {
+                return redirect()->route('order.confirmation', ['order_id' => $order->id]);
+            } elseif ($request->input('payment_method') == 'vnpay') {
+                return $this->vnpay_payment($request, $order->id);
+            }else {
+                // Handle other payment methods or throw an error
+                return redirect()->back()->with('error', 'Invalid payment method selected.');
+            }
+            // return $this->vnpay_payment($request, $order->id);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             dd('Database error: ' . $e->getMessage(), $e);
@@ -172,7 +181,7 @@ $order->user_note = $request->input('user_note');
             if ($i == 1) {
                 $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
             } else {
-$hashdata .= urlencode($key) . "=" . urlencode($value);
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
                 $i = 1;
             }
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
@@ -271,7 +280,7 @@ $hashdata .= urlencode($key) . "=" . urlencode($value);
     public function show($id)
     {
         $order = Order::with('orderItems')->findOrFail($id);
-$orderDetails = [
+        $orderDetails = [
             'order_code' => $order->id,
             'order_date' => $order->created_at->format('d M, Y'),
             'order_status' => Order::STATUS_ORDER[$order->status_order],

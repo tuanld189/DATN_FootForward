@@ -19,17 +19,19 @@ class HomeController extends Controller
     {
         $query = Product::query();
         $query = $this->applyFilters($request, $query);
-        $products = $query->with(['sales' => function ($query) {
-            $query->where('status', true)
-                ->where(function ($query) {
-                    $query->where('start_date', '<=', now())
-                        ->orWhereNull('start_date');
-                })
-                ->where(function ($query) {
-                    $query->where('end_date', '>=', now())
-                        ->orWhereNull('end_date');
-                });
-        }])->get();
+        $products = $query->with([
+            'sales' => function ($query) {
+                $query->where('status', true)
+                    ->where(function ($query) {
+                        $query->where('start_date', '<=', now())
+                            ->orWhereNull('start_date');
+                    })
+                    ->where(function ($query) {
+                        $query->where('end_date', '>=', now())
+                            ->orWhereNull('end_date');
+                    });
+            }
+        ])->get();
 
 
         $productsOnSale = $products->filter(function ($product) {
@@ -44,11 +46,11 @@ class HomeController extends Controller
         $brands = Brand::all();
         $posts = Post::all();
         $banners = Banner::where('is_active', true)->get();
-        if($user = auth()->user()){
+        if ($user = auth()->user()) {
             $notifications = $user->notifications;
-            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners','notifications'));
+            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners', 'notifications'));
 
-        }else{
+        } else {
             return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
 
         }
@@ -62,7 +64,7 @@ class HomeController extends Controller
     private function applyFilters(Request $request, $query)
     {
         if ($request->filled('min_price') && $request->filled('max_price')) {
-            $query->whereBetween('price', [(float)$request->min_price, (float)$request->max_price]);
+            $query->whereBetween('price', [(float) $request->min_price, (float) $request->max_price]);
         }
 
         if ($request->filled('category_filter')) {
@@ -163,7 +165,6 @@ class HomeController extends Controller
         if ($request->filled('price_max')) {
             $query->where('price', '<=', $request->input('price_max'));
         }
-
         try {
             $products = $query->with('sales')->paginate(9);
         } catch (\Exception $e) {

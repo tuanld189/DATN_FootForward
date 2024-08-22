@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Tổng số liệu
         $totalRevenue = Order::sum('total_price');
@@ -47,7 +47,9 @@ class DashboardController extends Controller
         }
 
         // Truy vấn sản phẩm bán chạy nhất
-        $topProducts = OrderItem::select(
+        $filter = $request->input('filter', 'today');
+
+        $topProductsQuery = OrderItem::select(
             'product_variant_id',
             'product_name',
             'product_image',
@@ -58,9 +60,18 @@ class DashboardController extends Controller
             DB::raw('SUM(quantity_add) as total_quantity')
         )
             ->groupBy('product_variant_id', 'product_name', 'product_image', 'product_price', 'product_sale_price', 'variant_size_name', 'variant_color_name')
-            ->orderByDesc('total_quantity')
-            ->take(5) // Lấy 5 sản phẩm bán chạy nhất
-            ->get();
+            ->orderByDesc('total_quantity');
+
+        // Apply date filter
+        if ($filter === 'today') {
+            $topProductsQuery->whereDate('created_at', Carbon::today());
+        } elseif ($filter === '7days') {
+            $topProductsQuery->whereDate('created_at', '>=', Carbon::now()->subDays(7));
+        } elseif ($filter === '1month') {
+            $topProductsQuery->whereDate('created_at', '>=', Carbon::now()->subMonth());
+        }
+
+        $topProducts = $topProductsQuery->take(5)->get();
 
         $recentOrders = Order::with('user', 'orderItems')
             ->orderBy('created_at', 'desc')
@@ -69,7 +80,7 @@ class DashboardController extends Controller
 
         // Lấy các danh mục được mua nhiều nhất và tính phần trăm
         $topCategories = DB::table('order_items')
-            ->join('products', 'order_items.product_variant_id', '=', 'products.id')
+            ->join('products', 'order_items.product_sku', '=', 'products.sku')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('categories.name', DB::raw('SUM(order_items.quantity_add) as total_quantity'))
             ->groupBy('categories.name')
@@ -81,6 +92,8 @@ class DashboardController extends Controller
             $category->percentage = round(($category->total_quantity / $totalProductsSold) * 100, 2);
             return $category;
         });
+
+        // dd($topCategories);
 
         return view('admin.dashboard.Dashboard',
             compact(
@@ -99,7 +112,8 @@ class DashboardController extends Controller
                 'totalProductsSoldPerDay',
                 'topProducts', // Truyền biến $topProducts đến view
                 'recentOrders', // Truyền biến $recentOrders đến view
-                'topCategories'
+                'topCategories',
+                'filter'
             )
         );
     }
@@ -107,26 +121,119 @@ class DashboardController extends Controller
     {
         $filter = $request->query('filter', 'all');
 
-        $query = Order::query();
+        $startDate = null;
+        $endDate = null;
+        $labels = collect();
+        $data = collect();
 
-        if ($filter == '1day') {
-            $query->where('created_at', '>=', Carbon::now()->subDay());
-        } elseif ($filter == '7days') {
-            $query->where('created_at', '>=', Carbon::now()->subDays(7));
-        } elseif ($filter == '1month') {
-            $query->where('created_at', '>=', Carbon::now()->subMonth());
-        } elseif ($filter == '1year') {
-            $query->where('created_at', '>=', Carbon::now()->subYear());
+        switch ($filter) {
+            case 'today':
+                $startDate = now()->startOfDay();
+                $endDate = now()->endOfDay();
+                $labels = collect(range(0, 23)); // 24 giờ
+                $data = collect(range(0, 23))->map(function ($hour) use ($startDate) {
+                    return Order::whereDate('created_at', $startDate)
+                        ->whereBetween('created_at', [$startDate->copy()->hour($hour)->startOfHour(), $startDate->copy()->hour($hour)->endOfHour()])
+                        ->sum('total_price');
+                });
+                break;
+            case 'yesterday':
+                $startDate = now()->subDay()->startOfDay();
+                $endDate = now()->subDay()->endOfDay();
+                $labels = collect(range(0, 23)); // 24 giờ
+                $data = collect(range(0, 23))->map(function ($hour) use ($startDate) {
+                    return Order::whereDate('created_at', $startDate)
+                        ->whereBetween('created_at', [$startDate->copy()->hour($hour)->startOfHour(), $startDate->copy()->hour($hour)->endOfHour()])
+                        ->sum('total_price');
+                });
+                break;
+            case 'this_week':
+                $startDate = now()->startOfWeek();
+                $endDate = now()->endOfWeek();
+                $labels = collect(range(0, 6))->map(function ($day) use ($startDate) {
+                    return $startDate->copy()->addDays($day)->format('d/m');
+                });
+                $data = $labels->map(function ($date) use ($startDate) {
+                    return Order::whereDate('created_at', $startDate->copy()->format('Y-m-d'))
+                        ->sum('total_price');
+                });
+                break;
+            case 'this_month':
+                $startDate = now()->startOfMonth();
+                $endDate = now()->endOfMonth();
+                $labels = collect(range(0, 3))->map(function ($week) use ($startDate) {
+                    return $startDate->copy()->addWeeks($week)->format('d/m') . ' - ' . $startDate->copy()->addWeeks($week + 1)->subDay()->format('d/m');
+                });
+                $data = $labels->map(function ($weekLabel) use ($startDate) {
+                    return Order::whereBetween('created_at', [$startDate->copy()->startOfWeek(), $startDate->copy()->endOfWeek()])
+                        ->sum('total_price');
+                });
+                break;
+            case 'this_year':
+                $startDate = now()->startOfYear();
+                $endDate = now()->endOfYear();
+                $labels = collect(range(1, 12))->map(function ($month) use ($startDate) {
+                    return $startDate->copy()->month($month)->format('F');
+                });
+                $data = $labels->map(function ($month) use ($startDate) {
+                    return Order::whereYear('created_at', $startDate->year)
+                        ->whereMonth('created_at', $startDate->month)
+                        ->sum('total_price');
+                });
+                break;
+            case 'custom':
+                $startDate = $request->query('start_date', now()->startOfMonth());
+                $endDate = $request->query('end_date', now()->endOfMonth());
+
+                // Chuyển đổi thành đối tượng Carbon nếu chưa phải
+                $startDate = Carbon::parse($startDate);
+                $endDate = Carbon::parse($endDate);
+
+                // Xử lý khoảng thời gian tùy chỉnh
+                $daysRange = $endDate->diffInDays($startDate) + 1;
+                $dates = collect();
+                $totalRevenuePerDay = collect();
+                for ($i = 0; $i < $daysRange; $i++) {
+                    $date = $startDate->copy()->addDays($i)->format('Y-m-d');
+                    $dates->push($date);
+                    $totalRevenuePerDay->push(Order::whereDate('created_at', $date)->sum('total_price'));
+                }
+
+                break;
         }
-        $totalRevenueDay = Order::where('created_at', '>=', Carbon::now()->subDays(1))->sum('total_price');
-        $totalRevenueWeek = Order::where('created_at', '>=', Carbon::now()->subDays(7))->sum('total_price');
-        $totalRevenueMonth = Order::where('created_at', '>=', Carbon::now()->subMonth())->sum('total_price');
-        $totalRevenueYear = Order::where('created_at', '>=', Carbon::now()->subYear())->sum('total_price');
-        $totalRevenueAll = Order::sum('total_price');
-        $orders = $query->get();
-        $data = Order::query()->latest('id')->paginate(5);
 
-        return view('admin.dashboard.RevenueDetail', compact('orders', 'filter', 'data', 'totalRevenueDay', 'totalRevenueWeek', 'totalRevenueMonth', 'totalRevenueYear', 'totalRevenueAll'));
+        $query = Order::whereBetween('created_at', [$startDate, $endDate]);
+
+        $totalRevenueAll = $query->sum('total_price');
+        $totalOrders = $query->count();
+        $totalCancelledOrders = $query->whereNotNull('canceled_at')->count();
+
+        $daysRange = $endDate->diffInDays($startDate) + 1;
+        $dates = collect();
+        $totalRevenuePerDay = collect();
+        $orders = $query->get();
+
+        for ($i = 0; $i < $daysRange; $i++) {
+            $date = $startDate->copy()->addDays($i)->format('Y-m-d');
+            $dates->push($date);
+
+            $totalRevenuePerDay->push(Order::whereDate('created_at', $date)->sum('total_price'));
+        }
+
+        $data = $query->latest('id')->paginate(5);
+
+        return view('admin.dashboard.RevenueDetail', compact(
+            'orders',
+            'filter',
+            'data',
+            'totalRevenueAll',
+            'totalOrders',
+            'totalCancelledOrders',
+            'dates',
+            'totalRevenuePerDay',
+            'labels', // Ensure labels are also passed for custom range
+            'data'
+        ));
     }
     public function OrderDetail(Request $request)
     {
@@ -184,7 +291,7 @@ class DashboardController extends Controller
     {
         $filter = $request->query('filter', 'all');
 
-        $query = Order::query(); // or Product::query(), adjust based on your model
+        $query = OrderItem::query();
 
         if ($filter == '1day') {
             $query->where('created_at', '>=', Carbon::now()->subDay());
@@ -198,10 +305,11 @@ class DashboardController extends Controller
 
         $soldProducts = $query->get();
         $data = $query->latest('id')->paginate(5);
-        $totalProductsWeek = $query->where('created_at', '>=', now()->subWeek())->count();
-        $totalProductsMonth = $query->where('created_at', '>=', now()->subMonth())->count();
-        $totalProductsYear = $query->where('created_at', '>=', now()->subYear())->count();
-        $totalProductsAll = Order::count(); // or Product::count(), adjust based on your model
+
+        $totalProductsWeek = OrderItem::where('created_at', '>=', now()->subWeek())->sum('quantity_add');
+        $totalProductsMonth = OrderItem::where('created_at', '>=', now()->subMonth())->sum('quantity_add');
+        $totalProductsYear = OrderItem::where('created_at', '>=', now()->subYear())->sum('quantity_add');
+        $totalProductsAll = OrderItem::sum('quantity_add');
 
         return view('admin.dashboard.ProductSoldDetail', compact('soldProducts', 'filter', 'data', 'totalProductsWeek', 'totalProductsMonth', 'totalProductsYear', 'totalProductsAll'));
     }

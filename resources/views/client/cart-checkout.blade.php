@@ -428,9 +428,34 @@
                                         </p>
                                     </div>
                                 </div>
+                                <!-- Phần thanh toán -->
+                                {{-- <div class="panel-foot d-flex flex-column align-items-center m-2 p-2" style="margin-left: 35px"> --}}
+                                <div class="panel-foot  p-2" style="margin-left: 35px">
+                                    <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
+                                    <div class="cart-method">
+                                        <label for="COD" class="uk-flex uk-flex-middle">
+                                            <input type="radio" name="payment_method" value="COD" id="COD"
+                                                checked>
+                                            <span class="title">Thanh toán khi nhận hàng</span>
+                                        </label>
+                                    </div>
+                                    <div class="cart-method">
+                                        <label for="vnpay" class="uk-flex uk-flex-middle">
+                                            <input type="radio" name="payment_method" value="vnpay" id="vnpay">
+                                            <span class="title">Thanh toán bằng VNPAY</span>
+                                        </label>
+                                    </div>
+                                    {{-- <div class="cart-method">
+                                                <label for="momo" class="uk-flex uk-flex-middle">
+                                                    <input type="radio" name="payment_method" value="momo" id="momo">
+                                                    <span class="title">Thanh toán bằng MOMO</span>
+                                                </label>
+                                            </div> --}}
+                                </div>
                                 <div class="col-12 d-flex justify-content-center mt-3">
                                     <button type="submit" class="btn btn-primary w-100">Đặt hàng</button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -536,30 +561,6 @@
                                 </div>
                                 <br>
 
-                                <!-- Nhập mã giảm giá -->
-                                {{-- <div class="voucher-container m-4">
-                                    @if (session('message'))
-                                        <div class="alert alert-{{ session('status') }} mb-2">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
-                                    <h4>Coupon</h4>
-                                    <form action="{{ route('cart.applyVoucher') }}" method="POST"
-                                        class="d-flex flex-column">
-                                        @csrf
-                                        <div class="form-group mb-2">
-                                            <input id="voucher_code" class="input-text form-control w-100 no-border-corners"
-                                                style="height: 38px;" name="voucher_code" value=""
-                                                placeholder="Voucher code" type="text">
-                                        </div>
-                                        <button class="btn btn-primary w-100" type="submit">Apply coupon</button>
-                                    </form>
-                                </div> --}}
-                                {{-- end nhap ma voucher --}}
-
-
-
-                                {{-- testtt --}}
                                 <!-- Nút để hiện/ẩn overlay -->
                                 <button id="toggle-vouchers" class="w-100">FootForward Voucher</button>
                                 {{-- <div class="container">
@@ -574,7 +575,7 @@
                                         <button id="close-voucher" class="close-btn">&times;</button>
 
                                         <h4 class="m-2 text-center">FootForWard Voucher</h4>
-                                        <!-- Hiển thị bảng các mã giảm giá -->
+                                        <!-- Hiển thị bsảng các mã giảm giá -->
                                         <div class="table-responsive">
                                             <table class="table table-striped">
                                                 <thead>
@@ -658,30 +659,7 @@
 
                                 {{-- testtt --}}
 
-                                <!-- Phần thanh toán -->
-                                {{-- <div class="panel-foot d-flex flex-column align-items-center m-2 p-2" style="margin-left: 35px"> --}}
-                                <div class="panel-foot  p-2" style="margin-left: 35px">
-                                    <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
-                                    <div class="cart-method">
-                                        <label for="COD" class="uk-flex uk-flex-middle">
-                                            <input type="radio" name="payment_method" value="COD" checked
-                                                id="COD">
-                                            <span class="title">Thanh toán khi nhận hàng</span>
-                                        </label>
-                                    </div>
-                                    <div class="cart-method">
-                                        <label for="vnpay" class="uk-flex uk-flex-middle">
-                                            <input type="radio" name="payment_method" value="vnpay" id="vnpay">
-                                            <span class="title">Thanh toán bằng VNPAY</span>
-                                        </label>
-                                    </div>
-                                    <div class="cart-method">
-                                        <label for="momo" class="uk-flex uk-flex-middle">
-                                            <input type="radio" name="payment_method" value="momo" id="momo">
-                                            <span class="title">Thanh toán bằng MOMO</span>
-                                        </label>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
