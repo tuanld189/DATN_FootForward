@@ -87,16 +87,15 @@ class UserProfileController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+        // dd($request->all());
         $request->validate([
             'fullname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'phone' => 'required|string|max:15',
-            'address' => 'required|string|max:255',
-            'province_code' => 'required|string|max:10', // Thêm quy tắc validate cho tỉnh
-            'district_code' => 'required|string|max:10', // Thêm quy tắc validate cho huyện
-            'ward_code' => 'required|string|max:10', // Thêm quy tắc validate cho xã
-            'photo_thumbs' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'province_code' => 'required|string|max:10',
+            // 'district_code' => 'required|string|max:10',
+            // 'ward_code' => 'required|string|max:10',
+            // 'photo_thumbs' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $data = $request->except('photo_thumbs');
@@ -113,6 +112,18 @@ class UserProfileController extends Controller
         $user->update($data);
 
         return redirect()->route('client.profile.edit', $user->id)->with('status', 'Cập nhật hồ sơ thành công!');
+    }
+    public function getDistricts($province_code)
+    {
+        $districts = District::where('province_code', $province_code)->get();
+        return response()->json($districts);
+    }
+
+    public function getWards($district_code)
+    {
+        $wards = Ward::where('district_code', $district_code)->get();
+        // dd($wards); // Kiểm tra dữ liệu trả về
+        return response()->json($wards);
     }
     public function changePassword(Request $request, $id)
     {
@@ -157,16 +168,5 @@ class UserProfileController extends Controller
 
         return redirect()->back()->with('success', 'Mật khẩu mới đã được gửi qua email.');
     }
-    public function getDistricts($province_code)
-    {
-        $districts = District::where('province_code', $province_code)->get();
-        return response()->json($districts);
-    }
 
-    public function getWards($district_code)
-    {
-        $wards = Ward::where('district_code', $district_code)->get();
-        // dd($wards); // Kiểm tra dữ liệu trả về
-        return response()->json($wards);
-    }
 }

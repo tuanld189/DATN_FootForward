@@ -389,7 +389,7 @@
                                 @endif
                                 <div class="row">
                                     <!-- Thông tin người dùng -->
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <p class="single-form-row">
                                             <label>Họ và tên<span class="required">*</span></label>
                                             <input type="text" class="form-control" name="user_name"
@@ -397,27 +397,57 @@
                                                 value="{{ Auth::check() ? Auth::user()->name : '' }}">
                                         </p>
                                     </div>
+                                    <div class="col-6">
+                                        <p class="single-form-row">
+                                            <label>SĐT<span class="required">*</span></label>
+                                            <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại"
+                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}" class="form-control">
+                                        </p>
+                                    </div>
                                     <div class="col-12">
                                         <p class="single-form-row">
                                             <label>Email<span class="required">*</span></label>
                                             <input type="text" name="user_email" placeholder="Nhập vào email"
-                                                class="form-control" value="{{ Auth::check() ? Auth::user()->email : '' }}">
+                                                class="form-control"
+                                                value="{{ Auth::check() ? Auth::user()->email : '' }}">
                                         </p>
                                     </div>
-                                    <div class="col-12">
+
+                                    <div class="col-4">
                                         <p class="single-form-row">
-                                            <label>SĐT<span class="required">*</span></label>
-                                            <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại"
-                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}"
-                                                class="form-control">
+                                            <label>Tỉnh <span class="required">*</span></label>
+                                            <select class="form-control" id="province_code" name="province_code" required>
+                                                <option value="">Chọn Tỉnh</option>
+                                                @foreach ($provinces as $province)
+                                                    <option value="{{ $province->code }}"
+                                                        {{ old('province_code', optional($user)->province_code) == $province->code ? 'selected' : '' }}>
+                                                        {{ $province->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
                                         </p>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-4">
                                         <p class="single-form-row">
-                                            <label>Địa chỉ <span class="required">*</span></label>
-                                            <input type="text" name="user_address" id="user_address" class="form-control"
-                                                placeholder="Nhập vào địa chỉ"
-                                                value="{{ Auth::check() ? Auth::user()->address : '' }}">
+                                            <label>Huyện <span class="required">*</span></label>
+                                            <select class="form-control" id="district_code" name="district_code"
+                                                data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_code : '') }}"
+                                                required>
+                                                <option value="">Chọn Huyện</option>
+                                                <!-- Các huyện sẽ được điền bởi AJAX -->
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p class="single-form-row">
+                                            <label>Xã <span class="required">*</span></label>
+                                            <select class="form-control" id="ward_code" name="ward_code"
+                                                data-selected="{{ old('ward_code', Auth::check() ? Auth::user()->ward_code : '') }}"
+                                                required>
+                                                <option value="">Chọn Xã</option>
+                                                <!-- Các xã sẽ được điền bởi AJAX -->
+                                            </select>
                                         </p>
                                     </div>
                                     <div class="col-12">
@@ -698,6 +728,81 @@
                 overlay.style.display = 'none';
                 overlay.classList.remove('hide');
             }, 500);
+        });
+        $(document).ready(function() {
+            function populateDistricts(province_code) {
+                if (province_code) {
+                    $.ajax({
+                        url: '{{ route('get.districts', ':province_code') }}'.replace(':province_code',
+                            province_code),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
+                            $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                            $.each(data, function(key, value) {
+                                $('#district_code').append('<option value="' + value.code +
+                                    '">' + value.name + '</option>');
+                            });
+
+                            // Pre-select district if user has it
+                            var selectedDistrict = $('#district_code').data('selected');
+                            if (selectedDistrict) {
+                                $('#district_code').val(selectedDistrict).trigger('change');
+                            }
+                        }
+                    });
+                } else {
+                    $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
+                    $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                }
+            }
+
+            function populateWards(district_code) {
+                if (district_code) {
+                    $.ajax({
+                        url: '{{ route('get.wards', ':district_code') }}'.replace(':district_code',
+                            district_code),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                            $.each(data, function(key, value) {
+                                $('#ward_code').append('<option value="' + value.code + '">' +
+                                    value.name + '</option>');
+                            });
+
+                            // Pre-select ward if user has it
+                            var selectedWard = $('#ward_code').data('selected');
+                            if (selectedWard) {
+                                $('#ward_code').val(selectedWard);
+                            }
+                        }
+                    });
+                } else {
+                    $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                }
+            }
+
+            // Load districts and wards on page load if province is already selected
+            var initialProvince = '{{ old('province_code', Auth::check() ? Auth::user()->province_code : '') }}';
+
+            if (initialProvince) {
+                // Populate districts based on the selected province
+                populateDistricts(initialProvince);
+            }
+
+            // Update districts and wards on province change
+            $('#province_code').change(function() {
+                var province_code = $(this).val();
+                populateDistricts(province_code);
+            });
+
+            // Load wards on district change
+            $('#district_code').change(function() {
+                var district_code = $(this).val();
+                populateWards(district_code);
+            });
         });
     </script>
 @endsection

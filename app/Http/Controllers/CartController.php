@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductSale;
 use App\Models\ProductVariant;
+use App\Models\Province;
 use App\Models\Vourcher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -139,35 +140,39 @@ class CartController extends Controller
 
     // cái nay dung ok
     public function checkout(Request $request)
-    {
-        $orderCode = 'FF-' . strtoupper(Str::random(10));
-        $vourchers = Vourcher::where('is_active', true)->get();
-        $cart = session()->get('cart', []);
-        $totalAmount = 0;
+{
+    $orderCode = 'FF-' . strtoupper(Str::random(10));
+    $vourchers = Vourcher::where('is_active', true)->get();
+    $cart = session()->get('cart', []);
+    $totalAmount = 0;
 
-        foreach ($cart as $item) {
-            $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-        }
-
-        $voucherCode = session()->get('voucher_code');
-        $discount = 0;
-        if ($voucherCode) {
-            $voucher = Vourcher::validateVoucher($voucherCode);
-
-            if ($voucher) {
-                $discount = $this->calculateDiscount($voucher, $totalAmount);
-                $totalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
-
-                // Xóa mã giảm giá khỏi session sau khi áp dụng
-                session()->forget(['voucher_code', 'discount', 'total_amount']);
-            }
-        }
-
-        // Lưu thông tin giảm giá và tổng số tiền vào session
-        session()->put('total_amount', $totalAmount);
-        session()->put('discount', $discount);
-        return view('client.cart-checkout', compact('cart', 'totalAmount', 'discount', 'voucherCode', 'vourchers', 'orderCode'));
+    foreach ($cart as $item) {
+        $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
     }
+
+    $voucherCode = session()->get('voucher_code');
+    $discount = 0;
+    if ($voucherCode) {
+        $voucher = Vourcher::validateVoucher($voucherCode);
+
+        if ($voucher) {
+            $discount = $this->calculateDiscount($voucher, $totalAmount);
+            $totalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
+
+            // Xóa mã giảm giá khỏi session sau khi áp dụng
+            session()->forget(['voucher_code', 'discount', 'total_amount']);
+        }
+    }
+
+    // Lưu thông tin giảm giá và tổng số tiền vào session
+    session()->put('total_amount', $totalAmount);
+    session()->put('discount', $discount);
+    $user = auth()->user();
+    // Fetch the provinces to pass to the view
+    $provinces = Province::all(); // Assumes you have a Province model and table
+
+    return view('client.cart-checkout', compact('cart', 'user','totalAmount', 'discount', 'voucherCode', 'vourchers', 'orderCode', 'provinces'));
+}
     // cái nay dung ok
 
 

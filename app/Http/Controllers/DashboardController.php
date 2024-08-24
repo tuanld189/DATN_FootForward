@@ -15,18 +15,34 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Tổng số liệu
-        $totalRevenue = Order::sum('total_price');
+        // Tổng số liệu chỉ tính cho đơn hàng đã giao và đã thanh toán
+        $totalRevenue = Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+            ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+            ->sum('total_price');
         $totalOrders = Order::count();
         $totalCustomers = User::count();
-        $totalProductsSold = OrderItem::sum('quantity_add');
 
-        // Số liệu theo ngày hiện tại
+        // Tính tổng số sản phẩm đã bán chỉ khi đơn hàng đã giao và đã thanh toán
+        $totalProductsSold = OrderItem::whereHas('order', function ($query) {
+            $query->where('status_order', Order::STATUS_ORDER_DELIVERED)
+                ->where('status_payment', Order::STATUS_PAYMENT_PAID);
+        })->sum('quantity_add');
+
+        // Số liệu theo ngày hiện tại chỉ tính cho đơn hàng đã giao và đã thanh toán
         $today = Carbon::today();
-        $totalRevenueToday = Order::whereDate('created_at', $today)->sum('total_price');
+        $totalRevenueToday = Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+            ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+            ->whereDate('created_at', $today)
+            ->sum('total_price');
         $totalOrdersToday = Order::whereDate('created_at', $today)->count();
         $totalCustomersToday = User::whereDate('created_at', $today)->count();
-        $totalProductsSoldToday = OrderItem::whereDate('created_at', $today)->sum('quantity_add');
+
+        // Tính tổng số sản phẩm đã bán hôm nay chỉ khi đơn hàng đã giao và đã thanh toán
+        $totalProductsSoldToday = OrderItem::whereHas('order', function ($query) use ($today) {
+            $query->where('status_order', Order::STATUS_ORDER_DELIVERED)
+                ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                ->whereDate('created_at', $today);
+        })->sum('quantity_add');
 
         // Biểu đồ thống kê theo ngày
         $daysRange = 12;
@@ -41,9 +57,18 @@ class DashboardController extends Controller
             $dates->prepend($date); // Sắp xếp từ ngày cũ nhất đến ngày mới nhất
 
             $totalOrdersPerDay->prepend(Order::whereDate('created_at', $date)->count());
-            $totalRevenuePerDay->prepend(Order::whereDate('created_at', $date)->sum('total_price'));
+            $totalRevenuePerDay->prepend(Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                ->whereDate('created_at', $date)
+                ->sum('total_price'));
             $totalCustomersPerDay->prepend(User::whereDate('created_at', $date)->count());
-            $totalProductsSoldPerDay->prepend(OrderItem::whereDate('created_at', $date)->sum('quantity_add'));
+
+            // Tính tổng số sản phẩm đã bán theo ngày chỉ khi đơn hàng đã giao và đã thanh toán
+            $totalProductsSoldPerDay->prepend(OrderItem::whereHas('order', function ($query) use ($date) {
+                $query->where('status_order', Order::STATUS_ORDER_DELIVERED)
+                    ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                    ->whereDate('created_at', $date);
+            })->sum('quantity_add'));
         }
 
         // Truy vấn sản phẩm bán chạy nhất
@@ -93,9 +118,8 @@ class DashboardController extends Controller
             return $category;
         });
 
-        // dd($topCategories);
-
-        return view('admin.dashboard.Dashboard',
+        return view(
+            'admin.dashboard.Dashboard',
             compact(
                 'totalRevenue',
                 'totalOrders',
@@ -110,8 +134,8 @@ class DashboardController extends Controller
                 'totalRevenuePerDay',
                 'totalCustomersPerDay',
                 'totalProductsSoldPerDay',
-                'topProducts', // Truyền biến $topProducts đến view
-                'recentOrders', // Truyền biến $recentOrders đến view
+                'topProducts',
+                'recentOrders',
                 'topCategories',
                 'filter'
             )
@@ -120,19 +144,19 @@ class DashboardController extends Controller
     public function RevenueDetail(Request $request)
     {
         $filter = $request->query('filter', 'all');
-
         $startDate = null;
         $endDate = null;
         $labels = collect();
-        $data = collect();
+        $totalRevenuePerDay = collect();
 
         switch ($filter) {
             case 'today':
                 $startDate = now()->startOfDay();
                 $endDate = now()->endOfDay();
-                $labels = collect(range(0, 23)); // 24 giờ
-                $data = collect(range(0, 23))->map(function ($hour) use ($startDate) {
-                    return Order::whereDate('created_at', $startDate)
+                $labels = collect(range(0, 23)); // 24 hours
+                $totalRevenuePerDay = $labels->map(function ($hour) use ($startDate) {
+                    return Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                        ->where('status_payment', Order::STATUS_PAYMENT_PAID)
                         ->whereBetween('created_at', [$startDate->copy()->hour($hour)->startOfHour(), $startDate->copy()->hour($hour)->endOfHour()])
                         ->sum('total_price');
                 });
@@ -140,9 +164,10 @@ class DashboardController extends Controller
             case 'yesterday':
                 $startDate = now()->subDay()->startOfDay();
                 $endDate = now()->subDay()->endOfDay();
-                $labels = collect(range(0, 23)); // 24 giờ
-                $data = collect(range(0, 23))->map(function ($hour) use ($startDate) {
-                    return Order::whereDate('created_at', $startDate)
+                $labels = collect(range(0, 23)); // 24 hours
+                $totalRevenuePerDay = $labels->map(function ($hour) use ($startDate) {
+                    return Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                        ->where('status_payment', Order::STATUS_PAYMENT_PAID)
                         ->whereBetween('created_at', [$startDate->copy()->hour($hour)->startOfHour(), $startDate->copy()->hour($hour)->endOfHour()])
                         ->sum('total_price');
                 });
@@ -153,8 +178,10 @@ class DashboardController extends Controller
                 $labels = collect(range(0, 6))->map(function ($day) use ($startDate) {
                     return $startDate->copy()->addDays($day)->format('d/m');
                 });
-                $data = $labels->map(function ($date) use ($startDate) {
-                    return Order::whereDate('created_at', $startDate->copy()->format('Y-m-d'))
+                $totalRevenuePerDay = $labels->map(function ($label, $day) use ($startDate) {
+                    return Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                        ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                        ->whereDate('created_at', $startDate->copy()->addDays($day)->format('Y-m-d'))
                         ->sum('total_price');
                 });
                 break;
@@ -164,8 +191,10 @@ class DashboardController extends Controller
                 $labels = collect(range(0, 3))->map(function ($week) use ($startDate) {
                     return $startDate->copy()->addWeeks($week)->format('d/m') . ' - ' . $startDate->copy()->addWeeks($week + 1)->subDay()->format('d/m');
                 });
-                $data = $labels->map(function ($weekLabel) use ($startDate) {
-                    return Order::whereBetween('created_at', [$startDate->copy()->startOfWeek(), $startDate->copy()->endOfWeek()])
+                $totalRevenuePerDay = $labels->map(function ($weekLabel, $week) use ($startDate) {
+                    return Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                        ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                        ->whereBetween('created_at', [$startDate->copy()->addWeeks($week)->startOfWeek(), $startDate->copy()->addWeeks($week)->endOfWeek()])
                         ->sum('total_price');
                 });
                 break;
@@ -175,9 +204,11 @@ class DashboardController extends Controller
                 $labels = collect(range(1, 12))->map(function ($month) use ($startDate) {
                     return $startDate->copy()->month($month)->format('F');
                 });
-                $data = $labels->map(function ($month) use ($startDate) {
-                    return Order::whereYear('created_at', $startDate->year)
-                        ->whereMonth('created_at', $startDate->month)
+                $totalRevenuePerDay = $labels->map(function ($month, $index) use ($startDate) {
+                    return Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                        ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                        ->whereYear('created_at', $startDate->year)
+                        ->whereMonth('created_at', $index + 1)
                         ->sum('total_price');
                 });
                 break;
@@ -185,54 +216,51 @@ class DashboardController extends Controller
                 $startDate = $request->query('start_date', now()->startOfMonth());
                 $endDate = $request->query('end_date', now()->endOfMonth());
 
-                // Chuyển đổi thành đối tượng Carbon nếu chưa phải
                 $startDate = Carbon::parse($startDate);
                 $endDate = Carbon::parse($endDate);
 
-                // Xử lý khoảng thời gian tùy chỉnh
                 $daysRange = $endDate->diffInDays($startDate) + 1;
-                $dates = collect();
-                $totalRevenuePerDay = collect();
-                for ($i = 0; $i < $daysRange; $i++) {
-                    $date = $startDate->copy()->addDays($i)->format('Y-m-d');
-                    $dates->push($date);
-                    $totalRevenuePerDay->push(Order::whereDate('created_at', $date)->sum('total_price'));
-                }
-
+                $labels = collect(range(0, $daysRange - 1))->map(function ($day) use ($startDate) {
+                    return $startDate->copy()->addDays($day)->format('d/m');
+                });
+                $totalRevenuePerDay = $labels->map(function ($label, $day) use ($startDate) {
+                    return Order::where('status_order', Order::STATUS_ORDER_DELIVERED)
+                        ->where('status_payment', Order::STATUS_PAYMENT_PAID)
+                        ->whereDate('created_at', $startDate->copy()->addDays($day)->format('Y-m-d'))
+                        ->sum('total_price');
+                });
+                break;
+            default:
+                // Handle default case, you may need to set some fallback values
+                $startDate = now()->startOfMonth();
+                $endDate = now()->endOfMonth();
                 break;
         }
 
-        $query = Order::whereBetween('created_at', [$startDate, $endDate]);
+        if (is_null($startDate) || is_null($endDate)) {
+            return back()->with('error', 'Ngày bắt đầu hoặc kết thúc không hợp lệ.');
+        }
+
+        $query = Order::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status_order', Order::STATUS_ORDER_DELIVERED)
+            ->where('status_payment', Order::STATUS_PAYMENT_PAID);
 
         $totalRevenueAll = $query->sum('total_price');
         $totalOrders = $query->count();
-        $totalCancelledOrders = $query->whereNotNull('canceled_at')->count();
+        $totalCancelledOrders = Order::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status_order', Order::STATUS_ORDER_CANCELED)
+            ->count();
 
-        $daysRange = $endDate->diffInDays($startDate) + 1;
-        $dates = collect();
-        $totalRevenuePerDay = collect();
-        $orders = $query->get();
-
-        for ($i = 0; $i < $daysRange; $i++) {
-            $date = $startDate->copy()->addDays($i)->format('Y-m-d');
-            $dates->push($date);
-
-            $totalRevenuePerDay->push(Order::whereDate('created_at', $date)->sum('total_price'));
-        }
-
-        $data = $query->latest('id')->paginate(5);
+        $orders = $query->latest('id')->paginate(5);
 
         return view('admin.dashboard.RevenueDetail', compact(
             'orders',
             'filter',
-            'data',
             'totalRevenueAll',
             'totalOrders',
             'totalCancelledOrders',
-            'dates',
-            'totalRevenuePerDay',
-            'labels', // Ensure labels are also passed for custom range
-            'data'
+            'labels',
+            'totalRevenuePerDay'
         ));
     }
     public function OrderDetail(Request $request)

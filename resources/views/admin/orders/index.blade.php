@@ -304,7 +304,7 @@
                                                     <th data-sort="customer_name">Khách hàng</th>
                                                     <th data-sort="product_name">SDT</th>
                                                     <th data-sort="product_address">Dịa chỉ</th>
-                                                    <th data-sort="date">Ngày tạo</th>
+                                                    {{-- <th data-sort="date">Ngày tạo</th> --}}
                                                     <th data-sort="amount">Tổng tiền</th>
                                                     <th data-sort="payment">Trạng thái thanh toán</th>
                                                     <th data-sort="status">Tình trạng đơn hàng</th>
@@ -328,11 +328,15 @@
                                                         </th>
                                                         <td class="id">{{ $order->order_code }}</td>
                                                         <td class="customer_name">{{ $order->user_name }}</td>
-                                                        <td class="customer_phone">{{ $order->user_phone }}</< /td>
-                                                        <td class="customer_address">{{ $order->user_address }}</td>
-                                                        <td class="date">
-                                                            {{ $order->created_at->format('d-m-Y H:i:s') }}
+                                                        <td class="customer_phone">{{ $order->user_phone }}</td>
+                                                        <td class="customer_address">
+                                                            {{ $order->ward ? $order->ward->name : 'N/A' }},
+                                                            {{ $order->district ? $order->district->name : 'N/A' }},
+                                                            {{ $order->province ? $order->province->name : 'N/A' }}
                                                         </td>
+                                                        {{-- <td class="date">
+                                                            {{ $order->created_at->format('d-m-Y H:i:s') }}
+                                                        </td> --}}
                                                         <td class="amount">
                                                             {{ number_format($order->total_price, 0, ',', '.') }}
 

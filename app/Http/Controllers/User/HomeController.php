@@ -144,19 +144,18 @@ class HomeController extends Controller
         }
 
         // Handle size filter
-        if ($request->has('size_filter')) {
-            $query->whereHas('sizes', function ($q) use ($request) {
-                $q->whereIn('id', $request->input('size_filter'));
+        if ($request->has('size_filter') && !empty($request->input('size_filter'))) {
+            $query->whereHas('variants', function ($q) use ($request) {
+                $q->whereIn('product_size_id', $request->input('size_filter'));
             });
         }
 
         // Handle color filter
-        if ($request->has('color_filter')) {
-            $query->whereHas('colors', function ($q) use ($request) {
-                $q->whereIn('id', $request->input('color_filter'));
+        if ($request->has('color_filter') && !empty($request->input('color_filter'))) {
+            $query->whereHas('variants', function ($q) use ($request) {
+                $q->whereIn('product_color_id', $request->input('color_filter'));
             });
         }
-
         // Handle price filter
         if ($request->filled('price_min')) {
             $query->where('price', '>=', $request->input('price_min'));
@@ -165,23 +164,20 @@ class HomeController extends Controller
         if ($request->filled('price_max')) {
             $query->where('price', '<=', $request->input('price_max'));
         }
+
         try {
-            $products = $query->with('sales')->paginate(9);
+            $products = $query->with('sales', 'variants')->paginate(9);
         } catch (\Exception $e) {
-            // \Log::error('Error fetching products', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Unable to load products'], 500);
         }
 
         if ($request->ajax()) {
             return response()->json([
                 'product_list' => view('client.product-list', compact('products'))->render(),
-                // 'pagination' => view('pagination', compact('products'))->render(),
             ]);
         }
-
         return view('client.shop', compact('products', 'categories', 'brands', 'sizes', 'colors'));
     }
-
     public function checkout()
     {
         $vourchers = Vourcher::where('is_active', true)->get();
