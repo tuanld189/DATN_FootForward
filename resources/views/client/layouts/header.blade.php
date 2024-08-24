@@ -1,3 +1,81 @@
+<style>
+    /* Search Form Styling */
+    .search-form {
+        display: flex;
+        align-items: center;
+        max-width: 300px;
+        /* Smaller max width */
+        margin: 20px auto;
+        /* Adds some margin to move it down */
+        border: 2px solid #8a8f6a;
+        /* Updated border color */
+        border-radius: 25px;
+        /* Smaller radius for a more compact look */
+        overflow: hidden;
+        background-color: #f9f9f9;
+    }
+
+    /* Input Field Styling */
+    .search-input {
+        flex: 1;
+        padding: 8px 12px;
+        /* Smaller padding for a more compact size */
+        border: none;
+        outline: none;
+        font-size: 14px;
+        /* Slightly smaller font size */
+        border-radius: 25px 0 0 25px;
+        background-color: transparent;
+        color: #8a8f6a;
+        /* Updated text color */
+        white-space: nowrap;
+        /* Prevent text from wrapping */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* Ellipsis if the text is too long */
+    }
+
+    /* Button Styling */
+    .search-button {
+        padding: 8px 15px;
+        /* Adjusted padding for a smaller button */
+        border: none;
+        background-color: #8a8f6a;
+        /* Updated background color */
+        color: #fff;
+        font-size: 14px;
+        /* Slightly smaller font size */
+        cursor: pointer;
+        border-radius: 0 25px 25px 0;
+        transition: background-color 0.3s ease;
+        white-space: nowrap;
+        /* Prevent text from wrapping */
+    }
+
+    .search-button:hover {
+        background-color: #6f7354;
+        /* Slightly darker shade on hover */
+    }
+
+    /* Placeholder Text Styling */
+    .search-input::placeholder {
+        color: #8a8f6a;
+        /* Updated placeholder color */
+    }
+
+    .header-bottom-right {
+        /* display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 20px; */
+        margin-bottom: 1.9%;
+        /* Thêm margin-top để đẩy phần tử xuống 1px */
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <div class="header-area">
     <div class="header-top bg-black">
         <div class="container">
@@ -34,8 +112,8 @@
                             </li>
                             <li class="language list-inline-item">
                                 <div class="btn-group">
-                                    <button class="dropdown-toggle"><img src="{{asset('assets/images/icon/vn.png')}}" width="20px"
-                                            height="20px" alt=""> Tiếng Việt <i
+                                    <button class="dropdown-toggle"><img src="{{ asset('assets/images/icon/vn.png') }}"
+                                            width="20px" height="20px" alt=""> Tiếng Việt <i
                                             class="fa fa-angle-down"></i></button>
                                     <div class="dropdown-menu">
                                         <ul>
@@ -140,60 +218,98 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="header-bottom-right d-flex justify-content-end">
-                    <div class="block-search">
-                        <div class="trigger-search">
+
+                <div class="header-bottom-right d-flex align-items-center justify-content-between">
+                    <!-- Search Box -->
+                    <div class="block-search mr-3">
+                        <div class="trigger-search d-flex align-items-center">
                             <i class="fa fa-search"></i> <span>Tìm kiếm</span>
                         </div>
                         <div class="search-box main-search-active">
-                            <form action="#" class="search-box-inner">
-                                <input type="text" placeholder="Search our catalog">
-                                <button class="search-btn" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                            {{-- <form action="{{ url('/') }}" method="GET" class="search-form">
+                                <input type="text" name="search" placeholder="Tìm sản phẩm & đơn hàng" value="{{ request('search') }}" class="search-input">
+                                <button type="submit" class="search-button">Tìm kiếm</button>
+                            </form> --}}
+                            <form id="searchForm" action="{{ route('shop') }}" class="search-form" method="GET"
+                                style=" width:350px;                                                                                                                                     ">
+                                <div class="input-group">
+                                    {{-- <input type="text" name="search" class="search-input" id="search"
+                                        onkeyup="searchProducts(this.value)" value="{{ request('search') }}"
+                                        placeholder="Tìm kiếm..."
+                                        style="border-radius: 10px 0 0 10px;border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"> --}}
+                                    <input type="text" name="search" id="search" class="search-input"
+                                        placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProducts(this.value)"
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="border-radius: 0 10px 10px 0;border: 1px solid #8a8f6a;">Tìm
+                                        kiếm</button>
+                                </div>
+                                <div id="suggestions" class="suggestions-box"></div>
+
                             </form>
                         </div>
                     </div>
-                     {{-- Noti --}}
-                     <div class="notifications">
+
+                    <!-- Order Lookup -->
+                    <div class="order-lookup mr-3 d-flex align-items-center">
+                        <a href="{{ route('orders.lookup') }}" class="order-lookup-button d-flex align-items-center">
+                            <i class="fas fa-box"></i> <span class="px-1">Tra đơn hàng</span>
+                        </a>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="notifications mr-3">
                         <div class="btn-group">
                             <button class="dropdown-toggle" style="background-color:white; border:none">
                                 <i class="fa fa-bell"></i> Thông báo
                                 @php
                                     use App\Models\Order;
                                     use Carbon\Carbon;
-                                    $unreadNotifications = auth()->check() && auth()->user()->unreadNotifications ? auth()->user()->unreadNotifications->count() : 0;
+                                    $unreadNotifications =
+                                        auth()->check() && auth()->user()->unreadNotifications
+                                            ? auth()->user()->unreadNotifications->count()
+                                            : 0;
                                 @endphp
-                                @if($unreadNotifications > 0)
+                                @if ($unreadNotifications > 0)
                                     <span class="notification-count">({{ $unreadNotifications }})</span>
                                 @endif
                             </button>
-                            @if(auth()->check())
-                            <div class="dropdown-menu notifications-menu mt-4" style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
-                                @if(auth()->user()->notifications && auth()->user()->notifications->count() > 0)
-                                    <ul class="notification-list">
-                                        @foreach(auth()->user()->notifications as $notification)
-                                            <li class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
-                                                <strong style="color:blue;">Đơn hàng của bạn đã được cập nhật:</strong><br>
-                                                <strong>Mã đơn hàng:</strong> {{ $notification->data['order_code'] }} <br>
-                                                <strong>Trạng thái đơn hàng:</strong> {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
-                                                <strong>Thời gian cập nhật:</strong> {{ isset($notification->data['status_time']) ? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') : 'Chưa có thời gian' }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang không có thông báo nào.</p>
-                                @endif
-                            </div>
+                            @if (auth()->check())
+                                <div class="dropdown-menu notifications-menu mt-4"
+                                    style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
+                                    @if (auth()->user()->notifications && auth()->user()->notifications->count() > 0)
+                                        <ul class="notification-list">
+                                            @foreach (auth()->user()->notifications as $notification)
+                                                <li
+                                                    class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
+                                                    <strong style="color:blue;">Đơn hàng của bạn đã được cập
+                                                        nhật:</strong><br>
+                                                    <strong>Mã đơn hàng:</strong>
+                                                    {{ $notification->data['order_code'] }} <br>
+                                                    <strong>Trạng thái đơn hàng:</strong>
+                                                    {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
+                                                    <strong>Thời gian cập nhật:</strong>
+                                                    {{ isset($notification->data['status_time'])? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s'): 'Chưa có thời gian' }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang
+                                            không có thông báo nào.</p>
+                                    @endif
+                                </div>
                             @else
-                            <div class="dropdown-menu notifications-menu mt-4" style="width:370px; background-color: white;">
-                                <p class="text-center" style="color:blue; font-weight:560;">Vui lòng đăng nhập để xem thông báo !!!</p>
-                            </div>
+                                <div class="dropdown-menu notifications-menu mt-4"
+                                    style="width:370px; background-color: white;">
+                                    <p class="text-center" style="color:blue; font-weight:560;">Vui lòng đăng nhập để
+                                        xem thông báo !!!</p>
+                                </div>
                             @endif
                         </div>
                     </div>
-                    {{-- Noti --}}
-                    <div class="shoping-cart">
+
+                    <!-- Shopping Cart -->
+                    <div class="shopping-cart">
                         <div class="btn-group">
                             <button class="dropdown-toggle" style="background-color:white; border:none">
                                 @php
@@ -219,12 +335,12 @@
                                             @endphp
                                             <li class="mini-cart-item">
                                                 <div class="mini-cart-product-img">
-                                                    <a href="#"> <img
+                                                    <a href="#"><img
                                                             src="{{ asset('storage/' . $item['image']) }}"
                                                             alt="" width="70px"></a>
                                                     <span class="product-quantity">x{{ $item['quantity_add'] }}</span>
                                                 </div>
-                                                <div class="mini-cart-product-desc ">
+                                                <div class="mini-cart-product-desc">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
                                                     <div class="price-box">
                                                         @if ($item['sale_price'])
@@ -243,7 +359,7 @@
                                                     <div class="size">Size: {{ $item['size']['name'] }}</div>
                                                     <div class="color">Color: {{ $item['color']['name'] }}</div>
                                                 </div>
-                                                <div class="remove-from-cart " style="margin-left:30px;">
+                                                <div class="remove-from-cart ml-3">
                                                     <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"
                                                         method="POST" style="display:inline;">
                                                         @csrf
@@ -258,8 +374,10 @@
                                             </li>
                                         @empty
                                             <li>
-                                                <div class="shopping-cart-content text-center d-flex justify-content-center align-items-center" colspan="8"
-                                                    style="height:150px; color:blue; font-weight:560;">Không có sản phẩm trong giỏ hàng.</div>
+                                                <div class="shopping-cart-content text-center d-flex justify-content-center align-items-center"
+                                                    style="height:150px; color:blue; font-weight:560;">
+                                                    Không có sản phẩm trong giỏ hàng.
+                                                </div>
                                             </li>
                                         @endforelse
 
@@ -279,15 +397,11 @@
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

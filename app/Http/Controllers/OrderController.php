@@ -322,4 +322,10 @@ class OrderController extends Controller
 
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }
+
+
+    public function showOrderLookupForm()
+    {
+        return view('client.order-lookup'); // Trả về view cho trang tra cứu đơn hàng
+    }
 }

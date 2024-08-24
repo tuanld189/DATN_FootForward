@@ -267,5 +267,4 @@ Route::prefix('admin')
         Route::get('export-orders', [OrderController::class, 'export'])->name('orders.export');
 
 
-
     });

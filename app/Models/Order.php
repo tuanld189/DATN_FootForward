@@ -63,6 +63,17 @@ class Order extends Model
         'canceled_at',
     ];
 
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -85,6 +96,7 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('price', 'color', 'size', 'quantity');
     }
+<<<<<<< HEAD
     public function province()
 {
     return $this->belongsTo(Province::class, 'province_code', 'code');
@@ -99,4 +111,7 @@ public function ward()
 {
     return $this->belongsTo(Ward::class, 'ward_code', 'code');
 }
+=======
+
+>>>>>>> 424671d218f8fc7818d40c6cd1ad61480217249d
 }

@@ -42,16 +42,72 @@
         a {
             text-decoration: none;
         }
+
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(-20px);
+        }
+
+        .alert-show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .alert .icon {
+            margin-right: 10px;
+        }
+
+        .alert .icon-success {
+            content: "\2714";
+            /* Checkmark icon */
+            font-size: 20px;
+        }
+
+        .alert .icon-danger {
+            content: "\26A0";
+            /* Warning icon */
+            font-size: 20px;
+        }
+    </style>
+    <style>
+        .close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            float: right;
+            margin-right: 10px;
+        }
     </style>
 @endsection
 
 @section('content')
-
     <div class="text">
-
         <div class="login-container">
             <h2 class="text-center">Đăng nhập</h2>
-            @if ($message = Session::get('error'))
+            {{-- @if ($message = Session::get('error'))
                 <div class="alert alert-danger alert-block">
                     <strong><i class="fas fa-exclamation-circle"></i> {{ $message }}</strong>
                 </div>
@@ -60,6 +116,21 @@
                 <div class="alert alert-success alert-block">
                     <strong><i class="fas fa-check-circle"></i> {{ $message }}</strong>
                 </div>
+            @endif --}}
+            @if (session('success'))
+                <div class="alert alert-success alert-show" id="alert">
+                    <span class="icon icon-success"></span>
+                    {{ session('success') }}
+                    <button type="button" class="close" onclick="closeAlert()">&times;</button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-show" id="alert">
+                    <span class="icon icon-danger"></span>
+                    {{ session('error') }}
+                    <button type="button" class="close" onclick="closeAlert()">&times;</button>
+                </div>
             @endif
             <form action="{{ route('login') }}" method="POST">
                 @csrf
@@ -67,17 +138,11 @@
                     <label for="email">Email</label>
                     <input type="text" class="form-control" id="email" name="email"
                         placeholder="Vui lòng nhập email">
-                    @error('email')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu</label>
                     <input type="password" class="form-control" id="password" name="password"
                         placeholder="Vui lòng nhập mật khẩu">
-                    @error('password')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
                 </div>
                 <div class="form-group">
                     <div class="form-check">
@@ -125,6 +190,24 @@
 @endsection
 
 @section('scripts')
+    <script>
+        window.onload = function() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 3000);
+            }
+        };
+
+        // Hàm ẩn thông báo ngay lập tức khi nhấn nút "Close"
+        function closeAlert() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

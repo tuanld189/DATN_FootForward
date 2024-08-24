@@ -93,12 +93,313 @@
         .carousel-control-next-icon:after {
             color: white;
         }
+
+        /* test */
+
+        .login-container {
+            background: #8a8f6a4a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 40px auto;
+        }
+
+        .login-container .btn-primary,
+        .login-container .btn-default {
+            background: linear-gradient(to right, #000000);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .login-container .btn-primary:hover,
+        .login-container .btn-default:hover {
+            background: linear-gradient(to right, #444444);
+            color: white;
+        }
+
+        .login-container .form-control {
+            border-radius: 10px;
+            border: 1px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-check-label {
+            color: black;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(-20px);
+        }
+
+        .alert-show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .alert .icon {
+            margin-right: 10px;
+        }
+
+        .alert .icon-success {
+            content: "\2714";
+            /* Checkmark icon */
+            font-size: 20px;
+        }
+
+        .alert .icon-danger {
+            content: "\26A0";
+            /* Warning icon */
+            font-size: 20px;
+        }
+
+        /* test */
+    </style>
+    <style>
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Màu nền mờ */
+            z-index: 1000;
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 1000px;
+            position: relative;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            /* Thêm cuộn dọc nếu nội dung quá dài */
+            max-height: 90vh;
+            /* Giới hạn chiều cao của modal */
+        }
+
+        /* Close button */
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-button:hover {
+            color: black;
+        }
+
+        /* Table styles */
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .order-table th,
+        .order-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .order-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        .order-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Adjusting table layout on smaller screens */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .order-table th,
+            .order-table td {
+                padding: 10px;
+            }
+        }
+
+        .search-container {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #search-toggle-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .search-fields {
+            margin-top: 20px;
+        }
+
+        .search-field {
+            margin-bottom: 15px;
+        }
+
+        .search-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .search-field input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+    <style>
+        .close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            float: right;
+            margin-right: 10px;
+        }
     </style>
 
+    <style>
+        .search-container {
+            position: relative;
+            width: 500px;
+            margin: 0 auto;
+            z-index: 1000;
+            /* Đảm bảo container tìm kiếm nằm trên các phần tử khác */
+        }
 
+        .search-input {
+            width: 100%;
+            height: 50px;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            /* Bo tròn góc của thanh tìm kiếm */
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Thêm shadow để tạo hiệu ứng nổi bật */
+        }
+
+        .suggestions-box {
+            position: absolute;
+            top: 60px;
+            width: 100%;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            /* Ẩn khi chưa có gợi ý */
+            z-index: 1100;
+            /* Đảm bảo danh sách gợi ý nằm trên cả banner */
+            margin-top: 10px;
+            /* Thêm khoảng cách giữa thanh tìm kiếm và danh sách gợi ý */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Thêm shadow để tạo hiệu ứng nổi bật */
+            border-radius: 10px;
+            /* Bo tròn góc của hộp gợi ý */
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            /* Bo tròn nhẹ góc của mỗi mục trong danh sách gợi ý */
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .suggestion-image {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+            /* Tăng khoảng cách giữa hình ảnh và chữ */
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .suggestion-item span {
+            font-size: 16px;
+            flex-grow: 1;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
+
+    @if (session('success'))
+        <div class="alert alert-success alert-show" id="alert">
+            <span class="icon icon-success"></span>
+            {{ session('success') }}
+            <button type="button" class="close" onclick="closeAlert()">&times;</button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-show" id="alert">
+            <span class="icon icon-danger"></span>
+            {{ session('error') }}
+        </div>
+    @endif
+
     {{-- BANNER --}}
     <div class="hero-slider-box">
         <div class="container-fluid">
@@ -310,7 +611,8 @@
                                 </div>
                                 <div class="product-action">
 
-                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Thêm vào giỏ hàng</button>
+                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Thêm vào
+                                        giỏ hàng</button>
 
                                     <div class="star_content">
                                         <ul class="d-flex">
@@ -448,11 +750,113 @@
 @endsection
 
 @section('scripts')
+
+    <script>
+        function searchProducts(query) {
+            const suggestionsBox = document.getElementById('suggestions');
+
+            if (query.length === 0) {
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+
+            fetch(`/search?search=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        suggestionsBox.innerHTML = data.map(product => `
+                    <div class="suggestion-item" onclick="selectSuggestion(${product.id})">
+                        <img class="img-fluid suggestion-image" src="/storage/${product.img_thumbnail}" style="width: 50px; height: 50px; object-fit: cover;" alt="${product.name}">
+                        <span>${product.name}</span>
+                    </div>
+                `).join('');
+                        suggestionsBox.style.display = 'block';
+                    } else {
+                        suggestionsBox.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                });
+        }
+
+        function selectSuggestion(productId) {
+            window.location.href = `/product/${productId}`;
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var searchToggleButton = document.getElementById('search-toggle-button');
+            var searchFields = document.getElementById('search-fields');
+
+            searchToggleButton.addEventListener('click', function() {
+                if (searchFields.style.display === "none" || searchFields.style.display === "") {
+                    searchFields.style.display = "block";
+                } else {
+                    searchFields.style.display = "none";
+                }
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById('order-search-result');
+            var closeButton = document.querySelector('.close-button');
+
+            closeButton.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            // Mở modal khi có kết quả tìm kiếm
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        });
+
+        window.onload = function() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 3000);
+            }
+        };
+
+        // Hàm ẩn thông báo ngay lập tức khi nhấn nút "Close"
+        function closeAlert() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("order-details-modal").style.display = "none";
+        }
+    </script>
+    <script>
+        // test
+        document.addEventListener('DOMContentLoaded', function() {
+            const alert = document.getElementById('alert');
+            if (alert) {
+                setTimeout(() => {
+                    alert.classList.remove('alert-show');
+                    setTimeout(() => {
+                        alert.style.display = 'none';
+                    }, 500); // Thời gian cho hiệu ứng ẩn
+                }, 3000); // Thông báo sẽ ẩn sau 3 giây
+            }
+        });
+
+
+        // test
+
         $(document).ready(function() {
             var $slides = $('.single-slide');
             var currentIndex = 0;
