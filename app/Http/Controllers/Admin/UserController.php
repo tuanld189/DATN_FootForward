@@ -160,18 +160,6 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('status', 'User Updated Successfully');
 
     }
-   public function destroy($id)
-
-
-    {
-        $user = User::findOrFail($id);
-        if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
-            Storage::delete($user->photo_thumbs);
-        }
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
-    }
-
     public function getDistricts($province_code)
     {
         $districts = District::where('province_code', $province_code)->get();
@@ -184,4 +172,15 @@ class UserController extends Controller
         // dd($wards); // Kiểm tra dữ liệu trả về
         return response()->json($wards);
     }
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
+            Storage::delete($user->photo_thumbs);
+        }
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
+    }
+
+
 }

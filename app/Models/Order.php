@@ -35,6 +35,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'order_code',
+        'user_name',
         'user_email',
         'user_phone',
         'user_address',
@@ -45,6 +46,9 @@ class Order extends Model
         'ship_user_email',
         'ship_user_phone',
         'ship_user_address',
+        'ship_province_code',
+        'ship_district_code',
+        'ship_ward_code',
         'ship_user_note',
         'status_order',
         'status_payment',
@@ -92,5 +96,22 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('price', 'color', 'size', 'quantity');
     }
+<<<<<<< HEAD
+    public function province()
+{
+    return $this->belongsTo(Province::class, 'province_code', 'code');
+}
 
+public function district()
+{
+    return $this->belongsTo(District::class, 'district_code', 'code');
+}
+
+public function ward()
+{
+    return $this->belongsTo(Ward::class, 'ward_code', 'code');
+}
+=======
+
+>>>>>>> 424671d218f8fc7818d40c6cd1ad61480217249d
 }

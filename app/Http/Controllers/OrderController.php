@@ -35,16 +35,19 @@ class OrderController extends Controller
                     'email' => $request->input('user_email'),
                     'phone' => $request->input('user_phone'),
                     'address' => $request->input('user_address'),
+                    'province_code' => $request->input('province_code'),
+                    'district_code' => $request->input('district_code'),
+                    'ward_code' => $request->input('ward_code'),
                     'password' => bcrypt($request->input('user_password')),
                     'username' => $name,
                     'user_code' => $userCode,
                     'status' => null,
                     'fullname' => $request->input('user_name')
                 ]);
-                if ($user) {
-                    Log::info('User created successfully: ' . $user->id);
-                } else {
-                    Log::error('Failed to create user');
+
+                if (!$user) {
+                    DB::rollBack();
+                    return back()->with('error', 'Failed to create user. Please try again.');
                 }
             } else {
                 $user = Auth::user();
@@ -76,6 +79,9 @@ class OrderController extends Controller
             $order->user_name = $request->input('user_name');
             $order->user_email = $request->input('user_email');
             $order->user_phone = $request->input('user_phone');
+            $order->province_code = $request->input('province_code');
+            $order->district_code = $request->input('district_code');
+            $order->ward_code = $request->input('ward_code');
             $order->user_address = $request->input('user_address');
             $order->user_note = $request->input('user_note');
             $order->total_price = $totalAmount;
@@ -104,7 +110,7 @@ class OrderController extends Controller
                 return redirect()->route('order.confirmation', ['order_id' => $order->id]);
             } elseif ($request->input('payment_method') == 'vnpay') {
                 return $this->vnpay_payment($request, $order->id);
-            }else {
+            } else {
                 // Handle other payment methods or throw an error
                 return redirect()->back()->with('error', 'Invalid payment method selected.');
             }
@@ -269,7 +275,7 @@ class OrderController extends Controller
 
     public function confirmation($order_id)
     {
-        $order = Order::findOrFail($order_id);
+        $order = Order::with('province', 'district', 'ward')->findOrFail($order_id);
         $orderItems = OrderItem::where('order_id', $order_id)->get();
 
         return view('client.order-confirmation', compact('order', 'orderItems'));

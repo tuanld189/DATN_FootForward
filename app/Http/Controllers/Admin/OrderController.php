@@ -21,8 +21,9 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        $query = Order::query()->orderBy('id', 'desc');
+        $query = Order::with('province')->orderBy('id', 'desc');
 
+        // Apply filters
         if ($request->filled('status_order')) {
             $query->where('status_order', $request->status_order);
         }

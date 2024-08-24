@@ -280,14 +280,6 @@
                                                 </td>
                                                 <td>{{ $item->id }}</td>
                                                 <td>
-                                                    {{-- @php
-                                            $imageUrl = $item->img_thumbnail;
-                                            if (!Str::contains($imageUrl, 'http')) {
-                                                $imageUrl = asset('storage/' . $imageUrl);
-                                            }
-                                        @endphp
-
-                                        {{-- <img src="{{ $imageUrl }}" alt="{{ $item->name }}" width="100px"> --}}
 
                                                     @php
                                                         $url = $item->img_thumbnail;

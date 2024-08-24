@@ -432,6 +432,7 @@
                                                 <th scope="row">Huyện:</th>
                                                 <td>
                                                     <select class="form-control" id="district_code" name="district_code"
+                                                        data-selected="{{ old('district_code', $user->district_code) }}"
                                                         required>
                                                         <option value="">Chọn Huyện</option>
                                                         <!-- Các huyện sẽ được điền bởi AJAX -->
@@ -441,10 +442,12 @@
                                             <tr>
                                                 <th scope="row">Xã:</th>
                                                 <td>
-                                                    <select class="form-control" id="ward_code" name="ward_code" required>
+                                                    <select class="form-control" id="ward_code" name="ward_code"
+                                                        data-selected="{{ old('ward_code', $user->ward_code) }}" required>
                                                         <option value="">Chọn Xã</option>
                                                         <!-- Các xã sẽ được điền bởi AJAX -->
                                                     </select>
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -667,9 +670,9 @@
                                     });
 
                                     // Pre-select district if user has it
-                                    if ($('#district_code').data('selected')) {
-                                        $('#district_code').val($('#district_code').data('selected')).trigger(
-                                            'change');
+                                    var selectedDistrict = $('#district_code').data('selected');
+                                    if (selectedDistrict) {
+                                        $('#district_code').val(selectedDistrict).trigger('change');
                                     }
                                 }
                             });
@@ -694,8 +697,9 @@
                                     });
 
                                     // Pre-select ward if user has it
-                                    if ($('#ward_code').data('selected')) {
-                                        $('#ward_code').val($('#ward_code').data('selected'));
+                                    var selectedWard = $('#ward_code').data('selected');
+                                    if (selectedWard) {
+                                        $('#ward_code').val(selectedWard);
                                     }
                                 }
                             });

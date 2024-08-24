@@ -68,8 +68,11 @@
                                             class="card-logo card-logo-light" alt="logo light" height="17">
                                         <div class="mt-sm-5 mt-4">
                                             <h6 class="text-muted text-uppercase fw-semibold">Address</h6>
-                                            <p class="text-muted mb-1" id="address-details">Hà Nội, Số 1 Trịnh Văn Bô</p>
-                                            <p class="text-muted mb-0" id="zip-code"><span>Zip-code:</span> 90201</p>
+                                            <p class="text-muted mb-1" id="address-details">
+                                                {{ $order->ward ? $order->ward->name : 'N/A' }},
+                                                {{ $order->district ? $order->district->name : 'N/A' }},
+                                                {{ $order->province ? $order->province->name : 'N/A' }}</p>
+                                            {{-- <p class="text-muted mb-0" id="zip-code"><span>Zip-code:</span> 90201</p> --}}
                                         </div>
                                     </div>
                                     <div class="flex-shrink-0 mt-sm-0 mt-5">
@@ -261,6 +264,7 @@
                                         <tr class="table-active">
                                             <th scope="col" style="width: 50px;">#</th>
                                             <th scope="col">Thông tin chi tiết sản phẩm</th>
+                                            <th scope="col">Ảnh</th>
                                             <th scope="col">Giá</th>
                                             <th scope="col">Màu</th>
                                             <th scope="col">Kích cỡ</th>
@@ -275,6 +279,10 @@
                                                 <td class="text-start">
                                                     <span class="fw-medium">{{ $item->product_name }}</span>
                                                     <p class="text-muted mb-0">SKU: {{ $item->product_sku }}</p>
+                                                </td>
+                                                <td>
+
+                                                    <img src="{{ Storage::url($item->product_image) }}" alt="" width="100">
                                                 </td>
                                                 <td> {{ number_format($item->product_price, 0, ',', '.') }} VND</td>
                                                 <td>{{ $item->variant_color_name }}</td>

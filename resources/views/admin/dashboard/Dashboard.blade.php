@@ -67,7 +67,7 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ number_format($totalRevenue, 0, ',', '.') }} VNĐ
                                         </h4>
-                                        <a href="{{ route('admin.dashboard.RevenueDetail') }}"
+                                        <a href="{{ route('admin.dashboard.RevenueDetail', ['filter' => 'this_week']) }}"
                                             class="text-decoration-underline">Xem chi tiết</a>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
