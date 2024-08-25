@@ -187,7 +187,7 @@
                                                     </div>
                                                     <div class="product-action">
                                                         <button class="add-to-cart" title="Add to cart"><i
-                                                                class="fa fa-plus"></i> Add to cart</button>
+                                                                class="fa fa-plus"></i> Thêm vào giỏ hàng</button>
                                                         <div class="star_content">
                                                             <ul class="d-flex">
                                                                 <li><a class="star" href="#"><i
@@ -309,8 +309,9 @@
                                     <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
                                 </div>
                                 <div class="product-action">
-                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to
-                                        cart</button>
+
+                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Thêm vào giỏ hàng</button>
+
                                     <div class="star_content">
                                         <ul class="d-flex">
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
@@ -433,8 +434,8 @@
                 @foreach ($brands as $brand)
                     <div class="col-lg-2">
                         <div class="single-brand ">
-                            <img class="img-fluid" src="{{ $brand->image }}" alt="" width="100px"
-                                height="100px">
+                            <img class="img-fluid" src="{{ $brand->image }}" alt="" width="200px"
+                                height="200px">
                         </div>
                     </div>
                 @endforeach

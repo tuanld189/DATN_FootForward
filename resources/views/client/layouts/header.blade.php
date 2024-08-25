@@ -53,7 +53,7 @@
                                         <i class="">
                                             <img alt="user avatar"
                                                 src="{{ Auth::check() && Auth::user()->photo_thumbs ? Storage::url(Auth::user()->photo_thumbs) : asset('assets/images/banner/Avatardf.jpg') }}"
-                                                style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->fullname : 'Setting' }}
+                                                style="border-radius: 100%; height:25px; width:25px; "></i>{{ Auth::check() ? Auth::user()->name : 'Cài đặt' }}
                                         <i class="fa fa-angle-down">
                                         </i>
                                     </button>
@@ -81,7 +81,7 @@
                                                 </li>
                                             @else
                                                 <li>
-                                                    <a href="{{ route('signup') }}">Đăng kí</a>
+                                                    <a href="{{ route('signup') }}">Đăng ký</a>
                                                 </li>
                                                 <li>
                                                     <a href="{{ route('login') }}">Đăng nhập</a>
