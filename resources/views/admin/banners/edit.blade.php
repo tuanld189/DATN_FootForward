@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    Update Brand's Product: {{ $model->namne }}
+    Update Banners: {{ $model->namne }}
 @endsection
 @section('content')
     <div class="row mb-4">
@@ -23,7 +23,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.brands.update', $model->id) }}" method="POST"
+                    <form action="{{ route('admin.banners.update', $model->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

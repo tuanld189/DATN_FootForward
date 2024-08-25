@@ -203,8 +203,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\laragon\\www\\DATN\\storage\\framework/cache/data',
-        'lock_path' => 'D:\\laragon\\www\\DATN\\storage\\framework/cache/data',
+        'path' => 'D:\\DATN\\test\\storage\\framework/cache/data',
+        'lock_path' => 'D:\\DATN\\test\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -382,7 +382,7 @@
       'enabled' => true,
       'open' => NULL,
       'driver' => 'file',
-      'path' => 'D:\\laragon\\www\\DATN\\storage\\debugbar',
+      'path' => 'D:\\DATN\\test\\storage\\debugbar',
       'connection' => NULL,
       'provider' => '',
       'hostname' => '127.0.0.1',
@@ -636,7 +636,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'D:\\laragon\\www\\DATN\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'D:\\DATN\\test\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -653,13 +653,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\laragon\\www\\DATN\\storage\\app',
+        'root' => 'D:\\DATN\\test\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\laragon\\www\\DATN\\storage\\app/public',
+        'root' => 'D:\\DATN\\test\\storage\\app/public',
         'url' => 'http://127.0.0.1:8000/storage',
         'visibility' => 'public',
       ),
@@ -678,7 +678,7 @@
     ),
     'links' => 
     array (
-      'D:\\laragon\\www\\DATN\\public\\storage' => 'D:\\laragon\\www\\DATN\\storage\\app/public',
+      'D:\\DATN\\test\\public\\storage' => 'D:\\DATN\\test\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -846,14 +846,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'D:\\laragon\\www\\DATN\\storage\\logs/laravel.log',
+        'path' => 'D:\\DATN\\test\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'D:\\laragon\\www\\DATN\\storage\\logs/laravel.log',
+        'path' => 'D:\\DATN\\test\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -918,7 +918,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'D:\\laragon\\www\\DATN\\storage\\logs/laravel.log',
+        'path' => 'D:\\DATN\\test\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -992,7 +992,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\laragon\\www\\DATN\\resources\\views/vendor/mail',
+        0 => 'D:\\DATN\\test\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -1105,7 +1105,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'D:\\laragon\\www\\DATN\\storage\\framework/sessions',
+    'files' => 'D:\\DATN\\test\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -1126,9 +1126,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\laragon\\www\\DATN\\resources\\views',
+      0 => 'D:\\DATN\\test\\resources\\views',
     ),
-    'compiled' => 'D:\\laragon\\www\\DATN\\storage\\framework\\views',
+    'compiled' => 'D:\\DATN\\test\\storage\\framework\\views',
   ),
   'flare' => 
   array (
@@ -1214,7 +1214,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'D:\\laragon\\www\\DATN',
+    'remote_sites_path' => 'D:\\DATN\\test',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
@@ -1240,6 +1240,46 @@
       8 => 'Spatie\\LaravelIgnition\\ArgumentReducers\\ModelArgumentReducer',
       9 => 'Spatie\\LaravelIgnition\\ArgumentReducers\\CollectionArgumentReducer',
       10 => 'Spatie\\Backtrace\\Arguments\\Reducers\\StringableArgumentReducer',
+    ),
+  ),
+  'permission' => 
+  array (
+    'models' => 
+    array (
+      'permission' => 'Spatie\\Permission\\Models\\Permission',
+      'role' => 'Spatie\\Permission\\Models\\Role',
+    ),
+    'table_names' => 
+    array (
+      'roles' => 'roles',
+      'permissions' => 'permissions',
+      'model_has_permissions' => 'model_has_permissions',
+      'model_has_roles' => 'model_has_roles',
+      'role_has_permissions' => 'role_has_permissions',
+    ),
+    'column_names' => 
+    array (
+      'role_pivot_key' => NULL,
+      'permission_pivot_key' => NULL,
+      'model_morph_key' => 'model_id',
+      'team_foreign_key' => 'team_id',
+    ),
+    'register_permission_check_method' => true,
+    'register_octane_reset_listener' => false,
+    'teams' => false,
+    'use_passport_client_credentials' => false,
+    'display_permission_in_exception' => false,
+    'display_role_in_exception' => false,
+    'enable_wildcard_permission' => false,
+    'cache' => 
+    array (
+      'expiration_time' => 
+      \DateInterval::__set_state(array(
+         'from_string' => true,
+         'date_string' => '24 hours',
+      )),
+      'key' => 'spatie.permission.cache',
+      'store' => 'default',
     ),
   ),
   'lfm-config' => 
@@ -1347,6 +1387,69 @@
     'php_ini_overrides' => 
     array (
       'memory_limit' => '256M',
+    ),
+  ),
+  'ide-helper' => 
+  array (
+    'filename' => '_ide_helper.php',
+    'models_filename' => '_ide_helper_models.php',
+    'meta_filename' => '.phpstorm.meta.php',
+    'include_fluent' => false,
+    'include_factory_builders' => false,
+    'write_model_magic_where' => true,
+    'write_model_external_builder_methods' => true,
+    'write_model_relation_count_properties' => true,
+    'write_eloquent_model_mixins' => false,
+    'include_helpers' => false,
+    'helper_files' => 
+    array (
+      0 => 'D:\\DATN\\test/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+    ),
+    'model_locations' => 
+    array (
+      0 => 'app',
+    ),
+    'ignored_models' => 
+    array (
+    ),
+    'model_hooks' => 
+    array (
+    ),
+    'extra' => 
+    array (
+      'Eloquent' => 
+      array (
+        0 => 'Illuminate\\Database\\Eloquent\\Builder',
+        1 => 'Illuminate\\Database\\Query\\Builder',
+      ),
+      'Session' => 
+      array (
+        0 => 'Illuminate\\Session\\Store',
+      ),
+    ),
+    'magic' => 
+    array (
+    ),
+    'interfaces' => 
+    array (
+    ),
+    'model_camel_case_properties' => false,
+    'type_overrides' => 
+    array (
+      'integer' => 'int',
+      'boolean' => 'bool',
+    ),
+    'include_class_docblocks' => false,
+    'force_fqn' => false,
+    'use_generics_annotations' => true,
+    'additional_relation_types' => 
+    array (
+    ),
+    'additional_relation_return_types' => 
+    array (
+    ),
+    'post_migrate' => 
+    array (
     ),
   ),
   'tinker' => 

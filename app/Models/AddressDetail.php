@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AddressDetail extends Model
 {
     use HasFactory;
+    protected $table = 'address_details';
     protected $fillable = [
 
         'address',
@@ -17,6 +18,7 @@ class AddressDetail extends Model
         'created_at',
         'updated_at',
     ];
+
     public function province()
     {
         return $this->belongsTo(Province::class);

@@ -253,7 +253,7 @@
                     <!-- Order Lookup -->
                     <div class="order-lookup mr-3 d-flex align-items-center">
                         <a href="{{ route('orders.lookup') }}" class="order-lookup-button d-flex align-items-center">
-                            <i class="fas fa-box"></i> <span class="px-1">Tra đơn hàng</span>
+                            <i class="fas fa-box"></i> <span class="px-1">Tìm đơn</span>
                         </a>
                     </div>
 

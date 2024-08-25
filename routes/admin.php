@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')
     ->as('admin.')
     ->middleware(['auth', 'admin.access'])
+    // ->middleware(['auth'])
     ->group(function () {
 
         Route::get('/', function () {

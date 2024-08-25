@@ -21,11 +21,111 @@ use Notification;
 
 class OrderController extends Controller
 {
+    // public function placeOrder(Request $request)
+    // {
+    //     try {
+    //         DB::beginTransaction();
+
+    //         if (!Auth::check()) {
+    //             $userCode = Str::random(10);
+    //             $name = Str::random(8);
+
+    //             $user = User::create([
+    //                 'name' => $request->input('user_name'),
+    //                 'email' => $request->input('user_email'),
+    //                 'phone' => $request->input('user_phone'),
+    //                 // 'address' => $request->input('user_address'),
+    //                 'password' => bcrypt($request->input('user_password')),
+    //                 'username' => $name,
+    //                 'user_code' => $userCode,
+    //                 'status' => null,
+    //                 'fullname' => $request->input('user_name')
+    //             ]);
+    //             if ($user) {
+    //                 Log::info('User created successfully: ' . $user->id);
+    //             } else {
+    //                 Log::error('Failed to create user');
+    //             }
+    //         } else {
+    //             $user = Auth::user();
+    //         }
+
+    //         $totalAmount = 0;
+    //         $orderItems = [];
+
+    //         foreach (session('cart') as $variantID => $item) {
+    //             $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+
+    //             $orderItems[] = [
+    //                 'product_variant_id' => $variantID,
+    //                 'quantity_add' => $item['quantity_add'],
+    //                 'product_name' => $item['name'],
+    //                 'product_sku' => $item['sku'],
+    //                 'product_image' => $item['image'],
+    //                 'product_price' => $item['price'],
+    //                 'product_sale_price' => $item['sale_price'],
+    //                 'variant_size_name' => $item['size']['name'],
+    //                 'variant_color_name' => $item['color']['name'],
+    //             ];
+    //         }
+
+    //         $order = new Order();
+    //         $order->user_id = Auth::check() ? $request->input('user_id') : $user->id;
+    //         $order->user_password = Auth::check() ? null : $request->input('user_password');
+    //         $order->order_code = $request->input('order_code');
+    //         $order->user_name = $request->input('user_name');
+    //         $order->user_email = $request->input('user_email');
+    //         $order->user_phone = $request->input('user_phone');
+    //         $order->user_address = $request->input('user_address');
+    //         $order->user_note = $request->input('user_note');
+    //         $order->total_price = $totalAmount;
+
+    //         $now = Carbon::now('Asia/Ho_Chi_Minh');
+    //         $order->created_at = $now;
+    //         $order->pending_at = $now;
+
+    //         $order->save();
+
+
+    //         foreach ($orderItems as $item) {
+    //             $item['order_id'] = $order->id;
+    //             OrderItem::create($item);
+
+    //             $productVariant = ProductVariant::findOrFail($item['product_variant_id']);
+    //             $productVariant->quantity -= $item['quantity_add'];
+    //             $productVariant->save();
+    //         }
+
+    //         DB::commit();
+
+    //         session()->forget('cart');
+    //         // Redirect based on selected payment method
+    //         if ($request->input('payment_method') == 'COD') {
+    //             return redirect()->route('order.confirmation', ['order_id' => $order->id]);
+    //         } elseif ($request->input('payment_method') == 'vnpay') {
+    //             return $this->vnpay_payment($request, $order->id);
+    //         } else {
+    //             // Handle other payment methods or throw an error
+    //             return redirect()->back()->with('error', 'Invalid payment method selected.');
+    //         }
+    //         // return $this->vnpay_payment($request, $order->id);
+    //     } catch (\Illuminate\Database\QueryException $e) {
+    //         DB::rollBack();
+    //         dd('Database error: ' . $e->getMessage(), $e);
+    //         // return back()->with('error', 'Đã xảy ra lỗi với cơ sở dữ liệu. Vui lòng thử lại sau.');
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         dd('General error: ' . $e->getMessage(), $e);
+    //         // return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
+    //     }
+    // }
+
     public function placeOrder(Request $request)
     {
         try {
             DB::beginTransaction();
 
+            // If the user is not logged in, create a new account
             if (!Auth::check()) {
                 $userCode = Str::random(10);
                 $name = Str::random(8);
@@ -34,13 +134,13 @@ class OrderController extends Controller
                     'name' => $request->input('user_name'),
                     'email' => $request->input('user_email'),
                     'phone' => $request->input('user_phone'),
-                    'address' => $request->input('user_address'),
                     'password' => bcrypt($request->input('user_password')),
                     'username' => $name,
                     'user_code' => $userCode,
                     'status' => null,
                     'fullname' => $request->input('user_name')
                 ]);
+
                 if ($user) {
                     Log::info('User created successfully: ' . $user->id);
                 } else {
@@ -52,9 +152,12 @@ class OrderController extends Controller
 
             $totalAmount = 0;
             $orderItems = [];
+            $totalQuantity = 0;
 
+            // Calculate the total amount of the cart and total quantity of items
             foreach (session('cart') as $variantID => $item) {
                 $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+                $totalQuantity += $item['quantity_add'];
 
                 $orderItems[] = [
                     'product_variant_id' => $variantID,
@@ -69,6 +172,12 @@ class OrderController extends Controller
                 ];
             }
 
+            // Determine shipping cost based on the total quantity of items
+            $shippingCost = $totalQuantity < 2 ? 50000 : 0; // 50,000 VND for 1 item, free for 2 or more items
+
+            // Update total amount with shipping cost
+            $totalAmount += $shippingCost;
+
             $order = new Order();
             $order->user_id = Auth::check() ? $request->input('user_id') : $user->id;
             $order->user_password = Auth::check() ? null : $request->input('user_password');
@@ -78,7 +187,7 @@ class OrderController extends Controller
             $order->user_phone = $request->input('user_phone');
             $order->user_address = $request->input('user_address');
             $order->user_note = $request->input('user_note');
-            $order->total_price = $totalAmount;
+            $order->total_price = $totalAmount; // Includes shipping cost
 
             $now = Carbon::now('Asia/Ho_Chi_Minh');
             $order->created_at = $now;
@@ -86,7 +195,7 @@ class OrderController extends Controller
 
             $order->save();
 
-
+            // Save order details
             foreach ($orderItems as $item) {
                 $item['order_id'] = $order->id;
                 OrderItem::create($item);
@@ -99,16 +208,15 @@ class OrderController extends Controller
             DB::commit();
 
             session()->forget('cart');
-            // Redirect based on selected payment method
+            // Redirect based on the selected payment method
             if ($request->input('payment_method') == 'COD') {
                 return redirect()->route('order.confirmation', ['order_id' => $order->id]);
             } elseif ($request->input('payment_method') == 'vnpay') {
                 return $this->vnpay_payment($request, $order->id);
-            }else {
+            } else {
                 // Handle other payment methods or throw an error
                 return redirect()->back()->with('error', 'Invalid payment method selected.');
             }
-            // return $this->vnpay_payment($request, $order->id);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             dd('Database error: ' . $e->getMessage(), $e);
@@ -119,6 +227,9 @@ class OrderController extends Controller
             // return back()->with('error', 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.');
         }
     }
+
+
+
 
 
 
@@ -237,32 +348,87 @@ class OrderController extends Controller
     //     }
     //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     // }
+    // public function vnpay_return(Request $request)
+    // {
+    //     $orderId = $request->input('order_id');
+    //     $order = Order::findOrFail($orderId);
+
+    //     if ($request->input('vnp_ResponseCode') == '00') {
+    //         $order->status_payment = Order::STATUS_PAYMENT_PAID;
+
+    //         $order->total_price = session()->get('total_amount', $order->total_price);
+    //         $order->save();
+
+    //         event(new OrderShipped($order));
+    //         $user = $order->user;
+    //         Notification::send($user, new OrderUpdated($order));
+    //     } else {
+    //         $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
+    //         $order->save();
+    //         event(new OrderShipped($order));
+    //         $user = $order->user;
+    //         Notification::send($user, new OrderUpdated($order));
+    //     }
+    //     // Xóa mã giảm giá sau khi thanh toán nếu cần
+    //     // session()->forget('voucher_code');
+
+    //     return redirect()->route('order.confirmation', ['order_id' => $orderId]);
+    // }
+
+
     public function vnpay_return(Request $request)
     {
         $orderId = $request->input('order_id');
         $order = Order::findOrFail($orderId);
 
+        // Check if the payment was successful
         if ($request->input('vnp_ResponseCode') == '00') {
             $order->status_payment = Order::STATUS_PAYMENT_PAID;
 
-            $order->total_price = session()->get('total_amount', $order->total_price);
+            // Determine the total quantity of items in the order
+            $orderItems = OrderItem::where('order_id', $orderId)->get();
+            $totalQuantity = $orderItems->sum('quantity_add');
+
+            // Determine shipping cost based on the total quantity of items
+            $shippingCost = $totalQuantity < 2 ? 50000 : 0; // 50,000 VND for 1 item, free for 2 or more items
+
+            // Retrieve the total amount from session or use the saved total price
+            $totalAmount = session()->get('total_amount', $order->total_price);
+
+            // Update the total price including shipping cost
+            $order->total_price = $totalAmount + $shippingCost;
             $order->save();
 
+            // Trigger events and notifications
             event(new OrderShipped($order));
             $user = $order->user;
             Notification::send($user, new OrderUpdated($order));
         } else {
+            // Handle failed payment
             $order->status_payment = Order::STATUS_PAYMENT_UNPAID;
             $order->save();
-            event(new OrderShipped($order));
+
+            // Trigger events and notifications
+            event(new OrderFailed($order));
             $user = $order->user;
-            Notification::send($user, new OrderUpdated($order));
+            Notification::send($user, new OrderFailedNotification($order));
         }
-        // Xóa mã giảm giá sau khi thanh toán nếu cần
-        // session()->forget('voucher_code');
+
+        // Optionally clear the voucher code session after payment
+        session()->forget('voucher_code');
 
         return redirect()->route('order.confirmation', ['order_id' => $orderId]);
     }
+
+    // Example function to check if the address is in Hanoi
+    private function isAddressInHanoi($address)
+    {
+        return stripos($address, 'Hà Nội') !== false;
+    }
+
+
+
+
 
 
 

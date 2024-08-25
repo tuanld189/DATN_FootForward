@@ -31,9 +31,11 @@
     @yield('styles')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
         body {
             font-family: 'Poppins', sans-serif;
         }
+
         .header-bottom-area {
             background: #fff;
             border-bottom: 1px solid #ddd;
@@ -68,9 +70,11 @@
             align-items: center;
             gap: 5px;
         }
-        .logo{
-            padding-left:20px;
+
+        .logo {
+            padding-left: 20px;
         }
+
         .main-navigation ul li a {
             font-size: 16px;
         }
@@ -82,14 +86,17 @@
         .shoping-cart .dropdown-toggle {
             font-size: 16px;
         }
-        .main-menu-area .mega-menu > li a {
+
+        .main-menu-area .mega-menu>li a {
             font-size: 14px;
             font-weight: normal;
             text-transform: capitalize;
         }
+
         .old-price {
             text-decoration: line-through;
         }
+
         .notification-item {
             border-bottom: 1px solid #ddd;
             padding: 10px;
@@ -98,130 +105,133 @@
         .notification-item:last-child {
             border-bottom: none;
         }
+
         .header-area .dropdown-menu.open {
             max-height: 350px;
         }
-
     </style>
 
 </head>
 
 <body class="box-body  ">
     <div class="main-wrapper home-2">
-    <!-- Main Wrapper Start -->
-    <div class="main-wrapper">
+        <!-- Main Wrapper Start -->
+        <div class="main-wrapper">
 
 
-        @include('client.layouts.header')
+            @include('client.layouts.header')
 
-        <!-- Main Content -->
-        <div class="content" style="min-height: calc(100vh - 200px); padding-top: 50px; padding-bottom: 50px; background:#fff; ">
-            @yield('content')
-        </div>
-        <!-- End Main Content -->
-        @include('client.layouts.footer')
+            <!-- Main Content -->
+            <div class="content"
+                style="min-height: calc(100vh - 200px); padding-top: 50px; padding-bottom: 50px; background:#fff; ">
+                @yield('content')
+            </div>
+            <!-- End Main Content -->
+            @include('client.layouts.footer')
 
 
 
-        <!-- Modal Algemeen Uitgelicht start -->
-        <div class="modal fade modal-wrapper" id="exampleModalCenter">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-<div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <div class="modal-inner-area row">
-                            <div class="col-lg-5 col-md-6 col-sm-6">
-                                <!-- Product Details Left -->
-                                <div class="product-details-left">
-                                    <div class="product-details-images slider-navigation-1">
-                                        <div class="lg-image">
-                                            <img src="assets/images/product/1.jpg" alt="product image">
+            <!-- Modal Algemeen Uitgelicht start -->
+            {{-- <div class="modal fade modal-wrapper" id="exampleModalCenter">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="modal-inner-area row">
+                                <div class="col-lg-5 col-md-6 col-sm-6">
+                                    <!-- Product Details Left -->
+                                    <div class="product-details-left">
+                                        <div class="product-details-images slider-navigation-1">
+                                            <div class="lg-image">
+                                                <img src="assets/images/product/1.jpg" alt="product image">
+                                            </div>
+                                            <div class="lg-image">
+                                                <img src="assets/images/product/2.jpg" alt="product image">
+                                            </div>
+                                            <div class="lg-image">
+                                                <img src="assets/images/product/3.jpg" alt="product image">
+                                            </div>
+                                            <div class="lg-image">
+                                                <img src="assets/images/product/5.jpg" alt="product image">
+                                            </div>
                                         </div>
-                                        <div class="lg-image">
-                                            <img src="assets/images/product/2.jpg" alt="product image">
-                                        </div>
-                                        <div class="lg-image">
-                                            <img src="assets/images/product/3.jpg" alt="product image">
-                                        </div>
-                                        <div class="lg-image">
-                                            <img src="assets/images/product/5.jpg" alt="product image">
+                                        <div class="product-details-thumbs slider-thumbs-1">
+                                            <div class="sm-image"><img src="assets/images/product/1.jpg"
+                                                    alt="product image thumb"></div>
+                                            <div class="sm-image"><img src="assets/images/product/2.jpg"
+                                                    alt="product image thumb"></div>
+                                            <div class="sm-image"><img src="assets/images/product/3.jpg"
+                                                    alt="product image thumb"></div>
+                                            <div class="sm-image"><img src="assets/images/product/4.jpg"
+                                                    alt="product image thumb"></div>
                                         </div>
                                     </div>
-                                    <div class="product-details-thumbs slider-thumbs-1">
-                                        <div class="sm-image"><img src="assets/images/product/1.jpg"
-                                                alt="product image thumb"></div>
-                                        <div class="sm-image"><img src="assets/images/product/2.jpg"
-                                                alt="product image thumb"></div>
-                                        <div class="sm-image"><img src="assets/images/product/3.jpg"
-                                                alt="product image thumb"></div>
-                                        <div class="sm-image"><img src="assets/images/product/4.jpg"
-                                                alt="product image thumb"></div>
-                                    </div>
+                                    <!--// Product Details Left -->
                                 </div>
-                                <!--// Product Details Left -->
-                            </div>
 
-                            <div class="col-lg-7 col-md-6 col-sm-6">
-                                <div class="product-details-view-content">
-                                    <div class="product-info">
-                                        <h2>Healthy Melt</h2>
-                                        <div class="price-box">
-                                            <span class="old-price">$70.00</span>
-<span class="new-price">$76.00</span>
-                                            <span class="discount discount-percentage">Save 5%</span>
-                                        </div>
-                                        <p>100% cotton double printed dress. Black and white striped top and orange
-                                            high waisted skater skirt bottom. Lorem ipsum dolor sit amet,
-                                            consectetur adipisicing elit. quibusdam corporis, earum facilis et
-                                            nostrum dolorum accusamus similique eveniet quia pariatur.</p>
-                                        <div class="product-variants">
-                                            <div class="produt-variants-size">
-                                                <label>Size</label>
-                                                <select class="form-control-select">
-                                                    <option value="1" title="S" selected="selected">S
-                                                    </option>
-                                                    <option value="2" title="M">M</option>
-                                                    <option value="3" title="L">L</option>
-                                                </select>
+                                <div class="col-lg-7 col-md-6 col-sm-6">
+                                    <div class="product-details-view-content">
+                                        <div class="product-info">
+                                            <h2>Healthy Melt</h2>
+                                            <div class="price-box">
+                                                <span class="old-price">$70.00</span>
+                                                <span class="new-price">$76.00</span>
+                                                <span class="discount discount-percentage">Save 5%</span>
                                             </div>
-                                            <div class="produt-variants-color">
-                                                <label>Color</label>
-                                                <ul class="color-list">
-                                                    <li><a href="#" class="orange-color active"></a></li>
-                                                    <li><a href="#" class="paste-color"></a></li>
-                                                </ul>
+                                            <p>100% cotton double printed dress. Black and white striped top and orange
+                                                high waisted skater skirt bottom. Lorem ipsum dolor sit amet,
+                                                consectetur adipisicing elit. quibusdam corporis, earum facilis et
+                                                nostrum dolorum accusamus similique eveniet quia pariatur.</p>
+                                            <div class="product-variants">
+                                                <div class="produt-variants-size">
+                                                    <label>Size</label>
+                                                    <select class="form-control-select">
+                                                        <option value="1" title="S" selected="selected">S
+                                                        </option>
+                                                        <option value="2" title="M">M</option>
+                                                        <option value="3" title="L">L</option>
+                                                    </select>
+                                                </div>
+                                                <div class="produt-variants-color">
+                                                    <label>Color</label>
+                                                    <ul class="color-list">
+                                                        <li><a href="#" class="orange-color active"></a></li>
+                                                        <li><a href="#" class="paste-color"></a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="single-add-to-cart">
-                                            <form action="#" class="cart-quantity">
-                                                <div class="quantity">
-                                                    <label>Quantity</label>
-                                                    <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box" value="1"
-                                                            type="text">
-                                                        <div class="dec qtybutton"><i
-                                                                class="fa fa-angle-down"></i></div>
-                                                        <div class="inc qtybutton"><i class="fa fa-angle-up"></i>
+                                            <div class="single-add-to-cart">
+                                                <form action="#" class="cart-quantity">
+                                                    <div class="quantity">
+                                                        <label>Quantity</label>
+                                                        <div class="cart-plus-minus">
+                                                            <input class="cart-plus-minus-box" value="1"
+                                                                type="text">
+                                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i>
+                                                            </div>
+                                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-<button class="add-to-cart" type="submit">Add to cart</button>
-                                            </form>
+                                                    <button class="add-to-cart" type="submit">Add to cart</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> --}}
             <!-- Modal Algemeen Uitgelicht end -->
 
             <!-- jQuery JS -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="{{ asset('assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
             <script src="{{ asset('assets/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
             <!-- Popper JS -->
             <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -238,16 +248,16 @@
             <!-- Modernizr JS -->
             <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js') }}"></script>
 
-            {{-- <script>
+            <script>
                 CKEDITOR.replace('ckeditor-classic');
-            </script> --}}
+            </script>
             <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
             <script src="assets/libs/dropzone/dropzone-min.js"></script>
             <script src="assets/js/pages/project-create.init.js"></script>
             <script src="assets/js/app.js"></script>
             @yield('scripts')
 
-            {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
                 $(document).ready(function() {
                     $('.dropdown-toggle').on('click', function() {

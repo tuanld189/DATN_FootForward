@@ -46,7 +46,10 @@ class User extends Authenticatable
         return $this->belongsTo(Ward::class, 'ward_code', 'code');
     }
 
-
+    public function addressDetail()
+    {
+        return $this->hasOne(AddressDetail::class);
+    }
 
     public function roles()
     {

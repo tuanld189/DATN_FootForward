@@ -487,9 +487,14 @@
                                                             VNĐ</span>
                                                     </div>
                                                     <div class="product-action">
-                                                        <button class="add-to-cart" title="Add to cart"><i
-                                                                class="fa fa-plus"></i> Thêm vào giỏ hàng</button>
-                                                        <div class="star_content">
+                                                        <div class="product-action">
+                                                            <button class="add-to-cart" title="Add to cart"
+                                                                data-product-id="{{ $product->id }}" data-product-size-id="1"
+                                                                data-product-color-id="1" data-quantity-add="1">
+                                                                <i class="fa fa-plus"></i> Thêm vào giỏ hàng
+                                                            </button>
+                                                        </div>
+                                                        {{-- <div class="star_content">
                                                             <ul class="d-flex">
                                                                 <li><a class="star" href="#"><i
                                                                             class="fa fa-star"></i></a></li>
@@ -502,7 +507,7 @@
                                                                 <li><a class="star-o" href="#"><i
                                                                             class="fa fa-star-o"></i></a></li>
                                                             </ul>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -610,25 +615,18 @@
                                     <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} VNĐ</span>
                                 </div>
                                 <div class="product-action">
-
-                                    <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Thêm vào
-                                        giỏ hàng</button>
-
-                                    <div class="star_content">
-                                        <ul class="d-flex">
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a></li>
-                                        </ul>
-                                    </div>
+                                    <button class="add-to-cart" title="Add to cart"
+                                        data-product-id="{{ $product->id }}" data-product-size-id="1"
+                                        data-product-color-id="1" data-quantity-add="1">
+                                        <i class="fa fa-plus"></i> Thêm vào giỏ hàng
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -750,6 +748,45 @@
 @endsection
 
 @section('scripts')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.add-to-cart').click(function(e) {
+                e.preventDefault();
+
+                var button = $(this);
+                var productId = button.data('product-id');
+                var productSizeId = button.data('product-size-id');
+                var productColorId = button.data('product-color-id');
+                var quantityAdd = button.data('quantity-add');
+
+                $.ajax({
+                    url: "{{ route('cart.add') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        product_id: productId,
+                        product_size_id: productSizeId,
+                        product_color_id: productColorId,
+                        quantity_add: quantityAdd
+                    },
+                    success: function(response) {
+                        // Cập nhật giỏ hàng trong giao diện người dùng
+                        // Ví dụ: Thay đổi số lượng trong icon giỏ hàng hoặc hiển thị thông báo
+                        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+                        // Nếu có cập nhật UI, thực hiện tại đây
+                    },
+                    error: function(xhr) {
+                        alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
 
     <script>
         function searchProducts(query) {

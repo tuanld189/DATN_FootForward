@@ -94,7 +94,7 @@ class BannerController extends Controller
 
         $model->update($data);
 
-        return redirect()->route('admin.categories.index')
+        return redirect()->route('admin.banners.index')
             ->with('success', 'Cập nhật thành công');
     }
 
