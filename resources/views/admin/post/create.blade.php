@@ -7,14 +7,13 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Quản lý</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Posts</li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
+                        <li class="breadcrumb-item active">Bài viết</li>
+                        <li class="breadcrumb-item active">Thêm</li>
                     </ol>
                 </div>
 
@@ -33,19 +32,31 @@
                                 <div class="mb-3 mt-3">
                                     <label for="name" class="form-label">Name:</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter name"
-                                        name="name" required>
+                                        name="name" >
+                                    @error('name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="description" class="form-label">Description:</label>
                                     <textarea class="form-control" id="description" placeholder="Enter description" name="description"></textarea>
+                                    @error('description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="image" class="form-label">Image:</label>
                                     <input type="file" class="form-control" id="image" name="image">
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="content" class="form-label">Content:</label>
                                     <textarea class="form-control" name="content" id="ckeditor-classic"></textarea>
+                                    @error('status')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">

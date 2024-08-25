@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
 // use Excel;
 // use App\Imports\ProductsImport;
 // use App\Exports\ProductsExport;
@@ -73,17 +73,12 @@ class ProductController extends Controller
         return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
     }
 
-
-
-    public function import(Request $request)
+    public function importProducts(Request $request)
     {
-        $request->validate([
-            'file_excel' => 'required|mimes:xlsx,csv',
-        ]);
-        // Perform the import
-        Excel::import(new ProductsImport, $request->file('file_excel'));
+        $import = new ProductsImport();
+        Excel::import($import, $request->file('file'));
 
-        return redirect()->back()->with('success', 'Products imported successfully.');
+        return back()->with('success', 'Products imported successfully!');
     }
 
 
@@ -297,11 +292,12 @@ class ProductController extends Controller
                 $product->variants()->delete();
                 $product->delete();
             }, 3);
-            return back();
+            return back()->with('success', 'Product deleted successfully.');
         } catch (\Exception $exception) {
-            return back();
+            return back()->with('error', 'An error occurred while deleting the product.');
         }
     }
+
     public function search(Request $request)
     {
         $search = $request->input('q');

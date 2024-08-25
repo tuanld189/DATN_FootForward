@@ -2,53 +2,55 @@
 @section('title')
     List Product
 @endsection
+@section('style-libs')
+<style>
+    /* Container cho từng dòng thông tin */
+    .info-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5em;
+    }
 
+    /* Tiêu đề cho từng loại trạng thái */
+    .info-label {
+        font-weight: 600;
+        margin-right: 10px;
+        color: #333;
+        width: 120px;
+        /* Căn chỉnh cho đều */
+    }
+
+    /* Các lớp cho badge trạng thái */
+    .info-badge {
+        padding: 0.3em 0.6em;
+        border-radius: 0.25em;
+        font-size: 0.75em;
+        font-weight: 500;
+        color: #fff;
+        text-transform: capitalize;
+        /* Viết hoa đầu chữ */
+    }
+
+    /* Màu sắc cho các trạng thái */
+    .badge-active {
+        background-color: #f0ad4e;
+        /* Màu cam nhạt cho ACTIVE */
+    }
+
+    .badge-no {
+        background-color: #d9534f;
+        /* Màu đỏ cho No */
+    }
+
+    .badge-yes {
+        background-color: #5bc0de;
+        /* Màu xanh nhạt cho Yes */
+    }
+</style>
+@endsection
 @section('content')
 
-    <style>
-        /* Container cho từng dòng thông tin */
-        .info-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5em;
-        }
 
-        /* Tiêu đề cho từng loại trạng thái */
-        .info-label {
-            font-weight: 600;
-            margin-right: 10px;
-            color: #333;
-            width: 120px;
-            /* Căn chỉnh cho đều */
-        }
-
-        /* Các lớp cho badge trạng thái */
-        .info-badge {
-            padding: 0.3em 0.6em;
-            border-radius: 0.25em;
-            font-size: 0.75em;
-            font-weight: 500;
-            color: #fff;
-            text-transform: capitalize;
-            /* Viết hoa đầu chữ */
-        }
-
-        /* Màu sắc cho các trạng thái */
-        .badge-active {
-            background-color: #f0ad4e;
-            /* Màu cam nhạt cho ACTIVE */
-        }
-
-        .badge-no {
-            background-color: #d9534f;
-            /* Màu đỏ cho No */
-        }
-
-        .badge-yes {
-            background-color: #5bc0de;
-            /* Màu xanh nhạt cho Yes */
-        }
-    </style>
 
     <!-- start page title -->
     <div class="row">
@@ -76,25 +78,44 @@
 
                 {{-- <div class="container mt-3"> --}}
                 <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Sản phẩm</h5>
-                        <div class="d-flex">
-                            <!-- Form nhập excel -->
-                            <form action="{{ route('admin.products.import') }}" method="POST" enctype="multipart/form-data" class="d-inline">
-                                @csrf
-                                <input type="file" id="file" name="file" accept=".xlsx, .xls, .csv" required>
-                                <button type="submit" class="btn btn-warning ms-2">Nhập excel</button>
-                            </form>
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Sản phẩm</h5>
+                            <div class="d-flex">
+                                <!-- Form nhập excel -->
+                                <form action="{{ route('admin.products.import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="file" required>
+                                    <button type="submit">Import Products</button>
+                                </form>
 
-                            <!-- Nút xuất excel -->
-                            <a href="{{ route('admin.products.export') }}" class="btn btn-success ms-2">Xuất Excel</a>
 
-                            <!-- Nút thêm mới -->
-                            <a href="{{ route('admin.products.create') }}" class="btn btn-primary ms-2">Thêm mới</a>
+
+
+                                <!-- Nút xuất excel -->
+                                <a href="{{ route('admin.products.export') }}" class="btn btn-success ms-2">Xuất Excel</a>
+
+                                <!-- Nút thêm mới -->
+                                <a href="{{ route('admin.products.create') }}" class="btn btn-primary ms-2">Thêm mới</a>
+                            </div>
                         </div>
+
+                        <!-- Display success or error messages -->
+                        @if (session('success'))
+                            <div class="alert alert-success mt-2">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger mt-2">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                     </div>
 
-                    <div class="card-body">
+
+                    {{-- <div class="card-body">
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ $message }}
@@ -125,7 +146,7 @@
                                         {{ $value }}</option>
                                 @endforeach
                             </select>
-                            @endif
+                            @endif --}}
 
                             {{-- <div class="row">
                                 <div class="col-md-6">
@@ -261,9 +282,7 @@
                                                 </td>
                                                 <td>{{ $item->id }}</td>
                                                 <td>
-                                                    
                                                     <img src="{{ $item->img_thumbnail }}" alt="" width="100px">
-
                                                 </td>
 
                                                 <td>{{ $item->name }}</td>
@@ -317,7 +336,7 @@
                                                 ? '<span class="badge bg-success">Yes</span>'
                                                 : '<span class="badge bg-danger">No</span>' !!}</td> --}}
 
-                                                <td>
+                                                <td >
                                                     <ul class="list-inline hstack gap-1 mb-0">
                                                         <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
@@ -338,14 +357,11 @@
                                                         <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
                                                             title="Remove">
-                                                            <form id="delete-form-{{ $item->id }}"
-                                                                action="{{ route('admin.products.destroy', $item->id) }}"
-                                                                method="POST" style="display: none;">
+                                                            <form id="delete-form-{{ $item->id }}" action="{{ route('admin.products.destroy', $item->id) }}" method="POST" style="display: none;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form>
-                                                            <a href="#" class="text-danger d-inline-block"
-                                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
+                                                            <a href="#" class="text-danger d-inline-block" onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -374,7 +390,7 @@
 
 
                 </div><!--end row-->
-            @endsection
+@endsection
 
 
             @section('style-libs')

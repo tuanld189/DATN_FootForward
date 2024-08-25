@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use HasRoles;
 
     use Notifiable;
     protected $fillable = [
@@ -18,7 +16,7 @@ class User extends Authenticatable
         'phone',
         'province_code',
         'district_code',
-        'wand_code',
+        'ward_code',
         'address',
         'birthday',
         'photo_thumbs',
@@ -47,6 +45,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Ward::class, 'ward_code', 'code');
     }
+
 
 
     public function roles()
@@ -79,6 +78,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+     // Phương thức gán vai trò
+     public function assignRole($roleName)
+     {
+         $role = Role::where('name', $roleName)->first();
+         if ($role) {
+             $this->roles()->syncWithoutDetaching($role->id);
+         }
+     }
 }
+
 
 

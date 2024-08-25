@@ -11,6 +11,7 @@ use App\Models\ProductColor;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Vourcher;
 
 class HomeController extends Controller
@@ -44,15 +45,72 @@ class HomeController extends Controller
         $brands = Brand::all();
         $posts = Post::all();
         $banners = Banner::where('is_active', true)->get();
-        if($user = auth()->user()){
+        if ($user = auth()->user()) {
             $notifications = $user->notifications;
-            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners','notifications'));
-
-        }else{
+            return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners', 'notifications'));
+        } else {
             return view('client.home', compact('productsOnSale', 'productsNoSale', 'categories', 'brands', 'posts', 'banners'));
-
         }
     }
+
+    public function search(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $searchTerm = $request->input('search');
+
+        // Tìm kiếm sản phẩm theo tên hoặc mô tả
+        $products = Product::where('name', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
+            ->limit(10) // Giới hạn số lượng kết quả trả về
+            ->get(['id', 'name', 'img_thumbnail']); // Lấy danh sách sản phẩm với ID, tên và thumbnail
+
+        // Trả về kết quả dưới dạng JSON
+        return response()->json($products);
+    }
+
+
+
+    public function searchOrder(Request $request)
+    {
+        // Validate the request to ensure 'search' term is provided
+        $request->validate([
+            'search' => 'required|string|max:255',
+        ]);
+
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Initialize an empty collection for orders
+        $orders = collect();
+
+        // If the user is authenticated and search term is provided
+        if ($user) {
+            $searchTerm = $request->input('search');
+
+            // Search for orders related to the user by order code, email, phone, or shipping name
+            $orders = Order::where('user_id', $user->id)
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('order_code', $searchTerm)
+                        ->orWhere('user_email', 'LIKE', "%{$searchTerm}%")
+                        ->orWhere('user_phone', 'LIKE', "%{$searchTerm}%")
+                        ->orWhere('ship_user_name', 'LIKE', "%{$searchTerm}%");
+                })
+                ->get();
+        }
+
+        // Get user notifications if available
+        $notifications = $user ? $user->notifications : null;
+
+        // Return the search results view
+        return view('client.order-lookup', compact('orders', 'notifications'));
+    }
+
+
+    public function showOrderLookupForm()
+    {
+        return view('client.order-lookup'); // Trả về view cho trang tra cứu đơn hàng
+    }
+
 
     public function info(Request $request)
     {
@@ -142,19 +200,18 @@ class HomeController extends Controller
         }
 
         // Handle size filter
-        if ($request->has('size_filter')) {
-            $query->whereHas('sizes', function ($q) use ($request) {
-                $q->whereIn('id', $request->input('size_filter'));
+        if ($request->has('size_filter') && !empty($request->input('size_filter'))) {
+            $query->whereHas('variants', function ($q) use ($request) {
+                $q->whereIn('product_size_id', $request->input('size_filter'));
             });
         }
 
         // Handle color filter
-        if ($request->has('color_filter')) {
-            $query->whereHas('colors', function ($q) use ($request) {
-                $q->whereIn('id', $request->input('color_filter'));
+        if ($request->has('color_filter') && !empty($request->input('color_filter'))) {
+            $query->whereHas('variants', function ($q) use ($request) {
+                $q->whereIn('product_color_id', $request->input('color_filter'));
             });
         }
-
         // Handle price filter
         if ($request->filled('price_min')) {
             $query->where('price', '>=', $request->input('price_min'));
@@ -165,27 +222,52 @@ class HomeController extends Controller
         }
 
         try {
-            $products = $query->with('sales')->paginate(9);
+            $products = $query->with('sales', 'variants')->paginate(9);
         } catch (\Exception $e) {
-            // \Log::error('Error fetching products', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Unable to load products'], 500);
         }
 
         if ($request->ajax()) {
             return response()->json([
                 'product_list' => view('client.product-list', compact('products'))->render(),
-                // 'pagination' => view('pagination', compact('products'))->render(),
             ]);
         }
-
         return view('client.shop', compact('products', 'categories', 'brands', 'sizes', 'colors'));
     }
-
     public function checkout()
     {
         $vourchers = Vourcher::where('is_active', true)->get();
 
         return view('client.checkout', compact('vourchers'));
     }
+
+
+    // public function searchOrder(Request $request)
+    // {
+    //     // Validate the request to ensure 'order_code' is provided
+    //     $request->validate([
+    //         'order_code' => 'required|string|max:255',
+    //     ]);
+
+    //     // Get the logged-in user
+    //     $user = auth()->user();
+
+    //     // Tìm kiếm đơn hàng theo mã và thuộc về người dùng đã đăng nhập
+    //     $order = Order::where('order_code', $request->input('order_code'))
+    //         ->where('user_id', $user->id)
+    //         ->with('orderItems.product') // Eager load order items with their associated products
+    //         ->first();
+
+    //     // If order is found, return the view with order details
+    //     if ($order) {
+    //         // Return JSON response with the rendered view
+    //         return response()->json([
+    //             'html' => view('client.order-details-snippet', compact('order'))->render()
+    //         ]);
+    //     }
+
+    //     // If no order is found, redirect back with an error message
+    //     return redirect()->back()->withErrors(['order_not_found' => 'Order not found with the provided order code.']);
+    // }
 
 }

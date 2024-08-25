@@ -20,41 +20,163 @@
         </div>
     </div>
     <!-- end page title -->
-        {{-- trang thái đơn hàng --}}
-        {{-- <div class="order-status">
-            <div class="progress" style="height: 30px">
-                @foreach (\App\Models\Order::STATUS_ORDER as $key => $value)
-                    <div class="progress-bar {{ $order->status_order === $key ? 'bg-success' : 'bg-secondary' }}"
-                        role="progressbar"
-                        style="width: {{ 100 / count(\App\Models\Order::STATUS_ORDER) }}% ; border:1px solid; border-radius:1px; "
-                        aria-valuenow="{{ 100 / count(\App\Models\Order::STATUS_ORDER) }}" aria-valuemin=""
-                        aria-valuemax="100">
-                        {{ $value }}
-                    </div>
-                @endforeach
+
+    <style>
+        .status-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            min-width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .status-form.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .status-form.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #ff0000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.9);
+                /* Bắt đầu từ ngoài màn hình và nhỏ hơn */
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+                /* Kết thúc tại vị trí giữa màn hình và kích thước bình thường */
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.9);
+                /* Biến mất dần và nhỏ lại */
+            }
+        }
+
+        .alert {
+            position: fixed;
+            /* top: 50%; */
+            left: 60%;
+            transform: translate(-50%, -50%);
+            /* transform: translate(-50%); */
+            z-index: 1050;
+            opacity: 0;
+            max-width: 400px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* Ẩn thông báo mặc định */
+        }
+
+        .alert.show {
+            display: block;
+            /* Hiển thị thông báo khi có lớp show */
+            animation: fadeIn 0.5s forwards;
+            /* Hiệu ứng hiện ra */
+        }
+
+        .alert.hide {
+            animation: fadeOut 0.5s forwards;
+            /* Hiệu ứng biến mất */
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert .alert-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .alert .alert-content {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+
+    <!-- Thông báo thành công -->
+    {{-- @if (session('success'))
+        <div id="success-alert" class="alert alert-success show">
+            <div class="alert-content">
+                <i class="ri-check-line alert-icon"></i> <!-- Thay đổi icon tùy theo nhu cầu -->
+                {{ session('success') }}
             </div>
+        </div>
+    @endif --}}
 
-        </div> --}}
-    <!-- end page title -->
-    <!-- Thông báo -->
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <!-- Thông báo thành công -->
+        @if (session('success'))
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert-content">
+                <i class="ri-check-line alert-icon"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
     @endif
 
+    <!-- Thông báo lỗi -->
     @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+        <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert-content">
+                <i class="ri-close-line alert-icon"></i>
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
     @endif
-
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
-
 
     <div class="row">
         <div class="col-lg-12">
@@ -68,7 +190,8 @@
                                         <h5 class="card-title mb-0">Đơn hàng</h5>
                                         <div class="d-flex justify-content-between mb-3">
                                             <div class="m-2">
-                                                <a href="{{ route('admin.orders.export') }}" class="btn btn-success">Xuất excel </a>
+                                                <a href="{{ route('admin.orders.export') }}" class="btn btn-success">Xuất
+                                                    excel </a>
                                             </div>
                                             <div class="m-2">
                                                 <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">Thêm
@@ -181,7 +304,7 @@
                                                     <th data-sort="customer_name">Khách hàng</th>
                                                     <th data-sort="product_name">SDT</th>
                                                     <th data-sort="product_address">Dịa chỉ</th>
-                                                    <th data-sort="date">Ngày tạo</th>
+                                                    {{-- <th data-sort="date">Ngày tạo</th> --}}
                                                     <th data-sort="amount">Tổng tiền</th>
                                                     <th data-sort="payment">Trạng thái thanh toán</th>
                                                     <th data-sort="status">Tình trạng đơn hàng</th>
@@ -205,11 +328,15 @@
                                                         </th>
                                                         <td class="id">{{ $order->order_code }}</td>
                                                         <td class="customer_name">{{ $order->user_name }}</td>
-                                                        <td class="customer_phone">{{ $order->user_phone }}</< /td>
-                                                        <td class="customer_address">{{ $order->user_address }}</td>
-                                                        <td class="date">
-                                                            {{ $order->created_at->format('d-m-Y H:i:s') }}
+                                                        <td class="customer_phone">{{ $order->user_phone }}</td>
+                                                        <td class="customer_address">
+                                                            {{ $order->ward ? $order->ward->name : 'N/A' }},
+                                                            {{ $order->district ? $order->district->name : 'N/A' }},
+                                                            {{ $order->province ? $order->province->name : 'N/A' }}
                                                         </td>
+                                                        {{-- <td class="date">
+                                                            {{ $order->created_at->format('d-m-Y H:i:s') }}
+                                                        </td> --}}
                                                         <td class="amount">
                                                             {{ number_format($order->total_price, 0, ',', '.') }}
 
@@ -229,14 +356,20 @@
                                                                 ];
 
                                                             @endphp
-                                                            <span class="badge {{ $paymentClasses[$order->status_payment] }} text-uppercase">
-                                                                <i class="{{ $paymentIcons[$order->status_payment] }} me-1"></i>
+                                                            <span
+                                                                class="badge {{ $paymentClasses[$order->status_payment] }} text-uppercase">
+                                                                <i
+                                                                    class="{{ $paymentIcons[$order->status_payment] }} me-1"></i>
                                                                 {{ \App\Models\Order::STATUS_PAYMENT[$order->status_payment] }}
                                                             </span>
+                                                            {{-- <span class="badge {{ $statusClasses[$order->status_order] }} text-uppercase">
+                                                                <i class="{{ $statusIcons[$order->status_order] }} me-1"></i>
+                                                                {{ \App\Models\Order::STATUS_ORDER[$order->status_order] }}
+                                                            </span> --}}
                                                         </td>
                                                         <td class="status">
                                                             @php
-                                                               $statusIcons = [
+                                                                $statusIcons = [
                                                                     'pending' => 'fas fa-hourglass-start',
                                                                     'confirmed' => 'fas fa-check-circle',
                                                                     'preparing_goods' => 'fas fa-cogs',
@@ -254,46 +387,82 @@
                                                                     'canceled' => 'bg-danger text-white',
                                                                 ];
                                                             @endphp
-                                                            <span class="badge {{ $statusClasses[$order->status_order] }} text-uppercase">
-                                                                <i class="{{ $statusIcons[$order->status_order] }} me-1"></i>
+                                                            <span
+                                                                class="badge {{ $statusClasses[$order->status_order] }} text-uppercase">
+                                                                <i
+                                                                    class="{{ $statusIcons[$order->status_order] }} me-1"></i>
                                                                 {{ \App\Models\Order::STATUS_ORDER[$order->status_order] }}
                                                             </span>
                                                         </td>
                                                         <td>
-                                                            <ul class="list-inline hstack gap-2 mb-0">
-                                                                <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                                    data-bs-trigger="hover" data-bs-placement="top"
-                                                                    title="View">
-                                                                    <a href="{{ route('admin.orders.show', $order->id) }}"
-                                                                        class="text-primary d-inline-block">
-                                                                        <i class="ri-eye-fill fs-16"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                                    data-bs-trigger="hover" data-bs-placement="top"
-                                                                    title="View">
-                                                                    <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                                        class="text-primary d-inline-block">
-                                                                        <i class="ri-pencil-fill fs-16"></i>
-                                                                    </a>
-                                                                </li>
-                                                                {{-- <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                                    data-bs-trigger="hover" data-bs-placement="top"
-                                                                    title="Remove">
-                                                                    <form id="delete-form-{{ $order->id }}"
-                                                                        action="{{ route('admin.orders.destroy', $order->id) }}"
-                                                                        method="POST" style="display: none;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                    </form>
-                                                                    <a href="#" class="text-danger d-inline-block"
-                                                                        onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $order->id }}').submit();">
-                                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
-                                                                    </a>
-                                                                </li> --}}
+                                                            <div class="d-flex align-items-center">
+                                                                <!-- Xem đơn hàng -->
+                                                                <a href="{{ route('admin.orders.show', $order->id) }}"
+                                                                    class="btn btn-outline-primary me-2"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    title="Xem">
+                                                                    <i class="ri-eye-fill fs-16"></i>
+                                                                </a>
 
-                                                            </ul>
+                                                                <div class="d-flex align-items-center position-relative">
+                                                                    <!-- Icon cập nhật trạng thái đơn hàng và thanh toán -->
+                                                                    <a href="javascript:void(0);"
+                                                                        class="btn btn-outline-primary me-2"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                        title="Cập nhật trạng thái"
+                                                                        onclick="toggleStatusForm('{{ $order->id }}')">
+                                                                        <i class="ri-edit-box-fill fs-16"></i>
+                                                                    </a>
+
+                                                                    <!-- Form ẩn hiện cập nhật trạng thái đơn hàng và thanh toán -->
+                                                                    <form id="status-form-{{ $order->id }}"
+                                                                        action="{{ route('admin.orders.update', $order->id) }}"
+                                                                        method="POST" class="status-form"
+                                                                        style="display: none;">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <button type="button" class="close-button"
+                                                                            onclick="toggleStatusForm('{{ $order->id }}')">&times;</button>
+                                                                        <div class="mb-3">
+                                                                            <label for="status_order_{{ $order->id }}"
+                                                                                class="form-label">Trạng thái đơn
+                                                                                hàng:</label>
+                                                                            <select name="status_order"
+                                                                                id="status_order_{{ $order->id }}"
+                                                                                class="form-select form-select-sm">
+                                                                                @foreach (App\Models\Order::STATUS_ORDER as $key => $value)
+                                                                                    <option value="{{ $key }}"
+                                                                                        {{ $order->status_order === $key ? 'selected' : '' }}>
+                                                                                        {{ $value }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label
+                                                                                for="status_payment_{{ $order->id }}"
+                                                                                class="form-label">Trạng thái thanh
+                                                                                toán:</label>
+                                                                            <select name="status_payment"
+                                                                                id="status_payment_{{ $order->id }}"
+                                                                                class="form-select form-select-sm">
+                                                                                @foreach (App\Models\Order::STATUS_PAYMENT as $key => $value)
+                                                                                    <option value="{{ $key }}"
+                                                                                        {{ $order->status_payment === $key ? 'selected' : '' }}>
+                                                                                        {{ $value }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary btn-sm">Cập
+                                                                            nhật</button>
+                                                                    </form>
+                                                                </div>
                                                         </td>
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -340,21 +509,68 @@
 
 
 
-@section('style-libs')
+{{-- @section('style-libs')
     <!--datatable css-->
     <link rel="stylesheet" href="{{ asset('https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css') }}" />
     <!--datatable responsive css-->
     <link rel="stylesheet"
         href="{{ asset('https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css') }}">
-@endsection
+@endsection --}}
 
 @section('script-libs')
-    <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        function toggleStatusForm(orderId) {
+            const form = document.getElementById(`status-form-${orderId}`);
+            if (form.classList.contains('show')) {
+                form.classList.remove('show');
+                form.classList.add('hide');
+                setTimeout(() => {
+                    form.style.display = 'none';
+                }, 300);
+            } else {
+                form.style.display = 'block';
+                setTimeout(() => {
+                    form.classList.remove('hide');
+                    form.classList.add('show');
+                }, 10);
+            }
+        }
+    </script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successAlert = document.getElementById('success-alert');
+            var errorAlert = document.getElementById('error-alert');
+
+            if (successAlert) {
+                successAlert.classList.add('show');
+                setTimeout(function() {
+                    successAlert.classList.add('hide');
+                    setTimeout(function() {
+                        successAlert.remove(); // Xóa hoàn toàn sau khi hiệu ứng hoàn tất
+                    }, 500); // Thời gian trễ để hiệu ứng hoàn tất
+                }, 2000); // Hiển thị trong 2 giây
+            }
+
+            if (errorAlert) {
+                errorAlert.classList.add('show');
+                setTimeout(function() {
+                    errorAlert.classList.add('hide');
+                    setTimeout(function() {
+                        errorAlert.remove(); // Xóa hoàn toàn sau khi hiệu ứng hoàn tất
+                    }, 500); // Thời gian trễ để hiệu ứng hoàn tất
+                }, 2000); // Hiển thị trong 2 giây
+            }
+        });
+    </script> --}}
+
+    {{-- <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> --}}
 
     <!--datatable js-->
-    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js') }}"></script>
@@ -362,18 +578,18 @@
     <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
     <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script> --}}
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
     <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins.js') }}"></script> --}}
 
     <!-- list.js min js -->
-    <script src="{{ asset('assets/libs/list.js/list.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/libs/list.js/list.min.js') }}"></script>
 
     <!--list pagination js-->
     <script src="{{ asset('assets/libs/list.pagination.js/list.pagination.min.js') }}"></script>
@@ -402,7 +618,7 @@
     <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script> --}}
     <script>
         DataTable('#example', {
             order: [
@@ -410,14 +626,7 @@
             ]
         });
     </script>
-     <script>
-        DataTable('#example', {
-            order: [
-                [0, 'desc']
-            ]
-        });
-    </script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('.status-order, .status-payment').change(function() {
                 var id = $(this).data('id');
@@ -443,10 +652,7 @@
             });
         });
     </script>
-@endsection
 
-
-@section('scripts')
     <script>
         $(document).ready(function() {
             $('.status-order, .status-payment').change(function() {
@@ -472,5 +678,5 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 @endsection

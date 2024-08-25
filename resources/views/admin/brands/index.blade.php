@@ -4,17 +4,15 @@
 @endsection
 
 @section('content')
-
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Quản lý</h4>
-
+                <h4 class="mb-sm-0">Quản lý thương hiệu</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Quản lý</a></li>
-                        <li class="breadcrumb-item active">Hãng</li>
-                        <li class="breadcrumb-item active">Danh sách hãng</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Trang quản trị</a></li>
+                        <li class="breadcrumb-item active">Thương hiệu</li>
+                        <li class="breadcrumb-item active">Danh sách thương hiệu</li>
                     </ol>
                 </div>
             </div>
@@ -22,12 +20,18 @@
     </div>
 
     <!-- end page title -->
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Hãng</h5>
+                    <h5 class="card-title mb-0">Thương hiệu</h5>
                     <a href="{{ route('admin.brands.create') }}" class="btn btn-primary mb-2">Thêm mới</a>
                 </div>
                 <div class="card-body">
@@ -47,50 +51,57 @@
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            @foreach ($data as $item)
+                            @forelse ($data as $item)
                                 <tr>
-                                    <td scope="col" style="width: 10px;">
+                                    <td style="width: 10px;">
                                         <div class="form-check">
-                                            <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                            <input class="form-check-input fs-15" type="checkbox" value="option">
                                         </div>
                                     </td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img src="{{ $item->image }}" alt="" width="100px">
+                                        <img src="{{ asset($item->image) }}" alt="Brand Image" width="100px">
                                     </td>
-                                    <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                                     <td>
-                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="View">
-                                            <a href="{{ route('admin.brands.show', $item->id) }}"
-                                                class="text-primary d-inline-block">
-                                                <i class="ri-eye-fill fs-16"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="Edit">
-                                            <a href="{{ route('admin.brands.edit', $item->id) }}" data-bs-toggle="modal"
-                                                class="text-primary d-inline-block edit-item-btn">
-                                                <i class="ri-pencil-fill fs-16"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                            data-bs-placement="top" title="Remove">
-                                            <form id="delete-form-{{ $item->id }}"
-                                                action="{{ route('admin.brands.destroy', $item->id) }}" method="POST"
-                                                style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                            <a href="#" class="text-danger d-inline-block"
-                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
-                                                <i class="ri-delete-bin-5-fill fs-16"></i>
-                                            </a>
-                                        </li>
+                                        {!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" title="View">
+                                                <a href="{{ route('admin.brands.show', $item->id) }}" class="text-primary">
+                                                    <i class="ri-eye-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" title="Edit">
+                                                <a href="{{ route('admin.brands.edit', $item->id) }}" class="text-primary">
+                                                    <i class="ri-pencil-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" title="Remove">
+                                                <form id="delete-form-{{ $item->id }}"
+                                                    action="{{ route('admin.brands.destroy', $item->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                                <a href="#" class="text-danger"
+                                                    onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không?')) document.getElementById('delete-form-{{ $item->id }}').submit();">
+                                                    <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="alert alert-warning text-center m-0">
+                                            Không có dữ liệu nào trong danh sách.
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-end mt-3">
@@ -103,49 +114,19 @@
 @endsection
 
 @section('style-libs')
-    <!--datatable css-->
+    <!-- DataTable CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('script-libs')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!--datatable js-->
+    <!-- DataTable JS -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
-
-    <!-- list.js min js -->
-    <script src="assets/libs/list.js/list.min.js"></script>
-
-    <!--list pagination js-->
-    <script src="assets/libs/list.pagination.js/list.pagination.min.js"></script>
-
-    <!-- ecommerce-order init js -->
-    <script src="assets/js/pages/ecommerce-order.init.js"></script>
-
-    <!-- Sweet Alerts js -->
-    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
-
-    <!-- App js -->
-    <script src="assets/js/app.js"></script>
-    <script>
-        DataTable('#example', {
-            order: [
-                [0, 'desc']
-            ]
-        });
-    </script>
-@endsection
+    <script src="https://

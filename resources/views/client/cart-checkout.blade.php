@@ -115,7 +115,7 @@
         }
 
         .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #f2f2f2;
+background-color: #f2f2f2;
         }
 
         .marquee-container {
@@ -227,7 +227,7 @@
 
         /* Hiệu ứng khi ẩn phần tử */
         .coupon-overlay.hide .coupon-container {
-            transform: scale(0.8);
+transform: scale(0.8);
             opacity: 0;
         }
 
@@ -332,7 +332,7 @@
         }
 
         .table td.col-smaller {
-            width: 10%;
+width: 10%;
             /* Độ rộng của cột cực nhỏ trong ô dữ liệu */
         }
     </style>
@@ -389,35 +389,65 @@
                                 @endif
                                 <div class="row">
                                     <!-- Thông tin người dùng -->
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <p class="single-form-row">
                                             <label>Họ và tên<span class="required">*</span></label>
-                                            <input type="text" class="form-control" name="user_name"
+<input type="text" class="form-control" name="user_name"
                                                 placeholder="Nhập vào tên người dùng"
                                                 value="{{ Auth::check() ? Auth::user()->name : '' }}">
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="single-form-row">
+                                            <label>SĐT<span class="required">*</span></label>
+                                            <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại"
+                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}" class="form-control">
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="single-form-row">
                                             <label>Email<span class="required">*</span></label>
                                             <input type="text" name="user_email" placeholder="Nhập vào email"
-                                                class="form-control" value="{{ Auth::check() ? Auth::user()->email : '' }}">
+                                                class="form-control"
+                                                value="{{ Auth::check() ? Auth::user()->email : '' }}">
                                         </p>
                                     </div>
-                                    <div class="col-12">
+
+                                    <div class="col-4">
                                         <p class="single-form-row">
-                                            <label>SĐT<span class="required">*</span></label>
-                                            <input type="number" name="user_phone" placeholder="Nhập vào số điện thoại"
-                                                value="{{ Auth::check() ? Auth::user()->phone : '' }}"
-                                                class="form-control">
+                                            <label>Tỉnh <span class="required">*</span></label>
+                                            <select class="form-control" id="province_code" name="province_code" required>
+                                                <option value="">Chọn Tỉnh</option>
+                                                @foreach ($provinces as $province)
+                                                    <option value="{{ $province->code }}"
+                                                        {{ old('province_code', optional($user)->province_code) == $province->code ? 'selected' : '' }}>
+                                                        {{ $province->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
                                         </p>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-4">
                                         <p class="single-form-row">
-                                            <label>Địa chỉ <span class="required">*</span></label>
-                                            <input type="text" name="user_address" id="user_address" class="form-control"
-                                                placeholder="Nhập vào địa chỉ"
-                                                value="{{ Auth::check() ? Auth::user()->address : '' }}">
+                                            <label>Huyện <span class="required">*</span></label>
+                                            <select class="form-control" id="district_code" name="district_code"
+data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_code : '') }}"
+                                                required>
+                                                <option value="">Chọn Huyện</option>
+                                                <!-- Các huyện sẽ được điền bởi AJAX -->
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p class="single-form-row">
+                                            <label>Xã <span class="required">*</span></label>
+                                            <select class="form-control" id="ward_code" name="ward_code"
+                                                data-selected="{{ old('ward_code', Auth::check() ? Auth::user()->ward_code : '') }}"
+                                                required>
+                                                <option value="">Chọn Xã</option>
+                                                <!-- Các xã sẽ được điền bởi AJAX -->
+                                            </select>
                                         </p>
                                     </div>
                                     <div class="col-12">
@@ -428,9 +458,34 @@
                                         </p>
                                     </div>
                                 </div>
+                                <!-- Phần thanh toán -->
+                                {{-- <div class="panel-foot d-flex flex-column align-items-center m-2 p-2" style="margin-left: 35px"> --}}
+                                <div class="panel-foot  p-2" style="margin-left: 35px">
+                                    <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
+                                    <div class="cart-method">
+                                        <label for="COD" class="uk-flex uk-flex-middle">
+                                            <input type="radio" name="payment_method" value="COD" id="COD"
+                                                checked>
+                                            <span class="title">Thanh toán khi nhận hàng</span>
+                                        </label>
+                                    </div>
+                                    <div class="cart-method">
+                                        <label for="vnpay" class="uk-flex uk-flex-middle">
+<input type="radio" name="payment_method" value="vnpay" id="vnpay">
+                                            <span class="title">Thanh toán bằng VNPAY</span>
+                                        </label>
+                                    </div>
+                                    {{-- <div class="cart-method">
+                                                <label for="momo" class="uk-flex uk-flex-middle">
+                                                    <input type="radio" name="payment_method" value="momo" id="momo">
+                                                    <span class="title">Thanh toán bằng MOMO</span>
+                                                </label>
+                                            </div> --}}
+                                </div>
                                 <div class="col-12 d-flex justify-content-center mt-3">
                                     <button type="submit" class="btn btn-primary w-100">Đặt hàng</button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -460,7 +515,7 @@
                                                             <span
                                                                 class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
                                                                 VNĐ</span> <br>
-                                                            <span
+<span
                                                                 class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }}
                                                                 VNĐ</span>
                                                         @else
@@ -498,7 +553,7 @@
                                                             VNĐ</span>
                                                     </strong>
                                                 </td>
-                                            </tr>
+</tr>
 
                                             <!-- Voucher Discount -->
                                             @if ($discount > 0)
@@ -536,30 +591,6 @@
                                 </div>
                                 <br>
 
-                                <!-- Nhập mã giảm giá -->
-                                {{-- <div class="voucher-container m-4">
-                                    @if (session('message'))
-                                        <div class="alert alert-{{ session('status') }} mb-2">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
-                                    <h4>Coupon</h4>
-                                    <form action="{{ route('cart.applyVoucher') }}" method="POST"
-                                        class="d-flex flex-column">
-                                        @csrf
-                                        <div class="form-group mb-2">
-                                            <input id="voucher_code" class="input-text form-control w-100 no-border-corners"
-                                                style="height: 38px;" name="voucher_code" value=""
-                                                placeholder="Voucher code" type="text">
-                                        </div>
-                                        <button class="btn btn-primary w-100" type="submit">Apply coupon</button>
-                                    </form>
-                                </div> --}}
-                                {{-- end nhap ma voucher --}}
-
-
-
-                                {{-- testtt --}}
                                 <!-- Nút để hiện/ẩn overlay -->
                                 <button id="toggle-vouchers" class="w-100">FootForward Voucher</button>
                                 {{-- <div class="container">
@@ -571,10 +602,10 @@
                                 <div id="coupon-overlay" class="coupon-overlay">
                                     <div class="coupon-container">
                                         <!-- Nút tắt -->
-                                        <button id="close-voucher" class="close-btn">&times;</button>
+<button id="close-voucher" class="close-btn">&times;</button>
 
                                         <h4 class="m-2 text-center">FootForWard Voucher</h4>
-                                        <!-- Hiển thị bảng các mã giảm giá -->
+                                        <!-- Hiển thị bsảng các mã giảm giá -->
                                         <div class="table-responsive">
                                             <table class="table table-striped">
                                                 <thead>
@@ -597,47 +628,7 @@
                                                                 {{ $voucher->discount_value }}
                                                                 {{ $voucher->discount_type == 'percentage' ? '%' : 'VNĐ' }}
                                                             </td>
-                                                            <td class="">
-                                                                {{-- <td class="marquee-container"> --}}
-                                                                <div class="">
-                                                                    {{-- <div class="marquee-text"> --}}
-                                                                    @if ($voucher->discount_type == 'percentage')
-                                                                        @if ($voucher->discount_value == 5)
-                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
-                                                                            Giảm tối đa 5%
-                                                                        @elseif ($voucher->discount_value == 10)
-                                                                            Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên:
-                                                                            Giảm tối đa 10%
-                                                                        @elseif ($voucher->discount_value == 15)
-                                                                            Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên:
-                                                                            Giảm tối đa 15%
-                                                                        @elseif ($voucher->discount_value == 25)
-                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
-                                                                            Giảm tối đa 25%
-                                                                        @endif
-                                                                    @else
-                                                                        @if ($voucher->discount_value == 500000)
-                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
-                                                                            Giảm 500,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 300000)
-                                                                            Áp dụng cho đơn hàng từ 3,000,000 VNĐ trở lên:
-                                                                            Giảm 300,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 200000)
-                                                                            Áp dụng cho đơn hàng từ 2,000,000 VNĐ trở lên:
-                                                                            Giảm 200,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 100000)
-                                                                            Áp dụng cho đơn hàng từ 1,000,000 VNĐ trở lên:
-                                                                            Giảm 100,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 50000)
-                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
-                                                                            Giảm 50,000 VNĐ
-                                                                        @elseif ($voucher->discount_value == 20000)
-                                                                            Áp dụng cho đơn hàng từ 500,000 VNĐ trở lên:
-                                                                            Giảm 20,000 VNĐ
-                                                                        @endif
-                                                                    @endif
-                                                                </div>
-                                                            </td>
+                                                            <td>{{ $voucher->description }}</td>
                                                             <td>
                                                                 <form action="{{ route('cart.applyVoucher') }}"
                                                                     method="POST">
@@ -648,7 +639,7 @@
                                                                         dụng</button>
                                                                 </form>
                                                             </td>
-                                                        </tr>
+</tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -658,30 +649,7 @@
 
                                 {{-- testtt --}}
 
-                                <!-- Phần thanh toán -->
-                                {{-- <div class="panel-foot d-flex flex-column align-items-center m-2 p-2" style="margin-left: 35px"> --}}
-                                <div class="panel-foot  p-2" style="margin-left: 35px">
-                                    <h3 class="cart-heading"><span>Hình thức thanh toán</span></h3>
-                                    <div class="cart-method">
-                                        <label for="COD" class="uk-flex uk-flex-middle">
-                                            <input type="radio" name="payment_method" value="COD" checked
-                                                id="COD">
-                                            <span class="title">Thanh toán khi nhận hàng</span>
-                                        </label>
-                                    </div>
-                                    <div class="cart-method">
-                                        <label for="vnpay" class="uk-flex uk-flex-middle">
-                                            <input type="radio" name="payment_method" value="vnpay" id="vnpay">
-                                            <span class="title">Thanh toán bằng VNPAY</span>
-                                        </label>
-                                    </div>
-                                    <div class="cart-method">
-                                        <label for="momo" class="uk-flex uk-flex-middle">
-                                            <input type="radio" name="payment_method" value="momo" id="momo">
-                                            <span class="title">Thanh toán bằng MOMO</span>
-                                        </label>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -720,6 +688,77 @@
                 overlay.style.display = 'none';
                 overlay.classList.remove('hide');
             }, 500);
+        });
+        $(document).ready(function() {
+            function populateDistricts(province_code) {
+                if (province_code) {
+                    $.ajax({
+                        url: '{{ route('get.districts', ':province_code') }}'.replace(':province_code',
+                            province_code),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
+                            $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                            $.each(data, function(key, value) {
+                                $('#district_code').append('<option value="' + value.code +
+                                    '">' + value.name + '</option>');
+                            });
+
+                            // Pre-select district if user has it
+                            var selectedDistrict = $('#district_code').data('selected');
+                            if (selectedDistrict) {
+                                $('#district_code').val(selectedDistrict).trigger('change');
+                            }
+}
+                    });
+                } else {
+                    $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
+                    $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                }
+            }
+
+            function populateWards(district_code) {
+                if (district_code) {
+                    $.ajax({
+                        url: '{{ route('get.wards', ':district_code') }}'.replace(':district_code',
+                            district_code),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                            $.each(data, function(key, value) {
+                                $('#ward_code').append('<option value="' + value.code + '">' +
+                                    value.name + '</option>');
+                            });
+
+                            // Pre-select ward if user has it
+                            var selectedWard = $('#ward_code').data('selected');
+                            if (selectedWard) {
+                                $('#ward_code').val(selectedWard);
+                            }
+                        }
+                    });
+                } else {
+                    $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                }
+            }
+
+            var initialProvince = '{{ old('province_code', Auth::check() ? Auth::user()->province_code : '') }}';
+
+            if (initialProvince) {
+                populateDistricts(initialProvince);
+            }
+
+            $('#province_code').change(function() {
+                var province_code = $(this).val();
+                populateDistricts(province_code);
+            });
+
+            $('#district_code').change(function() {
+                var district_code = $(this).val();
+                populateWards(district_code);
+            });
         });
     </script>
 @endsection

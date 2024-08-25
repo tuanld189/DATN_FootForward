@@ -2,6 +2,12 @@
 @section('title')
     Create New Banner
 @endsection
+
+@section('style-libs')
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/cropper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/lfm.css') }}">
+@endsection
+
 @section('content')
     <div class="row mb-4">
         <div class="col-12">
@@ -30,23 +36,32 @@
                                 <div class="mb-3 mt-3">
                                     <label for="name" class="form-label">Name:</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter name"
-                                        name="name">
+                                        name="name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="url">URL</label>
                                     <input type="text" name="url" class="form-control" id="url"
-                                        value="{{ old('url') }}">
+                                        value="{{ old('url') }}" required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="image" class="form-label">Image:</label>
-                                    <input type="file" class="form-control" id="image" name="image">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <a id="lfm" data-input="thumbnail" data-preview="holder"
+                                                class="btn btn-primary">
+                                                <i class="fa fa-picture-o"></i> Choose
+                                            </a>
+                                        </span>
+                                        <input id="thumbnail" class="form-control" type="text" name="image" required>
+                                    </div>
+                                    <img id="holder" style="margin-top:15px;max-height:100px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3 mt-3">
                                     <label class="form-check-label">
                                         <input class="form-check-input" type="checkbox" value="1" checked
-                                            name="is_active">Is Active
+                                            name="is_active">Active
                                     </label>
                                 </div>
                             </div>
@@ -58,4 +73,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#lfm').filemanager('image');
+        });
+    </script>
 @endsection

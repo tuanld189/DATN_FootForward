@@ -47,6 +47,7 @@
       26 => 'Barryvdh\\Debugbar\\ServiceProvider',
       27 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
       28 => 'Unisharp\\Laravelfilemanager\\LaravelFilemanagerServiceProvider',
+      29 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     ),
     'aliases' => 
     array (
@@ -732,6 +733,7 @@
           3 => 'image/gif',
           4 => 'application/pdf',
           5 => 'text/plain',
+          6 => 'image/webp',
         ),
       ),
       'image' => 
@@ -748,6 +750,7 @@
           1 => 'image/pjpeg',
           2 => 'image/png',
           3 => 'image/gif',
+          4 => 'image/webp',
         ),
       ),
     ),
@@ -791,6 +794,7 @@
       0 => 'image/jpeg',
       1 => 'image/pjpeg',
       2 => 'image/png',
+      3 => 'image/webp',
     ),
     'thumb_img_width' => 200,
     'thumb_img_height' => 200,
@@ -994,60 +998,6 @@
       array (
         0 => 'C:\\laragon\\www\\DATN_FootForward\\resources\\views/vendor/mail',
       ),
-    ),
-  ),
-  'permission' => 
-  array (
-    'models' => 
-    array (
-      'permission' => 'Spatie\\Permission\\Models\\Permission',
-      'role' => 'Spatie\\Permission\\Models\\Role',
-    ),
-    'table_names' => 
-    array (
-      'roles' => 'roles',
-      'permissions' => 'permissions',
-      'model_has_permissions' => 'model_has_permissions',
-      'model_has_roles' => 'model_has_roles',
-      'role_has_permissions' => 'role_has_permissions',
-    ),
-    'column_names' => 
-    array (
-      'role_pivot_key' => NULL,
-      'permission_pivot_key' => NULL,
-      'model_morph_key' => 'model_id',
-      'team_foreign_key' => 'team_id',
-    ),
-    'register_permission_check_method' => true,
-    'register_octane_reset_listener' => false,
-    'teams' => false,
-    'use_passport_client_credentials' => false,
-    'display_permission_in_exception' => false,
-    'display_role_in_exception' => false,
-    'enable_wildcard_permission' => false,
-    'cache' => 
-    array (
-      'expiration_time' => 
-      DateInterval::__set_state(array(
-         'y' => 0,
-         'm' => 0,
-         'd' => 0,
-         'h' => 24,
-         'i' => 0,
-         's' => 0,
-         'f' => 0.0,
-         'weekday' => 0,
-         'weekday_behavior' => 0,
-         'first_last_day_of' => 0,
-         'invert' => 0,
-         'days' => false,
-         'special_type' => 0,
-         'special_amount' => 0,
-         'have_weekday_relative' => 0,
-         'have_special_relative' => 0,
-      )),
-      'key' => 'spatie.permission.cache',
-      'store' => 'default',
     ),
   ),
   'queue' => 
@@ -1296,6 +1246,60 @@
       10 => 'Spatie\\Backtrace\\Arguments\\Reducers\\StringableArgumentReducer',
     ),
   ),
+  'permission' => 
+  array (
+    'models' => 
+    array (
+      'permission' => 'Spatie\\Permission\\Models\\Permission',
+      'role' => 'Spatie\\Permission\\Models\\Role',
+    ),
+    'table_names' => 
+    array (
+      'roles' => 'roles',
+      'permissions' => 'permissions',
+      'model_has_permissions' => 'model_has_permissions',
+      'model_has_roles' => 'model_has_roles',
+      'role_has_permissions' => 'role_has_permissions',
+    ),
+    'column_names' => 
+    array (
+      'role_pivot_key' => NULL,
+      'permission_pivot_key' => NULL,
+      'model_morph_key' => 'model_id',
+      'team_foreign_key' => 'team_id',
+    ),
+    'register_permission_check_method' => true,
+    'register_octane_reset_listener' => false,
+    'teams' => false,
+    'use_passport_client_credentials' => false,
+    'display_permission_in_exception' => false,
+    'display_role_in_exception' => false,
+    'enable_wildcard_permission' => false,
+    'cache' => 
+    array (
+      'expiration_time' => 
+      DateInterval::__set_state(array(
+         'y' => 0,
+         'm' => 0,
+         'd' => 0,
+         'h' => 24,
+         'i' => 0,
+         's' => 0,
+         'f' => 0.0,
+         'weekday' => 0,
+         'weekday_behavior' => 0,
+         'first_last_day_of' => 0,
+         'invert' => 0,
+         'days' => false,
+         'special_type' => 0,
+         'special_amount' => 0,
+         'have_weekday_relative' => 0,
+         'have_special_relative' => 0,
+      )),
+      'key' => 'spatie.permission.cache',
+      'store' => 'default',
+    ),
+  ),
   'lfm-config' => 
   array (
     'use_package_routes' => true,
@@ -1401,6 +1405,69 @@
     'php_ini_overrides' => 
     array (
       'memory_limit' => '256M',
+    ),
+  ),
+  'ide-helper' => 
+  array (
+    'filename' => '_ide_helper.php',
+    'models_filename' => '_ide_helper_models.php',
+    'meta_filename' => '.phpstorm.meta.php',
+    'include_fluent' => false,
+    'include_factory_builders' => false,
+    'write_model_magic_where' => true,
+    'write_model_external_builder_methods' => true,
+    'write_model_relation_count_properties' => true,
+    'write_eloquent_model_mixins' => false,
+    'include_helpers' => false,
+    'helper_files' => 
+    array (
+      0 => 'C:\\laragon\\www\\DATN_FootForward/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+    ),
+    'model_locations' => 
+    array (
+      0 => 'app',
+    ),
+    'ignored_models' => 
+    array (
+    ),
+    'model_hooks' => 
+    array (
+    ),
+    'extra' => 
+    array (
+      'Eloquent' => 
+      array (
+        0 => 'Illuminate\\Database\\Eloquent\\Builder',
+        1 => 'Illuminate\\Database\\Query\\Builder',
+      ),
+      'Session' => 
+      array (
+        0 => 'Illuminate\\Session\\Store',
+      ),
+    ),
+    'magic' => 
+    array (
+    ),
+    'interfaces' => 
+    array (
+    ),
+    'model_camel_case_properties' => false,
+    'type_overrides' => 
+    array (
+      'integer' => 'int',
+      'boolean' => 'bool',
+    ),
+    'include_class_docblocks' => false,
+    'force_fqn' => false,
+    'use_generics_annotations' => true,
+    'additional_relation_types' => 
+    array (
+    ),
+    'additional_relation_return_types' => 
+    array (
+    ),
+    'post_migrate' => 
+    array (
     ),
   ),
   'tinker' => 

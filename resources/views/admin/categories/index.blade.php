@@ -22,7 +22,13 @@
         </div>
     </div>
     <!-- end page title -->
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -40,18 +46,15 @@
                                         <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
                                     </div>
                                 </th>
-                                {{-- <th data-ordering="false">SR No.</th> --}}
                                 <th data-ordering="false">ID</th>
                                 <th>Tên danh mục</th>
                                 <th>Ảnh</th>
                                 <th>Trạng thái</th>
-                                {{-- <th>CREATE_AT</th>
-                                <th>UPDATE_AT</th> --}}
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            @foreach ($data as $item)
+                            @forelse ($data as $item)
                                 <tr>
                                     <td scope="row">
                                         <div class="form-check">
@@ -62,16 +65,10 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        {{-- <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" width="100px"
-                                        height=""> --}}
-                                        <img src="{{$item->image }}" alt="" width="100px">
-                                        {{-- <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="100px"> --}}
+                                        <img src="{{ $item->image }}" alt="" width="100px">
                                     </td>
                                     <td>{!! $item->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    {{-- <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td> --}}
                                     <td>
-                                        {{-- <ul class="list-inline hstack gap-2 mb-0"> --}}
                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="View">
                                             <a href="{{ route('admin.categories.show', $item->id) }}"
@@ -100,10 +97,16 @@
                                             </a>
                                         </li>
                                     </td>
-                                    {{-- </ul> --}}
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="alert alert-warning text-center m-0">
+                                            Không có dữ liệu nào trong danh sách.
+                                        </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforelse
                         </tbody>
                     </table>
                     {{ $data->links() }}
@@ -114,36 +117,3 @@
     </div><!--end row-->
 @endsection
 
-
-@section('style-libs')
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-@endsection
-
-@section('script-libs')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!--datatable js-->
-    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
-    <script>
-        DataTable('#example', {
-            order: [
-                [0, 'desc']
-            ]
-        });
-    </script>
-@endsection

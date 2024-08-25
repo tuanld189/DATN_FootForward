@@ -7,6 +7,20 @@
 <link rel="stylesheet" href="{{ asset('vendor/laravel-filemanager/css/lfm.css') }}">
 @endsection
 @section('content')
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Chỉnh sửa danh mục</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Trang quản trị</a></li>
+                    <li class="breadcrumb-item active">Quản lí danh mục</li>
+                    <li class="breadcrumb-item active">Chỉnh sửa</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="a" style="background-color:white; padding:30px;">
 <h3 style="font-weight: bold; font-size:40px;font-family: Times New Roman, serif;">
     <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image"> @yield('title')
@@ -30,7 +44,7 @@
                             <i class="fa fa-picture-o"></i> Choose
                         </a>
                     </span>
-                    <input id="thumbnail" class="form-control" type="text" name="image" value="{{$model->image}}">
+                    <input id="thumbnail" class="form-control" type="text" name="image" value="{{$model->image}}" required>
                 </div>
                 <img id="holder" style="margin-top:15px;max-height:100px;" src="{{$model->image }}">
             </div>

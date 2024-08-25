@@ -23,7 +23,7 @@ class ProductController extends Controller
             },
             'variants.color',
             'variants.size',
-            'comments.user', 
+            'comments.user',
             'sales' => function ($query) {
             $query->where('status', true)
                   ->where(function($query) {

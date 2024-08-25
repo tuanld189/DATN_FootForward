@@ -17,8 +17,14 @@ class BrandController extends Controller
     public function index()
     {
         $data = Brand::query()->latest('id')->paginate(5);
-        return view(self::PATH_VIEW . 'index', compact('data'));
+
+        // Kiểm tra nếu không có dữ liệu
+        $status = $data->isEmpty() ? 'Không có dữ liệu nào.' : null;
+
+        return view(self::PATH_VIEW . 'index', compact('data'))
+            ->with('status', $status);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -78,7 +84,8 @@ class BrandController extends Controller
 
         $model->update($data);
 
-        return back();
+        // return back();
+        return redirect('admin/brands');
     }
 
     /**

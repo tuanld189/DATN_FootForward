@@ -60,9 +60,10 @@
                                     <td>
                                         {{ $permission->description }}
                                     </td>
-                                    <td>{!! $permission->is_active
-                                        ? '<span class="badge bg-success">Yes</span>'
-                                        : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    <td>
+                                        <input type="checkbox" class="toggle-status" data-id="{{ $permission->id }}"
+                                            {{ $permission->is_active ? 'checked' : '' }}>
+                                    </td>
                                     {{-- <td>{{ $permission->created_at }}</td>
                                 <td>{{ $permission->updated_at }}</td> --}}
                                     <td>
@@ -140,6 +141,32 @@
             order: [
                 [0, 'desc']
             ]
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.toggle-status').change(function() {
+                var isActive = $(this).prop('checked') ? 1 : 0;
+                var permissionId = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ route('admin.permissions.toggleStatus') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: permissionId,
+                        is_active: isActive
+                    },
+                    success: function(response) {
+                        console.log('Trạng thái đã được cập nhật');
+                    },
+                    error: function(xhr) {
+                        console.log('Cập nhật thất bại');
+                    }
+                });
+            });
         });
     </script>
 @endsection

@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    Chi tiết đơn hàng
+    Chi tiết thống kê sản phẩm đã bán
 @endsection
 
 @section('content')
@@ -26,15 +26,15 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Chi tiết đơn hàng</h5>
+                    <h5 class="card-title mb-0">Chi tiết thống kê sản phẩm đã bán</h5>
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-3 col-md-6">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <h5 class="card-title mb-0">Người dùng 1 tuần</h5>
+                                <h5 class="card-title mb-0">Sản phẩm đã bán 1 tuần </h5>
                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{ $totalUsersWeek }} Người
+                                    {{ $totalProductsWeek }} Sản phẩm
                                 </h4>
                             </div>
                         </div>
@@ -42,9 +42,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <h5 class="card-title mb-0">Người dùng 1 tháng</h5>
+                                <h5 class="card-title mb-0">Sản phẩm đã bán 1 tháng</h5>
                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{ $totalUsersMonth }} Người
+                                    {{ $totalProductsMonth }} Sản phẩm
                                 </h4>
                             </div>
                         </div>
@@ -52,9 +52,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <h5 class="card-title mb-0">Người dùng 1 năm</h5>
+                                <h5 class="card-title mb-0">Sản phẩm đã bán 1 năm</h5>
                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{ $totalUsersYear }} Người
+                                    {{ $totalProductsYear }} Sản phẩm
                                 </h4>
                             </div>
                         </div>
@@ -62,24 +62,24 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <h5 class="card-title mb-0">Tổng người dùng</h5>
+                                <h5 class="card-title mb-0">Tổng sản phẩm đã bán</h5>
                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{ $totalUsersAll }} Người
+                                    {{ $totalProductsAll }} Sản phẩm
                                 </h4>
                             </div>
                         </div>
                     </div>
                     <div class="filter-buttons">
-                        <a href="{{ route('admin.dashboard.UserDetail', ['filter' => '1day']) }}" class="btn btn-primary">1
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1day']) }}" class="btn btn-primary">1
                             Ngày</a>
-                        <a href="{{ route('admin.dashboard.UserDetail', ['filter' => '7days']) }}" class="btn btn-primary">7
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '7days']) }}" class="btn btn-primary">7
                             Ngày</a>
-                        <a href="{{ route('admin.dashboard.UserDetail', ['filter' => '1month']) }}"
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1month']) }}"
                             class="btn btn-primary">1
                             Tháng</a>
-                        <a href="{{ route('admin.dashboard.UserDetail', ['filter' => '1year']) }}" class="btn btn-primary">1
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1year']) }}" class="btn btn-primary">1
                             Năm</a>
-                        <a href="{{ route('admin.dashboard.UserDetail', ['filter' => 'all']) }}" class="btn btn-primary">Tất
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => 'all']) }}" class="btn btn-primary">Tất
                             cả</a>
                     </div>
 
@@ -105,21 +105,26 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                @foreach ($soldProducts as $product)
+                                @if($soldProducts->isEmpty())
                                     <tr>
-                                        <td scope="col" style="width: 10px;">
-                                            <div class="form-check">
-                                                <input class="form-check-input fs-15" type="checkbox" id="checkAll"
-                                                    value="option">
-                                            </div>
-                                        </td>
-                                        <td>{{ $product->id }}</td>
-                                        <td>{{ $product->product_code }}</td>
-                                        <td>{{ $product->product_name }}</td>
-                                        <td>{{ $product->quantity_sold }}</td>
-                                        <td>{{ $product->created_at }}</td>
+                                        <td colspan="6" class="text-center">Không có sản phẩm nào</td>
                                     </tr>
-                                @endforeach
+                                @else
+                                    @foreach ($soldProducts as $product)
+                                        <tr>
+                                            <td scope="col" style="width: 10px;">
+                                                <div class="form-check">
+                                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                                </div>
+                                            </td>
+                                            <td>{{ $product->id }}</td>
+                                            <td>{{ $product->product_sku }}</td>
+                                            <td>{{ $product->product_name }}</td>
+                                            <td>{{ $product->quantity_add }}</td> <!-- or whatever field stores the quantity sold -->
+                                            <td>{{ $product->created_at }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                         <a href="{{ route('admin.dashboard') }}"><button class="btn btn-primary" style="float: right">Quay

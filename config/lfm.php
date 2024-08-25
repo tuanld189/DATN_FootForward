@@ -22,7 +22,7 @@ return [
             'thumb' => true,
             'thumb_width' => 80,
             'thumb_height' => 80,
-            'valid_mime' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'application/pdf', 'text/plain'],
+            'valid_mime' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'application/pdf', 'text/plain', 'image/webp'],
         ],
         'image' => [
             'folder_name' => 'photos',
@@ -31,7 +31,7 @@ return [
             'thumb' => true,
             'thumb_width' => 80,
             'thumb_height' => 80,
-            'valid_mime' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'],
+            'valid_mime' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/webp'],
         ],
     ],
     'paginator' => ['perPage' => 30],
@@ -48,7 +48,7 @@ return [
     'item_columns' => ['name', 'url', 'time', 'icon', 'is_file', 'is_image', 'thumb_url'],
     'should_create_thumbnails' => true,
     'thumb_folder_name' => 'thumbs',
-    'raster_mimetypes' => ['image/jpeg', 'image/pjpeg', 'image/png'],
+    'raster_mimetypes' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/webp'],
     'thumb_img_width' => 200,
     'thumb_img_height' => 200,
     'file_type_array' => [

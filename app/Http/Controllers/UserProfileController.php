@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Events\PasswordResetRequested;
+use App\Models\District;
+use App\Models\Province;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Ward;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 class UserProfileController extends Controller
@@ -31,13 +32,26 @@ class UserProfileController extends Controller
     public function edit($id)
     {
         $user = User::with('orders')->findOrFail($id);
+
+        // Lấy danh sách các tỉnh từ cơ sở dữ liệu
+        $provinces = Province::all();
+
+        // Nếu người dùng đã chọn tỉnh, tải các huyện tương ứng
+        $districts = $user->province_code ? District::where('province_code', $user->province_code)->get() : [];
+
+        // Nếu người dùng đã chọn huyện, tải các xã tương ứng
+        $wards = $user->district_code ? Ward::where('district_code', $user->district_code)->get() : [];
+
         $orders = Order::where('user_id', $id)
-            ->orderBy('created_at', 'desc') // Sort orders by creation date, newest first
+            ->orderBy('created_at', 'desc') // Sắp xếp đơn hàng theo ngày tạo, mới nhất trước
             ->get();
 
         return view('client.profile.edit', [
             'user' => $user,
-            'orders' => $orders
+            'orders' => $orders,
+            'provinces' => $provinces,
+            'districts' => $districts,
+            'wards' => $wards
         ]);
     }
 
@@ -73,13 +87,15 @@ class UserProfileController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+        // dd($request->all());
         $request->validate([
             'fullname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'phone' => 'required|string|max:15',
-            'address' => 'required|string|max:255',
-            'photo_thumbs' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'province_code' => 'required|string|max:10',
+            // 'district_code' => 'required|string|max:10',
+            // 'ward_code' => 'required|string|max:10',
+            // 'photo_thumbs' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $data = $request->except('photo_thumbs');
@@ -96,6 +112,18 @@ class UserProfileController extends Controller
         $user->update($data);
 
         return redirect()->route('client.profile.edit', $user->id)->with('status', 'Cập nhật hồ sơ thành công!');
+    }
+    public function getDistricts($province_code)
+    {
+        $districts = District::where('province_code', $province_code)->get();
+        return response()->json($districts);
+    }
+
+    public function getWards($district_code)
+    {
+        $wards = Ward::where('district_code', $district_code)->get();
+        // dd($wards); // Kiểm tra dữ liệu trả về
+        return response()->json($wards);
     }
     public function changePassword(Request $request, $id)
     {
@@ -140,4 +168,5 @@ class UserProfileController extends Controller
 
         return redirect()->back()->with('success', 'Mật khẩu mới đã được gửi qua email.');
     }
+
 }

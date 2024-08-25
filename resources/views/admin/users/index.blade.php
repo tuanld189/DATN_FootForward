@@ -65,6 +65,7 @@
                                 <th>ID</th>
                                 <th>Người dùng</th>
                                 <th>Email</th>
+                                <th>Khóa</th>
                                 <th>Vai trò</th>
                                 <th>Chức năng</th>
                             </tr>
@@ -81,14 +82,33 @@
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->fullname }}</td>
                                     <td>{{ $user->email }}</td>
+
+                                    <td>
+                                        @if ($user->is_active)
+                                            <span class="badge bg-success">Hoạt động</span>
+                                        @else
+                                            <span class="badge bg-danger">Bị khóa</span>
+                                        @endif
+                                        <form action="{{ route('admin.users.toggleStatus', $user->id) }}" method="POST"
+                                            style="display: inline-block;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="btn btn-sm {{ $user->is_active ? 'btn-danger' : 'btn-success' }}"
+                                                data-bs-toggle="tooltip"
+                                                title="{{ $user->is_active ? 'Khóa tài khoản' : 'Mở khóa tài khoản' }}">
+                                                <i
+                                                    class="{{ $user->is_active ? 'ri-lock-fill' : 'ri-lock-unlock-fill' }}"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+
                                     <td>{{ $user->roles->implode('name', ', ') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.users.show', $user->id) }}"
-                                            class="btn btn-sm btn-info" data-bs-toggle="tooltip"
-                                            title="View"><i class="ri-eye-fill"></i></a>
-                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                            class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
-                                            title="Edit"><i class="ri-pencil-fill"></i></a>
+                                        <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-sm btn-info"
+                                            data-bs-toggle="tooltip" title="View"><i class="ri-eye-fill"></i></a>
+                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning"
+                                            data-bs-toggle="tooltip" title="Edit"><i class="ri-pencil-fill"></i></a>
                                         <form id="delete-form-{{ $user->id }}"
                                             action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                             style="display: inline-block;">
@@ -99,7 +119,10 @@
                                                 data-bs-toggle="tooltip" title="Delete"><i
                                                     class="ri-delete-bin-5-fill"></i></button>
                                         </form>
+
                                     </td>
+
+
                                 </tr>
                             @endforeach
                         </tbody>

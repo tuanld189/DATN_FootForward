@@ -37,7 +37,19 @@ class UserController extends Controller
 
         return view('admin.users.index', compact('users'));
     }
+    public function toggleStatus($id)
+    {
 
+        $user = User::findOrFail($id);
+
+        if ($user->hasRole('admin')) {
+            return redirect()->back()->with('error', 'Không thể khóa tài khoản quản trị viên.');
+        }
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        return redirect()->back()->with('status', 'Cập nhật trạng thái tài khoản thành công.');
+    }
     public function show($id)
     {
         $user = User::findOrFail($id);
@@ -60,11 +72,11 @@ class UserController extends Controller
             'fullname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:20',
-            'phone' => 'required|string|max:10|regex:/^[0-9]{10}$/',
-            'photo_thumbs' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'province_code' => 'required|string|max:20|exists:provinces,code',
-            'district_code' => 'required|string|max:20|exists:districts,code',
-            'ward_code' => 'required|string|max:20|exists:wards,code',
+            // 'phone' => 'required|string|max:10|regex:/^[0-9]{10}$/',
+            // 'photo_thumbs' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'province_code' => 'required|string|max:20|exists:provinces,code',
+            // 'district_code' => 'required|string|max:20|exists:districts,code',
+            // 'ward_code' => 'required|string|max:20|exists:wards,code',
         ]);
 
         $data = $request->except('photo_thumbs', 'roles', 'permission_ids');
@@ -96,56 +108,56 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Tìm user theo id, nếu không tìm thấy thì trả về lỗi 404
         $user = User::findOrFail($id);
-
+        // Xác thực dữ liệu đầu vào
         $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'phone' => 'required|string|max:10',
-            'photo_thumbs' => 'nullable|image',
-            'status' => 'required|string|max:255',
-            // 'roles' => 'required|array',
-            'province_code' => 'required|string|max:20',
-            'district_code' => 'required|string|max:20',
-            'ward_code' => 'required|string|max:20',
+            // 'photo_thumbs' => 'nullable|image',
+            // 'status' => 'required|string|max:255',
+            // 'province_code' => 'required|string|max:20',
+            // 'district_code' => 'required|string|max:20',
+            // 'ward_code' => 'required|string|max:20',
         ]);
 
-        $data = $request->except('photo_thumbs');
+        // Lấy dữ liệu từ request trừ 'photo_thumbs' và 'password'
+        $data = $request->except('photo_thumbs', 'password');
 
+
+
+        // Lấy dữ liệu từ request ngoại trừ photo_thumbs
+        // $data = $request->except(['photo_thumbs', 'roles', 'permissions']);
+
+        // Nếu có file ảnh được upload thì xử lý việc lưu ảnh
         if ($request->hasFile('photo_thumbs')) {
             $data['photo_thumbs'] = Storage::put(self::PATH_UPLOAD, $request->file('photo_thumbs'));
+
+            // Xóa ảnh cũ nếu có
             if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
                 Storage::delete($user->photo_thumbs);
             }
         }
-
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
-
+        // Cập nhật thông tin người dùng
         $user->update($data);
 
-        $user->roles()->sync($request->roles);
-        // Cập nhật role cho người dùng
-        $user->roles()->sync($request->role_id);
+        // Cập nhật vai trò
+        if ($request->has('roles')) {
+            $user->roles()->sync($request->roles);
+        }
 
-        // Cập nhật permissions cho người dùng (nếu cần)
-        $user->permissions()->sync($request->permission_ids);
+        // Cập nhật quyền (nếu có)
+        if ($request->has('permission_ids')) {
+            $user->permissions()->sync($request->permission_ids);
+        }
 
-
+        // Chuyển hướng về trang danh sách người dùng với thông báo thành công
         return redirect()->route('admin.users.index')->with('status', 'User Updated Successfully');
     }
-
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
-            Storage::delete($user->photo_thumbs);
-        }
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
-    }
-
     public function getDistricts($province_code)
     {
         $districts = District::where('province_code', $province_code)->get();
@@ -155,6 +167,16 @@ class UserController extends Controller
     public function getWards($district_code)
     {
         $wards = Ward::where('district_code', $district_code)->get();
+        // dd($wards); // Kiểm tra dữ liệu trả về
         return response()->json($wards);
+    }
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->photo_thumbs && Storage::exists($user->photo_thumbs)) {
+            Storage::delete($user->photo_thumbs);
+        }
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
     }
 }

@@ -17,9 +17,13 @@ class PostController extends Controller
      */
     public function index()
     {
-         $posts = Post::query()->latest('id')->paginate(5);
-        return view(self::PATH_VIEW . 'index', compact('posts'));
+        $posts = Post::query()->latest('id')->paginate(5);
+        $status = $posts->isEmpty() ? 'Không có dữ liệu nào.' : null;
+
+        return view(self::PATH_VIEW . 'index', compact('posts'))
+            ->with('status', $status);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,16 +38,27 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('image');
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+        // Xác thực dữ liệu yêu cầu
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'nullable|in:published,draft', // Ví dụ trạng thái
+            'content' => 'nullable|string',
+            'is_active' => 'nullable|boolean',
+        ]);
 
+        // Xử lý hình ảnh
         if ($request->hasFile('image')) {
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+            $validatedData['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
         }
 
-        // $data['created_by'] = Auth::id();
-        // $data['updated_by'] = Auth::id();
-        Post::create($data);
+        // Gán người tạo và người cập nhật nếu cần
+        // $validatedData['created_by'] = Auth::id();
+        // $validatedData['updated_by'] = Auth::id();
+
+        // Tạo bài viết
+        Post::create($validatedData);
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Thêm thành công');

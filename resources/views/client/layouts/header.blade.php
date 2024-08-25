@@ -1,3 +1,53 @@
+<style>
+    .search-form {
+        display: flex;
+        align-items: center;
+        max-width: 300px;
+        margin: 20px auto;
+        border: 2px solid #8a8f6a;
+        border-radius: 25px;
+        overflow: hidden;
+        background-color: #f9f9f9;
+    }
+    .search-input {
+        flex: 1;
+        padding: 8px 12px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        border-radius: 25px 0 0 25px;
+        background-color: transparent;
+        color: #8a8f6a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .search-button {
+        padding: 8px 15px;
+        border: none;
+        background-color: #8a8f6a;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 0 25px 25px 0;
+        transition: background-color 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .search-button:hover {
+        background-color: #6f7354;
+    }
+
+    .search-input::placeholder {
+        color: #8a8f6a;
+    }
+    .header-bottom-right {
+        margin-bottom: 1.9%;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <div class="header-area">
     <div class="header-top bg-black">
         <div class="container">
@@ -8,14 +58,14 @@
                             <li><i class="fa fa-phone"></i> (+84)0968888888</li>
                             <li><i class="fa fa-envelope-open-o"></i> wk@footforward.vn</li>
                         </ul>
-                        <ul class="link-top">
+                        {{-- <ul class="link-top">
                             <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="#" title="Rss"><i class="fa fa-rss"></i></a></li>
                             <li><a href="#" title="Google"><i class="fa fa-google-plus"></i></a></li>
                             <li><a href="#" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#" title="Youtube"><i class="fa fa-youtube"></i></a></li>
                             <li><a href="#" title="Instagram"><i class="fa fa-instagram"></i></a></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
                 <div class="col-lg-4 order-1 order-lg-2">
@@ -34,8 +84,8 @@
                             </li>
                             <li class="language list-inline-item">
                                 <div class="btn-group">
-                                    <button class="dropdown-toggle"><img src="{{asset('assets/images/icon/vn.png')}}" width="20px"
-                                            height="20px" alt=""> Tiếng Việt <i
+                                    <button class="dropdown-toggle"><img src="{{ asset('assets/images/icon/vn.png') }}"
+                                            width="20px" height="20px" alt=""> Tiếng Việt <i
                                             class="fa fa-angle-down"></i></button>
                                     <div class="dropdown-menu">
                                         <ul>
@@ -71,7 +121,7 @@
                                                         href="{{ route('client.profile.edit', ['id' => Auth::user()->id]) }}">Đơn
                                                         mua</a>
                                                 </li>
-                                                @if (Auth::user()->hasRole('superadmin'))
+                                                @if (Auth::user()->hasRole('admin','editor'))
                                                     <li>
                                                         <a href="{{ route('admin.dashboard') }}">Admin</a>
                                                     </li>
@@ -113,93 +163,111 @@
                             <li><a href="{{ route('shop') }}">Sản phẩm
                                     {{-- <i class="fa fa-angle-down"></i> --}}
                                 </a>
-                                {{-- <ul class="mega-menu">
-                                    <li><a href="#"><b>THỂ LOẠI</b></a>
-                                        <ul>
-                                            <li><a href="shop-3-col.html">Giày chạy bộ</a></li>
-                                            <li><a href="shop-4-col.html">Giày lifestyle</a></li>
-                                            <li><a href="shop.html">Giày trending </a></li>
-                                            <li><a href="shop-right-sidebar.html">Giày thể theo</a></li>
-
-                                        </ul>
-                                    </li>
-                                    <li style="margin-left:60px;"><a href="#"><b>THƯƠNG HIỆU</b></a>
-                                        <ul>
-                                            <li><a href="product-details.html">Adidas</a></li>
-                                            <li><a href="product-details-group.html">Nike</a></li>
-                                            <li><a href="product-details-normal.html">JorDan</a></li>
-                                            <li><a href="product-details-affiliate.html">New Balance</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul> --}}
                             </li>
                             <li><a href="{{ route('client.new') }}">Bài viết</i></a></li>
-                            <li><a href="{{ route('client.info') }}">Thông tin </a></li>
-                            <li><a href="{{ route('client.info') }}">Liên hệ</a></li>
+                            <li><a href="{{ route('client.info') }}">Thông tin liên hệ </a></li>
+                            {{-- <li><a href="{{ route('client.info') }}">Liên hệ</a></li> --}}
                         </ul>
                     </nav>
                 </div>
-                <div class="header-bottom-right d-flex justify-content-end">
-                    <div class="block-search">
-                        <div class="trigger-search">
-                            <i class="fa fa-search"></i> <span>Tìm kiếm</span>
+
+                <div class="header-bottom-right d-flex align-items-center justify-content-between">
+                    <!-- Search Box -->
+                    <div class="block-search mr-3">
+                        <div class="trigger-search d-flex align-items-center">
+                            <i class="fa fa-search"></i> <span></span>
                         </div>
                         <div class="search-box main-search-active">
-                            <form action="#" class="search-box-inner">
-                                <input type="text" placeholder="Search our catalog">
-                                <button class="search-btn" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                            {{-- <form action="{{ url('/') }}" method="GET" class="search-form">
+                                <input type="text" name="search" placeholder="Tìm sản phẩm & đơn hàng" value="{{ request('search') }}" class="search-input">
+                                <button type="submit" class="search-button">Tìm kiếm</button>
+                            </form> --}}
+                            <form id="searchForm" action="{{ route('shop') }}" class="search-form" method="GET"
+                                style=" width:350px;                                                                                                                                     ">
+                                <div class="input-group">
+                                    {{-- <input type="text" name="search" class="search-input" id="search"
+                                        onkeyup="searchProducts(this.value)" value="{{ request('search') }}"
+                                        placeholder="Tìm kiếm..."
+                                        style="border-radius: 10px 0 0 10px;border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"> --}}
+                                    <input type="text" name="search" id="search" class="search-input"
+                                        placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProducts(this.value)"
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="border-radius: 0 10px 10px 0;border: 1px solid #8a8f6a;">Tìm
+                                        kiếm</button>
+                                </div>
+                                <div id="suggestions" class="suggestions-box"></div>
+
                             </form>
                         </div>
                     </div>
-                     {{-- Noti --}}
-                     <div class="notifications">
+
+                    <!-- Order Lookup -->
+                    <div class="order-lookup mr-3 d-flex align-items-center">
+                        <a href="{{ route('orders.lookup') }}" class="order-lookup-button d-flex align-items-center">
+                            <i class="fas fa-box"></i> <span class="px-1"></span>
+                        </a>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="notifications mr-3">
                         <div class="btn-group">
                             <button class="dropdown-toggle" style="background-color:white; border:none">
-                                <i class="fa fa-bell"></i> Thông báo
+                                <i class="fa fa-bell"></i>
                                 @php
                                     use App\Models\Order;
                                     use Carbon\Carbon;
-                                    $unreadNotifications = auth()->check() && auth()->user()->unreadNotifications ? auth()->user()->unreadNotifications->count() : 0;
+                                    $unreadNotifications =
+                                        auth()->check() && auth()->user()->unreadNotifications
+                                            ? auth()->user()->unreadNotifications->count()
+                                            : 0;
                                 @endphp
-                                @if($unreadNotifications > 0)
+                                @if ($unreadNotifications > 0)
                                     <span class="notification-count">({{ $unreadNotifications }})</span>
                                 @endif
                             </button>
-                            @if(auth()->check())
-                            <div class="dropdown-menu notifications-menu mt-4" style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
-                                @if(auth()->user()->notifications && auth()->user()->notifications->count() > 0)
-                                    <ul class="notification-list">
-                                        @foreach(auth()->user()->notifications as $notification)
-                                            <li class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
-                                                <strong style="color:blue;">Đơn hàng của bạn đã được cập nhật:</strong><br>
-                                                <strong>Mã đơn hàng:</strong> {{ $notification->data['order_code'] }} <br>
-                                                <strong>Trạng thái đơn hàng:</strong> {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
-                                                <strong>Thời gian cập nhật:</strong> {{ isset($notification->data['status_time']) ? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') : 'Chưa có thời gian' }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang không có thông báo nào.</p>
-                                @endif
-                            </div>
+                            @if (auth()->check())
+                                <div class="dropdown-menu notifications-menu mt-4"
+                                    style="overflow-y:scroll; width:420px; height: 350px; background-color: white;">
+                                    @if (auth()->user()->notifications && auth()->user()->notifications->count() > 0)
+                                        <ul class="notification-list">
+                                            @foreach (auth()->user()->notifications as $notification)
+                                                <li
+                                                    class="notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
+                                                    <strong style="color:blue;">Đơn hàng của bạn đã được cập
+                                                        nhật:</strong><br>
+                                                    <strong>Mã đơn hàng:</strong>
+                                                    {{ $notification->data['order_code'] }} <br>
+                                                    <strong>Trạng thái đơn hàng:</strong>
+                                                    {{ Order::STATUS_ORDER[$notification->data['status_order']] }} <br>
+                                                    <strong>Thời gian cập nhật:</strong>
+                                                    {{ isset($notification->data['status_time'])? Carbon::parse($notification->data['status_time'])->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s'): 'Chưa có thời gian' }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-center" style="color:blue; font-weight:560;">Hiện tại bạn đang
+                                            không có thông báo nào.</p>
+                                    @endif
+                                </div>
                             @else
-                            <div class="dropdown-menu notifications-menu mt-4" style="width:370px; background-color: white;">
-                                <p class="text-center" style="color:blue; font-weight:560;">Vui lòng đăng nhập để xem thông báo !!!</p>
-                            </div>
+                                <div class="dropdown-menu notifications-menu mt-4"
+                                    style="width:370px; background-color: white;">
+                                    <p class="text-center" style="color:blue; font-weight:560;">Vui lòng đăng nhập để
+                                        xem thông báo !!!</p>
+                                </div>
                             @endif
                         </div>
                     </div>
-                    {{-- Noti --}}
-                    <div class="shoping-cart">
+
+                    <!-- Shopping Cart -->
+                    <div class="shopping-cart">
                         <div class="btn-group">
                             <button class="dropdown-toggle" style="background-color:white; border:none">
                                 @php
                                     $totalItems = count(session('cart', []));
                                 @endphp
-                                <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a>
+                                <a href="#"><i class="fa fa-shopping-cart"></i></a>
                                 @if ($totalItems > 0)
                                     ({{ $totalItems }})
                                 @endif
@@ -219,12 +287,12 @@
                                             @endphp
                                             <li class="mini-cart-item">
                                                 <div class="mini-cart-product-img">
-                                                    <a href="#"> <img
+                                                    <a href="#"><img
                                                             src="{{ asset('storage/' . $item['image']) }}"
                                                             alt="" width="70px"></a>
                                                     <span class="product-quantity">x{{ $item['quantity_add'] }}</span>
                                                 </div>
-                                                <div class="mini-cart-product-desc ">
+                                                <div class="mini-cart-product-desc">
                                                     <h3><a href="#">{{ $item['name'] }}</a></h3>
                                                     <div class="price-box">
                                                         @if ($item['sale_price'])
@@ -243,7 +311,7 @@
                                                     <div class="size">Size: {{ $item['size']['name'] }}</div>
                                                     <div class="color">Color: {{ $item['color']['name'] }}</div>
                                                 </div>
-                                                <div class="remove-from-cart " style="margin-left:30px;">
+                                                <div class="remove-from-cart ml-3">
                                                     <form action="{{ route('cart.remove', ['id' => $item['id']]) }}"
                                                         method="POST" style="display:inline;">
                                                         @csrf
@@ -258,8 +326,10 @@
                                             </li>
                                         @empty
                                             <li>
-                                                <div class="shopping-cart-content text-center d-flex justify-content-center align-items-center" colspan="8"
-                                                    style="height:150px; color:blue; font-weight:560;">Không có sản phẩm trong giỏ hàng.</div>
+                                                <div class="shopping-cart-content text-center d-flex justify-content-center align-items-center"
+                                                    style="height:150px; color:blue; font-weight:560;">
+                                                    Không có sản phẩm trong giỏ hàng.
+                                                </div>
                                             </li>
                                         @endforelse
 
@@ -279,15 +349,11 @@
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

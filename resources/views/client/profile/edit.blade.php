@@ -267,7 +267,7 @@
         .view-details {
             padding: 10px;
             border-radius: 10px;
-            background-color:#8a8f6a ;
+            background-color: #8a8f6a;
             color: white;
             font-weight: bold;
         }
@@ -366,9 +366,9 @@
                 </ul>
             </nav>
 
-            <div class="tab-content border border-top-0 p-4 shadow-lg pb-4" style="margin: 30px 10px;background-color: #8a8f6a4a;
-    border-radius: 10px;"
-                id="nav-tabContent">
+            <div class="tab-content border border-top-0 p-4 shadow-lg pb-4"
+                style="margin: 30px 10px;background-color: #8a8f6a4a;
+    border-radius: 10px;" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-additional" role="tabpanel"
                     aria-labelledby="nav-additional-tab">
                     <div class="row">
@@ -396,27 +396,66 @@
                                                 <th scope="row" style="width: 200px;">Tên đầy đủ:</th>
                                                 <td><input type="text" class="form-control" id="fullname"
                                                         name="fullname" value="{{ old('fullname', $user->fullname) }}"
-                                                        required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
+                                                        required
+                                                        style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Email:</th>
                                                 <td><input type="email" class="form-control" id="email" name="email"
-                                                        value="{{ old('email', $user->email) }}" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
+                                                        value="{{ old('email', $user->email) }}" required
+                                                        style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Số điện thoại:</th>
                                                 <td><input type="text" class="form-control" id="phone" name="phone"
-                                                        value="{{ old('phone', $user->phone) }}" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
+                                                        value="{{ old('phone', $user->phone) }}" required
+                                                        style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Địa chỉ:</th>
-                                                <td><input type="text" class="form-control" id="address" name="address"
-                                                        value="{{ old('address', $user->address) }}" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
+                                                <th scope="row">Tỉnh:</th>
+                                                <td>
+                                                    <select class="form-control" id="province_code" name="province_code"
+                                                        required>
+                                                        <option value="">Chọn Tỉnh</option>
+                                                        @foreach ($provinces as $province)
+                                                            <option value="{{ $province->code }}"
+                                                                {{ old('province_code', $user->province_code) == $province->code ? 'selected' : '' }}>
+                                                                {{ $province->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Huyện:</th>
+                                                <td>
+                                                    <select class="form-control" id="district_code" name="district_code"
+                                                        data-selected="{{ old('district_code', $user->district_code) }}"
+                                                        required>
+                                                        <option value="">Chọn Huyện</option>
+                                                        <!-- Các huyện sẽ được điền bởi AJAX -->
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Xã:</th>
+                                                <td>
+                                                    <select class="form-control" id="ward_code" name="ward_code"
+                                                        data-selected="{{ old('ward_code', $user->ward_code) }}" required>
+                                                        <option value="">Chọn Xã</option>
+                                                        <!-- Các xã sẽ được điền bởi AJAX -->
+                                                    </select>
+
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Ảnh:</th>
                                                 <td><input type="file" class="form-control" id="photoInput"
-                                                        name="photo_thumbs" style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></td>
+                                                        name="photo_thumbs"
+                                                        style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -437,19 +476,22 @@
                                     <div class="form-group">
                                         <label for="current_password">Mật khẩu cũ</label>
                                         <input type="password" class="form-control" id="current_password"
-                                            name="current_password" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                            name="current_password" required
+                                            style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     </div>
                                     <div class="form-group">
                                         <label for="new_password">Mật khẩu mới</label>
                                         <input type="password" class="form-control" id="new_password"
-                                            name="new_password" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                            name="new_password" required
+                                            style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     </div>
                                     <div class="form-group">
                                         <label for="new_password_confirmation">Xác nhận mật khẩu mới</label>
                                         <input type="password" class="form-control" id="new_password_confirmation"
-                                            name="new_password_confirmation" required style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                            name="new_password_confirmation" required
+                                            style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     </div>
-                                    <button type="submit" class="btn rounded-5 mt-3" >Thay đổi mật khẩu</button>
+                                    <button type="submit" class="btn rounded-5 mt-3">Thay đổi mật khẩu</button>
                                 </form>
                             </div>
                         </div>
@@ -611,9 +653,78 @@
                     });
                 });
 
-                // Đóng popup khi nhấn vào nút đóng
-                document.querySelector('.popup .close-btn').addEventListener('click', function() {
-                    document.getElementById('popup').style.display = 'none';
+                $(document).ready(function() {
+                    function populateDistricts(province_code) {
+                        if (province_code) {
+                            $.ajax({
+                                url: '{{ route('get.districts', ':province_code') }}'.replace(':province_code',
+                                    province_code),
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data) {
+                                    $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
+                                    $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                                    $.each(data, function(key, value) {
+                                        $('#district_code').append('<option value="' + value.code +
+                                            '">' + value.name + '</option>');
+                                    });
+
+                                    // Pre-select district if user has it
+                                    var selectedDistrict = $('#district_code').data('selected');
+                                    if (selectedDistrict) {
+                                        $('#district_code').val(selectedDistrict).trigger('change');
+                                    }
+                                }
+                            });
+                        } else {
+                            $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
+                            $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                        }
+                    }
+
+                    function populateWards(district_code) {
+                        if (district_code) {
+                            $.ajax({
+                                url: '{{ route('get.wards', ':district_code') }}'.replace(':district_code',
+                                    district_code),
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data) {
+                                    $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                                    $.each(data, function(key, value) {
+                                        $('#ward_code').append('<option value="' + value.code + '">' +
+                                            value.name + '</option>');
+                                    });
+
+                                    // Pre-select ward if user has it
+                                    var selectedWard = $('#ward_code').data('selected');
+                                    if (selectedWard) {
+                                        $('#ward_code').val(selectedWard);
+                                    }
+                                }
+                            });
+                        } else {
+                            $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
+                        }
+                    }
+
+                    // Load districts and wards on page load if province is already selected
+                    var initialProvince = '{{ old('province_code', $user->province_code) }}';
+                    if (initialProvince) {
+                        populateDistricts(initialProvince);
+                    }
+
+                    // Update districts and wards on province change
+                    $('#province_code').change(function() {
+                        var province_code = $(this).val();
+                        populateDistricts(province_code);
+                    });
+
+                    // Load wards on district change
+                    $('#district_code').change(function() {
+                        var district_code = $(this).val();
+                        populateWards(district_code);
+                    });
                 });
             </script>
         @endsection

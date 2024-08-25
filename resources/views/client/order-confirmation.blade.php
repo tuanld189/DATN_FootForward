@@ -306,7 +306,9 @@
 
                         <div class="info-row">
                             <span>Địa chỉ:</span>
-                            <p>{{ $order->user_address }}</p>
+                            <p>{{ $order->ward->name ?? 'Không có giá trị' }}</p>,
+                            <p>{{ $order->district->name ?? 'Không có giá trị' }}</p>,
+                            <p>{{ $order->province->name ?? 'Không có giá trị' }}</p>
                         </div>
 
                         @if ($order->user_note)
