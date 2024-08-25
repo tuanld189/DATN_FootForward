@@ -775,7 +775,7 @@ ut labore et </a></li>
                                 <div class="product-action">
                                     <button class="add-to-cart" title="Add to cart"><i class="fa fa-plus"></i> Add to
                                         cart</button>
-                                    <div class="star_content">
+                                    {{-- <div class="star_content">
                                         <ul class="d-flex">
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
@@ -783,7 +783,7 @@ ut labore et </a></li>
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
                                             <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a></li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

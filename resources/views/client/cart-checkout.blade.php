@@ -115,7 +115,7 @@
         }
 
         .table-striped tbody tr:nth-of-type(odd) {
-background-color: #f2f2f2;
+            background-color: #f2f2f2;
         }
 
         .marquee-container {
@@ -227,7 +227,7 @@ background-color: #f2f2f2;
 
         /* Hiệu ứng khi ẩn phần tử */
         .coupon-overlay.hide .coupon-container {
-transform: scale(0.8);
+            transform: scale(0.8);
             opacity: 0;
         }
 
@@ -332,7 +332,7 @@ transform: scale(0.8);
         }
 
         .table td.col-smaller {
-width: 10%;
+            width: 10%;
             /* Độ rộng của cột cực nhỏ trong ô dữ liệu */
         }
     </style>
@@ -392,7 +392,7 @@ width: 10%;
                                     <div class="col-6">
                                         <p class="single-form-row">
                                             <label>Họ và tên<span class="required">*</span></label>
-<input type="text" class="form-control" name="user_name"
+                                            <input type="text" class="form-control" name="user_name"
                                                 placeholder="Nhập vào tên người dùng"
                                                 value="{{ Auth::check() ? Auth::user()->name : '' }}">
                                         </p>
@@ -432,7 +432,7 @@ width: 10%;
                                         <p class="single-form-row">
                                             <label>Huyện <span class="required">*</span></label>
                                             <select class="form-control" id="district_code" name="district_code"
-data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_code : '') }}"
+                                                data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_code : '') }}"
                                                 required>
                                                 <option value="">Chọn Huyện</option>
                                                 <!-- Các huyện sẽ được điền bởi AJAX -->
@@ -471,7 +471,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                     </div>
                                     <div class="cart-method">
                                         <label for="vnpay" class="uk-flex uk-flex-middle">
-<input type="radio" name="payment_method" value="vnpay" id="vnpay">
+                                            <input type="radio" name="payment_method" value="vnpay" id="vnpay">
                                             <span class="title">Thanh toán bằng VNPAY</span>
                                         </label>
                                     </div>
@@ -496,7 +496,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                             <h3 class="shoping-checkboxt-title">Giỏ hàng</h3>
                             <div class="your-order-wrap">
                                 <div class="your-order-table table-responsive">
-                                    <table>
+                                    {{-- <table>
                                         <thead>
                                             <tr>
                                                 <th class="product-name">Tên sản phẩm</th>
@@ -515,7 +515,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                                             <span
                                                                 class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
                                                                 VNĐ</span> <br>
-<span
+                                                            <span
                                                                 class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }}
                                                                 VNĐ</span>
                                                         @else
@@ -553,7 +553,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                                             VNĐ</span>
                                                     </strong>
                                                 </td>
-</tr>
+                                            </tr>
 
                                             <!-- Voucher Discount -->
                                             @if ($discount > 0)
@@ -576,9 +576,6 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                                 <td></td>
                                                 <td>
                                                     <strong>
-                                                        {{-- <span class="amount"
-                                                            id="total-payment-amount">{{ number_format($totalAmount - $discount, 0, ',', '.') }}
-                                                            VNĐ</span> --}}
                                                         <span class="amount"
                                                             id="total-payment-amount">{{ number_format($totalAmount, 0, ',', '.') }}
                                                             VNĐ</span>
@@ -587,7 +584,117 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                             </tr>
                                         </tfoot>
 
+                                    </table> --}}
+
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="product-name">Tên sản phẩm</th>
+                                                <th class="product-name">Giá</th>
+                                                <th class="product-name">Tổng cộng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($cart as $item)
+                                                <tr class="cart_item">
+                                                    <td class="product-name">
+                                                        <b>{{ $item['name'] }} <strong class="product-quantity"> ×
+                                                                {{ $item['quantity_add'] }}</strong></b>
+                                                    </td>
+                                                    <td>
+                                                        @if ($item['sale_price'])
+                                                            <span
+                                                                class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
+                                                                VNĐ</span> <br>
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @else
+                                                            <span
+                                                                class="amount">{{ number_format($item['price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="product-total">
+                                                        @if ($item['sale_price'])
+                                                            <span
+                                                                class="amount old-price">{{ number_format($item['quantity_add'] * $item['price'], 0, ',', '.') }}
+                                                                VNĐ</span> <br>
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['quantity_add'] * $item['sale_price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @else
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['quantity_add'] * $item['price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="order-total">
+                                                <th><b>Phí vận chuyển</b></th>
+                                                <td></td>
+                                                <td>
+                                                    <strong>
+                                                        @if ($shippingCost > 0)
+                                                            <span
+                                                                class="amount">+{{ number_format($shippingCost, 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @else
+                                                            <span class="amount">Miễn phí</span>
+                                                        @endif
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                            <!-- Total Order Amount -->
+                                            <tr class="order-total">
+                                                <th><b>Tổng số tiền đặt hàng</b></th>
+                                                <td></td>
+                                                <td>
+                                                    <strong>
+                                                        <span class="amount"
+                                                            id="total-order-amount">{{ number_format($totalAmount, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                    </strong>
+                                                </td>
+                                            </tr>
+
+
+                                            <!-- Voucher Discount -->
+                                            @if ($discount > 0)
+                                                <tr class="order-total">
+                                                    <th><b>Mã giảm giá</b></th>
+                                                    <td></td>
+                                                    <td>
+                                                        <strong>
+                                                            <span
+                                                                class="amount">-{{ number_format($discount, 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+                                            <!-- Shipping Cost -->
+
+
+                                            <!-- Total Amount After Discount and Shipping -->
+                                            {{-- <tr class="order-total">
+                                                <th><b>Tổng số tiền cần thanh toán</b></th>
+                                                <td></td>
+                                                <td>
+                                                    <strong>
+                                                        <span class="amount"
+                                                            id="total-payment-amount">{{ number_format($totalAmount + $shippingCost, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                    </strong>
+                                                </td>
+                                            </tr> --}}
+                                        </tfoot>
                                     </table>
+
                                 </div>
                                 <br>
 
@@ -602,7 +709,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                 <div id="coupon-overlay" class="coupon-overlay">
                                     <div class="coupon-container">
                                         <!-- Nút tắt -->
-<button id="close-voucher" class="close-btn">&times;</button>
+                                        <button id="close-voucher" class="close-btn">&times;</button>
 
                                         <h4 class="m-2 text-center">FootForWard Voucher</h4>
                                         <!-- Hiển thị bsảng các mã giảm giá -->
@@ -639,7 +746,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                                                                         dụng</button>
                                                                 </form>
                                                             </td>
-</tr>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -710,7 +817,7 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                             if (selectedDistrict) {
                                 $('#district_code').val(selectedDistrict).trigger('change');
                             }
-}
+                        }
                     });
                 } else {
                     $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
@@ -744,17 +851,21 @@ data-selected="{{ old('district_code', Auth::check() ? Auth::user()->district_co
                 }
             }
 
+            // Load districts and wards on page load if province is already selected
             var initialProvince = '{{ old('province_code', Auth::check() ? Auth::user()->province_code : '') }}';
 
             if (initialProvince) {
+                // Populate districts based on the selected province
                 populateDistricts(initialProvince);
             }
 
+            // Update districts and wards on province change
             $('#province_code').change(function() {
                 var province_code = $(this).val();
                 populateDistricts(province_code);
             });
 
+            // Load wards on district change
             $('#district_code').change(function() {
                 var district_code = $(this).val();
                 populateWards(district_code);

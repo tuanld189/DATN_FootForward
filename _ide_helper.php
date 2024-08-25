@@ -5,7 +5,11 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
+<<<<<<< HEAD
+ * Generated for Laravel 10.48.16.
+=======
  * Generated for Laravel 10.48.18.
+>>>>>>> 5074dc7f8735a29891ef247a73375f488b5b2ee9
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -17981,6 +17985,8 @@ namespace Barryvdh\Debugbar\Facades {
             }
     }
 
+<<<<<<< HEAD
+=======
 namespace Intervention\Image\Laravel\Facades {
             /**
      * 
@@ -18100,6 +18106,7 @@ namespace Intervention\Image\Laravel\Facades {
             }
     }
 
+>>>>>>> 5074dc7f8735a29891ef247a73375f488b5b2ee9
 namespace Spatie\LaravelIgnition\Facades {
             /**
      * 
@@ -22163,7 +22170,10 @@ namespace  {
             class Filemanager extends \Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+<<<<<<< HEAD
+=======
             class Image extends \Intervention\Image\Laravel\Facades\Image {}
+>>>>>>> 5074dc7f8735a29891ef247a73375f488b5b2ee9
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
     }
 

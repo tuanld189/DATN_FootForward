@@ -123,9 +123,11 @@
                                     @endif
                                 </div>
                                 <div class="product-action">
-                                    <button class="add-to-cart" title="Thêm vào giỏ hàng"><i class="fa fa-plus"></i>
-                                        Thêm vào giỏ hàng</button>
-                                    <div class="star_content">
+                                    <button class="add-to-cart" title="Thêm vào giỏ hàng">
+                                        <i class="fa fa-plus"></i>
+                                        Thêm vào giỏ hàng
+                                    </button>
+                                    {{-- <div class="star_content">
                                         <ul class="d-flex">
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
@@ -133,7 +135,7 @@
                                             <li><a class="star" href="#"><i class="fa fa-star"></i></a></li>
                                             <li><a class="star-o" href="#"><i class="fa fa-star-o"></i></a></li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

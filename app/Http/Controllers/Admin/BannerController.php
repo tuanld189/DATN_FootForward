@@ -83,7 +83,7 @@ class BannerController extends Controller
         $model->update($data);
 
         return redirect()->route('admin.banners.index')
-            ->with('success', 'Cập nhật banner thành công');
+            ->with('success', 'Cập nhật thành công');
     }
 
     /**
