@@ -6,44 +6,52 @@
     <!-- jQuery UI CSS -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
-         #priceMenu {
+        #priceMenu {
             padding: 15px;
             background-color: #f8f9fa;
             /* Light background for contrast */
-             /* Border for definition */
-             border-radius: 5px;
+            /* Border for definition */
+            border-radius: 5px;
             /* Rounded corners */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             /* Subtle shadow */
         }
+
         #price_filter_form {
             display: flex;
             flex-direction: column;
         }
+
         .price-slider {
             margin-bottom: 15px;
         }
+
         .price-inputs {
             display: flex;
             justify-content: space-between;
             margin-bottom: 15px;
         }
+
         .price-input-group {
             flex: 1;
             margin-right: 10px;
         }
+
         .price-input-group:last-child {
             margin-right: 0;
         }
+
         .price-input-group label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         .price-input-wrapper {
             display: flex;
             align-items: center;
         }
+
         .price-input-wrapper input {
             width: 100%;
             padding: 8px;
@@ -234,6 +242,53 @@
                                 @endforeach
                             </form>
                         </div>
+                        <!-- Size Filter Form -->
+                        <div class="text-decoration-none" data-bs-toggle="collapse" href="#sizeMenu" role="button"
+                            aria-expanded="false" aria-controls="sizeMenu"
+                            style="width: 300px; height: 40px; background-color: #8a8f6a4a; padding: 10px 5px; margin-bottom: 5px; border-radius: 10px;">
+                            <h5 style="font-weight: bold; color: #8a8f6a;">
+                                <a class="text-decoration-none" href="#sizeMenu" role="button" aria-expanded="false"
+                                    aria-controls="sizeMenu">
+                                    Kích cỡ giày
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="collapse" id="sizeMenu">
+                            <form id="size_filter_form">
+                                @foreach ($sizes as $id => $name)
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="size_{{ $id }}" name="size_filter[]"
+                                            value="{{ $id }}" onclick="applyFilters()">
+                                        <label for="size_{{ $id }}"
+                                            class="checkbox-label">{{ $name }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+
+                        <!-- Color Filter Form -->
+                        <div class="text-decoration-none" data-bs-toggle="collapse" href="#colorMenu" role="button"
+                            aria-expanded="false" aria-controls="colorMenu"
+                            style="width: 300px; height: 40px; background-color: #8a8f6a4a; padding: 10px 5px; margin-bottom: 5px; border-radius: 10px;">
+                            <h5 style="font-weight: bold; color: #8a8f6a;">
+                                <a class="text-decoration-none" href="#colorMenu" role="button" aria-expanded="false"
+                                    aria-controls="colorMenu">
+                                    Màu sắc giày
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="collapse" id="colorMenu">
+                            <form id="color_filter_form">
+                                @foreach ($colors as $id => $name)
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="color_{{ $id }}" name="color_filter[]"
+                                            value="{{ $id }}" onclick="applyFilters()">
+                                        <label for="color_{{ $id }}"
+                                            class="checkbox-label">{{ $name }}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
                         <!-- Price Filter Form -->
                         <div class="text-decoration-none" data-bs-toggle="collapse" href="#priceMenu" role="button"
                             aria-expanded="false" aria-controls="priceMenu"
@@ -245,6 +300,7 @@
                                 </a>
                             </h5>
                         </div>
+
                         <div class="collapse" id="priceMenu">
                             <form id="price_filter_form" action="{{ route('shop') }}" method="GET">
                                 <div id="price_slider" class="price-slider"></div>
@@ -307,11 +363,13 @@
                     applyPriceFilter();
                 }
             });
+
             // Xử lý sự kiện apply price filter
             document.getElementById('apply_price_filter').addEventListener('click', function() {
                 // Gửi yêu cầu AJAX để áp dụng bộ lọc giá
                 applyPriceFilter();
             });
+
             // Xử lý sự kiện thay đổi bộ lọc chung (như category, brand, size, color)
             document.querySelectorAll(
                 '#category_filter_form input[type=checkbox], #brand_filter_form input[type=checkbox], #size_filter_form input[type=checkbox], #color_filter_form input[type=checkbox]'
@@ -321,18 +379,23 @@
         });
 
         function applyFilters() {
+            // Lấy giá trị tìm kiếm
+            let searchQuery = $('input[name="search"]').val();
+
             // Xử lý các bộ lọc chung
             let categoryFilters = $('#category_filter_form').serialize();
             let brandFilters = $('#brand_filter_form').serialize();
+            let sizeFilters = $('#size_filter_form').serialize();
+            let colorFilters = $('#color_filter_form').serialize();
 
             // Kết hợp các bộ lọc chung
-            let generalFilters = [categoryFilters, brandFilters].join('&');
+            let generalFilters = [categoryFilters, brandFilters, sizeFilters, colorFilters].join('&');
 
-            // Gửi yêu cầu AJAX với các bộ lọc chung
+            // Gửi yêu cầu AJAX với các bộ lọc chung và từ khóa tìm kiếm
             $.ajax({
                 url: '{{ route('shop') }}',
                 type: 'GET',
-                data: generalFilters,
+                data: generalFilters + '&search=' + searchQuery,
                 beforeSend: function() {
                     // Optional loading animation
                 },
@@ -350,11 +413,23 @@
             // Lấy dữ liệu bộ lọc giá từ form
             let priceFilters = $('#price_filter_form').serialize();
 
-            // Gửi yêu cầu AJAX để lọc sản phẩm theo giá
+            // Lấy giá trị tìm kiếm
+            let searchQuery = $('input[name="search"]').val();
+
+            // Lấy giá trị các bộ lọc khác (category, brand, size, color)
+            let categoryFilters = $('#category_filter_form').serialize();
+            let brandFilters = $('#brand_filter_form').serialize();
+            let sizeFilters = $('#size_filter_form').serialize();
+            let colorFilters = $('#color_filter_form').serialize();
+
+            // Kết hợp tất cả các bộ lọc
+            let allFilters = [priceFilters, categoryFilters, brandFilters, sizeFilters, colorFilters].join('&');
+
+            // Gửi yêu cầu AJAX để lọc sản phẩm theo giá và các bộ lọc khác
             $.ajax({
                 url: '{{ route('shop') }}',
                 type: 'GET',
-                data: priceFilters,
+                data: allFilters + '&search=' + searchQuery,
                 beforeSend: function() {
                     // Optional loading animation
                 },
@@ -368,6 +443,6 @@
             });
         }
     </script>
-    </script>
+
 
 @endsection

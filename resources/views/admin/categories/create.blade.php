@@ -21,16 +21,21 @@
             </div>
         </div>
     </div>
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="row">
         <div class="col-xxl-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center font-weight-bold mb-4"
-                        style="font-size: 40px; font-family: 'Times New Roman', serif;">
-                        <img src="{{ asset('images/pin1.png') }}" width="40px" alt="Your Image">
+                    <h3 class=" text-center font-weight-bold mb-4" style="font-size: 40px; font-family: 'Times New Roman', serif;">
+                        <i class="fas fa-map-pin" style="font-size: 40px; color: #000; "></i>
                         Create New Category
                     </h3>
+
 
                     <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -79,7 +84,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 text-center">
+                            <div class="col-12 ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>

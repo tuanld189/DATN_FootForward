@@ -44,6 +44,7 @@
     40 => 'Barryvdh\\Debugbar\\ServiceProvider',
     41 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     42 => 'Unisharp\\Laravelfilemanager\\LaravelFilemanagerServiceProvider',
+    43 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
   ),
   'eager' => 
   array (

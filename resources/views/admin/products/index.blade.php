@@ -2,53 +2,55 @@
 @section('title')
     List Product
 @endsection
+@section('style-libs')
+<style>
+    /* Container cho từng dòng thông tin */
+    .info-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5em;
+    }
 
+    /* Tiêu đề cho từng loại trạng thái */
+    .info-label {
+        font-weight: 600;
+        margin-right: 10px;
+        color: #333;
+        width: 120px;
+        /* Căn chỉnh cho đều */
+    }
+
+    /* Các lớp cho badge trạng thái */
+    .info-badge {
+        padding: 0.3em 0.6em;
+        border-radius: 0.25em;
+        font-size: 0.75em;
+        font-weight: 500;
+        color: #fff;
+        text-transform: capitalize;
+        /* Viết hoa đầu chữ */
+    }
+
+    /* Màu sắc cho các trạng thái */
+    .badge-active {
+        background-color: #f0ad4e;
+        /* Màu cam nhạt cho ACTIVE */
+    }
+
+    .badge-no {
+        background-color: #d9534f;
+        /* Màu đỏ cho No */
+    }
+
+    .badge-yes {
+        background-color: #5bc0de;
+        /* Màu xanh nhạt cho Yes */
+    }
+</style>
+@endsection
 @section('content')
 
-    <style>
-        /* Container cho từng dòng thông tin */
-        .info-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5em;
-        }
 
-        /* Tiêu đề cho từng loại trạng thái */
-        .info-label {
-            font-weight: 600;
-            margin-right: 10px;
-            color: #333;
-            width: 120px;
-            /* Căn chỉnh cho đều */
-        }
-
-        /* Các lớp cho badge trạng thái */
-        .info-badge {
-            padding: 0.3em 0.6em;
-            border-radius: 0.25em;
-            font-size: 0.75em;
-            font-weight: 500;
-            color: #fff;
-            text-transform: capitalize;
-            /* Viết hoa đầu chữ */
-        }
-
-        /* Màu sắc cho các trạng thái */
-        .badge-active {
-            background-color: #f0ad4e;
-            /* Màu cam nhạt cho ACTIVE */
-        }
-
-        .badge-no {
-            background-color: #d9534f;
-            /* Màu đỏ cho No */
-        }
-
-        .badge-yes {
-            background-color: #5bc0de;
-            /* Màu xanh nhạt cho Yes */
-        }
-    </style>
 
     <!-- start page title -->
     <div class="row">
@@ -113,7 +115,7 @@
                     </div>
 
 
-                    <div class="card-body">
+                    {{-- <div class="card-body">
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ $message }}
@@ -144,7 +146,7 @@
                                         {{ $value }}</option>
                                 @endforeach
                             </select>
-                            @endif
+                            @endif --}}
 
                             {{-- <div class="row">
                                 <div class="col-md-6">
@@ -280,25 +282,7 @@
                                                 </td>
                                                 <td>{{ $item->id }}</td>
                                                 <td>
-                                                    {{-- @php
-                                            $imageUrl = $item->img_thumbnail;
-                                            if (!Str::contains($imageUrl, 'http')) {
-                                                $imageUrl = asset('storage/' . $imageUrl);
-                                            }
-                                        @endphp
-
-                                        {{-- <img src="{{ $imageUrl }}" alt="{{ $item->name }}" width="100px"> --}}
-
-                                                    @php
-                                                        $url = $item->img_thumbnail;
-                                                        if (!Str::contains($url, 'http')) {
-                                                            $url = Storage::url($url);
-                                                        }
-                                                    @endphp
-
-                                                    <img src="{{ $url }}" alt="" width="100px">
-                                                    {{-- <img src="{{ $item->image }}" alt="" width="100px"> --}}
-
+                                                    <img src="{{ $item->img_thumbnail }}" alt="" width="100px">
                                                 </td>
 
                                                 <td>{{ $item->name }}</td>
@@ -352,7 +336,7 @@
                                                 ? '<span class="badge bg-success">Yes</span>'
                                                 : '<span class="badge bg-danger">No</span>' !!}</td> --}}
 
-                                                <td>
+                                                <td >
                                                     <ul class="list-inline hstack gap-1 mb-0">
                                                         <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
@@ -373,14 +357,11 @@
                                                         <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
                                                             title="Remove">
-                                                            <form id="delete-form-{{ $item->id }}"
-                                                                action="{{ route('admin.products.destroy', $item->id) }}"
-                                                                method="POST" style="display: none;">
+                                                            <form id="delete-form-{{ $item->id }}" action="{{ route('admin.products.destroy', $item->id) }}" method="POST" style="display: none;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form>
-                                                            <a href="#" class="text-danger d-inline-block"
-                                                                onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
+                                                            <a href="#" class="text-danger d-inline-block" onclick="event.preventDefault(); if(confirm('Bạn có muốn xóa không')) document.getElementById('delete-form-{{ $item->id }}').submit();">
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -409,7 +390,7 @@
 
 
                 </div><!--end row-->
-            @endsection
+@endsection
 
 
             @section('style-libs')

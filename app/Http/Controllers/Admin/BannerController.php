@@ -1,41 +1,34 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
     const PATH_VIEW = 'admin.banners.';
     const PATH_UPLOAD = 'banners';
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $data = Banner::query()->latest('id')->paginate(5);
 
-        // Kiểm tra nếu không có dữ liệu
-        if ($data->isEmpty()) {
-            return view(self::PATH_VIEW . 'index', compact('data'))
-                ->with('status', 'Không có dữ liệu nào.');
-        }
+        $status = $data->isEmpty() ? 'Không có dữ liệu nào.' : null;
 
-        return view(self::PATH_VIEW . 'index', compact('data'));
+        return view(self::PATH_VIEW . 'index', compact('data'))
+            ->with('status', $status);
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        return view(self::PATH_VIEW . 'create');
     }
 
     /**
@@ -46,14 +39,14 @@ class BannerController extends Controller
         $data = $request->except('image');
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
-        if ($request->hasFile('image')) {
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+        if ($request->has('image')) {
+            $data['image'] = $request->input('image');
         }
 
         Banner::create($data);
 
         return redirect()->route('admin.banners.index')
-            ->with('success', 'Thêm thành công');
+            ->with('success', 'Thêm banner thành công');
     }
 
     /**
@@ -62,8 +55,7 @@ class BannerController extends Controller
     public function show(string $id)
     {
         $model = Banner::query()->findOrFail($id);
-
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
+        return view(self::PATH_VIEW . 'show', compact('model'));
     }
 
     /**
@@ -72,8 +64,7 @@ class BannerController extends Controller
     public function edit(string $id)
     {
         $model = Banner::query()->findOrFail($id);
-
-        return view(self::PATH_VIEW . __FUNCTION__, compact('model'));
+        return view(self::PATH_VIEW . 'edit', compact('model'));
     }
 
     /**
@@ -81,15 +72,12 @@ class BannerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $model = Banner::findOrFail($id);
+        $model = Banner::query()->findOrFail($id);
         $data = $request->except('image');
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
-        if ($request->hasFile('image')) {
-            if ($model->image && Storage::exists($model->image)) {
-                Storage::delete($model->image);
-            }
-            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+        if ($request->has('image')) {
+            $data['image'] = $request->input('image');
         }
 
         $model->update($data);
@@ -107,10 +95,6 @@ class BannerController extends Controller
 
         $model->delete();
 
-        if ($model->image && Storage::exists($model->image)) {
-            Storage::delete($model->image);
-        }
-
-        return back();
+        return back()->with('success', 'Xóa banner thành công');
     }
 }

@@ -125,11 +125,6 @@ Route::get('/search-order', [HomeController::class, 'searchOrder'])->name('searc
 
 Route::get('/search', [HomeController::class, 'search'])->name('products.search');
 
-
-// routes/web.php
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-
 Route::get('get-districts/{province_code}', [UserProfileController::class, 'getDistricts'])->name('get.districts');
 
-// Route để lấy danh sách xã theo huyện
 Route::get('get-wards/{district_code}', [UserProfileController::class, 'getWards'])->name('get.wards');

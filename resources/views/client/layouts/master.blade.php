@@ -132,7 +132,7 @@
 
 
             <!-- Modal Algemeen Uitgelicht start -->
-            {{-- <div class="modal fade modal-wrapper" id="exampleModalCenter">
+            <div class="modal fade modal-wrapper" id="exampleModalCenter">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -227,7 +227,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
             <!-- Modal Algemeen Uitgelicht end -->
 
             <!-- jQuery JS -->

@@ -1,76 +1,48 @@
 <style>
-    /* Search Form Styling */
     .search-form {
         display: flex;
         align-items: center;
         max-width: 300px;
-        /* Smaller max width */
         margin: 20px auto;
-        /* Adds some margin to move it down */
         border: 2px solid #8a8f6a;
-        /* Updated border color */
         border-radius: 25px;
-        /* Smaller radius for a more compact look */
         overflow: hidden;
         background-color: #f9f9f9;
     }
-
-    /* Input Field Styling */
     .search-input {
         flex: 1;
         padding: 8px 12px;
-        /* Smaller padding for a more compact size */
         border: none;
         outline: none;
         font-size: 14px;
-        /* Slightly smaller font size */
         border-radius: 25px 0 0 25px;
         background-color: transparent;
         color: #8a8f6a;
-        /* Updated text color */
         white-space: nowrap;
-        /* Prevent text from wrapping */
         overflow: hidden;
         text-overflow: ellipsis;
-        /* Ellipsis if the text is too long */
     }
-
-    /* Button Styling */
     .search-button {
         padding: 8px 15px;
-        /* Adjusted padding for a smaller button */
         border: none;
         background-color: #8a8f6a;
-        /* Updated background color */
         color: #fff;
         font-size: 14px;
-        /* Slightly smaller font size */
         cursor: pointer;
         border-radius: 0 25px 25px 0;
         transition: background-color 0.3s ease;
         white-space: nowrap;
-        /* Prevent text from wrapping */
     }
 
     .search-button:hover {
         background-color: #6f7354;
-        /* Slightly darker shade on hover */
     }
 
-    /* Placeholder Text Styling */
     .search-input::placeholder {
         color: #8a8f6a;
-        /* Updated placeholder color */
     }
-
     .header-bottom-right {
-        /* display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        padding: 0 20px; */
         margin-bottom: 1.9%;
-        /* Thêm margin-top để đẩy phần tử xuống 1px */
     }
 </style>
 
@@ -86,14 +58,14 @@
                             <li><i class="fa fa-phone"></i> (+84)0968888888</li>
                             <li><i class="fa fa-envelope-open-o"></i> wk@footforward.vn</li>
                         </ul>
-                        <ul class="link-top">
+                        {{-- <ul class="link-top">
                             <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="#" title="Rss"><i class="fa fa-rss"></i></a></li>
                             <li><a href="#" title="Google"><i class="fa fa-google-plus"></i></a></li>
                             <li><a href="#" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#" title="Youtube"><i class="fa fa-youtube"></i></a></li>
                             <li><a href="#" title="Instagram"><i class="fa fa-instagram"></i></a></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
                 <div class="col-lg-4 order-1 order-lg-2">
@@ -191,30 +163,10 @@
                             <li><a href="{{ route('shop') }}">Sản phẩm
                                     {{-- <i class="fa fa-angle-down"></i> --}}
                                 </a>
-                                {{-- <ul class="mega-menu">
-                                    <li><a href="#"><b>THỂ LOẠI</b></a>
-                                        <ul>
-                                            <li><a href="shop-3-col.html">Giày chạy bộ</a></li>
-                                            <li><a href="shop-4-col.html">Giày lifestyle</a></li>
-                                            <li><a href="shop.html">Giày trending </a></li>
-                                            <li><a href="shop-right-sidebar.html">Giày thể theo</a></li>
-
-                                        </ul>
-                                    </li>
-                                    <li style="margin-left:60px;"><a href="#"><b>THƯƠNG HIỆU</b></a>
-                                        <ul>
-                                            <li><a href="product-details.html">Adidas</a></li>
-                                            <li><a href="product-details-group.html">Nike</a></li>
-                                            <li><a href="product-details-normal.html">JorDan</a></li>
-                                            <li><a href="product-details-affiliate.html">New Balance</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul> --}}
                             </li>
                             <li><a href="{{ route('client.new') }}">Bài viết</i></a></li>
-                            <li><a href="{{ route('client.info') }}">Thông tin </a></li>
-                            <li><a href="{{ route('client.info') }}">Liên hệ</a></li>
+                            <li><a href="{{ route('client.info') }}">Thông tin liên hệ </a></li>
+                            {{-- <li><a href="{{ route('client.info') }}">Liên hệ</a></li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -223,7 +175,7 @@
                     <!-- Search Box -->
                     <div class="block-search mr-3">
                         <div class="trigger-search d-flex align-items-center">
-                            <i class="fa fa-search"></i> <span>Tìm kiếm</span>
+                            <i class="fa fa-search"></i> <span></span>
                         </div>
                         <div class="search-box main-search-active">
                             {{-- <form action="{{ url('/') }}" method="GET" class="search-form">
@@ -253,7 +205,7 @@
                     <!-- Order Lookup -->
                     <div class="order-lookup mr-3 d-flex align-items-center">
                         <a href="{{ route('orders.lookup') }}" class="order-lookup-button d-flex align-items-center">
-                            <i class="fas fa-box"></i> <span class="px-1">Tìm đơn</span>
+                            <i class="fas fa-box"></i> <span class="px-1"></span>
                         </a>
                     </div>
 
@@ -261,7 +213,7 @@
                     <div class="notifications mr-3">
                         <div class="btn-group">
                             <button class="dropdown-toggle" style="background-color:white; border:none">
-                                <i class="fa fa-bell"></i> Thông báo
+                                <i class="fa fa-bell"></i>
                                 @php
                                     use App\Models\Order;
                                     use Carbon\Carbon;
@@ -315,7 +267,7 @@
                                 @php
                                     $totalItems = count(session('cart', []));
                                 @endphp
-                                <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a>
+                                <a href="#"><i class="fa fa-shopping-cart"></i></a>
                                 @if ($totalItems > 0)
                                     ({{ $totalItems }})
                                 @endif

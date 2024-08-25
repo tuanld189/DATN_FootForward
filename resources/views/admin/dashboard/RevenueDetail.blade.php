@@ -1,60 +1,13 @@
 @extends('admin.layout.master')
 @section('title')
-    Doanh thu tổng quan
+    Thống kê chi tiết doanh thu
 @endsection
-{{-- <style>
-    .filter-form {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .filter-form .form-group {
-        margin: 0;
-    }
-
-    .filter-form .form-group label {
-        margin-right: 5px;
-    }
-
-    .filter-form .form-group select,
-    .filter-form .form-group input {
-        width: auto;
-        max-width: 200px;
-    }
-
-    .filter-form .btn {
-        margin-left: 10px;
-    }
-
-    .custom-dates {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .custom-dates label {
-        margin-right: 5px;
-    }
-
-    .custom-dates input {
-        max-width: 120px;
-    }
-</style> --}}
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Datatables</h4>
-
-                {{-- <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                        <li class="breadcrumb-item active">Roles</li>
-                    </ol>
-                </div> --}}
 
             </div>
         </div>
@@ -65,7 +18,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">DOANH THU TỔNG QUAN</h5>
+                    <h5 class="card-title mb-0">Thống kê chi tiết doanh thu</h5>
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-3 col-md-6">
@@ -88,16 +41,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-3 col-md-6">
-                        <div class="card card-animate">
-                            <div class="card-body">
-                                <h5 class="card-title mb-0">Số lượng mặt hàng</h5>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{ $totalItems }}
-                                </h4>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="col-lg-3 col-md-6">
                         <div class="card card-animate">
                             <div class="card-body">

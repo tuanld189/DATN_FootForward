@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Excel\Imports\ProductsImport as ImportsProductsImport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Brand;
@@ -41,7 +40,6 @@ class ProductController extends Controller
     const PATH_VIEW = 'admin.products.';
     const PATH_UPLOAD = 'products';
 
-
     public function index(Request $request)
     {
         $categories = Category::pluck('name', 'id')->all();
@@ -69,13 +67,11 @@ class ProductController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        // Set the number of items per page to 10
         $perPage = 6;
         $data = $query->with(['category', 'tags', 'brand'])->latest('id')->paginate($perPage);
 
         return view(self::PATH_VIEW . 'index', compact('data', 'categories', 'brands'));
     }
-
 
     public function importProducts(Request $request)
     {
@@ -86,15 +82,6 @@ class ProductController extends Controller
     }
 
 
-
-    public function export(Request $request)
-    {
-        $paginate = $request->input('paginate(10)', 'all');
-
-        $export = new ProductsExport($paginate);
-
-        return Excel::download($export, 'products.xlsx');
-    }
 
 
     // public function export()
@@ -131,9 +118,10 @@ class ProductController extends Controller
         $dataProduct['is_show_home'] = isset($dataProduct['is_show_home']) ? 1 : 0;
         $dataProduct['slug'] = Str::slug($dataProduct['name']) . '-' . $dataProduct['sku'];
 
-        if ($dataProduct['img_thumbnail']) {
-            $dataProduct['img_thumbnail'] = Storage::put('products', $dataProduct['img_thumbnail']);
+        if ($request->has('img_thumbnail')) {
+            $dataProduct['img_thumbnail'] = $request->input('img_thumbnail');
         }
+
         $dataProductVariantsTmp = $request->product_variants;
         $dataProductVariants = [];
         foreach ($dataProductVariantsTmp as $key => $item) {
@@ -143,29 +131,30 @@ class ProductController extends Controller
                 'product_color_id' => $tmp[1],
                 'quantity' => $item['quantity'],
                 'image' => $item['image'] ?? null,
-
             ];
         }
 
         $dataProductTags = $request->tags;
         $dataProductGalleries = $request->product_galleries ?: [];
+
         try {
             DB::beginTransaction();
+
             /** @var Product $product */
             $product = Product::query()->create($dataProduct);
             foreach ($dataProductVariants as $dataProductVariant) {
                 $dataProductVariant['product_id'] = $product->id;
-                if ($dataProductVariant['image']) {
-                    $dataProductVariant['image'] = Storage::put('products', $dataProductVariant['image']);
-                }
+                $dataProductVariant['image'] = $dataProductVariant['image'] ?? null;
                 ProductVariant::query()->create($dataProductVariant);
-            };
+            }
             $product->tags()->sync($dataProductTags);
             foreach ($dataProductGalleries as $image) {
-                ProductGallery::query()->create([
-                    'product_id' => $product->id,
-                    'image' => Storage::put('products', $image)
-                ]);
+                if ($image) {
+                    ProductGallery::query()->create([
+                        'product_id' => $product->id,
+                        'image' => $image
+                    ]);
+                }
             }
 
             DB::commit();
@@ -208,7 +197,6 @@ class ProductController extends Controller
     }
     public function update(Request $request, $id)
     {
-        // Lấy dữ liệu sản phẩm từ request
         $dataProduct = $request->except(['product_variants', 'tags', 'product_galleries']);
         $dataProduct['is_active'] = isset($dataProduct['is_active']) ? 1 : 0;
         $dataProduct['is_hot_deal'] = isset($dataProduct['is_hot_deal']) ? 1 : 0;
@@ -216,23 +204,16 @@ class ProductController extends Controller
         $dataProduct['is_show_home'] = isset($dataProduct['is_show_home']) ? 1 : 0;
         $dataProduct['slug'] = Str::slug($dataProduct['name']) . '-' . $dataProduct['sku'];
 
-        // Lấy sản phẩm cần cập nhật từ database
         $product = Product::findOrFail($id);
 
-        // Xử lý ảnh đại diện (Thumbnail)
-        if ($request->hasFile('img_thumbnail')) {
-            // Xóa ảnh đại diện cũ nếu có
+        if ($request->has('img_thumbnail')) {
             if ($product->img_thumbnail) {
-                Storage::delete($product->img_thumbnail);
             }
-            // Lưu ảnh mới và cập nhật đường dẫn
-            $dataProduct['img_thumbnail'] = Storage::put('products', $request->file('img_thumbnail'));
+            $dataProduct['img_thumbnail'] = $request->input('img_thumbnail');
         } else {
-            // Giữ nguyên ảnh đại diện cũ nếu không có ảnh mới
             $dataProduct['img_thumbnail'] = $product->img_thumbnail;
         }
 
-        // Xử lý biến thể sản phẩm (Variants)
         $dataProductVariantsTmp = $request->product_variants;
         $dataProductVariants = [];
         foreach ($dataProductVariantsTmp as $key => $item) {
@@ -241,71 +222,65 @@ class ProductController extends Controller
                 'product_size_id' => $tmp[0],
                 'product_color_id' => $tmp[1],
                 'quantity' => $item['quantity'],
+                'image' => $item['image'] ?? null,
             ];
 
-            // Kiểm tra xem biến thể này có ảnh hiện tại không
-            $existingVariant = $product->variants()->where('product_size_id', $tmp[0])->where('product_color_id', $tmp[1])->first();
-            if ($existingVariant && isset($item['image'])) {
-                // Xóa ảnh cũ nếu có và lưu ảnh mới
-                if ($existingVariant->image) {
-                    Storage::delete($existingVariant->image);
+            $existingVariant = $product->variants()->where('product_size_id', $tmp[0])
+            ->where('product_color_id', $tmp[1])->first();
+
+            if ($existingVariant) {
+                if (isset($item['image'])) {
+                    $variantData['image'] = $item['image'];
+                } else {
+                    $variantData['image'] = $existingVariant->image;
                 }
-                $variantData['image'] = Storage::put('products', $item['image']);
-            } elseif ($existingVariant) {
-                // Giữ nguyên ảnh nếu không có ảnh mới
-                $variantData['image'] = $existingVariant->image;
             } elseif (isset($item['image'])) {
-                // Lưu ảnh mới nếu là biến thể mới
-                $variantData['image'] = Storage::put('products', $item['image']);
+                $variantData['image'] = $item['image'];
             }
 
             $dataProductVariants[] = $variantData;
         }
 
-        // Xử lý các thẻ (Tags)
         $dataProductTags = $request->tags;
-
-        // Xử lý thư viện ảnh (Galleries)
-        $dataProductGalleries = $request->file('product_galleries');
-        if ($dataProductGalleries) {
-            // Lấy danh sách galleries hiện tại của sản phẩm
-            $existingGalleries = $product->galleries()->pluck('image')->toArray();
-
-            foreach ($dataProductGalleries as $image) {
-                // Kiểm tra xem ảnh này đã tồn tại trong galleries hay chưa
-                if (!in_array(Storage::put('products', $image), $existingGalleries)) {
-                    // Nếu không tồn tại, tạo mới bản ghi trong galleries
-                    ProductGallery::create([
-                        'product_id' => $product->id,
-                        'image' => Storage::put('products', $image)
-                    ]);
-                }
-            }
-        }
+        $dataProductGalleries = $request->product_galleries ?: [];
 
         try {
             DB::beginTransaction();
 
-            // Cập nhật thông tin sản phẩm
             $product->update($dataProduct);
 
-            // Cập nhật hoặc thêm mới biến thể sản phẩm
             foreach ($dataProductVariants as $dataProductVariant) {
-                $product->variants()->updateOrCreate(
-                    ['product_size_id' => $dataProductVariant['product_size_id'], 'product_color_id' => $dataProductVariant['product_color_id']],
-                    $dataProductVariant
-                );
+                $dataProductVariant['product_id'] = $product->id;
+                $existingVariant = ProductVariant::where('product_id', $product->id)
+                    ->where('product_size_id', $dataProductVariant['product_size_id'])
+                    ->where('product_color_id', $dataProductVariant['product_color_id'])
+                    ->first();
+
+                if ($existingVariant) {
+                    $existingVariant->update($dataProductVariant);
+                } else {
+                    ProductVariant::create($dataProductVariant);
+                }
             }
 
-            // Đồng bộ hóa các thẻ sản phẩm
             $product->tags()->sync($dataProductTags);
 
+            ProductGallery::where('product_id', $product->id)->delete();
+            foreach ($dataProductGalleries as $image) {
+                if ($image) {
+                    ProductGallery::create([
+                        'product_id' => $product->id,
+                        'image' => $image
+                    ]);
+                }
+            }
+
             DB::commit();
-            return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
+            return redirect()->route('admin.products.index');
         } catch (\Exception $exception) {
             DB::rollBack();
             dd($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong!']);
+            return back();
         }
     }
     public function destroy(Product $product)
@@ -317,11 +292,12 @@ class ProductController extends Controller
                 $product->variants()->delete();
                 $product->delete();
             }, 3);
-            return back();
+            return back()->with('success', 'Product deleted successfully.');
         } catch (\Exception $exception) {
-            return back();
+            return back()->with('error', 'An error occurred while deleting the product.');
         }
     }
+
     public function search(Request $request)
     {
         $search = $request->input('q');
@@ -330,28 +306,34 @@ class ProductController extends Controller
     }
 
 
-    public function deleteGallery(Request $request)
+    // public function deleteGallery(Request $request)
+    // {
+    //     $galleryId = $request->input('gallery_id');
+    //     $imageUrl = $request->input('image_url');
+
+    //     try {
+    //         $gallery = ProductGallery::findOrFail($galleryId);
+    //         $gallery->delete();
+
+    //         Storage::delete($imageUrl);
+
+    //         return response()->json(['success' => true]);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false]);
+    //     }
+    // }
+
+    public function deleteGallery(Product $product, $galleryId)
     {
-        $galleryId = $request->input('gallery_id');
-        $imageUrl = $request->input('image_url');
+        $gallery = $product->galleries()->find($galleryId);
 
-        try {
-            // Delete from database
-            $gallery = ProductGallery::findOrFail($galleryId);
+        if ($gallery) {
             $gallery->delete();
-
-            // Delete image file
-            Storage::delete($imageUrl);
-
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false]);
         }
+
+        return response()->json(['success' => false], 404);
     }
-
-
-    // app/Http/Controllers/ProductController.php
-
 
     public function searchProducts(Request $request)
     {

@@ -14,13 +14,10 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            // Khóa ngoại user_id
+            // Foreign key for user_id
             $table->foreignIdFor(User::class)->constrained();
 
-            // Khóa ngoại product_variant_id, cho phép null và liên kết tới product_variant
-            $table->foreignId('product_variant_id')->nullable()->constrained();
-
-            // Thông tin người dùng
+            // User information
             $table->string('order_code');
             $table->string('user_name');
             $table->string('user_email');
@@ -28,20 +25,31 @@ return new class extends Migration {
             $table->string('user_address')->nullable();
             $table->string('user_password')->nullable();
             $table->string('user_note')->nullable();
+            $table->string('province_code')->nullable(); // Changed to use code instead of id
+            $table->string('district_code')->nullable(); // Changed to use code instead of id
+            $table->string('ward_code')->nullable(); // Changed to use code instead of id
 
-            // Thông tin giao hàng
+            // Shipping information
             $table->boolean('is_ship_user_same_user')->default(true);
             $table->string('ship_user_name')->nullable();
             $table->string('ship_user_email')->nullable();
             $table->string('ship_user_phone')->nullable();
             $table->string('ship_user_address')->nullable();
+            $table->string('ship_province_code')->nullable(); // Changed to use code instead of id
+            $table->string('ship_district_code')->nullable(); // Changed to use code instead of id
+            $table->string('ship_ward_code')->nullable(); // Changed to use code instead of id
             $table->string('ship_user_note')->nullable();
 
-            // Trạng thái đơn hàng
+            // Order and payment status
             $table->string('status_order')->default(\App\Models\Order::STATUS_ORDER_PENDING);
             $table->string('status_payment')->default(\App\Models\Order::STATUS_PAYMENT_UNPAID);
 
-            // Tổng giá tiền
+            // Foreign key constraints updated
+            $table->foreign('province_code')->references('code')->on('provinces');
+            $table->foreign('district_code')->references('code')->on('districts');
+            $table->foreign('ward_code')->references('code')->on('wards');
+
+            // Total price
             $table->double('total_price', 15, 2)->default(0.00);
 
             $table->timestamps();

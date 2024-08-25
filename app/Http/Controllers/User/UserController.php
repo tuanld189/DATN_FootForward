@@ -35,18 +35,20 @@ class UserController extends Controller
         $request->merge(['password' => Hash::make($request->password)]);
 
         try {
-            User::create($request->all());
-            // Thông báo đăng ký thành công
+            // Create the user
+            $user = User::create($request->all());
+
+            // Assign the 'user' role
+            $user->assignRole('user');
+
             session()->flash('success', 'Đăng ký thành công. Vui lòng đăng nhập.');
         } catch (\Throwable $throwable) {
-            // Thông báo lỗi
             session()->flash('error', 'Đăng ký không thành công. Vui lòng thử lại.');
             return redirect()->back();
         }
 
         return redirect()->route('login');
     }
-
     public function postLogin(Request $request)
     {
         // Validate dữ liệu

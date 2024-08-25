@@ -27,7 +27,8 @@
         <div class="col-xxl-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -38,7 +39,8 @@
                                     <label for="role_id">Vai trò</label>
                                     <select name="roles[]" class="form-control" id="roles" multiple required>
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" {{ in_array($role->id, $user->roles->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                            <option value="{{ $role->id }}"
+                                                {{ in_array($role->id, $user->roles->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                 {{ $role->name }}
                                             </option>
                                         @endforeach
@@ -48,23 +50,28 @@
                                 <!-- Name, Email, Phone, User Code, Username, Password Fields -->
                                 <div class="mb-3 mt-3">
                                     <label for="name">Tên</label>
-                                    <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}">
+                                    <input type="text" name="name" id="name" class="form-control"
+                                        value="{{ $user->name }}">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="email">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}">
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        value="{{ $user->email }}">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="phone">SDT</label>
-                                    <input type="text" name="phone" id="phone" class="form-control" value="{{ $user->phone }}">
+                                    <input type="text" name="phone" id="phone" class="form-control"
+                                        value="{{ $user->phone }}">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="user_code">Mã người dùng</label>
-                                    <input type="text" name="user_code" id="user_code" class="form-control" value="{{ $user->user_code }}">
+                                    <input type="text" name="user_code" id="user_code" class="form-control"
+                                        value="{{ $user->user_code }}">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="username">Tên tài khoản</label>
-                                    <input type="text" name="username" id="username" class="form-control" value="{{ $user->fullname }}">
+                                    <input type="text" name="username" id="username" class="form-control"
+                                        value="{{ $user->fullname }}">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label for="password">Mật khẩu</label>
@@ -86,7 +93,8 @@
                                     <select name="province_code" id="province_code" class="form-control">
                                         <option value="">Chọn Tỉnh</option>
                                         @foreach ($provinces as $province)
-                                            <option value="{{ $province->code }}" {{ $user->province_code == $province->code ? 'selected' : '' }}>
+                                            <option value="{{ $province->code }}"
+                                                {{ $user->province_code == $province->code ? 'selected' : '' }}>
                                                 {{ $province->name }}
                                             </option>
                                         @endforeach
@@ -112,7 +120,8 @@
                                 <!-- Is Active Checkbox -->
                                 <div class="mb-3 mt-3">
                                     <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" name="is_active" id="is_active" value="1" {{ $user->is_active ? 'checked' : '' }}>
+                                        <input type="checkbox" class="form-check-input" name="is_active" id="is_active"
+                                            value="1" {{ $user->is_active ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active">Is Active</label>
                                     </div>
                                 </div>
@@ -134,19 +143,22 @@
             function populateDistricts(province_code) {
                 if (province_code) {
                     $.ajax({
-                        url: '{{ route('admin.users.get.districts', ':province_code') }}'.replace(':province_code', province_code),
+                        url: '{{ route('admin.users.get.districts', ':province_code') }}'.replace(
+                            ':province_code', province_code),
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
                             $('#district_code').empty().append('<option value="">Chọn Huyện</option>');
                             $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
                             $.each(data, function(key, value) {
-                                $('#district_code').append('<option value="' + value.code + '">' + value.name + '</option>');
+                                $('#district_code').append('<option value="' + value.code +
+                                    '">' + value.name + '</option>');
                             });
 
                             // Pre-select district if user has it
-                            @if($user->district_code)
-                                $('#district_code').val('{{ $user->district_code }}').trigger('change');
+                            @if ($user->district_code)
+                                $('#district_code').val('{{ $user->district_code }}').trigger(
+                                'change');
                             @endif
                         }
                     });
@@ -159,17 +171,19 @@
             function populateWards(district_code) {
                 if (district_code) {
                     $.ajax({
-                        url: '{{ route('admin.users.get.wards', ':district_code') }}'.replace(':district_code', district_code),
+                        url: '{{ route('admin.users.get.wards', ':district_code') }}'.replace(
+                            ':district_code', district_code),
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
                             $('#ward_code').empty().append('<option value="">Chọn Xã</option>');
                             $.each(data, function(key, value) {
-                                $('#ward_code').append('<option value="' + value.code + '">' + value.name + '</option>');
+                                $('#ward_code').append('<option value="' + value.code + '">' +
+                                    value.name + '</option>');
                             });
 
                             // Pre-select ward if user has it
-                            @if($user->ward_code)
+                            @if ($user->ward_code)
                                 $('#ward_code').val('{{ $user->ward_code }}');
                             @endif
                         }
