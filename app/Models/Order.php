@@ -96,22 +96,19 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('price', 'color', 'size', 'quantity');
     }
-<<<<<<< HEAD
+
     public function province()
-{
-    return $this->belongsTo(Province::class, 'province_code', 'code');
-}
+    {
+        return $this->belongsTo(Province::class, 'province_code', 'code');
+    }
 
-public function district()
-{
-    return $this->belongsTo(District::class, 'district_code', 'code');
-}
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_code', 'code');
+    }
 
-public function ward()
-{
-    return $this->belongsTo(Ward::class, 'ward_code', 'code');
-}
-=======
-
->>>>>>> 424671d218f8fc7818d40c6cd1ad61480217249d
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class, 'ward_code', 'code');
+    }
 }

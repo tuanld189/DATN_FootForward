@@ -124,3 +124,7 @@ Route::get('/order-lookup', [HomeController::class, 'showOrderLookupForm'])->nam
 Route::get('/search-order', [HomeController::class, 'searchOrder'])->name('searchOrder');
 
 Route::get('/search', [HomeController::class, 'search'])->name('products.search');
+
+Route::get('get-districts/{province_code}', [UserProfileController::class, 'getDistricts'])->name('get.districts');
+
+Route::get('get-wards/{district_code}', [UserProfileController::class, 'getWards'])->name('get.wards');

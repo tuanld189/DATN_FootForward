@@ -4,6 +4,7 @@
 @endsection
 @section('style-libs')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+
     <style>
         /* Style form inputs */
         .form-control {
@@ -95,10 +96,7 @@
                                     <div>
                                         <label for="name" class="form-label">Product Name:</label>
                                         <input type="text" class="form-control" id="name"
-                                            name="name"placeholder="Enter name................." required>
-                                        @error('name')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                            name="name"placeholder="Enter name.................">
                                     </div>
 
                                     <div class="mt-3">
@@ -109,9 +107,6 @@
                                                 <option value="{{ $id }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
-                                        @error('category_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
                                     <div class="mt-3">
                                         <label for="brand_id" class="form-label">Brand: </label>
@@ -122,34 +117,36 @@
                                                 <option value="{{ $id }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
-                                        @error('brand_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
                                     <div class=" mt-3">
                                         <label for="sku" class="form-label">Sku:</label>
                                         <input type="text" class="form-control" id="sku"
                                             placeholder="Enter sku................."
                                             value="{{ strtoupper(Str::random(8)) }}" name="sku">
-                                        @error('sku')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
 
-                                    <div class="mt-3">
+                                    {{-- <div class="mt-3">
+                                <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                                <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
+                            </div> --}}
+                                    <div class=" mt-3">
                                         <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
-                                        <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail" required>
-                                        @error('img_thumbnail')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <a id="lfm_thumbnail" data-input="img_thumbnail"
+                                                    data-preview="holder_thumbnail" class="btn btn-primary">
+                                                    <i class="fa fa-picture-o"></i> Chọn
+                                                </a>
+                                            </span>
+                                            <input id="img_thumbnail" class="form-control" type="text"
+                                                name="img_thumbnail">
+                                        </div>
+                                        <img id="holder_thumbnail" style="margin-top:15px;max-height:100px;">
                                     </div>
                                     <div class="mt-3">
                                         <label for="price" class="form-label">Price:</label>
                                         <input type="text" class="form-control" id="price"
-                                            placeholder="Enter price................." name="price" required>
-                                        @error('price')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                            placeholder="Enter price................." name="price">
                                     </div>
                                 </div>
 
@@ -248,8 +245,21 @@
                                                                 name="product_variants[{{ $sizeID . '-' . $colorID }}][quantity]">
                                                         </td>
                                                         <td>
-                                                            <input type="file" class="form-control"
-                                                                name="product_variants[{{ $sizeID . '-' . $colorID }}][image]">
+                                                            <div class="input-group">
+                                                                <span class="input-group-btn">
+                                                                    <a id="lfm_variant_{{ $sizeID . '-' . $colorID }}"
+                                                                        data-input="variant_image_{{ $sizeID . '-' . $colorID }}"
+                                                                        data-preview="holder_variant_{{ $sizeID . '-' . $colorID }}"
+                                                                        class="btn btn-primary">
+                                                                        <i class="fa fa-picture-o"></i> Chọn
+                                                                    </a>
+                                                                </span>
+                                                                <input id="variant_image_{{ $sizeID . '-' . $colorID }}"
+                                                                    class="form-control" type="text"
+                                                                    name="product_variants[{{ $sizeID . '-' . $colorID }}][image]">
+                                                            </div>
+                                                            <img id="holder_variant_{{ $sizeID . '-' . $colorID }}"
+                                                                style="margin-top:15px;max-height:100px;">
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -264,7 +274,7 @@
                 <!--end col-->
             </div>
             {{-- GALLERY --}}
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -276,12 +286,20 @@
                                 <div class="row gy-4" id="gallery_list">
                                     <div class="col-md-4" id="gallery_default_item">
                                         <label for="gallery_default" class="form-label">Image:</label>
-                                        <div class="d-flex">
-                                            <input type="file" class="form-control" name="product_galleries[]"
-                                                id="gallery_default">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <a id="lfm_gallery_default" data-input="gallery_default"
+                                                    data-preview="holder_gallery_default" class="btn btn-primary">
+                                                    <i class="fa fa-picture-o"></i> Chọn
+                                                </a>
+                                            </span>
+                                            <input id="gallery_default" class="form-control" type="text"
+                                                name="product_galleries[]">
                                         </div>
+                                        <img id="holder_gallery_default" style="margin-top:15px;max-height:100px;">
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
@@ -361,6 +379,16 @@
 
     <script>
         $(document).ready(function() {
+            $('#lfm_thumbnail').filemanager('image');
+
+            @foreach ($sizes as $sizeID => $sizeName)
+                @foreach ($colors as $colorID => $colorName)
+                    $('#lfm_variant_{{ $sizeID . '-' . $colorID }}').filemanager('image');
+                @endforeach
+            @endforeach
+
+            $('#lfm_gallery_default').filemanager('image');
+
             $('.tags-select2').select2({
                 placeholder: '',
                 tags: true,
@@ -385,20 +413,29 @@
         });
 
         function addImageGallery() {
-            let id = 'gen' + '_' + Math.random().toString(36).substring(2, 15).toLowerCase();
+            let id = 'gen_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             let html = `
-                <div class="col-md-4" id="${id}_item">
-                    <label for="${id}" class="form-label">Image</label>
-                    <div class="d-flex">
-                        <input type="file" class="form-control" name="product_galleries[]" id="${id}">
-                        <button type="button" class="btn btn-danger" onclick="removeImageGallery('${id}_item')">
-                            <span class="bx bx-trash"></span>
-                        </button>
+            <div class="col-md-4 mb-3" id="${id}_item">
+                <label for="${id}" class="form-label">Image:</label>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="input-group flex-grow-1 me-2">
+                        <span class="input-group-btn">
+                            <a id="lfm_${id}" data-input="${id}" data-preview="holder_${id}" class="btn btn-primary">
+                                <i class="fa fa-picture-o"></i> Chọn
+                            </a>
+                        </span>
+                        <input id="${id}" class="form-control" type="text" name="product_galleries[]">
                     </div>
+                    <button type="button" class="btn btn-danger" onclick="removeImageGallery('${id}_item')">
+                        <span class="bx bx-trash"></span>
+                    </button>
                 </div>
-            `;
+                <img id="holder_${id}" style="margin-top:15px;max-height:100px;">
+            </div>
 
+        `;
             $('#gallery_list').append(html);
+            $(`#lfm_${id}`).filemanager('image');
         }
 
         function removeImageGallery(id) {
@@ -407,4 +444,7 @@
             }
         }
     </script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
 @endsection
+

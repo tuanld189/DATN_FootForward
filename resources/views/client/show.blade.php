@@ -11,8 +11,6 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
-        /* CSS for hover effect */
         .card_area .add-to-cart:hover {
             background-color: gray;
         }
@@ -125,28 +123,20 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            /* Khoảng cách giữa các ảnh */
             margin-top: 10px;
-            /* Khoảng cách từ các ảnh thumb đến ảnh lớn */
         }
 
         .product-details-thumbs img {
 
             object-fit: cover;
-            /* Đảm bảo ảnh vừa với khung mà không bị biến dạng */
             cursor: pointer;
             border: 2px solid transparent;
-            /* Viền mặc định */
             transition: border-color 0.3s;
         }
 
         .product-details-thumbs img:hover {
             border-color: #007bff;
-            /* Viền khi hover */
         }
-
-
-        /* test */
         .notification-container {
             position: fixed;
             top: 0;
@@ -158,39 +148,45 @@
             align-items: center;
             z-index: 1050;
             pointer-events: none;
-            /* Không ảnh hưởng đến các phần tử khác */
         }
 
+
+
+        .quantity-control button {
+            border: none;
+            background-color: #8a8f6a;
+            color: white;
+            font-size: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .quantity-control input {
+            border: none;
+            width: 50px;
+        }
         .notification-message {
             display: none;
             padding: 20px;
             border-radius: 12px;
-            /* Bo tròn các góc */
             position: relative;
             width: 80%;
-            /* Kích thước thông báo */
             max-width: 600px;
-            /* Kích thước tối đa */
             text-align: center;
             opacity: 0;
             transition: opacity 0.5s ease-in-out, transform 0.5s ease, box-shadow 0.5s ease-in-out;
             transform: translateY(-20px);
-            /* Hiệu ứng di chuyển lên trên khi xuất hiện */
             background: #fff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            /* Bóng đổ để thông báo nổi bật */
             position: relative;
             pointer-events: auto;
-            /* Để cho phép tương tác với thông báo */
         }
 
         .notification-message.show {
             display: block;
             opacity: 1;
             transform: translateY(0);
-            /* Trở về vị trí ban đầu */
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-            /* Tăng bóng đổ khi xuất hiện */
         }
 
         .notification-message .icon-container {
@@ -201,7 +197,6 @@
             font-size: 50px;
             color: #fff;
             animation: pulse 1.5s infinite;
-            /* Hiệu ứng nhấp nháy cho biểu tượng */
         }
 
         .notification-message .message-content {
@@ -247,10 +242,6 @@
 @endsection
 
 @section('content')
-    <!-- breadcrumb-area start -->
-
-    <!-- breadcrumb-area end -->
-
 
     <!-- content-wraper start -->
     <div class="content-wraper">
@@ -324,9 +315,8 @@
                         <div class="product-details-images slider-lg-image-1 m-2" style="width: 100%">
                             @foreach ($product->galleries as $gallery)
                                 <div class="lg-image">
-                                    <a href="{{ asset('storage/' . $gallery->image) }}" class="img-poppu">
-                                        <img class="img-fluid " src="{{ asset('storage/' . $gallery->image) }}"
-                                            alt="product image"
+                                    <a href="{{ $gallery->image }}" class="img-poppu">
+                                        <img class="img-fluid " src="{{ $gallery->image }}" alt="product image"
                                             style="border:1px  solid rgb(196, 194, 194); border-radius:5px; ">
                                     </a>
                                 </div>
@@ -336,7 +326,7 @@
                         <div class="product-details-thumbs slider-thumbs-1">
                             @foreach ($product->galleries as $gallery)
                                 <img class="img-fluid m-1" style="border:1px  solid rgb(196, 194, 194); border-radius:5px; "
-                                    src="{{ asset('storage/' . $gallery->image) }}" alt="product image">
+                                    src="{{ $gallery->image }}" alt="product image">
                             @endforeach
                         </div>
 
@@ -415,7 +405,7 @@
                                                             class="custom-control-input" onchange="updateQuantity()">
                                                         <label class="custom-control-label d-flex align-items-center"
                                                             for="color{{ $variant->color->id }}">
-                                                            <img src="{{ asset('storage/' . $variant->image) }}"
+                                                            <img src="{{$variant->image }}"
                                                                 alt="{{ $variant->color->name }}"
                                                                 style="width: 40px; height: 40px; object-fit: cover; margin-right: 8px;">
                                                             <span>{{ $variant->color->name }}</span>

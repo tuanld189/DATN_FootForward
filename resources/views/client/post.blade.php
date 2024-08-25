@@ -37,11 +37,11 @@
             </div>
 
             <div class="post-content">
-                 <p> Mô tả:{{ $post->description }}</p>
+                 <p>{{ $post->description }}</p>
                 <div class="post-image " style="display: flex; justify-content:center">
                     <img src="{{ Storage::url($post->image) }}" alt="{{ $post->name }}" width="500px">
                 </div>
-                 <p>Nội dung: {!! $post->content !!}</p>
+                 <p>{!! $post->content !!}</p>
             </div>
         </div>
     </div>
