@@ -82,7 +82,7 @@ class DashboardController extends Controller
             return $category;
         });
         return view(
-            'admin.dashboard.dashboard',
+            'admin.dashboard.Dashboard',
             compact(
                 'totalRevenue',
                 'totalOrders',
@@ -205,5 +205,4 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.ProductSoldDetail', compact('soldProducts', 'filter', 'data', 'totalProductsWeek', 'totalProductsMonth', 'totalProductsYear', 'totalProductsAll'));
     }
-
 }

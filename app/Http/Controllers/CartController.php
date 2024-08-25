@@ -208,7 +208,7 @@ class CartController extends Controller
             $cart[$productVariant->id] = [
                 'id' => $productVariant->id,
                 'name' => $product->name,
-                'image' => $product->img_thumbnail,
+                'image' => $productVariant->image,
                 'price' => $product->price,
                 'sale_price' => $salePrice,
                 'category_id' => $product->category_id,
@@ -221,8 +221,9 @@ class CartController extends Controller
                 'quantity_add' => $quantityAdd,
             ];
         }
-        session()->put('cart', $cart);
 
+        session()->put('cart', $cart);
+        // dd($cart);
         return redirect()->route('cart.list');
     }
 

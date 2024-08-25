@@ -8,6 +8,7 @@
 | offline => vendor/unisharp/laravel-filemanager/docs/config.md
  */
 return [
+
     'use_package_routes' => true,
     'allow_private_folder' => true,
     'private_folder_name' => UniSharp\LaravelFilemanager\Handlers\ConfigHandler::class,

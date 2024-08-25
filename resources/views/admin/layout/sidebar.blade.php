@@ -17,6 +17,8 @@
                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
             <span class="logo-lg">
+                <img
+                src="{{ asset('assets/images/logo-shoes.png') }}" height="150" >
                 <h3 class="text-white m-2">FOOTFORWARD</h3>
             </span>
         </a>
@@ -33,7 +35,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('admin.dashboard') }}">
-                        <i class="ri-home-line"></i> <span data-key="t-dashboards">Dashboards</span>
+                        <i class="ri-home-line"></i> <span data-key="t-dashboards">Trang quản trị</span>
                     </a>
                 </li>
 
@@ -45,7 +47,7 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('admin.brands.index') }}" class="nav-link" data-key="t-horizontal">
-                                    <i class="ri-price-tag-3-line"></i> Hãng
+                                    <i class="ri-price-tag-3-line"></i> Thương hiệu
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -60,7 +62,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">
-                                    <i class="ri-arrow-up-line"></i> Khuyễn mại
+                                    <i class="ri-arrow-down-line"></i> Khuyễn mại
                                 </a>
                             </li>
                         </ul>

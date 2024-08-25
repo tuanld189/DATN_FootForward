@@ -162,7 +162,7 @@
             align-items: center;
             /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); Thêm shadow nếu cần */
             border-radius: 5px; /* Tạo góc bo tròn */
-            
+
         }
 
         .order-date,
@@ -273,9 +273,9 @@
 
 @section('content')
     <div class="container" >
-        <div class="panel-body">   
+        <div class="panel-body">
             <div style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding:20px;">
-                
+
                 <div class="panel-head">
                     <div class="panel-head">
                         <div class="icon-container">
@@ -293,22 +293,22 @@
                             <span>Tên:</span>
                             <p>{{ $order->user_name }}</p>
                         </div>
-                        
+
                         <div class="info-row">
                             <span>Email:</span>
                             <p>{{ $order->user_email }}</p>
                         </div>
-                        
+
                         <div class="info-row">
                             <span>Điện thoại:</span>
                             <p>{{ $order->user_phone }}</p>
                         </div>
-                        
+
                         <div class="info-row">
                             <span>Địa chỉ:</span>
                             <p>{{ $order->user_address }}</p>
                         </div>
-                        
+
                         @if ($order->user_note)
                             <div class="info-row">
                                 <span>Ghi chú:</span>
@@ -319,11 +319,11 @@
                     <div class="order-status" style="margin:40px 20px 20px;">
                         <div class="order-title">THÔNG TIN ĐƠN HÀNG:</div>
                         <div class="" style="margin:10px 0">
-                            <span style="font-weight: bold;">Mã đơn hàng:</span> 
+                            <span style="font-weight: bold;">Mã đơn hàng:</span>
                             {{ $order->order_code }}
                         </div>
                         <div style="margin:10px 0">
-                            <span style="font-weight: bold;">Ngày đặt hàng:</span> 
+                            <span style="font-weight: bold;">Ngày đặt hàng:</span>
                             {{ $order->created_at->format('d-m-Y') }}
                         </div>
                         <div style="margin:10px 0">
@@ -387,7 +387,7 @@
                                 <tr>
                                     <td>{{ $item->product_name }}</td>
                                     <td>
-                                        <img src="{{ asset('storage/' .  $item->product_image ) }}" alt="" class="img-fluid" style="max-width: 70px;">
+                                        <img src="{{ $item->product_image }}" alt="" class="img-fluid" style="max-width: 70px;">
                                     </td>
                                     <td>{{ $item->quantity_add }}</td>
                                     <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }} VNĐ</td>
@@ -426,17 +426,17 @@
                             </tr>
                         </tfoot>
                     </table>
-                    
+
                 </div>
                 <div class=" mt-3 text-center" >
                         <a href="{{ route('index') }}" class="btn btn-warning" style="border-radius: 10px;">Tiếp tục mua hàng</a>
-                </div>                   
-                
+                </div>
+
             </div>
 
         </div>
 
-        
+
     </div>
 @endsection
 

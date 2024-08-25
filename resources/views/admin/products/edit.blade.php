@@ -11,8 +11,6 @@
 
         .gallery-item {
             position: relative;
-            margin-right: 10px;
-            margin-bottom: 10px;
         }
 
         .gallery-item img {
@@ -23,8 +21,8 @@
 
         .delete-gallery {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 0px;
+            right: 0px;
             background-color: red;
             color: white;
             border: none;
@@ -33,22 +31,27 @@
             cursor: pointer;
         }
         .table-bordered td {
-            vertical-align: middle !important; /* Canh giữa dọc */
-            text-align: center !important; /* Canh giữa ngang */
+            vertical-align: middle !important;
+            text-align: center !important;
         }
 
         .table-bordered td .color-indicator {
-            width: 20px; /* Độ rộng của hình màu */
-            height: 20px; /* Chiều cao của hình màu */
+            width: 20px;
+            height: 20px;
             display: inline-block;
             border: 1px solid #ccc;
-            border-radius: 50%; /* Hình tròn */
+            border-radius: 50%;
         }
 
         .table-bordered td .color-name {
             display: inline-block;
-            margin-left: 5px; /* Khoảng cách với hình màu */
+            margin-left: 5px;
         }
+
+        .gallery-item .input-group {
+            flex: 1;
+        }
+
     </style>
 @endsection
 
@@ -60,8 +63,8 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Sản phẩm</a></li>
-                            <li class="breadcrumb-item active">Chỉnh sửa sản phẩm</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Products</a></li>
+                            <li class="breadcrumb-item active">Edit Product</li>
                         </ol>
                     </div>
                 </div>
@@ -76,7 +79,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">THÔNG TIN</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">INFORMATION</h4>
                         </div>
                         <div class="card-body">
                             <div class="live-preview">
@@ -84,12 +87,12 @@
 
                 <div class="col-md-5">
                     <div class="mt-3">
-                        <label for="name" class="form-label">Tên sản phẩm:</label>
+                        <label for="name" class="form-label">Product Name:</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
                             placeholder="Enter name...">
                     </div>
                     <div class="mt-3">
-                        <label for="category_id" class="form-label">Danh mục:</label>
+                        <label for="category_id" class="form-label">Categories:</label>
                         <select name="category_id" id="category_id" class="form-select">
                             @foreach ($categories as $id => $value)
                                 <option value="{{ $id }}" {{ $product->category_id == $id ? 'selected' : '' }}>
@@ -99,7 +102,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <label for="brand_id" class="form-label">Hãng:</label>
+                        <label for="brand_id" class="form-label">Brand:</label>
                         <select name="brand_id" id="brand_id" class="form-select">
                             @foreach ($brands as $id => $value)
                                 <option value="{{ $id }}" {{ $product->brand_id == $id ? 'selected' : '' }}>
@@ -115,13 +118,16 @@
                     </div>
 
                     <div class="mt-3">
-                        <label for="img_thumbnail" class="form-label">Ảnh:</label>
-                        <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
-                        <img src="{{ asset('storage/' . $product->img_thumbnail) }}" alt="Thumbnail" width="100px" class="mt-2">
+                        <label for="img_thumbnail" class="form-label">Image Thumbnail:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="img_thumbnail" name="img_thumbnail" value="{{ $product->img_thumbnail }}">
+                            <button class="btn btn-primary" type="button" id="lfm-thumbnail" data-input="img_thumbnail" data-preview="holder_thumbnail">Chọn</button>
+                        </div>
+                        <img id="holder_thumbnail" src="{{ $product->img_thumbnail }}" alt="Thumbnail" width="100px" class="mt-2">
                     </div>
 
                     <div class="mt-3">
-                        <label for="price" class="form-label">Giá:</label>
+                        <label for="price" class="form-label">Price:</label>
                         <input type="text" class="form-control" id="price" name="price" value="{{ number_format($product->price, 0, '', '') }}" >
                     </div>
             </div>
@@ -133,44 +139,37 @@
                         <div class="form-check form-switch form-switch-primary">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_active" id="is_active"
                                 {{ $product->is_active ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">Trạng thái</label>
+                            <label class="form-check-label" for="is_active">Active</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch form-switch-warning">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_hot_deal"
                                 id="is_hot_deal" {{ $product->is_hot_deal ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_hot_deal">Sản phẩm hot</label>
+                            <label class="form-check-label" for="is_hot_deal">Hot Deal</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch form-switch-success">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_new" id="is_new"
                                 {{ $product->is_new ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_new">Sản phẩm mới</label>
+                            <label class="form-check-label" for="is_new">New</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch form-switch-danger">
                             <input class="form-check-input" type="checkbox" role="switch" name="is_show_home"
                                 id="is_show_home" {{ $product->is_show_home ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_show_home">Hiển thị</label>
+                            <label class="form-check-label" for="is_show_home">Show Home</label>
                         </div>
                     </div>
                 </div>
-
                 <div class="mt-3">
-                    <label for="content" class="form-label">Nội dung ngắn:</label>
+                    <label for="content" class="form-label">Short Content:</label>
                     <textarea class="form-control" id="content" name="content" rows="3" placeholder="Enter short content...">{{ $product->content }}</textarea>
                 </div>
-
-                {{-- <div class="mb-3 mt-3">
-                    <label for="description" class="form-label">Content:</label>
-                    {{-- <textarea class="form-control" id="content" placeholder="Enter content" name="content">{{ $model->content }}</textarea> --}}
-                    {{-- <textarea class="form-control" id="ckeditor-classic" placeholder="Enter content" name="content">{{ $model->content }}</textarea>
-                </div> --}}
                 <div class="mt-3">
-                    <label for="description" class="form-label">Mô tả chi tiết:</label>
+                    <label for="description" class="form-label">Description:</label>
                     <textarea class="form-control" id="ckeditor-classic" name="description" rows="7">{{ $product->description }}</textarea>
                 </div>
             </div>
@@ -185,7 +184,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Biến thể</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">VARIANTS</h4>
                     </div>
                     <div class="card-body " style="height:400px; overflow: scroll;">
                         <div class="live-preview">
@@ -193,10 +192,10 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Kích cỡ</th>
-                                            <th>Màu</th>
-                                            <th>Số lượng</th>
-                                            <th>Ảnh</th>
+                                            <th>Size</th>
+                                            <th>Color</th>
+                                            <th>Quantity</th>
+                                            <th>Image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -215,10 +214,12 @@
                                                            value="{{ $variant->quantity }}" required>
                                                 </td>
                                                 <td>
-                                                    <input type="file" class="form-control" id="variant_image_{{ $variant->id }}"
-                                                        name="product_variants[{{ $variant->size->id }}-{{ $variant->color->id }}][image]" >
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="variant_image_{{ $variant->id }}" name="product_variants[{{ $variant->size->id }}-{{ $variant->color->id }}][image]" value="{{ $variant->image }}">
+                                                        <button class="btn btn-primary" type="button" id="lfm-variant-{{ $variant->id }}" data-input="variant_image_{{ $variant->id }}" data-preview="variant_holder_{{ $variant->id }}">Chọn</button>
+                                                    </div>
                                                     @if ($variant->image)
-                                                        <img src="{{ Storage::url($variant->image) }}" alt="" width="70px" " class="mt-2">
+                                                        <img id="variant_holder_{{ $variant->id }}" src="{{ $variant->image }}" alt="" width="70px" class="mt-2">
                                                     @endif
                                                 </td>
                                             </tr>
@@ -236,30 +237,34 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">ẢNh chưng bày</h4>
-                    </div>
-
-                    <div class="card-body">
+                        <h4 class="card-title mb-0 flex-grow-1">GALLERIES</h4>
+                        <button type="button" class="btn btn-primary" onclick="addImageGallery()">Add Photo</button>
+                    </div><!-- end card header -->
+                    <div class="card-body" >
                         <div class="live-preview">
-                            <div class="row gy-4">
-                                <div class="mb-3">
-                                    <label for="product_galleries" class="form-label"> Thêm ảnh chưng bày: </label>
-                                    <input type="file" class="form-control" id="product_galleries"
-                                           name="product_galleries[]" multiple>
-                                    <div class="gallery-container">
-                                        @foreach ($product->galleries as $gallery)
-                                            <div class="gallery-item" data-gallery-id="{{ $gallery->id }}">
-                                                <img src="{{ asset('storage/' . $gallery->image) }}" alt="Gallery Image" width="250px" height="200px" class="mt-2">
-                                    <button type="button" class="delete-gallery mt-2" data-gallery-id="{{ $gallery->id }}" data-image-url="{{ asset('storage/' . $gallery->image) }}" >
-                                        X
-                                    </button>
+                            <div class="row row-cols-3 gy-4" id="gallery_list">
+                                @foreach ($product->galleries as $index => $gallery)
 
-
+                                    <div class="col-md-4 gallery-item" id="gallery_item_{{ $index }}">
+                                        <label for="">Image:</label>
+                                        <div class="d-flex align-items-center">
+                                            <div class="input-group flex-grow-1">
+                                                <span class="input-group-btn">
+                                                    <a id="lfm_gallery_{{ $index }}" data-input="gallery_{{ $index }}"
+                                                        data-preview="holder_gallery_{{ $index }}" class="btn btn-primary">
+                                                        <i class="fa fa-picture-o"></i> Chọn
+                                                    </a>
+                                                </span>
+                                                <input id="gallery_{{ $index }}" class="form-control" type="text" width=""
+                                                    name="product_galleries[]" value="{{ $gallery->image }}">
                                             </div>
-                                        @endforeach
+                                            <button type="button" class="btn btn-danger ms-2" onclick="removeGallery({{ $index }})">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                        <img id="holder_gallery_{{ $index }}" src="{{ $gallery->image }}" style="margin-top:15px;height:100px; width:90px;">
                                     </div>
-
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -267,18 +272,22 @@
             </div>
         </div>
 
+
+
+
+
         {{-- TAGS --}}
         <div class="row mt-3">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Nhãn</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">TAGS</h4>
                     </div>
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
                                 <div class="mb-3">
-                                    <label for="tags" class="form-label">Thêm thông tin:</label>
+                                    <label for="tags" class="form-label">Add Information:</label>
                                     <select class="form-select tags-select2" id="tags" name="tags[]" multiple>
                                         @foreach ($product->tags as $tag)
                                             <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
@@ -296,7 +305,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <button type="submit" class="btn btn-success">Cập nhật sản phẩm</button>
+                        <button type="submit" class="btn btn-success">Update Product</button>
                     </div>
                 </div>
             </div>
@@ -313,10 +322,9 @@
 
 @section('scripts')
     <script>
-        CKEDITOR.replace('desccription');
+        CKEDITOR.replace('ckeditor-classic');
     </script>
 @endsection
-
 @section('script-libs')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
@@ -326,10 +334,25 @@
     <script src="assets/js/app.js"></script>
     <script>
         $(document).ready(function() {
+            $('#lfm-thumbnail').filemanager('image');
+
+            @foreach ($product->variants as $variant)
+                $('#lfm-variant-{{ $variant->id }}').filemanager('image');
+            @endforeach
+
+            @foreach ($product->galleries as $index => $gallery)
+                $('#lfm_gallery_{{ $index }}').filemanager('image');
+            @endforeach
+
+            $('#lfm-galleries').filemanager('image');
+
+            function initializeFileManager(index) {
+                $('#lfm_gallery_' + index).filemanager('image');
+            }
             $('.tags-select2').select2({
                 placeholder: 'Select tags',
                 ajax: {
-                    url: '{{ route("tags.search") }}', // Đường dẫn tới phương thức tìm kiếm tags
+                    url: '{{ route("tags.search") }}',
                     dataType: 'json',
                     delay: 250,
                     processResults: function (data) {
@@ -345,39 +368,45 @@
                     cache: true
                 }
             });
-        });
+            window.addImageGallery = function() {
+                var galleryCount = document.querySelectorAll('#gallery_list .gallery-item').length;
+                var newIndex = galleryCount;
 
-        $(document).ready(function() {
-            // Delete gallery item
-            $('.delete-gallery').click(function() {
-                if (confirm("Are you sure you want to delete this gallery?")) {
-                    var galleryId = $(this).data('gallery-id');
-                    var imageUrl = $(this).data('image-url');
+                var newGalleryItem = `
+                    <div class="col-md-4 gallery-item" id="gallery_item_${newIndex}">
+                        <label for="">Image:</label>
+                        <div class="d-flex align-items-center">
+                            <div class="input-group flex-grow-1">
+                                <span class="input-group-btn">
+                                    <a id="lfm_gallery_${newIndex}" data-input="gallery_${newIndex}"
+                                        data-preview="holder_gallery_${newIndex}" class="btn btn-primary">
+                                        <i class="fa fa-picture-o"></i> Chọn
+                                    </a>
+                                </span>
+                                <input id="gallery_${newIndex}" class="form-control" type="text" name="product_galleries[]">
+                            </div>
+                            <button type="button" class="btn btn-danger ms-2" onclick="removeGallery(${newIndex})">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                        <img id="holder_gallery_${newIndex}" style="margin-top:15px;max-height:100px;">
+                    </div>
+                `;
 
-                    // Ajax request to delete gallery
-                    $.ajax({
-                        url: '{{ route('admin.products.gallery.delete') }}',
-                        method: 'DELETE',
-                        data: {
-                            gallery_id: galleryId,
-                            image_url: imageUrl,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            // Remove the gallery item from UI
-                            if (response.success) {
-                                $(`.gallery-item[data-gallery-id=${galleryId}]`).remove();
-                                $('#gallery-count').text($('.gallery-item').length + ' galleries');
-                            } else {
-                                alert('Failed to delete gallery. Please try again.');
-                            }
-                        },
-                        error: function() {
-                            alert('Failed to delete gallery. Please try again.');
-                        }
-                    });
-                }
-            });
+                $('#gallery_list').append(newGalleryItem);
+                initializeFileManager(newIndex);
+            }
+
+            window.removeGallery = function(index) {
+                $('#gallery_item_' + index).remove();
+            }
+
+            @foreach ($product->galleries as $index => $gallery)
+                initializeFileManager({{ $index }});
+            @endforeach
         });
     </script>
+
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
 @endsection

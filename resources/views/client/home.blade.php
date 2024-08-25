@@ -291,7 +291,7 @@
                         <div class="single-product-wrap">
                             <div class="product-image">
                                 <a href="{{ route('client.show', $product->id) }}">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $product->img_thumbnail) }}"
+                                    <img class="img-fluid" src="{{ $product->img_thumbnail}}"
                                         style="width: 300px; height: 250px;">
                                 </a>
                                 <span class="label-product label-new">new</span>

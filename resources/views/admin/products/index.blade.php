@@ -261,24 +261,8 @@
                                                 </td>
                                                 <td>{{ $item->id }}</td>
                                                 <td>
-                                                    {{-- @php
-                                            $imageUrl = $item->img_thumbnail;
-                                            if (!Str::contains($imageUrl, 'http')) {
-                                                $imageUrl = asset('storage/' . $imageUrl);
-                                            }
-                                        @endphp
-
-                                        {{-- <img src="{{ $imageUrl }}" alt="{{ $item->name }}" width="100px"> --}}
-
-                                                    @php
-                                                        $url = $item->img_thumbnail;
-                                                        if (!Str::contains($url, 'http')) {
-                                                            $url = Storage::url($url);
-                                                        }
-                                                    @endphp
-
-                                                    <img src="{{ $url }}" alt="" width="100px">
-                                                    {{-- <img src="{{ $item->image }}" alt="" width="100px"> --}}
+                                                    
+                                                    <img src="{{ $item->img_thumbnail }}" alt="" width="100px">
 
                                                 </td>
 

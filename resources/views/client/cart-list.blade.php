@@ -10,7 +10,7 @@
             margin: 0 auto;
             box-sizing: border-box;
             border: 1px solid #ccc;
-            
+
         }
 
         .plantmore-product-quantity .quantity-buttons {
@@ -25,7 +25,7 @@
             padding: 5px 10px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            
+
         }
 
         .quantity-buttons button:hover {
@@ -107,11 +107,11 @@
         }
 
         .cart-page-total {
-            
+
             padding: 20px;
             border-radius: 10px;
             background-color: #fff;
-            
+
         }
 
         .cart-page-total h2 {
@@ -125,7 +125,7 @@
 
         .cart-page-total ul li {
             font-size: 16px;
-            
+
         }
 
         .cart-page-total ul li span {
@@ -228,7 +228,7 @@
                                         <tr>
                                             <td class="plantmore-product-thumbnail">
                                                 <a href="#">
-                                                    <img src="{{ asset('storage/' . $item['image']) }}" alt="" width="70px">
+                                                    <img src="{{ $item['image'] }}" alt="" width="70px">
                                                 </a>
                                             </td>
                                             <td class="plantmore-product-name"><a href="#">{{ $item['name'] }}</a></td>

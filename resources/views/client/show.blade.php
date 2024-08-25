@@ -158,14 +158,16 @@
             margin: 0 auto;
 
         }
+
         .quantity-control button {
             border: none;
             background-color: #8a8f6a;
-            color:white;
+            color: white;
             font-size: 1rem;
             width: 2.5rem;
             height: 2.5rem;
         }
+
         .quantity-control input {
             border: none;
             width: 50px;
@@ -187,7 +189,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between" style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between"
+                        style="border: 1px solid white;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                         <h4 class="mb-sm-0">Chi tiết sản phẩm</h4>
 
                         <div class="page-title-right ">
@@ -226,7 +229,7 @@
                     </div>
                 </div>
         </div> --}}
-            <div class="row single-product-area" >
+            <div class="row single-product-area">
                 <div class="col-lg-5 col-md-6">
                     <!-- Product Details Left -->
                     <div class="product-details-left">
@@ -234,9 +237,8 @@
                         <div class="product-details-images slider-lg-image-1 m-2" style="width: 100%">
                             @foreach ($product->galleries as $gallery)
                                 <div class="lg-image">
-                                    <a href="{{ asset('storage/' . $gallery->image) }}" class="img-poppu">
-                                        <img class="img-fluid " src="{{ asset('storage/' . $gallery->image) }}"
-                                            alt="product image"
+                                    <a href="{{ $gallery->image }}" class="img-poppu">
+                                        <img class="img-fluid " src="{{ $gallery->image }}" alt="product image"
                                             style="border:1px  solid rgb(196, 194, 194); border-radius:5px; ">
                                     </a>
                                 </div>
@@ -246,7 +248,7 @@
                         <div class="product-details-thumbs slider-thumbs-1">
                             @foreach ($product->galleries as $gallery)
                                 <img class="img-fluid m-1" style="border:1px  solid rgb(196, 194, 194); border-radius:5px; "
-                                    src="{{ asset('storage/' . $gallery->image) }}" alt="product image">
+                                    src="{{ $gallery->image }}" alt="product image">
                             @endforeach
                         </div>
 
@@ -325,7 +327,7 @@
                                                             class="custom-control-input" onchange="updateQuantity()">
                                                         <label class="custom-control-label d-flex align-items-center"
                                                             for="color{{ $variant->color->id }}">
-                                                            <img src="{{ asset('storage/' . $variant->image) }}"
+                                                            <img src="{{$variant->image }}"
                                                                 alt="{{ $variant->color->name }}"
                                                                 style="width: 40px; height: 40px; object-fit: cover; margin-right: 8px;">
                                                             <span>{{ $variant->color->name }}</span>
@@ -355,9 +357,12 @@
                                                     <div class="flex-grow-1 text-center">
                                                         <p class="mb-1" style="color: black;"><b>Số lượng:</b></p>
                                                         <div class="quantity-control">
-                                                            <button type="button" id="decrement" style="background-color: #8a8f6a;color:white;">-</button>
-                                                            <input type="number" id="quantity_add" name="quantity_add" min="1" value="1">
-                                                            <button type="button" id="increment" style="background-color: #8a8f6a;color:white;">+</button>
+                                                            <button type="button" id="decrement"
+                                                                style="background-color: #8a8f6a;color:white;">-</button>
+                                                            <input type="number" id="quantity_add" name="quantity_add"
+                                                                min="1" value="1">
+                                                            <button type="button" id="increment"
+                                                                style="background-color: #8a8f6a;color:white;">+</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -366,8 +371,8 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1">
                                                         <p class="mb-1" style="color: black;"><b>Hàng Có sẵn:</b></p>
-                                                        <input type="text" class="form-control" id="available_quantity"
-                                                            name="available_quantity" readonly
+                                                        <input type="text" class="form-control"
+                                                            id="available_quantity" name="available_quantity" readonly
                                                             style="width: 100px; text-align: center; border: 1px solid #8a8f6a;">
                                                     </div>
                                                 </div>
@@ -503,8 +508,8 @@ ut labore et </a></li>
                         <!-- Start Single COMMENT -->
 
                         <div class="product_tab_content tab-pane" id="reviews" role="tabpanel"
-                        style="background-color: white;">
-                            <div class="row" >
+                            style="background-color: white;">
+                            <div class="row">
                                 <!-- Column for posting comment -->
                                 <div class="col-lg-6">
                                     <!-- Start Rating Area -->
@@ -847,7 +852,7 @@ ut labore et </a></li>
                 .catch(error => console.error('Error deleting comment:', error));
         }
     </script>
-     <script>
+    <script>
         document.getElementById('increment').addEventListener('click', function() {
             var quantityInput = document.getElementById('quantity_add');
             quantityInput.value = parseInt(quantityInput.value) + 1;

@@ -78,13 +78,34 @@
                 <div class="form-group text-right">
                     <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">Quên mật khẩu?</a>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" style="  display: flex;
-
-            margin: 10px auto;">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
             </form>
-            <div class="text-left mt-4">
-                <a href="{{ route('signup') }}" style=" border: none;
-            border-radius: 10px; margin: 0 auto;"  class="btn btn-default">Đăng ký</a>
+            <div class="text-center">
+                <a href="{{ route('signup') }}" class="btn btn-default">Đăng ký</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Forgot Password -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Quên mật khẩu?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"  style="border:none; ">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm" action="{{ route('forgot.password') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="forgot_email">Nhập email bạn đã đăng kí để nhận lại mật khẩu:</label>
+                            <input type="email" class="form-control" id="forgot_email" name="forgot_email" placeholder="Vui lòng nhập email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3" style="border:none; border-radius: 10px;">Gửi thông tin</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
