@@ -228,41 +228,62 @@ class CartController extends Controller
     }
 
 
-    // cái nay dung ok
     public function checkout(Request $request)
-{
-    $orderCode = 'FF-' . strtoupper(Str::random(10));
-    $vourchers = Vourcher::where('is_active', true)->get();
-    $cart = session()->get('cart', []);
-    $totalAmount = 0;
+    {
+        $orderCode = 'FF-' . strtoupper(Str::random(10));
+        $vourchers = Vourcher::where('is_active', true)->get();
+        $cart = session()->get('cart', []);
+        $totalAmount = 0;
+        $totalQuantity = 0;
 
-    foreach ($cart as $item) {
-        $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
-    }
-
-    $voucherCode = session()->get('voucher_code');
-    $discount = 0;
-    if ($voucherCode) {
-        $voucher = Vourcher::validateVoucher($voucherCode);
-
-        if ($voucher) {
-            $discount = $this->calculateDiscount($voucher, $totalAmount);
-            $totalAmount = max(0, $totalAmount - $discount); // Cập nhật tổng số tiền, đảm bảo không âm
-
-            // Xóa mã giảm giá khỏi session sau khi áp dụng
-            session()->forget(['voucher_code', 'discount', 'total_amount']);
+        // Calculate the total amount of the cart and total quantity of items
+        foreach ($cart as $item) {
+            $totalAmount += $item['quantity_add'] * ($item['sale_price'] ?: $item['price']);
+            $totalQuantity += $item['quantity_add'];
         }
+
+        // Handle voucher discount
+        $voucherCode = session()->get('voucher_code');
+        $discount = 0;
+        if ($voucherCode) {
+            $voucher = Vourcher::validateVoucher($voucherCode);
+
+            if ($voucher) {
+                $discount = $this->calculateDiscount($voucher, $totalAmount);
+                $totalAmount = max(0, $totalAmount - $discount); // Ensure total amount is not negative
+
+                // Remove voucher code from session after applying
+                session()->forget(['voucher_code', 'discount', 'total_amount']);
+            }
+        }
+
+        // Determine shipping cost based on the quantity of items in t  he cart
+        $shippingCost = 0;
+        if ($totalQuantity < 2) {
+            // Charge shipping cost if there is only 1 item
+            $shippingCost = 50000; // 50,000 VND for shipping
+        }
+
+        // Add shipping cost to total amount
+        $totalAmount += $shippingCost;
+
+        // Save total amount, discount, and shipping cost to session
+        session()->put('total_amount', $totalAmount);
+        session()->put('discount', $discount);
+        session()->put('shipping_cost', $shippingCost);
+
+        $user = auth()->user();
+        // Fetch the provinces to pass to the view
+        $provinces = Province::all(); // Assumes you have a Province model and table
+
+        return view('client.cart-checkout', compact('cart', 'user', 'totalAmount', 'discount', 'voucherCode', 'vourchers', 'orderCode', 'provinces', 'shippingCost'));
     }
 
-    // Lưu thông tin giảm giá và tổng số tiền vào session
-    session()->put('total_amount', $totalAmount);
-    session()->put('discount', $discount);
-    $user = auth()->user();
-    // Fetch the provinces to pass to the view
-    $provinces = Province::all(); // Assumes you have a Province model and table
 
-    return view('client.cart-checkout', compact('cart', 'user','totalAmount', 'discount', 'voucherCode', 'vourchers', 'orderCode', 'provinces'));
-}
+
+
+
+
     // cái nay dung ok
 
 

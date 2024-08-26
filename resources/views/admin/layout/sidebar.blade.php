@@ -17,6 +17,8 @@
                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="Logo" height="22">
             </span>
             <span class="logo-lg">
+                <img
+                src="{{ asset('assets/images/logo-shoes.png') }}" height="150" >
                 <h3 class="text-white m-2">FOOTFORWARD</h3>
             </span>
         </a>
@@ -32,8 +34,10 @@
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboard">
-                        <i class="ri-dashboard-2-line"></i> <span data-key="t-layouts">Dashboards</span>
+
+                    <a class="nav-link menu-link" href="{{ route('admin.dashboard') }}">
+                        <i class="ri-home-line"></i> <span data-key="t-dashboards">Trang quản trị</span>
+
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDashboard">
                         <ul class="nav nav-sm flex-column">
@@ -64,7 +68,7 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('admin.brands.index') }}" class="nav-link" data-key="t-horizontal">
-                                    <i class="ri-price-tag-3-line"></i> Hãng
+                                    <i class="ri-price-tag-3-line"></i> Thương hiệu
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -79,7 +83,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.sales.index') }}" class="nav-link" data-key="t-horizontal">
-                                    <i class="ri-arrow-up-line"></i> Khuyến mại
+                                    <i class="ri-arrow-down-line"></i> Khuyễn mại
                                 </a>
                             </li>
                         </ul>
@@ -105,31 +109,6 @@
                         </ul>
                     </div>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('admin.posts.index') }}">
-                        <i class="ri-edit-box-line"></i> <span data-key="t-layouts">Quản lý Bài viết</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('admin.comments.index') }}">
-                        <i class="ri-discuss-line"></i> <span data-key="t-layouts">Quản lý Bình luận</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('admin.vourchers.index') }}">
-                        <i class="ri-price-tag-2-line"></i> <span data-key="t-layouts">Quản lý Mã giảm giá</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('admin.banners.index') }}">
-                        <i class="ri-image-line"></i> <span data-key="t-layouts">Quản lý Banner</span>
-                    </a>
-                </li>
-
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarusers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarusers">
                         <i class="ri-user-3-line"></i> <span data-key="t-layouts">Quản lý Người dùng</span>
@@ -153,7 +132,27 @@
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end users Menu -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('admin.posts.index') }}">
+                        <i class="ri-edit-box-line"></i> <span data-key="t-layouts">Quản lý Bài viết</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('admin.banners.index') }}">
+                        <i class="ri-image-line"></i> <span data-key="t-layouts">Quản lý Banner</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('admin.comments.index') }}">
+                        <i class="ri-discuss-line"></i> <span data-key="t-layouts">Quản lý Bình luận</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('admin.vourchers.index') }}">
+                        <i class="ri-price-tag-2-line"></i> <span data-key="t-layouts">Quản lý Mã giảm giá</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

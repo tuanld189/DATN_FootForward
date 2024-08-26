@@ -355,10 +355,10 @@
                         <a class="nav-link active" id="nav-additional-tab" data-bs-toggle="tab" href="#nav-additional"
                             role="tab" aria-controls="nav-additional" aria-selected="true">Hồ sơ của tôi</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" href="#nav-detail" role="tab"
                             aria-controls="nav-detail" aria-selected="false">Chi tiết</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" id="nav-order-tab" data-bs-toggle="tab" href="#nav-order" role="tab"
                             aria-controls="nav-order" aria-selected="false">Trạng thái đơn hàng</a>
@@ -460,7 +460,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <button type="submit" class="btn rounded-5 mt-3">Sửa hồ sơ</button>
+                                <button type="submit" class="btn rounded-5 mt-3">Cập nhật hồ sơ</button>
                                 <button type="button" class="btn btn-warning rounded-5 mt-3"
                                     id="openChangePasswordModal">Thay đổi mật khẩu</button>
                             </form>
@@ -497,7 +497,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
+                {{-- <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
                     <div>
                         <h5 class="font-size-16 mb-3">Patterns arts & culture</h5>
                         <p>Cultural patterns are the similar behaviors within similar situations we witness due to shared
@@ -516,7 +516,7 @@
                                 copyrights sale</p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
                     <div class=" p-4 overflow">

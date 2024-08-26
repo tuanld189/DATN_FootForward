@@ -311,7 +311,6 @@
                             <p>{{ $order->province->name ?? 'Không có giá trị' }}</p>
                         </div>
 
-
                         @if ($order->user_note)
                             <div class="info-row">
                                 <span>Ghi chú:</span>
@@ -390,7 +389,7 @@
                                 <tr>
                                     <td>{{ $item->product_name }}</td>
                                     <td>
-                                        <img src="{{ asset('storage/' .  $item->product_image ) }}" alt="" class="img-fluid" style="max-width: 70px;">
+                                        <img src="{{ $item->product_image }}" alt="" class="img-fluid" style="max-width: 70px;">
                                     </td>
                                     <td>{{ $item->quantity_add }}</td>
                                     <td>{{ number_format($item->product_sale_price ?: $item->product_price, 0, ',', '.') }} VNĐ</td>

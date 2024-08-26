@@ -153,12 +153,10 @@ class UserController extends Controller
         // Cập nhật quyền (nếu có)
         if ($request->has('permission_ids')) {
             $user->permissions()->sync($request->permission_ids);
-
         }
 
         // Chuyển hướng về trang danh sách người dùng với thông báo thành công
         return redirect()->route('admin.users.index')->with('status', 'User Updated Successfully');
-
     }
     public function getDistricts($province_code)
     {
@@ -181,6 +179,4 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('status', 'User Deleted Successfully');
     }
-
-
 }

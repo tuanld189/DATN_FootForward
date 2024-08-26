@@ -222,6 +222,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -229,7 +231,7 @@
             <!-- Modal Algemeen Uitgelicht end -->
 
             <!-- jQuery JS -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="{{ asset('assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
             <script src="{{ asset('assets/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
             <!-- Popper JS -->
             <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -246,16 +248,16 @@
             <!-- Modernizr JS -->
             <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js') }}"></script>
 
-            {{-- <script>
+            <script>
                 CKEDITOR.replace('ckeditor-classic');
-            </script> --}}
+            </script>
             <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
             <script src="assets/libs/dropzone/dropzone-min.js"></script>
             <script src="assets/js/pages/project-create.init.js"></script>
             <script src="assets/js/app.js"></script>
             @yield('scripts')
 
-            {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
                 $(document).ready(function() {
                     $('.dropdown-toggle').on('click', function() {

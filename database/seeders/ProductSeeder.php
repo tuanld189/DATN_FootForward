@@ -49,7 +49,8 @@ class ProductSeeder extends Seeder
         }
 
         // Color
-        foreach (['Black','Red','White','Green','Blue','Gray'] as $item) {
+        foreach (['Black', 'Red', 'White', 'Green', 'Blue', 'Gray',
+                    'Yellow', 'Purple', 'Orange', 'Brown', 'Pink',] as $item) {
             ProductColor::create([
                 'name' => $item
             ]);

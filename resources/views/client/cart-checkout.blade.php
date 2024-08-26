@@ -496,7 +496,7 @@
                             <h3 class="shoping-checkboxt-title">Giỏ hàng</h3>
                             <div class="your-order-wrap">
                                 <div class="your-order-table table-responsive">
-                                    <table>
+                                    {{-- <table>
                                         <thead>
                                             <tr>
                                                 <th class="product-name">Tên sản phẩm</th>
@@ -576,9 +576,6 @@
                                                 <td></td>
                                                 <td>
                                                     <strong>
-                                                        {{-- <span class="amount"
-                                                            id="total-payment-amount">{{ number_format($totalAmount - $discount, 0, ',', '.') }}
-                                                            VNĐ</span> --}}
                                                         <span class="amount"
                                                             id="total-payment-amount">{{ number_format($totalAmount, 0, ',', '.') }}
                                                             VNĐ</span>
@@ -587,7 +584,117 @@
                                             </tr>
                                         </tfoot>
 
+                                    </table> --}}
+
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="product-name">Tên sản phẩm</th>
+                                                <th class="product-name">Giá</th>
+                                                <th class="product-name">Tổng cộng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($cart as $item)
+                                                <tr class="cart_item">
+                                                    <td class="product-name">
+                                                        <b>{{ $item['name'] }} <strong class="product-quantity"> ×
+                                                                {{ $item['quantity_add'] }}</strong></b>
+                                                    </td>
+                                                    <td>
+                                                        @if ($item['sale_price'])
+                                                            <span
+                                                                class="amount old-price">{{ number_format($item['price'], 0, ',', '.') }}
+                                                                VNĐ</span> <br>
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['sale_price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @else
+                                                            <span
+                                                                class="amount">{{ number_format($item['price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="product-total">
+                                                        @if ($item['sale_price'])
+                                                            <span
+                                                                class="amount old-price">{{ number_format($item['quantity_add'] * $item['price'], 0, ',', '.') }}
+                                                                VNĐ</span> <br>
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['quantity_add'] * $item['sale_price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @else
+                                                            <span
+                                                                class="amount new-price">{{ number_format($item['quantity_add'] * $item['price'], 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="order-total">
+                                                <th><b>Phí vận chuyển</b></th>
+                                                <td></td>
+                                                <td>
+                                                    <strong>
+                                                        @if ($shippingCost > 0)
+                                                            <span
+                                                                class="amount">+{{ number_format($shippingCost, 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        @else
+                                                            <span class="amount">Miễn phí</span>
+                                                        @endif
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                            <!-- Total Order Amount -->
+                                            <tr class="order-total">
+                                                <th><b>Tổng số tiền đặt hàng</b></th>
+                                                <td></td>
+                                                <td>
+                                                    <strong>
+                                                        <span class="amount"
+                                                            id="total-order-amount">{{ number_format($totalAmount, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                    </strong>
+                                                </td>
+                                            </tr>
+
+
+                                            <!-- Voucher Discount -->
+                                            @if ($discount > 0)
+                                                <tr class="order-total">
+                                                    <th><b>Mã giảm giá</b></th>
+                                                    <td></td>
+                                                    <td>
+                                                        <strong>
+                                                            <span
+                                                                class="amount">-{{ number_format($discount, 0, ',', '.') }}
+                                                                VNĐ</span>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+                                            <!-- Shipping Cost -->
+
+
+                                            <!-- Total Amount After Discount and Shipping -->
+                                            {{-- <tr class="order-total">
+                                                <th><b>Tổng số tiền cần thanh toán</b></th>
+                                                <td></td>
+                                                <td>
+                                                    <strong>
+                                                        <span class="amount"
+                                                            id="total-payment-amount">{{ number_format($totalAmount + $shippingCost, 0, ',', '.') }}
+                                                            VNĐ</span>
+                                                    </strong>
+                                                </td>
+                                            </tr> --}}
+                                        </tfoot>
                                     </table>
+
                                 </div>
                                 <br>
 

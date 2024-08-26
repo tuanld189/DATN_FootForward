@@ -98,17 +98,24 @@ class Order extends Model
     }
 
     public function province()
-{
-    return $this->belongsTo(Province::class, 'province_code', 'code');
-}
+    {
+        return $this->belongsTo(Province::class, 'province_code', 'code');
+    }
 
-public function district()
-{
-    return $this->belongsTo(District::class, 'district_code', 'code');
-}
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_code', 'code');
+    }
 
+<<<<<<< HEAD
 public function ward()
 {
     return $this->belongsTo(Ward::class, 'ward_code', 'code');
 }
+=======
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class, 'ward_code', 'code');
+    }
+>>>>>>> 617f87dfa0ec9d8958baba3c8123d7d79315ffbb
 }

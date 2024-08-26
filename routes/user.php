@@ -124,8 +124,14 @@ Route::get('/order-lookup', [HomeController::class, 'showOrderLookupForm'])->nam
 Route::get('/search-order', [HomeController::class, 'searchOrder'])->name('searchOrder');
 
 Route::get('/search', [HomeController::class, 'search'])->name('products.search');
+<<<<<<< HEAD
 // Route để lấy danh sách huyện theo tỉnh
 Route::get('get-districts/{province_code}', [UserProfileController::class, 'getDistricts'])->name('get.districts');
 
 // Route để lấy danh sách xã theo huyện
+=======
+
+Route::get('get-districts/{province_code}', [UserProfileController::class, 'getDistricts'])->name('get.districts');
+
+>>>>>>> 617f87dfa0ec9d8958baba3c8123d7d79315ffbb
 Route::get('get-wards/{district_code}', [UserProfileController::class, 'getWards'])->name('get.wards');

@@ -89,13 +89,16 @@
                                         @else
                                             <span class="badge bg-danger">Bị khóa</span>
                                         @endif
-                                        <form action="{{ route('admin.users.toggleStatus', $user->id) }}" method="POST" style="display: inline-block;">
+                                        <form action="{{ route('admin.users.toggleStatus', $user->id) }}" method="POST"
+                                            style="display: inline-block;">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm {{ $user->is_active ? 'btn-danger' : 'btn-success' }}"
-                                                    data-bs-toggle="tooltip"
-                                                    title="{{ $user->is_active ? 'Khóa tài khoản' : 'Mở khóa tài khoản' }}">
-                                                <i class="{{ $user->is_active ? 'ri-lock-fill' : 'ri-lock-unlock-fill' }}"></i>
+                                            <button type="submit"
+                                                class="btn btn-sm {{ $user->is_active ? 'btn-danger' : 'btn-success' }}"
+                                                data-bs-toggle="tooltip"
+                                                title="{{ $user->is_active ? 'Khóa tài khoản' : 'Mở khóa tài khoản' }}">
+                                                <i
+                                                    class="{{ $user->is_active ? 'ri-lock-fill' : 'ri-lock-unlock-fill' }}"></i>
                                             </button>
                                         </form>
                                     </td>
