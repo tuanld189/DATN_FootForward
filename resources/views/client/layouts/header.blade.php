@@ -86,14 +86,14 @@
                             <li><i class="fa fa-phone"></i> (+84)0968888888</li>
                             <li><i class="fa fa-envelope-open-o"></i> wk@footforward.vn</li>
                         </ul>
-                        <ul class="link-top">
+                        {{-- <ul class="link-top">
                             <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="#" title="Rss"><i class="fa fa-rss"></i></a></li>
                             <li><a href="#" title="Google"><i class="fa fa-google-plus"></i></a></li>
                             <li><a href="#" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#" title="Youtube"><i class="fa fa-youtube"></i></a></li>
                             <li><a href="#" title="Instagram"><i class="fa fa-instagram"></i></a></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
                 <div class="col-lg-4 order-1 order-lg-2">
@@ -253,7 +253,7 @@
                     <!-- Order Lookup -->
                     <div class="order-lookup mr-3 d-flex align-items-center">
                         <a href="{{ route('orders.lookup') }}" class="order-lookup-button d-flex align-items-center">
-                            <i class="fas fa-box"></i> <span class="px-1">Tra đơn hàng</span>
+                            <i class="fas fa-box"></i> <span class="px-1"></span>
                         </a>
                     </div>
 
@@ -261,7 +261,7 @@
                     <div class="notifications mr-3">
                         <div class="btn-group">
                             <button class="dropdown-toggle" style="background-color:white; border:none">
-                                <i class="fa fa-bell"></i> Thông báo
+                                <i class="fa fa-bell"></i>
                                 @php
                                     use App\Models\Order;
                                     use Carbon\Carbon;
@@ -315,7 +315,7 @@
                                 @php
                                     $totalItems = count(session('cart', []));
                                 @endphp
-                                <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a>
+                                <a href="#"><i class="fa fa-shopping-cart"></i></a>
                                 @if ($totalItems > 0)
                                     ({{ $totalItems }})
                                 @endif

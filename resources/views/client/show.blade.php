@@ -480,7 +480,7 @@
                             <div class="product-availability">
                                 <i class="fa fa-check"></i> In stock
                             </div>
-                            <div class="product-social-sharing">
+                            {{-- <div class="product-social-sharing">
                                 <label>Chia sẻ</label>
                                 <ul>
                                     <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -488,7 +488,7 @@
                                     <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                                     <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
                             <div class="block-reassurance">
                                 <ul>
                                     <li>
@@ -496,7 +496,7 @@
                                             <div class="reassurance-icon">
                                                 <i class="fa fa-check-square-o"></i>
                                             </div>
-                                            <p>Chính sách bảo mật (chỉnh sửa với mô -đun đảm bảo khách hàng)</p>
+                                            <p>Chính sách bảo mật </p>
                                         </div>
                                     </li>
                                     <li>
@@ -504,7 +504,7 @@
                                             <div class="reassurance-icon">
                                                 <i class="fa fa-truck"></i>
                                             </div>
-                                            <p>Chính sách giao hàng (chỉnh sửa với mô -đun đảm bảo của khách hàng)</p>
+                                            <p>Chính sách giao hàng </p>
                                         </div>
                                     </li>
                                     <li>
@@ -512,7 +512,7 @@
                                             <div class="reassurance-icon">
                                                 <i class="fa fa-exchange"></i>
                                             </div>
-                                            <p>Chính sách trả lại (Chỉnh sửa với Mô -đun trấn an khách hàng)</p>
+                                            <p>Chính sách trả lại</p>
                                         </div>
                                     </li>
                                 </ul>
