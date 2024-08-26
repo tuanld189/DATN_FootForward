@@ -107,8 +107,15 @@ class Order extends Model
         return $this->belongsTo(District::class, 'district_code', 'code');
     }
 
+<<<<<<< HEAD
+public function ward()
+{
+    return $this->belongsTo(Ward::class, 'ward_code', 'code');
+}
+=======
     public function ward()
     {
         return $this->belongsTo(Ward::class, 'ward_code', 'code');
     }
+>>>>>>> 617f87dfa0ec9d8958baba3c8123d7d79315ffbb
 }

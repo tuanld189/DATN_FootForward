@@ -5,8 +5,10 @@
         .single-slide {
             height: 680px;
             background-size: cover;
+            /* Bao phủ toàn bộ vùng nhưng giữ tỉ lệ ảnh */
             background-position: center;
             background-repeat: no-repeat;
+            /* Ngăn chặn ảnh bị lặp lại */
         }
 
         .slider-text-info {
@@ -16,21 +18,30 @@
         }
 
         .single-banner img {
-            width: 546px;
-            height: 270px;
-            border-radius: 5px;
+            width: 100%;
+            height: auto;
+            /* Giữ tỉ lệ khung hình ban đầu, chiều cao sẽ tự động điều chỉnh theo chiều rộng */
+            display: block;
+            /* Đảm bảo không có khoảng trắng dưới ảnh */
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Ngăn chặn ảnh bị lặp lại */
         }
 
         .banner-image {
-            position: relative;
-            overflow: hidden;
+            /* position: relative;
+                overflow: hidden; */
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .banner-image img {
-            width: 100%;
-            height: 270px;
-            object-fit: cover;
-            display: block;
+            /* width: 100%;
+                height: 100%; */
+            /* object-fit: cover;
+                display: block; */
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .banner-overlay {

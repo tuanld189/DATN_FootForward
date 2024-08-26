@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    Chi tiết thống kê người dùng
+    Thống kê chi tiết người dùng
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Chi tiết thống kê người dùng</h5>
+                    <h5 class="card-title mb-0">Thống kê chi tiết người dùng</h5>
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-3 col-md-6">
@@ -118,7 +118,7 @@
                                         <td>{{ $user->user_code }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->address   }}</td>
+                                        <td>{{ $user->address }}</td>
                                         <td>{{ $user->created_at }}</td>
 
                                     </tr>

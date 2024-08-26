@@ -34,9 +34,30 @@
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
                 <li class="nav-item">
+
                     <a class="nav-link menu-link" href="{{ route('admin.dashboard') }}">
                         <i class="ri-home-line"></i> <span data-key="t-dashboards">Trang quản trị</span>
+
                     </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboard">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.dashboard') }}" class="nav-link" data-key="t-horizontal">
+                                    <i class="ri-home-2-line"></i> Tổng quan
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.dashboard.RevenueDetail', ['filter' => 'this_week']) }}" class="nav-link" data-key="t-horizontal">
+                                    <i class="fa-solid fa-thumbtack"></i> Thống kê doanh thu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.dashboard.OrderDetail', ['filter' => 'this_week']) }}" class="nav-link" data-key="t-horizontal">
+                                    <i class="fa-solid fa-cart-plus"></i> Thống kê đơn hàng
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li class="nav-item">

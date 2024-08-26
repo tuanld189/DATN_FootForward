@@ -6,10 +6,14 @@
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
 <<<<<<< HEAD
+ * Generated for Laravel 10.48.18.
+=======
+<<<<<<< HEAD
  * Generated for Laravel 10.48.16.
 =======
  * Generated for Laravel 10.48.18.
 >>>>>>> 5074dc7f8735a29891ef247a73375f488b5b2ee9
+>>>>>>> 617f87dfa0ec9d8958baba3c8123d7d79315ffbb
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -17987,6 +17991,8 @@ namespace Barryvdh\Debugbar\Facades {
 
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 namespace Intervention\Image\Laravel\Facades {
             /**
      * 
@@ -18107,6 +18113,7 @@ namespace Intervention\Image\Laravel\Facades {
     }
 
 >>>>>>> 5074dc7f8735a29891ef247a73375f488b5b2ee9
+>>>>>>> 617f87dfa0ec9d8958baba3c8123d7d79315ffbb
 namespace Spatie\LaravelIgnition\Facades {
             /**
      * 
@@ -22172,8 +22179,11 @@ namespace  {
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
             class Image extends \Intervention\Image\Laravel\Facades\Image {}
 >>>>>>> 5074dc7f8735a29891ef247a73375f488b5b2ee9
+>>>>>>> 617f87dfa0ec9d8958baba3c8123d7d79315ffbb
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
     }
 

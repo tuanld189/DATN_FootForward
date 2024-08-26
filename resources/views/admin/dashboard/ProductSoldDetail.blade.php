@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    Chi tiết thống kê sản phẩm đã bán
+    Thống kê chi tiết sản phẩm đã bán
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Chi tiết thống kê sản phẩm đã bán</h5>
+                    <h5 class="card-title mb-0">Thống kê chi tiết sản phẩm đã bán</h5>
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-3 col-md-6">
@@ -70,16 +70,20 @@
                         </div>
                     </div>
                     <div class="filter-buttons">
-                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1day']) }}" class="btn btn-primary">1
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1day']) }}"
+                            class="btn btn-primary">1
                             Ngày</a>
-                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '7days']) }}" class="btn btn-primary">7
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '7days']) }}"
+                            class="btn btn-primary">7
                             Ngày</a>
                         <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1month']) }}"
                             class="btn btn-primary">1
                             Tháng</a>
-                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1year']) }}" class="btn btn-primary">1
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => '1year']) }}"
+                            class="btn btn-primary">1
                             Năm</a>
-                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => 'all']) }}" class="btn btn-primary">Tất
+                        <a href="{{ route('admin.dashboard.ProductSoldDetail', ['filter' => 'all']) }}"
+                            class="btn btn-primary">Tất
                             cả</a>
                     </div>
 
@@ -105,7 +109,7 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                @if($soldProducts->isEmpty())
+                                @if ($soldProducts->isEmpty())
                                     <tr>
                                         <td colspan="6" class="text-center">Không có sản phẩm nào</td>
                                     </tr>
@@ -114,13 +118,15 @@
                                         <tr>
                                             <td scope="col" style="width: 10px;">
                                                 <div class="form-check">
-                                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll" value="option">
+                                                    <input class="form-check-input fs-15" type="checkbox" id="checkAll"
+                                                        value="option">
                                                 </div>
                                             </td>
                                             <td>{{ $product->id }}</td>
                                             <td>{{ $product->product_sku }}</td>
                                             <td>{{ $product->product_name }}</td>
-                                            <td>{{ $product->quantity_add }}</td> <!-- or whatever field stores the quantity sold -->
+                                            <td>{{ $product->quantity_add }}</td>
+                                            <!-- or whatever field stores the quantity sold -->
                                             <td>{{ $product->created_at }}</td>
                                         </tr>
                                     @endforeach
